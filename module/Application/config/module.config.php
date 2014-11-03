@@ -15,7 +15,8 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
+                        //'controller' => 'Application\Controller\Index',
+                        'controller' => 'Test\Controller\Frontend',
                         'action'     => 'index',
                     ),
                 ),
@@ -71,11 +72,21 @@ return array(
             ),
         ),
     ),
-    'controllers' => array(
-        'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
+    'navigation' => array (
+		'default' => array (
+			array (
+				'label' => 'Home',
+    			'route' => 'test',
+				'order' => 0,
+    			'visible' => true,
+			),
+            'controllers' => array(
+                'invokables' => array(
+                    'Test\Controller\Frontend' => 'Application\Controller\FrontendController'
+                ),
+            ),
         ),
-    ),
+     ),
     'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
