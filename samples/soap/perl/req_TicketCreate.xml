@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" 
+	xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<soap:Body>
+
+<TicketCreate xmlns="http://www.otrs.org/TicketConnector/">
+<UserLogin>fabio.fazio</UserLogin>
+<Password>aaAA11!!</Password>
+<Ticket>
+    <Title>some title</Title>
+    <CustomerUser>fmfazio@gmail.com</CustomerUser>
+    <Queue>ZTAC Incoming Queue</Queue>
+    <Type>default</Type>
+    <State>new</State>
+    <Priority>1 very low</Priority>
+</Ticket>
+<Article>
+    <Subject>some subject</Subject>
+    <Body>some body</Body>
+    <ContentType>text/plain; charset=utf8</ContentType>
+</Article>
+</TicketCreate>
+</soap:Body>
+</soap:Envelope>

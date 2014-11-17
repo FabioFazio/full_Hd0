@@ -1,0 +1,202 @@
+<h2>Error</h2><pre>Response not of type text/xml: application/soap+xml; charset=UTF-8</pre>
+<h2>Request</h2>
+<pre>POST /otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector HTTP/1.1
+Host: ztac.zenatek.eu
+User-Agent: NuSOAP/0.9.5 (1.123)
+Connection: Keep-Alive
+Content-Type: text/xml; charset=UTF-8
+SOAPAction: &quot;http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector&quot;
+Content-Length: 1153
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;SOAP-ENV:Envelope SOAP-ENV:encodingStyle=&quot;http://schemas.xmlsoap.org/soap/encoding/&quot; xmlns:SOAP-ENV=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:SOAP-ENC=&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;&gt;&lt;SOAP-ENV:Body&gt;&lt;ns3281:TicketCreate xmlns:ns3281=&quot;http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector&quot;&gt;&lt;UserLogin xsi:type=&quot;xsd:string&quot;&gt;fabio.fazio&lt;/UserLogin&gt;&lt;Password xsi:type=&quot;xsd:string&quot;&gt;aaAA11!!&lt;/Password&gt;&lt;Ticket&gt;&lt;Title xsi:type=&quot;xsd:string&quot;&gt;some title&lt;/Title&gt;&lt;CustomerUser xsi:type=&quot;xsd:string&quot;&gt;fmfazio@gmail.com&lt;/CustomerUser&gt;&lt;Queue xsi:type=&quot;xsd:string&quot;&gt;ZTAC Incoming Queue&lt;/Queue&gt;&lt;Type xsi:type=&quot;xsd:string&quot;&gt;default&lt;/Type&gt;&lt;State xsi:type=&quot;xsd:string&quot;&gt;new&lt;/State&gt;&lt;Priority xsi:type=&quot;xsd:string&quot;&gt;1 very low&lt;/Priority&gt;&lt;/Ticket&gt;&lt;Article&gt;&lt;Subject xsi:type=&quot;xsd:string&quot;&gt;some subject&lt;/Subject&gt;&lt;Body xsi:type=&quot;xsd:string&quot;&gt;some body&lt;/Body&gt;&lt;ContentType xsi:type=&quot;xsd:string&quot;&gt;text/xml; charset=utf8&lt;/ContentType&gt;&lt;/Article&gt;&lt;/ns3281:TicketCreate&gt;&lt;/SOAP-ENV:Body&gt;&lt;/SOAP-ENV:Envelope&gt;</pre>
+<h2>Response</h2>
+<pre>HTTP/1.1 200 OK
+Content-Type: application/soap+xml; charset=UTF-8
+Content-Length: 553
+Connection: close
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;soap:Envelope soap:encodingStyle=&quot;http://schemas.xmlsoap.org/soap/encoding/&quot; xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:soapenc=&quot;http://schemas.xmlsoap.org/soap/encoding/&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;&lt;soap:Body&gt;&lt;TicketCreateResponse xmlns=&quot;http://www.otrs.org/TicketConnector/&quot;&gt;&lt;ArticleID&gt;1617&lt;/ArticleID&gt;&lt;TicketID&gt;734&lt;/TicketID&gt;&lt;TicketNumber&gt;2014111740000043&lt;/TicketNumber&gt;&lt;/TicketCreateResponse&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;</pre><h2>Debug</h2><pre>2014-11-17 11:43:30.894899 nusoap_client: ctor wsdl= timeout=0 response_timeout=30
+endpoint=string(85) &quot;http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector&quot;
+2014-11-17 11:43:30.896685 nusoap_client: instantiate SOAP with endpoint at http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector
+2014-11-17 11:43:30.896712 nusoap_client: setUseCURL(0)
+2014-11-17 11:43:30.896729 nusoap_client: useHTTPPersistentConnection
+2014-11-17 11:43:30.896766 nusoap_client: call: operation=TicketCreate, namespace=http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector, soapAction=http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector, rpcParams=, style=rpc, use=encoded, endpointType=soap
+params=array(4) {
+  [&quot;UserLogin&quot;]=&gt;
+  string(11) &quot;fabio.fazio&quot;
+  [&quot;Password&quot;]=&gt;
+  string(8) &quot;aaAA11!!&quot;
+  [&quot;Ticket&quot;]=&gt;
+  array(6) {
+    [&quot;Title&quot;]=&gt;
+    string(10) &quot;some title&quot;
+    [&quot;CustomerUser&quot;]=&gt;
+    string(17) &quot;fmfazio@gmail.com&quot;
+    [&quot;Queue&quot;]=&gt;
+    string(19) &quot;ZTAC Incoming Queue&quot;
+    [&quot;Type&quot;]=&gt;
+    string(7) &quot;default&quot;
+    [&quot;State&quot;]=&gt;
+    string(3) &quot;new&quot;
+    [&quot;Priority&quot;]=&gt;
+    string(10) &quot;1 very low&quot;
+  }
+  [&quot;Article&quot;]=&gt;
+  array(3) {
+    [&quot;Subject&quot;]=&gt;
+    string(12) &quot;some subject&quot;
+    [&quot;Body&quot;]=&gt;
+    string(9) &quot;some body&quot;
+    [&quot;ContentType&quot;]=&gt;
+    string(22) &quot;text/xml; charset=utf8&quot;
+  }
+}
+headers=bool(false)
+2014-11-17 11:43:30.896813 nusoap_client: serializing param array for operation TicketCreate
+2014-11-17 11:43:30.896837 nusoap_client: in serialize_val: name=UserLogin, type=, name_ns=, type_ns=, use=encoded, soapval=
+value=string(11) &quot;fabio.fazio&quot;
+attributes=bool(false)
+2014-11-17 11:43:30.896868 nusoap_client: serialize_val: serialize string
+2014-11-17 11:43:30.896894 nusoap_client: serialize_val returning &lt;UserLogin xsi:type=&quot;xsd:string&quot;&gt;fabio.fazio&lt;/UserLogin&gt;
+2014-11-17 11:43:30.896912 nusoap_client: in serialize_val: name=Password, type=, name_ns=, type_ns=, use=encoded, soapval=
+value=string(8) &quot;aaAA11!!&quot;
+attributes=bool(false)
+2014-11-17 11:43:30.896933 nusoap_client: serialize_val: serialize string
+2014-11-17 11:43:30.896950 nusoap_client: serialize_val returning &lt;Password xsi:type=&quot;xsd:string&quot;&gt;aaAA11!!&lt;/Password&gt;
+2014-11-17 11:43:30.896965 nusoap_client: in serialize_val: name=Ticket, type=, name_ns=, type_ns=, use=encoded, soapval=
+value=array(6) {
+  [&quot;Title&quot;]=&gt;
+  string(10) &quot;some title&quot;
+  [&quot;CustomerUser&quot;]=&gt;
+  string(17) &quot;fmfazio@gmail.com&quot;
+  [&quot;Queue&quot;]=&gt;
+  string(19) &quot;ZTAC Incoming Queue&quot;
+  [&quot;Type&quot;]=&gt;
+  string(7) &quot;default&quot;
+  [&quot;State&quot;]=&gt;
+  string(3) &quot;new&quot;
+  [&quot;Priority&quot;]=&gt;
+  string(10) &quot;1 very low&quot;
+}
+attributes=bool(false)
+2014-11-17 11:43:30.897043 nusoap_client: serialize_val: serialize struct
+2014-11-17 11:43:30.897071 nusoap_client: in serialize_val: name=Title, type=, name_ns=, type_ns=, use=encoded, soapval=
+value=string(10) &quot;some title&quot;
+attributes=bool(false)
+2014-11-17 11:43:30.897096 nusoap_client: serialize_val: serialize string
+2014-11-17 11:43:30.897114 nusoap_client: serialize_val returning &lt;Title xsi:type=&quot;xsd:string&quot;&gt;some title&lt;/Title&gt;
+2014-11-17 11:43:30.897129 nusoap_client: in serialize_val: name=CustomerUser, type=, name_ns=, type_ns=, use=encoded, soapval=
+value=string(17) &quot;fmfazio@gmail.com&quot;
+attributes=bool(false)
+2014-11-17 11:43:30.897148 nusoap_client: serialize_val: serialize string
+2014-11-17 11:43:30.897164 nusoap_client: serialize_val returning &lt;CustomerUser xsi:type=&quot;xsd:string&quot;&gt;fmfazio@gmail.com&lt;/CustomerUser&gt;
+2014-11-17 11:43:30.897179 nusoap_client: in serialize_val: name=Queue, type=, name_ns=, type_ns=, use=encoded, soapval=
+value=string(19) &quot;ZTAC Incoming Queue&quot;
+attributes=bool(false)
+2014-11-17 11:43:30.897197 nusoap_client: serialize_val: serialize string
+2014-11-17 11:43:30.897213 nusoap_client: serialize_val returning &lt;Queue xsi:type=&quot;xsd:string&quot;&gt;ZTAC Incoming Queue&lt;/Queue&gt;
+2014-11-17 11:43:30.897228 nusoap_client: in serialize_val: name=Type, type=, name_ns=, type_ns=, use=encoded, soapval=
+value=string(7) &quot;default&quot;
+attributes=bool(false)
+2014-11-17 11:43:30.897246 nusoap_client: serialize_val: serialize string
+2014-11-17 11:43:30.897262 nusoap_client: serialize_val returning &lt;Type xsi:type=&quot;xsd:string&quot;&gt;default&lt;/Type&gt;
+2014-11-17 11:43:30.897277 nusoap_client: in serialize_val: name=State, type=, name_ns=, type_ns=, use=encoded, soapval=
+value=string(3) &quot;new&quot;
+attributes=bool(false)
+2014-11-17 11:43:30.897295 nusoap_client: serialize_val: serialize string
+2014-11-17 11:43:30.897311 nusoap_client: serialize_val returning &lt;State xsi:type=&quot;xsd:string&quot;&gt;new&lt;/State&gt;
+2014-11-17 11:43:30.897326 nusoap_client: in serialize_val: name=Priority, type=, name_ns=, type_ns=, use=encoded, soapval=
+value=string(10) &quot;1 very low&quot;
+attributes=bool(false)
+2014-11-17 11:43:30.897345 nusoap_client: serialize_val: serialize string
+2014-11-17 11:43:30.897360 nusoap_client: serialize_val returning &lt;Priority xsi:type=&quot;xsd:string&quot;&gt;1 very low&lt;/Priority&gt;
+2014-11-17 11:43:30.897375 nusoap_client: serialize_val returning &lt;Ticket&gt;&lt;Title xsi:type=&quot;xsd:string&quot;&gt;some title&lt;/Title&gt;&lt;CustomerUser xsi:type=&quot;xsd:string&quot;&gt;fmfazio@gmail.com&lt;/CustomerUser&gt;&lt;Queue xsi:type=&quot;xsd:string&quot;&gt;ZTAC Incoming Queue&lt;/Queue&gt;&lt;Type xsi:type=&quot;xsd:string&quot;&gt;default&lt;/Type&gt;&lt;State xsi:type=&quot;xsd:string&quot;&gt;new&lt;/State&gt;&lt;Priority xsi:type=&quot;xsd:string&quot;&gt;1 very low&lt;/Priority&gt;&lt;/Ticket&gt;
+2014-11-17 11:43:30.897392 nusoap_client: in serialize_val: name=Article, type=, name_ns=, type_ns=, use=encoded, soapval=
+value=array(3) {
+  [&quot;Subject&quot;]=&gt;
+  string(12) &quot;some subject&quot;
+  [&quot;Body&quot;]=&gt;
+  string(9) &quot;some body&quot;
+  [&quot;ContentType&quot;]=&gt;
+  string(22) &quot;text/xml; charset=utf8&quot;
+}
+attributes=bool(false)
+2014-11-17 11:43:30.897420 nusoap_client: serialize_val: serialize struct
+2014-11-17 11:43:30.897437 nusoap_client: in serialize_val: name=Subject, type=, name_ns=, type_ns=, use=encoded, soapval=
+value=string(12) &quot;some subject&quot;
+attributes=bool(false)
+2014-11-17 11:43:30.897456 nusoap_client: serialize_val: serialize string
+2014-11-17 11:43:30.897472 nusoap_client: serialize_val returning &lt;Subject xsi:type=&quot;xsd:string&quot;&gt;some subject&lt;/Subject&gt;
+2014-11-17 11:43:30.897487 nusoap_client: in serialize_val: name=Body, type=, name_ns=, type_ns=, use=encoded, soapval=
+value=string(9) &quot;some body&quot;
+attributes=bool(false)
+2014-11-17 11:43:30.897505 nusoap_client: serialize_val: serialize string
+2014-11-17 11:43:30.897521 nusoap_client: serialize_val returning &lt;Body xsi:type=&quot;xsd:string&quot;&gt;some body&lt;/Body&gt;
+2014-11-17 11:43:30.897536 nusoap_client: in serialize_val: name=ContentType, type=, name_ns=, type_ns=, use=encoded, soapval=
+value=string(22) &quot;text/xml; charset=utf8&quot;
+attributes=bool(false)
+2014-11-17 11:43:30.897554 nusoap_client: serialize_val: serialize string
+2014-11-17 11:43:30.897570 nusoap_client: serialize_val returning &lt;ContentType xsi:type=&quot;xsd:string&quot;&gt;text/xml; charset=utf8&lt;/ContentType&gt;
+2014-11-17 11:43:30.897584 nusoap_client: serialize_val returning &lt;Article&gt;&lt;Subject xsi:type=&quot;xsd:string&quot;&gt;some subject&lt;/Subject&gt;&lt;Body xsi:type=&quot;xsd:string&quot;&gt;some body&lt;/Body&gt;&lt;ContentType xsi:type=&quot;xsd:string&quot;&gt;text/xml; charset=utf8&lt;/ContentType&gt;&lt;/Article&gt;
+2014-11-17 11:43:30.897599 nusoap_client: wrapping RPC request with encoded method element
+2014-11-17 11:43:30.897622 nusoap_client: In serializeEnvelope length=761 body (max 1000 characters)=&lt;ns3281:TicketCreate xmlns:ns3281=&quot;http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector&quot;&gt;&lt;UserLogin xsi:type=&quot;xsd:string&quot;&gt;fabio.fazio&lt;/UserLogin&gt;&lt;Password xsi:type=&quot;xsd:string&quot;&gt;aaAA11!!&lt;/Password&gt;&lt;Ticket&gt;&lt;Title xsi:type=&quot;xsd:string&quot;&gt;some title&lt;/Title&gt;&lt;CustomerUser xsi:type=&quot;xsd:string&quot;&gt;fmfazio@gmail.com&lt;/CustomerUser&gt;&lt;Queue xsi:type=&quot;xsd:string&quot;&gt;ZTAC Incoming Queue&lt;/Queue&gt;&lt;Type xsi:type=&quot;xsd:string&quot;&gt;default&lt;/Type&gt;&lt;State xsi:type=&quot;xsd:string&quot;&gt;new&lt;/State&gt;&lt;Priority xsi:type=&quot;xsd:string&quot;&gt;1 very low&lt;/Priority&gt;&lt;/Ticket&gt;&lt;Article&gt;&lt;Subject xsi:type=&quot;xsd:string&quot;&gt;some subject&lt;/Subject&gt;&lt;Body xsi:type=&quot;xsd:string&quot;&gt;some body&lt;/Body&gt;&lt;ContentType xsi:type=&quot;xsd:string&quot;&gt;text/xml; charset=utf8&lt;/ContentType&gt;&lt;/Article&gt;&lt;/ns3281:TicketCreate&gt; style=rpc use=encoded encodingStyle=http://schemas.xmlsoap.org/soap/encoding/
+2014-11-17 11:43:30.897638 nusoap_client: headers:
+bool(false)
+2014-11-17 11:43:30.897655 nusoap_client: namespaces:
+array(0) {
+}
+2014-11-17 11:43:30.897681 nusoap_client: endpoint=http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector, soapAction=http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector, namespace=http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector, style=rpc, use=encoded, encodingStyle=http://schemas.xmlsoap.org/soap/encoding/
+2014-11-17 11:43:30.897696 nusoap_client: SOAP message length=1153 contents (max 1000 bytes)=&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;SOAP-ENV:Envelope SOAP-ENV:encodingStyle=&quot;http://schemas.xmlsoap.org/soap/encoding/&quot; xmlns:SOAP-ENV=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:SOAP-ENC=&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;&gt;&lt;SOAP-ENV:Body&gt;&lt;ns3281:TicketCreate xmlns:ns3281=&quot;http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector&quot;&gt;&lt;UserLogin xsi:type=&quot;xsd:string&quot;&gt;fabio.fazio&lt;/UserLogin&gt;&lt;Password xsi:type=&quot;xsd:string&quot;&gt;aaAA11!!&lt;/Password&gt;&lt;Ticket&gt;&lt;Title xsi:type=&quot;xsd:string&quot;&gt;some title&lt;/Title&gt;&lt;CustomerUser xsi:type=&quot;xsd:string&quot;&gt;fmfazio@gmail.com&lt;/CustomerUser&gt;&lt;Queue xsi:type=&quot;xsd:string&quot;&gt;ZTAC Incoming Queue&lt;/Queue&gt;&lt;Type xsi:type=&quot;xsd:string&quot;&gt;default&lt;/Type&gt;&lt;State xsi:type=&quot;xsd:string&quot;&gt;new&lt;/State&gt;&lt;Priority xsi:type=&quot;xsd:string&quot;&gt;1 very low&lt;/Priority&gt;&lt;/Ticket&gt;&lt;Article&gt;&lt;Subject xsi:type=&quot;xsd:string&quot;&gt;some subject&lt;/Subject&gt;&lt;Body xsi:type=&quot;xsd:string&quot;&gt;so
+2014-11-17 11:43:30.897729 nusoap_client: transporting via HTTP
+2014-11-17 11:43:30.897956 nusoap_client: sending message, length=1153
+2014-11-17 11:43:30.897767 soap_transport_http: ctor url=http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector use_curl=0 curl_options:
+array(0) {
+}
+2014-11-17 11:43:30.897795 soap_transport_http: parsed URL scheme = http
+2014-11-17 11:43:30.897810 soap_transport_http: parsed URL host = ztac.zenatek.eu
+2014-11-17 11:43:30.897823 soap_transport_http: parsed URL path = /otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector
+2014-11-17 11:43:30.897846 soap_transport_http: set header Host: ztac.zenatek.eu
+2014-11-17 11:43:30.897888 soap_transport_http: set header User-Agent: NuSOAP/0.9.5 (1.123)
+2014-11-17 11:43:30.897909 soap_transport_http: set header Connection: Keep-Alive
+2014-11-17 11:43:30.897926 soap_transport_http: set header Content-Type: text/xml; charset=UTF-8
+2014-11-17 11:43:30.897941 soap_transport_http: set header SOAPAction: &quot;http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector&quot;
+2014-11-17 11:43:30.897983 soap_transport_http: entered send() with data of length: 1153
+2014-11-17 11:43:30.898009 soap_transport_http: connect connection_timeout 0, response_timeout 30, scheme http, host ztac.zenatek.eu, port 80
+2014-11-17 11:43:30.898031 soap_transport_http: calling fsockopen with host ztac.zenatek.eu connection_timeout 0
+2014-11-17 11:43:30.899661 soap_transport_http: set response timeout to 30
+2014-11-17 11:43:30.899700 soap_transport_http: socket connected
+2014-11-17 11:43:30.899729 soap_transport_http: set header Content-Length: 1153
+2014-11-17 11:43:30.899745 soap_transport_http: HTTP request: POST /otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector HTTP/1.1
+2014-11-17 11:43:30.899760 soap_transport_http: HTTP header: Host: ztac.zenatek.eu
+2014-11-17 11:43:30.899776 soap_transport_http: HTTP header: User-Agent: NuSOAP/0.9.5 (1.123)
+2014-11-17 11:43:30.899789 soap_transport_http: HTTP header: Connection: Keep-Alive
+2014-11-17 11:43:30.899802 soap_transport_http: HTTP header: Content-Type: text/xml; charset=UTF-8
+2014-11-17 11:43:30.899815 soap_transport_http: HTTP header: SOAPAction: &quot;http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector&quot;
+2014-11-17 11:43:30.899829 soap_transport_http: HTTP header: Content-Length: 1153
+2014-11-17 11:43:30.899864 soap_transport_http: wrote data to socket, length = 1477
+2014-11-17 11:43:31.275957 soap_transport_http: read line of 17 bytes: HTTP/1.1 200 OK
+2014-11-17 11:43:31.276102 soap_transport_http: read line of 51 bytes: Content-Type: application/soap+xml; charset=UTF-8
+2014-11-17 11:43:31.276220 soap_transport_http: read line of 21 bytes: Content-Length: 553
+2014-11-17 11:43:31.276334 soap_transport_http: read line of 19 bytes: Connection: close
+2014-11-17 11:43:31.276394 soap_transport_http: read line of 2 bytes: 
+2014-11-17 11:43:31.276503 soap_transport_http: found end of headers after length 110
+2014-11-17 11:43:31.276619 soap_transport_http: want to read content of length 553
+2014-11-17 11:43:31.276696 soap_transport_http: read buffer of 553 bytes
+2014-11-17 11:43:31.276754 soap_transport_http: read to EOF
+2014-11-17 11:43:31.276797 soap_transport_http: read body of length 553
+2014-11-17 11:43:31.276837 soap_transport_http: received a total of 663 bytes of data from server
+2014-11-17 11:43:31.276994 soap_transport_http: closed socket
+2014-11-17 11:43:31.277085 soap_transport_http: No Content-Encoding header
+2014-11-17 11:43:31.277132 soap_transport_http: end of send()
+2014-11-17 11:43:31.277282 nusoap_client: got response, length=553 type=application/soap+xml; charset=UTF-8
+2014-11-17 11:43:31.277336 nusoap_client: Entering parseResponse() for data of length 553 headers:
+array(3) {
+  [&quot;content-type&quot;]=&gt;
+  string(35) &quot;application/soap+xml; charset=UTF-8&quot;
+  [&quot;content-length&quot;]=&gt;
+  string(3) &quot;553&quot;
+  [&quot;connection&quot;]=&gt;
+  string(5) &quot;close&quot;
+}
+2014-11-17 11:43:31.277418 nusoap_client: Error: Response not of type text/xml: application/soap+xml; charset=UTF-8
+</pre>
