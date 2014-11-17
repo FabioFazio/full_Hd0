@@ -75,15 +75,26 @@ return array(
     'navigation' => array (
 		'default' => array (
 			array (
-				'label' => 'Home',
+				'label' => 'Test',
     			'route' => 'test',
 				'order' => 0,
     			'visible' => true,
 			),
             'controllers' => array(
                 'invokables' => array(
-                    'Test\Controller\Frontend' => 'Application\Controller\FrontendController'
+                    'Test\Controller\Frontend' => 'Test\Controller\FrontendController'
                 ),
+            ),
+            array (
+            		'label' => 'Default',
+            		'route' => 'welcome',
+            		'order' => 1,
+            		'visible' => true,
+            ),
+            'controllers' => array(
+            		'invokables' => array(
+            				'Application\Controller\Index' => 'Application\Controller\IndexController'
+            		),
             ),
         ),
      ),

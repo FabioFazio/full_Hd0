@@ -35,3 +35,53 @@ div.container a.brand {
     margin-left: 0;
     padding: 8px 20px 12px 40px;
 }
+
+/* Fix bootstrap 3.3.2 */
+
+.navbar-brand {
+	display: -webkit-flex;
+	display: flex;
+}
+
+/* Card Collectors */
+
+.titleBox {
+	padding: 5px;
+	margin-bottom: 5px;
+	font-size: 22px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 500;
+	line-height: 1.1;
+	color: inherit;
+	text-align: center;
+}
+
+ol.bugsBox {
+	max-height: 500px;
+}
+
+ol.sidebar-offcanvas {
+	overflow-y:scroll; 
+}
+
+ol.bugsBox li {
+	border: 1px solid #cccccc;
+	background: #fff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ffffff',GradientType=0);
+    color: #0088cc;
+}
+
+ol.bugsBox li.highlight {
+	background: #555;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#505050',endColorstr='#505050',GradientType=0);
+	color: #eee;
+}
+
+.bacheca {
+	border: 1px solid #555;
+	margin-bottom: 20px;
+}
+
+.legenda {
+	border: 1px solid #555;
+}
