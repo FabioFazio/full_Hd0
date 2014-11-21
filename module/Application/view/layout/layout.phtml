@@ -1,9 +1,30 @@
 <?php
 /**
- *      Jquery and Boostrap supporting IE7
- *      
+ *      ## SOAP 3
+ * 
+ *      ## Backporting old IE ver ##
  *      http://jquery.com/browser-support/
- *      http://www.extremecss.com/making-twitter-bootstrap-3-compatible-with-internet-explorer-7-and-below/
+ *      
+ *      ## Boostrap3 supporting IE7 ##
+ *      (1)(2) http://www.extremecss.com/making-twitter-bootstrap-3-compatible-with-internet-explorer-7-and-below/
+ *      (3) http://stackoverflow.com/questions/14793332/problems-with-ie7-and-foundation-3-using-boxsizing-htc
+ *      
+ *      (1) bootstrap.css +
+ *              *behavior: url(/js/boxsizing.htc);
+ *          download boxsizing.htc and (if troubles) comment line 53
+ *      &&
+ *      (2) <header> +
+ *          <link href="/css/bootstrap-ie7.css" rel="stylesheet"> // doesnt Work!!!
+ *      &&
+ *      (3) .htaccess +
+ *          AddType text/x-component .htc
+ *      
+ *      ## Html Conditions to distinguis ##
+ *      http://www.quirksmode.org/css/condcom.html
+ *      http://www.positioniseverything.net/articles/cc-plus.html
+ *      
+ *      ## IE7 css properties ##
+ *      http://stackoverflow.com/questions/10981767/clean-css-fix-of-ie7s-float-right-drop-bug
  */
 
 
@@ -19,19 +40,34 @@ echo $this->doctype(); ?>
         ?>
 
         <!-- Le styles -->
-        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
-                        ->prependStylesheet($this->basePath() . '/css/style.css')
+        <?php
+        //$enbedded_bootstrap_css = file_get_contents('public/css/bootstrap.css');
+        //$this->headStyle()->appendStyle($enbedded_bootstrap_css, array('conditional' => 'lt IE 8'));
+        //echo $this->headStyle();
+        
+        echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
                         ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
-                        ->prependStylesheet($this->basePath() . '/css/bootstrap.css')
-                        ->appendStylesheet($this->basePath() . '/css/bootstrap-ie7.css', 'stylesheet', 'lt IE 8') ?>
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap.css', 'screen')
+                        //->prependStylesheet($this->basePath() . '/css/bootstrap-ie7.css', 'screen', 'lt IE 8')
+
+                        ->appendStylesheet($this->basePath() . '/css/glyphicons-ie7.less', 'screen', 'lt IE 8')
+                        ->appendStylesheet($this->basePath() . '/css/glyphicons-ie7.css', 'screen', 'lt IE 8')
+                        ->appendStylesheet($this->basePath() . '/css/sortable.css')
+                        ->appendStylesheet($this->basePath() . '/css/style.css')
+        ;?>
 
         <!-- Scripts -->
         <?php echo $this->headScript()
             ->prependFile($this->basePath() . '/js/bootstrap.min.js')
             ->prependFile($this->basePath() . '/js/jquery.min.js')
             ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
-            ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
-        ; ?>
+            ->prependFile($this->basePath() . '/js/html5shiv.js',  'text/javascript', array('conditional' => 'lt IE 9',))
+            ->prependFile($this->basePath() . '/js/modernizr.foundation.js', 'text/javascript', array('conditional' => 'lt IE 8',))
+
+            ->appendFile($this->basePath() . '/js/jquery-sortable.js', 'text/javascript', array('conditional' => '!IE',))
+            ->appendFile($this->basePath() . '/js/jquery-sortable-mirror.js', 'text/javascript', array('conditional' => 'gte IE 8',))
+            ->appendFile($this->basePath() . '/js/script.js', 'text/javascript')
+        ;?>
 
     </head>
     <body>

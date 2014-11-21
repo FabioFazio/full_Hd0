@@ -3,9 +3,10 @@
 <meta charset="utf-8">
 <title>SilverSea - Web Compass</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
 <!--
+"use sctrict";
 /** Detect UA and alert compatibility
  *  
  */
@@ -45,7 +46,7 @@ function get_browser_version() {
 $(document).ready(function () {
     var browserK = get_browser();
     var browserV = get_browser_version();
-//     if (browserK.indexOf('IE') < 0 && browserV < 9)
+//     if (browserK.indexOf('IE') >= 0 && browserV < 9)
 //    	alert('Internet Explorer supported from ver.9. Actually you are using ver.: ' + browserV);
     alert(browserK +' ver.' + browserV);
 });

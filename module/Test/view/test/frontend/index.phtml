@@ -1,11 +1,3 @@
-<?php
-$this->headScript ()
-	->appendFile ( $this->basePath() . '/js/jquery-sortable.js')
-    ->appendFile ( $this->basePath() . '/js/script.js');
-
-$this->headLink ()
-    ->appendStylesheet( $this->basePath() . '/css/sortable.css');
-?>
 <script type="text/javascript">
 <!--
 //-->
@@ -16,15 +8,20 @@ $this->headLink ()
 <div class="row">
 <div class="col-md-12">
     <div class="bacheca">
-        <div class="">
+        <div>
         Bacheca
         </div>
     </div>
 </div>
 
 <div id="ambitoApplicativo" class="col-md-3">
-<div class="well titleBox">Ambito Applicativo <abbr title="Premere il bottone [Aggiungi] dell'ambito applicativo
-al quale si vuole aprire una nuova segnalazione"><span class="small pull-right glyphicon glyphicon-question-sign"></span></abbr></div>
+<div class="well titleBox">
+    <span class="pull-left">Ambito Applicativo</span>
+    <abbr class="pull-right" title="Premere il bottone [Aggiungi] dell'ambito applicativo
+al quale si vuole aprire una nuova segnalazione">
+        <span class="small glyphicon glyphicon-question-sign alert-warning blink"></span>
+    </abbr>
+</div>
 <ol class="well sortable simple_with_no_drop bugsBox">
     <li class="highlight">
     First
@@ -58,8 +55,13 @@ al quale si vuole aprire una nuova segnalazione"><span class="small pull-right g
 </div>
 
 <div class="col-md-3">
-<div class="well titleBox">Segnalazioni in Bozza <abbr title="Premere il bottone [Aggiungi] dell'ambito applicativo
-al quale si vuole aprire una nuova segnalazione"><span class="small pull-right glyphicon glyphicon-question-sign"></span></abbr></div>
+<div class="well titleBox">
+    <span class="pull-left">Segnalazioni in Bozza</span>
+    <abbr class="pull-right" title="Premere il bottone [Aggiungi] dell'ambito applicativo
+al quale si vuole aprire una nuova segnalazione">
+        <span class="small glyphicon glyphicon-question-sign"></span>
+    </abbr>
+</div>
 <ol class="sortable well simple_with_drop bugsBox">
     <li>
     First
@@ -94,8 +96,13 @@ al quale si vuole aprire una nuova segnalazione"><span class="small pull-right g
 </div>
 
 <div class="col-md-3">
-<div class="well titleBox sidebar-offcanvas">Segnalazioni Pubbliche <abbr title="Premere il bottone [Aggiungi] dell'ambito applicativo
-al quale si vuole aprire una nuova segnalazione"><span class="small pull-right glyphicon glyphicon-question-sign"></span></abbr></div>
+<div class="well titleBox sidebar-offcanvas">
+    <span class="pull-left">Segnalazioni Pubbliche</span>
+    <abbr class="pull-right" title="Premere il bottone [Aggiungi] dell'ambito applicativo
+al quale si vuole aprire una nuova segnalazione">
+        <span class="small glyphicon glyphicon-question-sign"></span>
+    </abbr>
+</div>
 <ol class="well sortable simple_with_no_drag bugsBox">
     <li>
     First
@@ -130,8 +137,13 @@ al quale si vuole aprire una nuova segnalazione"><span class="small pull-right g
 </div>
 
 <div class="col-md-3">
-<div class="well titleBox">Legenda <abbr title="Premere il bottone [Aggiungi] dell'ambito applicativo
-al quale si vuole aprire una nuova segnalazione"><span class="small pull-right glyphicon glyphicon-question-sign"></span></abbr></div>
+<div class="well titleBox">
+    <span class="pull-left">Legenda</span>
+    <abbr class="pull-right" title="Premere il bottone [Aggiungi] dell'ambito applicativo
+al quale si vuole aprire una nuova segnalazione">
+        <span class="small glyphicon glyphicon-question-sign"></span>
+    </abbr>
+</div>
 <ol class="well sortable bugsBox">
     <li>
         First

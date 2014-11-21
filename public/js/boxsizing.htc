@@ -50,7 +50,7 @@
 <script type="text/javascript">
 //<![CDATA[
 
-var viewportwidth = (typeof window.innerWidth != 'undefined' ? window.innerWidth : element.document.documentElement.clientWidth);
+//fbfz@zt var viewportwidth = (typeof window.innerWidth != 'undefined' ? window.innerWidth : element.document.documentElement.clientWidth);
 
 // Shortcut for the document object
 var doc = element.document;

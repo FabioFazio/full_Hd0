@@ -54,10 +54,15 @@ div.container a.brand {
 	line-height: 1.1;
 	color: inherit;
 	text-align: center;
+	min-height: 36px;
+}
+
+.titleBox abbr[title] {
+	border-bottom: 0px;
 }
 
 ol.bugsBox {
-	max-height: 500px;
+	/* max-height: 500px; */
 }
 
 ol.sidebar-offcanvas {
