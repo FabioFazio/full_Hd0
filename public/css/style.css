@@ -104,47 +104,59 @@ div.container a.brand {
 	background-color: rgb(245, 200, 200) !important;
 	background-image: linear-gradient(rgb(200, 150, 150) 0px, rgb(245, 200, 200) 100%);
 }
+.fg-r { color: rgb(245, 200, 200) }
 
 .bg-rg {
 	background-color: rgb(245, 245, 200) !important;
-	background-image: linear-gradient(rgb(200, 200, 150) 0px, rgb(245, 245, 200) 100%);
+	background-image: linear-gradient(rgb(200, 200, 150) 0px, rgb(200, 200, 150) 100%);
 }
+.fg-rg { color: rgb(245, 245, 200) }
 
 .bg-g {
 	background-color: rgb(200, 245, 200) !important;
-	background-image: linear-gradient(rgb(150, 200, 150) 0px, rgb(200, 245, 200) 100%);
+	background-image: linear-gradient(rgb(150, 200, 150) 0px, rgb(150, 200, 150) 100%);
 }
+.fg-g { color: rgb(200, 245, 200) }
 
 .bg-gb {
 	background-color: rgb(200, 245, 245) !important;
 	background-image: linear-gradient(rgb(150, 200, 200) 0px, rgb(200, 245, 245) 100%);
 }
+.fg-gb { color: rgb(200, 245, 245) }
 
 .bg-b {
 	background-color: rgb(200, 200, 245) !important;
 	background-image: linear-gradient(rgb(150, 150, 200) 0px, rgb(200, 200, 245) 100%);
-
 }
+.fg-b { color: rgb(200, 200, 245) }
 
 .bg-rb {
 	background-color: rgb(245, 200, 245) !important;
 	background-image: linear-gradient(rgb(200, 150, 200) 0px, rgb(245, 200, 245) 100%);
 }
+.fg-rb { color: rgb(245, 200, 245) }
 
 .bg-rgb {
 	background-color: rgb(200, 200, 200) !important;
-	background-image: linear-gradient(rgb(150, 150, 150) 0px, rgb(200, 200, 200) 100%);
+	background-image: linear-gradient(rgb(150, 150, 150) 0px, rgb(150, 150, 150) 100%);
 	color: #FFF;
 	border-color: #888;
 }
+.fg-rgb { color: rgb(200, 200, 200) }
 
 [class^='bg-dark-'] { color: #FFF !important; }
 .bg-dark-r	{background-color: rgb(200, 100, 100) !important;}
+.fg-dark-r	{color: rgb(200, 100, 100) !important;}
 .bg-dark-rg	{background-color: rgb(200, 200, 100) !important;}
-.bg-dark-g	{background-color: rgb(100, 100, 200) !important;}
+.fg-dark-rg	{color: rgb(200, 200, 100) !important;}
+.bg-dark-g	{background-color: rgb(100, 200, 100) !important;}
+.fg-dark-g	{color: rgb(100, 200, 100) !important;}
 .bg-dark-gb	{background-color: rgb(100, 200, 200) !important;}
+.fg-dark-gb	{color: rgb(100, 200, 200) !important;}
 .bg-dark-b	{background-color: rgb(100, 100, 200) !important;}
+.fg-dark-b	{color: rgb(100, 100, 200) !important;}
 .bg-dark-rb	{background-color: rgb(200, 100, 200) !important;}
+.fg-dark-rb	{color: rgb(200, 100, 200) !important;}
 
 
 
@@ -179,7 +191,7 @@ ol.bugsBox li {
 	border: 1px solid #cccccc;
 	background: #fff;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ffffff',GradientType=0);
-    color: #005599;
+    color: #003366;
 }
 
 ol.bugsBox li > p {

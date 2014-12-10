@@ -21,7 +21,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
 </div> -->
 
 <div id="ambitiApplicativi" class="col-md-3 colBox">
-<div class="well titleBox">
+<div class="well titleBox bg-rgb">
     <span>Ambiti Applicativi</span>
     <span class="pull-right" data-toggle="tooltip" data-placement="right"
         title="<p class='strong'>Creazione di Segnalazioni</p>
@@ -64,7 +64,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
             </div>
         </li></ol>
     </li>
-    <li class="bg-rb">
+    <li class="bg-dark-b">
         <p>Cassa Centrale</p>
         <ol><li>
             <a href="#inLavorazione"><span class="badge alert-warning">1</span></a>
@@ -82,7 +82,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
             </div>
         </li></ol>
     </li>
-    <li class="bg-b">
+    <li class="bg-dark-rg">
         <p>Gratta & Vinci</p>
         <ol><li>
             <div class="pull-right">
@@ -94,7 +94,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
 </div>
 
 <div id="bozze" class="col-md-3 colBox">
-<div class="well titleBox ">
+<div class="well titleBox">
     <span class="">Bozze</span>
     <span class="pull-right" data-toggle="tooltip" data-placement="bottom"
         title_0 = "Le Segnalazioni in Bozze sono visibili e modificabili <span class='glyphicon glyphicon-edit'></span> solo da te finche non vengono pubblicate <span class='glyphicon glyphicon-send'></span><br /><small>1/3<small>"
@@ -105,8 +105,9 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
     </span>
 </div>
 <ol class="sortable well simple_with_drop bugsBox halfBox">
-    <li class="bg-r">
+    <li class="bg-rgb">
     Mancano fatture di ieri
+    <span class="fg-r glyphicon glyphicon-tag pull-right"></span>
         <ol><li>
             <div class="pull-right">
                 <button title="pubblica" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-send"></span></button>
@@ -117,8 +118,9 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
             </div>
         </li></ol>
     </li>
-    <li class="bg-dark-r">
+    <li class="bg-rgb">
     Prezzi non allienati
+    <span class="fg-dark-r glyphicon glyphicon-tag pull-right"></span>
         <ol><li>
             <div class="pull-right">
                 <button title="pubblica" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-send"></span></button>
@@ -131,15 +133,16 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
     </li>
 </ol>
 
-<div id="inLavorazione" class="well titleBox ">
+<div id="inLavorazione" class="well titleBox bg-rg">
     <span class="">In Lavorazione</span>
     <abbr class="pull-right" title="Le Segnalazioni in Lavorazione contengono lo stato di avantamento della segnalazione">
         <span class="small glyphicon glyphicon-question-sign"></span>
     </abbr>
 </div>
 <ol class="well sortable simple_with_no_drag bugsBox halfBox">
-    <li class="bg-r strong">
+    <li class="bg-rgb strong">
     Ordini magazzino lenti
+    <span class="fg-r glyphicon glyphicon-tag pull-right"></span>
         <ol><li>
             <span class="badge alert-info">5 <span class="glyphicon glyphicon-comment"></span></span>
             <span class="badge alert-info">2 <span class="glyphicon glyphicon-paperclip"></span></span>
@@ -148,8 +151,9 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
             </div>
         </li></ol>
     </li>
-    <li class="bg-rb">
+    <li class="bg-rgb">
     Iva assolta alla fonte
+    <span class="fg-dark-b glyphicon glyphicon-tag pull-right"></span>
         <ol><li>
             <span class="badge alert-info">2 <span class="glyphicon glyphicon-comment"></span></span>
             <div class="pull-right">
@@ -162,7 +166,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
 </div>
 
 <div id="chiuse" class="col-md-3 colBox">
-<div class="well titleBox ">
+<div class="well titleBox bg-g">
     <span class="">Chiuse</span>
     <abbr class="pull-right" title="Le Segnalazioni Chiuse disponibili sono relative a tutte quelle dell'anno in corso">
         <span class="small glyphicon glyphicon-question-sign"></span>
@@ -176,8 +180,9 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
         </div>
         <center class="small">2 segnalazioni trovate</center>
     </form>
-    <li class="bg-r">
+    <li class="bg-rgb">
         Messaggio di errore
+        <span class="fg-r glyphicon glyphicon-tag pull-right"></span>
         <ol><li>
             <span class="badge alert-success"><span class="glyphicon glyphicon-ok"></span></span>
             <span class="badge alert-info">3 <span class="glyphicon glyphicon-comment"></span></span>
@@ -186,8 +191,9 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
             </div>
         </li></ol>
     </li>
-    <li class="bg-rb">
+    <li class="bg-rgb">
         Batch troppo lento
+        <span class="fg-dark-b glyphicon glyphicon-tag pull-right"></span>
         <ol><li>
             <span class="badge alert-success"><span class="glyphicon glyphicon-ok"></span></span>
             <span class="badge alert-info">5 <span class="glyphicon glyphicon-comment"></span></span>
@@ -200,7 +206,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
 </div>
 
 <div class="col-md-3 colBox">
-<div class="well titleBox">
+<div class="well titleBox bg-rgb">
     <span>Legenda</span>
     <abbr class="pull-right" title="Premere il bottone [Aggiungi] dell'ambito applicativo
 al quale si vuole aprire una nuova segnalazione">
@@ -220,10 +226,10 @@ al quale si vuole aprire una nuova segnalazione">
     </div>
     <div id="collapseZero" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingZero">
       <div class="panel-body">
-        <p>
-            Bla Bla Bla.<br />
-            e ancora ... bla Bla Bla.<br />
-        </p>
+        <ul>
+            <li>Ogni sezione </li>
+            <li>e ancora ... bla Bla Bla.</li>
+        </ul>
       </div>
     </div>
     <div class="panel-heading" role="tab" id="headingOne">
