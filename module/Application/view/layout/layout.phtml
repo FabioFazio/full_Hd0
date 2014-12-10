@@ -54,6 +54,7 @@ echo $this->doctype(); ?>
                         ->appendStylesheet($this->basePath() . '/css/glyphicons-ie7.css', 'screen', 'lt IE 8')
                         ->appendStylesheet($this->basePath() . '/css/sortable.css')
                         ->appendStylesheet($this->basePath() . '/css/style.css')
+                        ->appendStylesheet($this->basePath() . '/css/style-ie.css', 'screen', 'IE')
         ;?>
 
         <!-- Scripts -->
@@ -66,13 +67,34 @@ echo $this->doctype(); ?>
 
             ->appendFile($this->basePath() . '/js/jquery-sortable.js', 'text/javascript', array('conditional' => '!IE',))
             ->appendFile($this->basePath() . '/js/jquery-sortable-mirror.js', 'text/javascript', array('conditional' => 'gte IE 8',))
+            ->appendFile($this->basePath() . '/js/bootstrap-confirmation.js')
+            // https://github.com/Tavicu/bootstrap-confirmation
             ->appendFile($this->basePath() . '/js/script.js', 'text/javascript')
         ;?>
+        
+<?php echo $this->headStyle(); ?>
 
     </head>
-    <body>
+    <body class="body-bg">
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
+            
+                <div class="pull-right">
+                    <div class="btn-group usertools">
+                    <?php // Retrive current view & page 
+        				$view = current($this->viewModel()->getCurrent()->getChildren());
+        				if (true || isset($view->username)): ?>
+					    <a name="usertools" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+					    	<i class="glyphicon glyphicon-user"></i>&nbsp;<?php echo "Guest"//$view->username; ?>&nbsp;<span class="caret"></span>
+					    </a>
+					    <ul class="dropdown-menu">
+					        <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Preferenze</a></li>
+						    <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
+					    </ul>
+					<?php endif; ?>
+					</div>
+                </div>
+	                
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
@@ -95,6 +117,9 @@ echo $this->doctype(); ?>
                 <p>&copy; 2005 - <?php echo date('Y') ?> by Zenatek S.P.A. <?php echo $this->translate('All rights reserved.') ?></p>
             </footer>
         </div> <!-- /container -->
+        <?php if (isset($view->modals)) foreach ($view->modals as $modal) {
+        	echo $this->partial($modal['modalName'] , $modal['modalParams']);
+		} ?>
         <?php echo $this->inlineScript() ?>
     </body>
 </html>

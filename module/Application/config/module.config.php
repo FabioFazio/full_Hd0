@@ -15,7 +15,6 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        //'controller' => 'Application\Controller\Index',
                         'controller' => 'Test\Controller\Frontend',
                         'action'     => 'index',
                     ),
@@ -58,6 +57,15 @@ return array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
         ),
+        'factories' => array (
+         		'navigation' => function($sm) {
+         			$navigation = new \Zend\Navigation\Service\DefaultNavigationFactory;
+         			$navigation = $navigation->createService($sm);
+         			return $navigation;
+         		},
+
+        		'structure' => 'ZtZend\Navigation\Service\DefaultNavigationFactory\ZtNavigationFactory',
+		),
         'aliases' => array(
             'translator' => 'MvcTranslator',
         ),
@@ -74,28 +82,22 @@ return array(
     ),
     'navigation' => array (
 		'default' => array (
+    		array (
+				'label' => 'Home',
+				'route' => 'home',
+    		),
 			array (
 				'label' => 'Test',
     			'route' => 'test',
-				'order' => 0,
-    			'visible' => true,
-			),
-            'controllers' => array(
-                'invokables' => array(
-                    'Test\Controller\Frontend' => 'Test\Controller\FrontendController'
+			     'pages' => array(
+	                array(
+        			    'label' => 'Portal',
+                        'route' => 'test',
+                      	'controller' => 'frontend',
+                        'action' => 'index',
+	                ),
                 ),
-            ),
-            array (
-            		'label' => 'Default',
-            		'route' => 'welcome',
-            		'order' => 1,
-            		'visible' => true,
-            ),
-            'controllers' => array(
-            		'invokables' => array(
-            				'Application\Controller\Index' => 'Application\Controller\IndexController'
-            		),
-            ),
+           ),
         ),
      ),
     'view_manager' => array(
@@ -112,6 +114,9 @@ return array(
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+        'strategies' => array(
+        		'ViewJsonStrategy',
         ),
     ),
     // Placeholder for console routes

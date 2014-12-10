@@ -1,156 +1,328 @@
+<?php $style_ie7 =
+".titleBox span:first-child {
+	float: left !important;
+}
+#ambitoApplicativo li span[class!='glyphicon'] {
+    float: left !important;
+}";
+$this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
+
 <script type="text/javascript">
 <!--
+
 //-->
 </script>
 
-
 <div class="container">
 <div class="row">
-<div class="col-md-12">
-    <div class="bacheca">
-        <div>
-        Bacheca
-        </div>
-    </div>
-</div>
 
-<div id="ambitoApplicativo" class="col-md-3">
+<!-- <div id="bacheca" class="col-md-12">
+    </div>
+</div> -->
+
+<div id="ambitiApplicativi" class="col-md-3 colBox">
 <div class="well titleBox">
-    <span class="pull-left">Ambito Applicativo</span>
-    <abbr class="pull-right" title="Premere il bottone [Aggiungi] dell'ambito applicativo
-al quale si vuole aprire una nuova segnalazione">
-        <span class="small glyphicon glyphicon-question-sign alert-warning blink"></span>
-    </abbr>
+    <span>Ambiti Applicativi</span>
+    <span class="pull-right" data-toggle="tooltip" data-placement="right"
+        title="<p class='strong'>Creazione di Segnalazioni</p>
+            Premere <span class='glyphicon glyphicon-plus'></span> dell'Ambito Applicativo per il quale si vuole aprire una nuova segnalazione
+    ">
+        <span class="small glyphicon glyphicon-question-sign"></span>
+    </span>
+<!--     <abbr class="pull-right" title="Premere il bottone [Aggiungi] dell'ambito applicativo -->
+<!-- al quale si vuole aprire una nuova segnalazione"> -->
+<!--         <span class="small glyphicon glyphicon-question-sign alert-warning blink"></span> -->
+<!--     </abbr> -->
 </div>
 <ol class="well sortable simple_with_no_drop bugsBox">
-    <li class="highlight">
-    First
-    <ol></ol>
+    <li class="bg-r">
+        <p>Presidio MQ</p>
+        <ol><li>
+            <span class="glyphicon glyphicon-warning-sign alert-danger"></span>
+            <a href="#bozze"><span class="badge">1</span></a>
+            <a href="#inLavorazione"><span class="badge alert-warning">1</span></a>
+            <a href="#chiuse"><span class="badge alert-success">1</span></a>
+            <div class="pull-right">
+                <button class="btn btn-xs btn-primary" disabled="disabled"><span class="glyphicon glyphicon-plus"></span></button>
+            </siv>
+        </li></ol>
     </li>
-    <li>
-    Second
-    <ol></ol>
+    <li class="bg-dark-r">
+        <p>EasyPOP</p>
+        <ol><li>
+            <a href="#bozze"><span class="badge">1</span></a>
+            <div class="pull-right">
+                <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+        </li></ol>
     </li>
-    <li>
-    Third
-        <ol>
-          <li class="">First</li><li>Second</li>
-          <li>
-            Third
-            <ol>
-              
-              <li class="">First</li><li>Second</li>
-            </ol>
-            <ol>
-              <li>First</li>
-              <li>Second</li>
-            </ol>
-          </li>
-        </ol>
+    <li class="bg-dark-rb">
+        <p>Supporto Sistemi</p>
+        <ol><li>
+            <div class="pull-right">
+                <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+        </li></ol>
     </li>
-    <li>Fourth</li>
-    <li>Fifth</li>
-    <li>Sixth</li>
+    <li class="bg-rb">
+        <p>Cassa Centrale</p>
+        <ol><li>
+            <a href="#inLavorazione"><span class="badge alert-warning">1</span></a>
+            <a href="#chiuse"><span class="badge alert-success">1</span></a>
+            <div class="pull-right">
+                <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+        </li></ol>
+    </li>
+    <li class="bg-gb">
+        <p>ContPV</p>
+        <ol><li>
+            <div class="pull-right">
+                <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+        </li></ol>
+    </li>
+    <li class="bg-b">
+        <p>Gratta & Vinci</p>
+        <ol><li>
+            <div class="pull-right">
+                <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+        </li></ol>
+    </li>
 </ol>
 </div>
 
-<div class="col-md-3">
-<div class="well titleBox">
-    <span class="pull-left">Segnalazioni in Bozza</span>
-    <abbr class="pull-right" title="Premere il bottone [Aggiungi] dell'ambito applicativo
-al quale si vuole aprire una nuova segnalazione">
+<div id="bozze" class="col-md-3 colBox">
+<div class="well titleBox ">
+    <span class="">Bozze</span>
+    <span class="pull-right" data-toggle="tooltip" data-placement="bottom"
+        title_0 = "Le Segnalazioni in Bozze sono visibili e modificabili <span class='glyphicon glyphicon-edit'></span> solo da te finche non vengono pubblicate <span class='glyphicon glyphicon-send'></span><br /><small>1/3<small>"
+        title_1 = "Il colore della Segnalazione è determinato dal loro Ambito Applicativo<br /><small>2/3<small>"
+        title_2 = "Non si possono avere più di <b>5</b> segnalazioni in Bozze.<br />Per liberare spazio è possibile cancellarle <span class='glyphicon glyphicon-trash'></span> o pubblicarle <span class='glyphicon glyphicon-send'></span><br /><small>3/3<small>"
+    ">
+        <span class="small glyphicon glyphicon-question-sign alert-warning"></span>
+    </span>
+</div>
+<ol class="sortable well simple_with_drop bugsBox halfBox">
+    <li class="bg-r">
+    Mancano fatture di ieri
+        <ol><li>
+            <div class="pull-right">
+                <button title="pubblica" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-send"></span></button>
+                <button title="modifica" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-edit"></span></button>
+                <button title="<center><p>Sei sicuro/a?</p></center>Non sarà possibile ripristinare dopo la cancellazione!" class="btn btn-xs btn-danger" data-toggle="confirmation" data-placement="bottom" data-href="#" >
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </div>
+        </li></ol>
+    </li>
+    <li class="bg-dark-r">
+    Prezzi non allienati
+        <ol><li>
+            <div class="pull-right">
+                <button title="pubblica" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-send"></span></button>
+                <button title="modifica" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-edit"></span></button>
+                <button title="<center><p>Sei sicuro/a?</p></center>Non sarà possibile ripristinare dopo la cancellazione!" class="btn btn-xs btn-danger" data-toggle="confirmation" data-placement="bottom" data-href="#" >
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </div>
+        </li></ol>
+    </li>
+</ol>
+
+<div id="inLavorazione" class="well titleBox ">
+    <span class="">In Lavorazione</span>
+    <abbr class="pull-right" title="Le Segnalazioni in Lavorazione contengono lo stato di avantamento della segnalazione">
         <span class="small glyphicon glyphicon-question-sign"></span>
     </abbr>
 </div>
-<ol class="sortable well simple_with_drop bugsBox">
-    <li>
-    First
-    <ol></ol>
+<ol class="well sortable simple_with_no_drag bugsBox halfBox">
+    <li class="bg-r strong">
+    Ordini magazzino lenti
+        <ol><li>
+            <span class="badge alert-info">5 <span class="glyphicon glyphicon-comment"></span></span>
+            <span class="badge alert-info">2 <span class="glyphicon glyphicon-paperclip"></span></span>
+            <div class="pull-right">
+                <button class="pull-right btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span></button>
+            </div>
+        </li></ol>
     </li>
-    <li>
-    Second
-    <ol></ol>
+    <li class="bg-rb">
+    Iva assolta alla fonte
+        <ol><li>
+            <span class="badge alert-info">2 <span class="glyphicon glyphicon-comment"></span></span>
+            <div class="pull-right">
+                <button class="pull-right btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span></button>
+            </div>
+        </li></ol>
     </li>
-    <li>
-    Third
-        <ol>
-          
-          <li class="">First</li><li>Second</li>
-          <li>
-            Third
-            <ol>
-              
-              <li class="">First</li><li>Second</li>
-            </ol>
-            <ol>
-              <li>First</li>
-              <li>Second</li>
-            </ol>
-          </li>
-        </ol>
-    </li>
-    <li>Fourth</li>
-    <li>Fifth</li>
-    <li>Sixth</li>
 </ol>
+
 </div>
 
-<div class="col-md-3">
-<div class="well titleBox sidebar-offcanvas">
-    <span class="pull-left">Segnalazioni Pubbliche</span>
-    <abbr class="pull-right" title="Premere il bottone [Aggiungi] dell'ambito applicativo
-al quale si vuole aprire una nuova segnalazione">
+<div id="chiuse" class="col-md-3 colBox">
+<div class="well titleBox ">
+    <span class="">Chiuse</span>
+    <abbr class="pull-right" title="Le Segnalazioni Chiuse disponibili sono relative a tutte quelle dell'anno in corso">
         <span class="small glyphicon glyphicon-question-sign"></span>
     </abbr>
 </div>
 <ol class="well sortable simple_with_no_drag bugsBox">
-    <li>
-    First
-    <ol></ol>
+    <form class="form-inline filter" role="form">
+        <div class="input-group">
+            <input type="text" class="form-control" id="filterSearch" placeholder="Filtro di ricerca...">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+        </div>
+        <center class="small">2 segnalazioni trovate</center>
+    </form>
+    <li class="bg-r">
+        Messaggio di errore
+        <ol><li>
+            <span class="badge alert-success"><span class="glyphicon glyphicon-ok"></span></span>
+            <span class="badge alert-info">3 <span class="glyphicon glyphicon-comment"></span></span>
+            <div class="pull-right">
+                <button class="pull-right btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span></button>
+            </div>
+        </li></ol>
     </li>
-    <li>
-    Second
-    <ol></ol>
+    <li class="bg-rb">
+        Batch troppo lento
+        <ol><li>
+            <span class="badge alert-success"><span class="glyphicon glyphicon-ok"></span></span>
+            <span class="badge alert-info">5 <span class="glyphicon glyphicon-comment"></span></span>
+            <div class="pull-right">
+                <button class="pull-right btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span></button>
+            </div>
+        </li></ol>
     </li>
-    <li>
-    Third
-        <ol>
-          
-          <li class="">First</li><li>Second</li>
-          <li>
-            Third
-            <ol>
-              
-              <li class="">First</li><li>Second</li>
-            </ol>
-            <ol>
-              <li>First</li>
-              <li>Second</li>
-            </ol>
-          </li>
-        </ol>
-    </li>
-    <li class="highlight">Fourth</li>
-    <li>Fifth</li>
-    <li>Sixth</li>
 </ol>
 </div>
 
-<div class="col-md-3">
+<div class="col-md-3 colBox">
 <div class="well titleBox">
-    <span class="pull-left">Legenda</span>
+    <span>Legenda</span>
     <abbr class="pull-right" title="Premere il bottone [Aggiungi] dell'ambito applicativo
 al quale si vuole aprire una nuova segnalazione">
         <span class="small glyphicon glyphicon-question-sign"></span>
     </abbr>
 </div>
-<ol class="well sortable bugsBox">
-    <li>
-        First
-    </li>
-</ol>
-</div> 
-</div>
 
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingZero">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseZero" aria-expanded="true" aria-controls="collapseZero">
+          Guida introduttiva
+          <span class="pull-right glyphicon glyphicon-chevron-down"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseZero" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingZero">
+      <div class="panel-body">
+        <p>
+            Bla Bla Bla.<br />
+            e ancora ... bla Bla Bla.<br />
+        </p>
+      </div>
+    </div>
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          Ambiti Applicativi
+          <span class="pull-right glyphicon glyphicon-chevron-down"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <p>
+            &nbsp;<span class="glyphicon glyphicon-warning-sign alert-danger"></span>&nbsp; Segnalazioni bloccate
+        </p>
+        <p>
+            <span class="badge">N</span> <b>N</b> Segnalazioni in Bozze
+        </p>
+        <p>
+            <span class="badge alert-warning">N</span> <b>N</b> Segnalazioni in Lavorazione
+        </p>
+        <p>
+            <span class="badge alert-success">N</span> <b>N</b> Segnalazioni Chiuse
+        </p>
+        <p>
+            <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button> Nuova segnalazione
+        </p>
+      </div>
+    </div>
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Bozze
+          <span class="pull-right glyphicon glyphicon-chevron-down"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        <p>
+            <button class="btn btn-xs btn-info"><span class="glyphicon glyphicon-edit"></span></button> Modifica segnalazione
+        </p>
+        <p>
+            <button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button> Cancella segnalazione
+        </p>
+      </div>
+    </div>
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          In Lavorazione
+          <span class="pull-right glyphicon glyphicon-chevron-down"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+        <p>
+            <span class="badge alert-info">N <span class="glyphicon glyphicon-comment"></span></span> <b>N</b> Commenti
+        </p>
+        <p>
+            <span class="badge alert-info">N <span class="glyphicon glyphicon-paperclip"></span></span> <b>N</b> Allegati
+        </p>
+        <p>
+            <button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span></button> Visualizza segnalazione
+        </p>
+     </div>
+    </div>
+    <div class="panel-heading" role="tab" id="headingFour">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          Chiuse
+          <span class="pull-right glyphicon glyphicon-chevron-down"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      <div class="panel-body">
+        <p>
+            <button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-search"></span></button> Applica il filtro di ricerca
+        </p>
+        <p>
+            <span class="badge alert-success"><span class="glyphicon glyphicon-ok"></span></span> Risolta con successo
+        </p>
+        <p>
+            <span class="badge alert-info">N <span class="glyphicon glyphicon-comment"></span></span> <b>N</b> Commenti
+        </p>
+        <p>
+            <span class="badge alert-info">N <span class="glyphicon glyphicon-paperclip"></span></span> <b>N</b> Allegati
+        </p>
+        <p>
+            <button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span></button> Visualizza segnalazione
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</div> 
+
+</div>
 </div>
 </div>

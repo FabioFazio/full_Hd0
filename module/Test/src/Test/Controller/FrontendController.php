@@ -2,17 +2,23 @@
 
 namespace Test\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use ZtZend\Mvc\Controller\ZtAbstractActionController as ZtAbstractActionController;
 
-class FrontendController extends AbstractActionController
-{
+class FrontendController extends ZtAbstractActionController {
 
     public function indexAction()
     {
-        return new ViewModel();
+        $modals = array (
+    		array (
+				'modalName' => 'modal/ticket.phtml',
+				'modalParams' => array ()
+    		),
+        );
+        
+        return $this->viewModel ( array (
+        		'modals' => $modals,
+            )
+        );
     }
-
-
 }
 

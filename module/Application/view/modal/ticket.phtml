@@ -1,0 +1,40 @@
+<!-- Pref Modal -->
+<script type="text/javascript">
+<!--
+//-->
+</script>
+<div id="ticketModal" class="modal modal-sm fade" tabindex="-2"
+	role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		    <form method="post" data-async data-target="#ticketModal [name='feedback']">
+			<div class="modal-header" style="background-color: #DDD;">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<input type="text" class="form-control" style="width: 540px;" name="title" placeholder="Titolo..." />
+			</div>
+			<div class="modal-body">
+			<span name="feedback"></span>
+			<span name="hint"></span>
+				<input name="id" type="hidden" value="" />
+
+				<textarea class="form-control" name="description"  placeholder="Descrizione..."></textarea>
+
+				</div>
+
+			<div class="modal-footer"  style="background-color: #DDD;">
+				<button type="submit" class="btn btn-primary">
+				    <span class="glyphicon glyphicon-floppy-disk"></span> Salva
+                </button>
+				<button type="submit" class="btn btn-info">
+				    <span class="glyphicon glyphicon-send"></span> Pubblica
+                </button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+				    Annulla
+                </button>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+<!-- /Pref Modal -->

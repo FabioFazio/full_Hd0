@@ -36,6 +36,14 @@ function get_browser_version() {
     return M[1];
 }
 
+function closeConf(e) {
+	$(this).closest('div.popover').siblings('[data-toggle="confirmation"]').confirmation('hide');
+}
+
+function submitConf(e) {
+	$(this).closest('div.popover').siblings('[data-toggle="confirmation"]').siblings('form').submit();
+}
+
 $(function () {
 	
 	/////////////////////////////////////////////
@@ -151,5 +159,66 @@ $(function () {
     }); // causes a 250ms blink interval.
     $('.blink_slow').blink({
         delay: 1000
-    }); // causes a 1000ms blink interval.     
+    }); // causes a 1000ms blink interval. 
+    
+	/////////////////////////////////////////////
+	///////////// __CONFIRMATION__ //////////////
+	/////////////////////////////////////////////
+    var optConfBase = {
+    		singleton: true,
+    		popout: true,
+    		//template: '',
+    		html: true,
+    		onCancel: closeConf,
+    }; 
+    
+    var optConfDelete = $.extend({
+			btnOkIcon: 'glyphicon glyphicon-trash',
+    		btnOkLabel: 'Cancella',
+    		btnOkClass: 'btn btn-xs btn-danger',
+			btnCancelIcon: '',
+			btnCancelLabel: 'Annulla',
+    		btnCancelClass: 'btn btn-xs btn-default pull-right',
+			
+    	}, optConfBase);
+    
+    var optConfForm = $.extend({onConfirm : submitConf,}, optConfBase);
+    
+    $('[data-toggle="confirmation"][data-href]').has('span.glyphicon-trash').confirmation(optConfDelete);
+
+	/////////////////////////////////////////////
+	///////////// __TOOLTIP__ ///////////////////
+	/////////////////////////////////////////////
+    
+    var optTooltBase = {
+    		aniumation:	false,
+    		delay:		{ "show": 100, "hide": 100 },
+    		html:		true,
+    };
+
+    $('[data-toggle="tooltip"][title_0]:not([title])').each(function(){
+    	var n = 0;
+    	$(this).attr('data-current', n);
+    	$(this).attr('title', $(this).attr('title_' + n));
+    });
+    
+    $('[data-toggle="tooltip"][data-current]').on( 'click', function(){
+    	var n = parseInt($(this).attr('data-current'),10) + 1;
+    	var attr = $(this).attr('title_'+ n);
+    	if (typeof attr === typeof undefined || attr === false) {
+    	    n = 0;
+    	}
+    	$(this).attr('data-current', n);
+    	$(this).attr('title', $(this).attr('title_' + n));
+    	
+    	$(this).tooltip('destroy');
+    	$(this).tooltip(optTooltBase);
+    	$(this).tooltip('show');
+    	$(this).on('hidden.bs.tooltip', function () {
+    		$('.tooltip').remove();
+    	})
+    });
+    
+    $('[data-toggle="tooltip"][title]').tooltip(optTooltBase);
+    
 });
