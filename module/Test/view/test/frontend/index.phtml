@@ -101,13 +101,13 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
         title_1 = "Il colore della Segnalazione è determinato dal loro Ambito Applicativo<br /><small>2/3<small>"
         title_2 = "Non si possono avere più di <b>5</b> segnalazioni in Bozze.<br />Per liberare spazio è possibile cancellarle <span class='glyphicon glyphicon-trash'></span> o pubblicarle <span class='glyphicon glyphicon-send'></span><br /><small>3/3<small>"
     ">
-        <span class="small glyphicon glyphicon-question-sign alert-warning"></span>
+        <span class="small glyphicon glyphicon-question-sign"></span>
     </span>
 </div>
 <ol class="sortable well simple_with_drop bugsBox halfBox">
     <li class="bg-rgb">
     Mancano fatture di ieri
-    <span class="fg-r glyphicon glyphicon-tag pull-right"></span>
+    <span class="badge bg-r pull-right"><span class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
             <div class="pull-right">
                 <button title="pubblica" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-send"></span></button>
@@ -120,7 +120,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
     </li>
     <li class="bg-rgb">
     Prezzi non allienati
-    <span class="fg-dark-r glyphicon glyphicon-tag pull-right"></span>
+    <span class="badge bg-dark-r pull-right"><span class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
             <div class="pull-right">
                 <button title="pubblica" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-send"></span></button>
@@ -142,7 +142,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
 <ol class="well sortable simple_with_no_drag bugsBox halfBox">
     <li class="bg-rgb strong">
     Ordini magazzino lenti
-    <span class="fg-r glyphicon glyphicon-tag pull-right"></span>
+    <span class="badge bg-r pull-right"><span class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
             <span class="badge alert-info">5 <span class="glyphicon glyphicon-comment"></span></span>
             <span class="badge alert-info">2 <span class="glyphicon glyphicon-paperclip"></span></span>
@@ -153,7 +153,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
     </li>
     <li class="bg-rgb">
     Iva assolta alla fonte
-    <span class="fg-dark-b glyphicon glyphicon-tag pull-right"></span>
+    <span class="badge bg-dark-b pull-right"><span class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
             <span class="badge alert-info">2 <span class="glyphicon glyphicon-comment"></span></span>
             <div class="pull-right">
@@ -182,7 +182,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
     </form>
     <li class="bg-rgb">
         Messaggio di errore
-        <span class="fg-r glyphicon glyphicon-tag pull-right"></span>
+        <span class="badge bg-r pull-right"><span class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
             <span class="badge alert-success"><span class="glyphicon glyphicon-ok"></span></span>
             <span class="badge alert-info">3 <span class="glyphicon glyphicon-comment"></span></span>
@@ -193,7 +193,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
     </li>
     <li class="bg-rgb">
         Batch troppo lento
-        <span class="fg-dark-b glyphicon glyphicon-tag pull-right"></span>
+        <span class="badge bg-dark-b pull-right"><span class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
             <span class="badge alert-success"><span class="glyphicon glyphicon-ok"></span></span>
             <span class="badge alert-info">5 <span class="glyphicon glyphicon-comment"></span></span>
@@ -205,7 +205,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
 </ol>
 </div>
 
-<div class="col-md-3 colBox">
+<div id="legenda" class="col-md-3 colBox">
 <div class="well titleBox bg-rgb">
     <span>Legenda</span>
     <abbr class="pull-right" title="Premere il bottone [Aggiungi] dell'ambito applicativo
@@ -227,8 +227,9 @@ al quale si vuole aprire una nuova segnalazione">
     <div id="collapseZero" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingZero">
       <div class="panel-body">
         <ul>
-            <li>Ogni sezione </li>
-            <li>e ancora ... bla Bla Bla.</li>
+            <li>Ogni sezione prevede una guida <span class="small glyphicon glyphicon-question-sign"></span> che aiuta a capirne il significato</li>
+            <li>Posizionando il mouse sopra a <span class="small glyphicon glyphicon-question-sign"></span> è possibile leggerne il contenuto</li>
+            <li>Quando la guida è <span class="small glyphicon glyphicon-question-sign alert-warning"></span>, è possibile clickare e leggere più suggerimenti</li>
         </ul>
       </div>
     </div>
@@ -243,7 +244,7 @@ al quale si vuole aprire una nuova segnalazione">
     <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
         <p>
-            &nbsp;<span class="glyphicon glyphicon-warning-sign alert-danger"></span>&nbsp; Segnalazioni bloccate
+            &nbsp;<span class="glyphicon glyphicon-warning-sign alert-danger"></span>&nbsp; Nuove segnalazioni bloccate
         </p>
         <p>
             <span class="badge">N</span> <b>N</b> Segnalazioni in Bozze
@@ -270,10 +271,16 @@ al quale si vuole aprire una nuova segnalazione">
     <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
       <div class="panel-body">
         <p>
-            <button class="btn btn-xs btn-info"><span class="glyphicon glyphicon-edit"></span></button> Modifica segnalazione
+            <span class="badge"><span class="glyphicon glyphicon-tag"></span></span> Colore di Ambito Applicativo
         </p>
         <p>
-            <button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button> Cancella segnalazione
+            <button class="btn btn-xs btn-info"><span class="glyphicon glyphicon-send"></span></button> Pubblica la segnalazione
+        </p>
+        <p>
+            <button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-edit"></span></button> Modifica la segnalazione
+        </p>
+        <p>
+            <button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button> Cancella la segnalazione
         </p>
       </div>
     </div>
@@ -288,13 +295,16 @@ al quale si vuole aprire una nuova segnalazione">
     <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
       <div class="panel-body">
         <p>
+            <span class="badge"><span class="glyphicon glyphicon-tag"></span></span> Colore di Ambito Applicativo
+        </p>
+        <p>
             <span class="badge alert-info">N <span class="glyphicon glyphicon-comment"></span></span> <b>N</b> Commenti
         </p>
         <p>
             <span class="badge alert-info">N <span class="glyphicon glyphicon-paperclip"></span></span> <b>N</b> Allegati
         </p>
         <p>
-            <button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span></button> Visualizza segnalazione
+            <button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span></button> Visualizza la segnalazione
         </p>
      </div>
     </div>
@@ -308,6 +318,9 @@ al quale si vuole aprire una nuova segnalazione">
     </div>
     <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
       <div class="panel-body">
+        <p>
+            <span class="badge"><span class="glyphicon glyphicon-tag"></span></span> Colore di Ambito Applicativo
+        </p>
         <p>
             <button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-search"></span></button> Applica il filtro di ricerca
         </p>

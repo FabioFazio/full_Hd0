@@ -200,6 +200,7 @@ $(function () {
     	var n = 0;
     	$(this).attr('data-current', n);
     	$(this).attr('title', $(this).attr('title_' + n));
+    	$('span.glyphicon-question-sign', this).addClass('alert-warning');
     });
     
     $('[data-toggle="tooltip"][data-current]').on( 'click', function(){
@@ -216,7 +217,7 @@ $(function () {
     	$(this).tooltip('show');
     	$(this).on('hidden.bs.tooltip', function () {
     		$('.tooltip').remove();
-    	})
+    	});
     });
     
     $('[data-toggle="tooltip"][title]').tooltip(optTooltBase);
