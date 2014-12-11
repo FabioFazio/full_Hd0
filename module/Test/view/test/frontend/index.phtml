@@ -40,21 +40,25 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
     <li class="bg-r">
         <p>Presidio MQ</p>
         <ol><li>
-            <span class="glyphicon glyphicon-warning-sign alert-danger"></span>
-            <a href="#bozze"><span class="badge">1</span></a>
-            <a href="#inLavorazione"><span class="badge alert-warning">1</span></a>
-            <a href="#chiuse"><span class="badge alert-success">1</span></a>
+            <span title="nuove segnalazioni bloccate" class="glyphicon glyphicon-warning-sign alert-danger"></span>
+            <a href="#bozze"><span  title="segnalazioni in bozze" class="badge">1</span></a>
+            <a href="#inLavorazione"><span  title="segnalazioni in lavorazione" class="badge alert-warning">1</span></a>
+            <a href="#chiuse"><span  title="segnalazioni chiuse" class="badge alert-success">1</span></a>
             <div class="pull-right">
-                <button class="btn btn-xs btn-primary" disabled="disabled"><span class="glyphicon glyphicon-plus"></span></button>
+                <button disabled="disabled" data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary">
+                    <span title="apri una nuova segnalazione" class="glyphicon glyphicon-plus"></span>
+                </button>
             </siv>
         </li></ol>
     </li>
     <li class="bg-dark-r">
         <p>EasyPOP</p>
         <ol><li>
-            <a href="#bozze"><span class="badge">1</span></a>
+            <a href="#bozze"><span title="segnalazioni in bozze" class="badge">1</span></a>
             <div class="pull-right">
-                <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary">
+                    <span title="apri una nuova segnalazione" class="glyphicon glyphicon-plus"></span>
+                </button>
             </div>
         </li></ol>
     </li>
@@ -62,17 +66,21 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
         <p>Supporto Sistemi</p>
         <ol><li>
             <div class="pull-right">
-                <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary">
+                    <span title="apri una nuova segnalazione" class="glyphicon glyphicon-plus"></span>
+                </button>
             </div>
         </li></ol>
     </li>
     <li class="bg-dark-b">
         <p>Cassa Centrale</p>
         <ol><li>
-            <a href="#inLavorazione"><span class="badge alert-warning">1</span></a>
-            <a href="#chiuse"><span class="badge alert-success">1</span></a>
+            <a href="#inLavorazione"><span title="segnalazioni in lavorazione" class="badge alert-warning">1</span></a>
+            <a href="#chiuse"><span title="segnalazioni chiuse" class="badge alert-success">1</span></a>
             <div class="pull-right">
-                <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary">
+                    <span title="apri una nuova segnalazione" class="glyphicon glyphicon-plus"></span>
+                </button>
             </div>
         </li></ol>
     </li>
@@ -80,7 +88,9 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
         <p>ContPV</p>
         <ol><li>
             <div class="pull-right">
-                <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary">
+                    <span title="apri una nuova segnalazione" class="glyphicon glyphicon-plus"></span>
+                </button>
             </div>
         </li></ol>
     </li>
@@ -88,7 +98,9 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
         <p>Gratta & Vinci</p>
         <ol><li>
             <div class="pull-right">
-                <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary">
+                    <span title="apri una nuova segnalazione" class="glyphicon glyphicon-plus"></span>
+                </button>
             </div>
         </li></ol>
     </li>
@@ -110,7 +122,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
 <ol class="sortable well simple_with_drop bugsBox halfBox">
     <li class="bg-rgb">
     Mancano fatture di ieri
-    <span class="badge bg-r pull-right"><span class="glyphicon glyphicon-tag"></span></span>
+    <span class="badge bg-r pull-right"><span title="Presidio MQ" class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
             <div class="pull-right">
                 <button title="pubblica" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-send"></span></button>
@@ -123,7 +135,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
     </li>
     <li class="bg-rgb">
     Prezzi non allienati
-    <span class="badge bg-dark-r pull-right"><span class="glyphicon glyphicon-tag"></span></span>
+    <span class="badge bg-dark-r pull-right"><span title="EasyPOP" class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
             <div class="pull-right">
                 <button title="pubblica" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-send"></span></button>
@@ -149,22 +161,22 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
 <ol class="well sortable simple_with_no_drag bugsBox halfBox">
     <li class="bg-rgb strong">
     Ordini magazzino lenti
-    <span class="badge bg-r pull-right"><span class="glyphicon glyphicon-tag"></span></span>
+    <span class="badge bg-r pull-right"><span title="Presidio MQ" class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
-            <span class="badge alert-info">5 <span class="glyphicon glyphicon-comment"></span></span>
-            <span class="badge alert-info">2 <span class="glyphicon glyphicon-paperclip"></span></span>
+            <span class="badge alert-info">5 <span title="commenti" class="glyphicon glyphicon-comment"></span></span>
+            <span class="badge alert-info">2 <span title="allegati" class="glyphicon glyphicon-paperclip"></span></span>
             <div class="pull-right">
-                <button class="pull-right btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span></button>
+                <button class="pull-right btn btn-xs btn-default"><span title="apri" class="glyphicon glyphicon-zoom-in"></span></button>
             </div>
         </li></ol>
     </li>
     <li class="bg-rgb">
     Iva assolta alla fonte
-    <span class="badge bg-dark-b pull-right"><span class="glyphicon glyphicon-tag"></span></span>
+    <span class="badge bg-dark-b pull-right"><span title="Cassa Centrale" class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
-            <span class="badge alert-info">2 <span class="glyphicon glyphicon-comment"></span></span>
+            <span class="badge alert-info">2 <span title="commenti" class="glyphicon glyphicon-comment"></span></span>
             <div class="pull-right">
-                <button class="pull-right btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span></button>
+                <button class="pull-right btn btn-xs btn-default"><span title="apri" class="glyphicon glyphicon-zoom-in"></span></button>
             </div>
         </li></ol>
     </li>
@@ -194,23 +206,23 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
     </form>
     <li class="bg-rgb">
         Messaggio di errore
-        <span class="badge bg-r pull-right"><span class="glyphicon glyphicon-tag"></span></span>
+        <span class="badge bg-r pull-right"><span title="Presidio MQ" class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
-            <span class="badge alert-success"><span class="glyphicon glyphicon-ok"></span></span>
-            <span class="badge alert-info">3 <span class="glyphicon glyphicon-comment"></span></span>
+            <span class="badge alert-success"><span title="risolta con successo" class="glyphicon glyphicon-ok"></span></span>
+            <span class="badge alert-info">3 <span title="commenti" class="glyphicon glyphicon-comment"></span></span>
             <div class="pull-right">
-                <button class="pull-right btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span></button>
+                <button class="pull-right btn btn-xs btn-default"><span title="apri" class="glyphicon glyphicon-zoom-in"></span></button>
             </div>
         </li></ol>
     </li>
     <li class="bg-rgb">
         Batch troppo lento
-        <span class="badge bg-dark-b pull-right"><span class="glyphicon glyphicon-tag"></span></span>
+        <span class="badge bg-dark-b pull-right"><span title="Cassa Centrale" class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
-            <span class="badge alert-success"><span class="glyphicon glyphicon-ok"></span></span>
-            <span class="badge alert-info">5 <span class="glyphicon glyphicon-comment"></span></span>
+            <span class="badge alert-success"><span title="risolta con successo" class="glyphicon glyphicon-ok"></span></span>
+            <span class="badge alert-info">5 <span title="commenti" class="glyphicon glyphicon-comment"></span></span>
             <div class="pull-right">
-                <button class="pull-right btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span></button>
+                <button class="pull-right btn btn-xs btn-default"><span title="apri" class="glyphicon glyphicon-zoom-in"></span></button>
             </div>
         </li></ol>
     </li>
