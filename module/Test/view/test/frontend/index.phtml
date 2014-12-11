@@ -23,10 +23,12 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
 <div id="ambitiApplicativi" class="col-md-3 colBox">
 <div class="well titleBox bg-rgb">
     <span>Ambiti Applicativi</span>
-    <span class="pull-right" data-toggle="tooltip" data-placement="right"
-        title="<p class='strong'>Creazione di Segnalazioni</p>
-            Premere <span class='glyphicon glyphicon-plus'></span> dell'Ambito Applicativo per il quale si vuole aprire una nuova segnalazione
-    ">
+    <span class="pull-right" data-toggle="tooltip" data-placement="left"
+        title_0="<b>Ambiti Applicativi</b><br />rappresentano le categorie a cui le segnalazioni appartengono"
+        title_1="Per ogni Ambito Applicativo è possibile creare <button class='btn btn-xxs btn-primary'><span class='glyphicon glyphicon-plus'></span></button> e monitorare 
+            le proprie segnalazioni in <span class='badge'>Bozze</span>, <span class='badge alert-warning'>In Lavorazione</span>
+            e <span class='badge alert-success'>Chiuse</span>"
+        >
         <span class="small glyphicon glyphicon-question-sign"></span>
     </span>
 <!--     <abbr class="pull-right" title="Premere il bottone [Aggiungi] dell'ambito applicativo -->
@@ -96,11 +98,12 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
 <div id="bozze" class="col-md-3 colBox">
 <div class="well titleBox">
     <span class="">Bozze</span>
-    <span class="pull-right" data-toggle="tooltip" data-placement="bottom"
-        title_0 = "Le Segnalazioni in Bozze sono visibili e modificabili <span class='glyphicon glyphicon-edit'></span> solo da te finche non vengono pubblicate <span class='glyphicon glyphicon-send'></span><br /><small>1/3<small>"
-        title_1 = "Il colore della Segnalazione è determinato dal loro Ambito Applicativo<br /><small>2/3<small>"
-        title_2 = "Non si possono avere più di <b>5</b> segnalazioni in Bozze.<br />Per liberare spazio è possibile cancellarle <span class='glyphicon glyphicon-trash'></span> o pubblicarle <span class='glyphicon glyphicon-send'></span><br /><small>3/3<small>"
-    ">
+    <span class="pull-right" data-toggle="tooltip" data-placement="left"
+        title_0 = "<b>Bozze</b><br />contengono segnalazioni appena create <button class='btn btn-xxs btn-primary'><span class='glyphicon glyphicon-plus'></span></button> da <b>Ambiti Applicativi</b>"
+        title_1 = "Le Segnalazioni in <b>Bozze</b> sono visibili e modificabili <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-edit'></span></button> solo da te finche non vengono pubblicate <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button>"
+        title_2 = "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina l'Ambito Applicativo di appartenenza"
+        title_3 = "E' possibile avere massimo <b>5 Bozze</b>.<br />Per liberare spazio è possibile cancellarle <button class='btn btn-xxs btn-danger'><span class='glyphicon glyphicon-trash'></span></button> o pubblicarle <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button>"
+    >
         <span class="small glyphicon glyphicon-question-sign"></span>
     </span>
 </div>
@@ -135,9 +138,13 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
 
 <div id="inLavorazione" class="well titleBox bg-rg">
     <span class="">In Lavorazione</span>
-    <abbr class="pull-right" title="Le Segnalazioni in Lavorazione contengono lo stato di avantamento della segnalazione">
+    <span class="pull-right" data-toggle="tooltip" data-placement="left"
+        title_0 = "<b>In Lavorazione</b><br />contengono le segnalazioni pubblicate <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button> da <b>Bozze</b> per tutte le fasi di avanzamenti"
+        title_1 = "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina l'Ambito Applicativo di appartenenza"
+        title_2 = "Una segnalazione in <b>grassetto</b> contiene aggionamenti.<br /> E' possibile aprirla <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> per nuovi commenti <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span> e/o allegati <span class='badge alert-info'><span class='glyphicon glyphicon-paperclip'></span></span>"
+    >
         <span class="small glyphicon glyphicon-question-sign"></span>
-    </abbr>
+    </span>
 </div>
 <ol class="well sortable simple_with_no_drag bugsBox halfBox">
     <li class="bg-rgb strong">
@@ -168,9 +175,14 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
 <div id="chiuse" class="col-md-3 colBox">
 <div class="well titleBox bg-g">
     <span class="">Chiuse</span>
-    <abbr class="pull-right" title="Le Segnalazioni Chiuse disponibili sono relative a tutte quelle dell'anno in corso">
+    <span class="pull-right" data-toggle="tooltip" data-placement="left"
+        title_0 = "<b>Chiuse</b><br />contiene segnalazioni in fine avanzamento e risolte <span class='badge alert-success'><span class='glyphicon glyphicon-ok'></span></span> dagli operatori di supporto"
+        title_1 = "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina l'Ambito Applicativo di appartenenza"
+        title_2 = "Aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> la segnalazione per vedere tutti i commenti <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span> e/o allegati <span class='badge alert-info'><span class='glyphicon glyphicon-paperclip'></span></span>"
+        title_3 = "E' possibile cercare <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-search'></span></button> filtrando tra tutte la segnalazione chiuse"
+    >
         <span class="small glyphicon glyphicon-question-sign"></span>
-    </abbr>
+    </span>
 </div>
 <ol class="well sortable simple_with_no_drag bugsBox">
     <form class="form-inline filter" role="form">
@@ -208,10 +220,11 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
 <div id="legenda" class="col-md-3 colBox">
 <div class="well titleBox bg-rgb">
     <span>Legenda</span>
-    <abbr class="pull-right" title="Premere il bottone [Aggiungi] dell'ambito applicativo
-al quale si vuole aprire una nuova segnalazione">
+    <span class="pull-right" data-toggle="tooltip" data-placement="left"
+        title = "<b>Legenda</b><br />contiene suggerimenti e la spegiazione per ogni bottone o icona. Selezione la Sezione <span class='glyphicon glyphicon-chevron-down'></span> di interesse per aprirne il contenuto"
+    >
         <span class="small glyphicon glyphicon-question-sign"></span>
-    </abbr>
+    </span>
 </div>
 
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -230,6 +243,7 @@ al quale si vuole aprire una nuova segnalazione">
             <li>Ogni sezione prevede una guida <span class="small glyphicon glyphicon-question-sign"></span> che aiuta a capirne il significato</li>
             <li>Posizionando il mouse sopra a <span class="small glyphicon glyphicon-question-sign"></span> è possibile leggerne il contenuto</li>
             <li>Quando la guida è <span class="small glyphicon glyphicon-question-sign alert-warning"></span>, è possibile clickare e leggere più suggerimenti</li>
+            <li>Altri suggerimenti nella legenda sono visualizzabili cliccando sul tuttolo a cui appartengono la guida è <span class="small glyphicon glyphicon-question-sign alert-warning"></span>, è possibile clickare e leggere più suggerimenti</li>
         </ul>
       </div>
     </div>

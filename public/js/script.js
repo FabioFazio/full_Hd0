@@ -197,20 +197,27 @@ $(function () {
     };
 
     $('[data-toggle="tooltip"][title_0]:not([title])').each(function(){
-    	var n = 0;
+    	var t = 0, n = 0;
     	$(this).attr('data-current', n);
-    	$(this).attr('title', $(this).attr('title_' + n));
+    	
+    	var attr = $(this).attr('title_'+ t);
+    	while ((typeof attr !== typeof undefined) && (attr !== false))
+    		attr = $(this).attr('title_'+ ++t);
+    	
+    	$(this).attr('data-total', t);
+    	
+    	var paging = "<br /><small>1/"+ t +"<small>";
+    	$(this).attr('title', $(this).attr('title_' + n)  + paging );
     	$('span.glyphicon-question-sign', this).addClass('alert-warning');
     });
     
     $('[data-toggle="tooltip"][data-current]').on( 'click', function(){
     	var n = parseInt($(this).attr('data-current'),10) + 1;
-    	var attr = $(this).attr('title_'+ n);
-    	if (typeof attr === typeof undefined || attr === false) {
-    	    n = 0;
-    	}
+    	var t = parseInt($(this).attr('data-total'),10);
+    	n = (n >= t)? 0 : n;
     	$(this).attr('data-current', n);
-    	$(this).attr('title', $(this).attr('title_' + n));
+    	var paging = "<br /><small>" + (n+1) + "/"+ t +"<small>";
+    	$(this).attr('title', $(this).attr('title_' + n) + paging);
     	
     	$(this).tooltip('destroy');
     	$(this).tooltip(optTooltBase);
