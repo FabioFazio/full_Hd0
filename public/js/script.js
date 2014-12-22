@@ -228,5 +228,39 @@ $(function () {
     });
     
     $('[data-toggle="tooltip"][title]').tooltip(optTooltBase);
+   
+	/////////////////////////////////////////////
+	///////////// __WIZARD__ ////////////////////
+	/////////////////////////////////////////////    
     
+    $('#rootwizard').bootstrapWizard(
+    		{
+    			onTabShow: function(tab, navigation, index) {
+    					// Stato di avanzamento
+						var $total = navigation.find('li').length;
+						var $current = index+1;
+						var $percent = ($current/$total) * 100;
+						$('#rootwizard').find('.bar').css({width:$percent+'%'});
+						if ($percent == 100)
+							$('#rootwizard').find('.bar').addClass('progress-bar-success');
+						else
+							$('#rootwizard').find('.bar').removeClass('progress-bar-success');
+						if ($current == 1)
+							$('#rootwizard').find('.bar').addClass('progress-bar-warning');
+						else
+							$('#rootwizard').find('.bar').removeClass('progress-bar-warning');
+						// Per l'ultimo tab attivare il bottone di chiusura
+						if($current >= $total) {
+							$('#rootwizard').find('.pager .next').hide();
+							$('#rootwizard').find('.pager .finish').show();
+							$('#rootwizard').find('.pager .finish').removeClass('disabled');
+						} else {
+							$('#rootwizard').find('.pager .next').show();
+							$('#rootwizard').find('.pager .finish').hide();
+						}
+					},
+				onTabClick: function(tab, navigation, index) {
+						return false;
+					}
+    		});
 });

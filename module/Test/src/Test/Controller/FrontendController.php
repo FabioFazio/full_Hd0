@@ -10,7 +10,7 @@ class FrontendController extends ZtAbstractActionController {
     {
         $modals = array (
     		array (
-				'modalName' => 'modal/ticket.phtml',
+				'modalName' => 'modal/demo-ticket.phtml',
 				'modalParams' => array ()
     		),
         );
@@ -19,6 +19,21 @@ class FrontendController extends ZtAbstractActionController {
         		'modals' => $modals,
             )
         );
+    }
+    
+    public function index2Action()
+    {
+    	$modals = array (
+    			array (
+    					'modalName' => 'modal/demo2-ticket.phtml',
+    					'modalParams' => array ()
+    			),
+    	);
+    
+    	return $this->viewModel ( array (
+    			'modals' => $modals,
+    	)
+    	);
     }
 }
 

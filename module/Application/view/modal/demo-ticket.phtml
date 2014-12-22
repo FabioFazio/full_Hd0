@@ -1,0 +1,164 @@
+<!-- Pref Modal -->
+<script type="text/javascript">
+<!--
+$(function () {
+	
+$("#ticketModal").on ("change", "#tagCloud :checkbox", function(e) {
+	var buttons = $(this).siblings("[data-toggle='buttons']").eq(0);
+	$('label < :checked', buttons).eq(0).button('toggle').find(':checkbox').prop('checked');
+});
+
+$("#priority .btn").on('click', function (e) {
+	if ($(":checkbox", this).is(":checked"))
+	{
+		$(this).removeClass("btn-danger");
+		$(this).addClass("btn-default");
+		$(".glyphicon", this).addClass("alert-danger");
+	}else{
+		$(this).removeClass("btn-default");
+		$(this).addClass("btn-danger");
+		$(".glyphicon", this).removeClass("alert-danger"); 
+	}
+});
+
+$("#tagCloud [data-toggle='buttons']").change(function (e) {
+
+	var tag = $("#tagCloud :checkbox").map(function () {
+        return +$(this).is(':checked');
+    }).get(); 
+    console.log(tag);
+});
+
+});
+//-->
+</script>
+<div id="ticketModal" class="modal modal-sm fade" tabindex="-2" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		    <form method="post" data-async data-target="#ticketModal [name='feedback']">
+		    
+		    <div class="zero-clipboard"><span class="bg-dark-r btn-clipboard">EasyPOP <span title="EasyPOP" class="glyphicon glyphicon-tag"></span></span></span></div>
+		    
+			<div class="modal-header b-grey">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<div class="row">
+    				<div class="col-md-9">	
+    				    <input type="text" class="form-control" name="title" placeholder="Titolo..." />
+    				</div>
+				</div>
+			</div>
+			<div class="modal-body">
+    			<div class="row">
+        			<span name="feedback"></span>
+        			<span name="hint"></span>
+    
+    				<input name="id" type="hidden" value="" />
+    				
+    				<div class="col-md-9">
+        				    
+        				        <textarea class="col-md-12 form-control" name="description"  placeholder="Descrizione..."></textarea>
+        				    
+<!--         				    <div class="col-md-12 form-control middle-box" data-toggle="buttons"> -->
+<!--         				        <label>Priorità:</label> -->
+<!--         				        <label title="Non posso lavorare!" class="btn btn-xs btn-danger pull-right"><input type="checkbox" />Urgente <span class="glyphicon glyphicon-exclamation-sign"></span></input></label> -->
+<!--         				    </div> -->
+        				    <div id="attachmentsList" class="col-md-12 form-control">
+        				        <div>
+            				        <ul>
+            				            <li>
+            				                <span title="cancella" class="glyphicon glyphicon-remove"></span><a>screenshot.jpg</a><small class="pull-right">96 KB</small>
+            				            </li>
+            				            <li>
+            				                <span title="cancella" class="glyphicon glyphicon-remove"></span><a>screenshot(1).jpg</a><small class="pull-right">198 KB</small>
+            				            </li>
+            				        </ul>
+        				        </div>
+        				        <center><i><small><a>Aggiungi un nuovo file ...</a></small></i></center>
+        				    </div> 
+
+    				</div>
+    				<div class="col-md-3">
+    				    <div id="priority" data-toggle="buttons">
+    				        <label title="Non posso lavorare!" class="btn btn-default"><input type="checkbox" />Urgente <span class="glyphicon glyphicon-exclamation-sign alert-danger"></span></input></label>
+    				    </div>
+    				    <div id="tagCloud" class="well">
+    				        <center><label>Dettaglio Applicativo</label></center>
+    				        <div class="well well-inner">
+    				        
+    				            <div data-toggle="buttons">
+                                      <label class="btn btn-default btn-xs"><input type="checkbox" />a</button></label>
+                                      <label class="btn btn-default btn-xs"><input type="checkbox" />b</button></label>
+                                      <label class="btn btn-default btn-xs"><input type="checkbox" />Home</button></label>
+                                      <label class="btn btn-default btn-xs"><input type="checkbox" />asd a sa </button></label>
+                                </div>
+    				        </div>
+    				    </div>
+    				</div>
+    				<div class="col-md-12">
+    				    <div class="well">
+    				        <h4>Articoli:</h4>
+    				        <div class="panel-group" id="articoli" role="tablist" aria-multiselectable="true">
+                              <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="h_ticketCode_1">
+                                  <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#articoli" href="#b_ticketCode_1" aria-expanded="false" aria-controls="b_ticketCode_1">
+                                      Luca - Zenatek (gg/mm/aaaa - hh:mm)
+                                    </a>
+                                  </h4>
+                                </div>
+                                <div id="b_ticketCode_1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h_ticketCode_1">
+                                  <div class="panel-body">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="h_ticketCode_2">
+                                  <h4 class="panel-title">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#articoli" href="#b_ticketCode_2" aria-expanded="false" aria-controls="b_ticketCode_2">
+                                      Fabio - Finiper (gg/mm/aaaa - hh:mm) 
+                                    </a>
+                                  </h4>
+                                </div>
+                                <div id="b_ticketCode_2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h_ticketCode_2">
+                                  <div class="panel-body">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="h_ticketCode_3">
+                                  <h4 class="panel-title">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#articoli" href="#b_ticketCode_3" aria-expanded="false" aria-controls="b_ticketCode_3">
+                                        Luca - Zenatek (gg/mm/aaaa - hh:mm)
+                                    </a>
+                                  </h4>
+                                </div>
+                                <div id="b_ticketCode_3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h_ticketCode_3">
+                                  <div class="panel-body">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+    				    </div>
+    				</div>
+				</div>
+            </div>
+			<div class="modal-footer b-grey">
+				<button type="submit" class="btn btn-primary">
+				    <span class="glyphicon glyphicon-floppy-disk"></span> Salva
+                </button>
+				<button type="submit" class="btn btn-info">
+				    <span class="glyphicon glyphicon-send"></span> Pubblica
+                </button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+				    Annulla
+                </button>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+<!-- /Pref Modal -->

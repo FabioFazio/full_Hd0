@@ -26,7 +26,7 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
     <span class="pull-right" data-toggle="tooltip" data-placement="left"
         title_0="<b>Ambiti Applicativi</b><br />rappresentano le categorie a cui le segnalazioni appartengono"
         title_1="Per ogni Ambito Applicativo è possibile creare <button class='btn btn-xxs btn-primary'><span class='glyphicon glyphicon-plus'></span></button> e monitorare 
-            le proprie segnalazioni in <span class='badge'>Bozze</span>, <span class='badge alert-warning'>In Lavorazione</span>
+            le proprie segnalazioni in <span class='badge alert-warning'>In Lavorazione</span>
             e <span class='badge alert-success'>Chiuse</span>"
         >
         <span class="small glyphicon glyphicon-question-sign"></span>
@@ -41,7 +41,6 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
         <p>Presidio MQ</p>
         <ol><li>
             <span title="nuove segnalazioni bloccate" class="glyphicon glyphicon-warning-sign alert-danger"></span>
-            <a href="#bozze"><span  title="segnalazioni in bozze" class="badge">1</span></a>
             <a href="#inLavorazione"><span  title="segnalazioni in lavorazione" class="badge alert-warning">1</span></a>
             <a href="#chiuse"><span  title="segnalazioni chiuse" class="badge alert-success">1</span></a>
             <div class="pull-right">
@@ -108,58 +107,19 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
 </div>
 
 <div id="bozze" class="col-md-3 colBox">
-<div class="well titleBox">
-    <span class="">Bozze</span>
-    <span class="pull-right" data-toggle="tooltip" data-placement="left"
-        title_0 = "<b>Bozze</b><br />contengono segnalazioni appena create <button class='btn btn-xxs btn-primary'><span class='glyphicon glyphicon-plus'></span></button> da <b>Ambiti Applicativi</b>"
-        title_1 = "Le Segnalazioni in <b>Bozze</b> sono visibili e modificabili <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-edit'></span></button> solo da te finche non vengono pubblicate <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button>"
-        title_2 = "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina l'Ambito Applicativo di appartenenza"
-        title_3 = "E' possibile avere massimo <b>5 Bozze</b>.<br />Per liberare spazio è possibile cancellarle <button class='btn btn-xxs btn-danger'><span class='glyphicon glyphicon-trash'></span></button> o pubblicarle <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button>"
-    >
-        <span class="small glyphicon glyphicon-question-sign"></span>
-    </span>
-</div>
-<ol class="sortable well simple_with_drop bugsBox halfBox">
-    <li class="bg-rgb">
-    Mancano fatture di ieri
-    <span class="badge bg-r pull-right"><span title="Presidio MQ" class="glyphicon glyphicon-tag"></span></span>
-        <ol><li>
-            <div class="pull-right">
-                <button title="pubblica" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-send"></span></button>
-                <button title="modifica" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-edit"></span></button>
-                <button title="<center><p>Sei sicuro/a?</p></center>Non sarà possibile ripristinare dopo la cancellazione!" class="btn btn-xs btn-danger" data-toggle="confirmation" data-placement="bottom" data-href="#" >
-                    <span class="glyphicon glyphicon-trash"></span>
-                </button>
-            </div>
-        </li></ol>
-    </li>
-    <li class="bg-rgb">
-    Prezzi non allienati
-    <span class="badge bg-dark-r pull-right"><span title="EasyPOP" class="glyphicon glyphicon-tag"></span></span>
-        <ol><li>
-            <div class="pull-right">
-                <button title="pubblica" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-send"></span></button>
-                <button title="modifica" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-edit"></span></button>
-                <button title="<center><p>Sei sicuro/a?</p></center>Non sarà possibile ripristinare dopo la cancellazione!" class="btn btn-xs btn-danger" data-toggle="confirmation" data-placement="bottom" data-href="#" >
-                    <span class="glyphicon glyphicon-trash"></span>
-                </button>
-            </div>
-        </li></ol>
-    </li>
-</ol>
 
 <div id="inLavorazione" class="well titleBox bg-rg">
     <span class="">In Lavorazione</span>
     <span class="pull-right" data-toggle="tooltip" data-placement="left"
-        title_0 = "<b>In Lavorazione</b><br />contengono le segnalazioni pubblicate <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button> da <b>Bozze</b> per tutte le fasi di avanzamenti"
+        title_0 = "<b>In Lavorazione</b><br />contengono le segnalazioni pubblicate <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button> per tutte le fasi di avanzamenti fino alla chiusura"
         title_1 = "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina l'Ambito Applicativo di appartenenza"
-        title_2 = "Una segnalazione in <b>grassetto</b> contiene aggionamenti.<br /> E' possibile aprirla <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> per nuovi articoli <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span> e/o allegati <span class='badge alert-info'><span class='glyphicon glyphicon-paperclip'></span></span>"
+        title_2 = "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare articoli <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span> e/o allegati <span class='badge alert-info'><span class='glyphicon glyphicon-paperclip'></span></span>"
     >
         <span class="small glyphicon glyphicon-question-sign"></span>
     </span>
 </div>
-<ol class="well sortable simple_with_no_drag bugsBox halfBox">
-    <li class="bg-rgb strong">
+<ol class="well sortable simple_with_no_drag bugsBox">
+    <li class="bg-rgb">
     Ordini magazzino lenti
     <span class="badge bg-r pull-right"><span title="Presidio MQ" class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
@@ -191,19 +151,19 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
         title_0 = "<b>Chiuse</b><br />contiene segnalazioni in fine avanzamento e risolte <span class='badge alert-success'><span class='glyphicon glyphicon-ok'></span></span> dagli operatori di supporto"
         title_1 = "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina l'Ambito Applicativo di appartenenza"
         title_2 = "Aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> la segnalazione per vedere tutti gli articoli <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span> e/o allegati <span class='badge alert-info'><span class='glyphicon glyphicon-paperclip'></span></span>"
-        title_3 = "E' possibile cercare <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-search'></span></button> filtrando tra tutte la segnalazione chiuse"
+        title_3 = "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare articoli <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span> e/o allegati <span class='badge alert-info'><span class='glyphicon glyphicon-paperclip'></span></span>"
     >
         <span class="small glyphicon glyphicon-question-sign"></span>
     </span>
 </div>
 <ol class="well sortable simple_with_no_drag bugsBox">
-    <form class="form-inline filter" role="form">
-        <div class="input-group">
-            <input type="text" class="form-control" id="filterSearch" placeholder="Filtro di ricerca...">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-        </div>
-        <center class="small">2 segnalazioni trovate</center>
-    </form>
+<!--     <form class="form-inline filter" role="form"> -->
+<!--         <div class="input-group"> -->
+<!--             <input type="text" class="form-control" id="filterSearch" placeholder="Filtro di ricerca..."> -->
+<!--             <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span> -->
+<!--         </div> -->
+<!--         <center class="small">2 segnalazioni trovate</center> -->
+<!--     </form> -->
     <li class="bg-rgb">
         Messaggio di errore
         <span class="badge bg-r pull-right"><span title="Presidio MQ" class="glyphicon glyphicon-tag"></span></span>
@@ -272,9 +232,6 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
             &nbsp;<span class="glyphicon glyphicon-warning-sign alert-danger"></span>&nbsp; Nuove segnalazioni bloccate
         </p>
         <p>
-            <span class="badge">N</span> <b>N</b> Segnalazioni in Bozze
-        </p>
-        <p>
             <span class="badge alert-warning">N</span> <b>N</b> Segnalazioni in Lavorazione
         </p>
         <p>
@@ -282,30 +239,6 @@ $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
         </p>
         <p>
             <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button> Nuova segnalazione
-        </p>
-      </div>
-    </div>
-    <div class="panel-heading" role="tab" id="headingTwo">
-      <h4 class="panel-title">
-        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Bozze
-          <span class="pull-right glyphicon glyphicon-chevron-down"></span>
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-      <div class="panel-body">
-        <p>
-            <span class="badge"><span class="glyphicon glyphicon-tag"></span></span> Colore di Ambito Applicativo
-        </p>
-        <p>
-            <button class="btn btn-xs btn-info"><span class="glyphicon glyphicon-send"></span></button> Pubblica la segnalazione
-        </p>
-        <p>
-            <button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-edit"></span></button> Modifica la segnalazione
-        </p>
-        <p>
-            <button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button> Cancella la segnalazione
         </p>
       </div>
     </div>
