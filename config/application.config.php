@@ -5,11 +5,23 @@
  *
  * @see https://github.com/zendframework/ZFTool
  */
+$env = getenv('APP_ENV') ?: 'production';
+
+$modules = array (
+    'DoctrineModule',
+    'DoctrineORMModule',
+    'Application',
+    'Test',
+    );
+
+if ($env == 'development') {
+    $modules[] = 'BjyProfiler';
+    $modules[] = 'ZendDeveloperTools';
+}
+
 return array(
-    'modules' => array(
-        'Application',
-        'Test'
-    ),
+    'modules' => $modules,
+        
     'module_listener_options' => array(
         'module_paths' => array(
             './module',
