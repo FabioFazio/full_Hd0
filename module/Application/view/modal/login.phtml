@@ -1,0 +1,37 @@
+<script type="text/javascript">
+<!--
+$( document ).ready( function() {
+    $( '#login' ).modal({
+		keyboard : false,
+		backdrop: 'static',
+	});
+    //$( '#login' ).modal( 'toggle' );    
+});
+//-->
+</script>
+
+<!-- Modal -->
+<div class="modal fade in" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-m">
+    <div class="modal-content">
+      <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title form-signin-heading" id="myModalLabel">Autenticazione</h4>
+      </div>
+      <form class="form-signin" action="/hd0/test/frontend/login" method="post">
+      <div class="modal-body">
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input name="username" type="username" id="inputEmail" class="form-control" placeholder="Nome Utente" required="required" autofocus="">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Ricordami
+          </label>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Entra</button>
+      </div>
+    </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

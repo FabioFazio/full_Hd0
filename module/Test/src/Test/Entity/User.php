@@ -1,5 +1,5 @@
 <?php
-namespace Application\Entity;
+namespace Test\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,6 +17,12 @@ class User {
 	/** @ORM\Column(type="string") */
 	protected $fullName;
 
+	/** @ORM\Column(type="string") */
+	protected $email;
+	
+	/** @ORM\Column(type="string") */
+	protected $domainCredentials;
+	
 	public function getId(){
 	    return $this->id;
 	}
@@ -24,11 +30,28 @@ class User {
 	public function getFullName(){
 	    return $this->fullName;
     }
+
+    public function getEmail(){
+    	return $this->email;
+    }
+    
+    public function getdomainCredentials(){
+    	return $this->domainCredentials;
+    }
     
     public function setId($id){
         $this->id = $id;
     }
+    
     public function setFullName($fullName){
         $this->fullName = $fullName;
+    }
+    
+    public function setEmail($email){
+    	$this->email = $email;
+    }
+    
+    public function setDomainCredentials($domainCredentials){
+    	$this->domainCredentials = $domainCredentials;
     }
 }
