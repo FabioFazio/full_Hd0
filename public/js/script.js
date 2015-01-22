@@ -365,18 +365,19 @@ $(function () {
     // http://formvalidator.net/#reg-form
     // https://github.com/victorjonsson/jQuery-Form-Validator/tree/master/form-validator
     
-    $.formUtils.addValidator({
-    	  name : 'confirmation',
-    	  validatorFunction : function(value, $el, config, language, $form) {
-    		  var name = $el.attr('name')+'_confirmation';
-    		  return ($('input[name="'+name+'"]').val() == value); 
-    	  },
-    	  errorMessage : 'You have to give same value to confirm',
-    	  errorMessageKey: 'badConfirmation'
-    	});
+//    $.formUtils.addValidator({
+//    	  name : 'confirmation',
+//    	  validatorFunction : function(value, $el, config, language, $form) {
+//    		  var name = $el.attr('name')+'_confirmation';
+//    		  return ($('input[name="'+name+'"]').val() == value); 
+//    	  },
+//    	  errorMessage : 'You have to give same value to confirm',
+//    	  errorMessageKey: 'badConfirmation'
+//    	});
     
     $.validate({
     	form: 'form[data-validate]',
+    	modules : 'date, security',
     	dateFormat: 'dd/mm/yyyy',
     	decimalSeparator: ',',
     	onSuccess: function(form){formSubmit(form); return false;},

@@ -96,7 +96,7 @@ class FrontendController extends ZtAbstractActionController {
     		    'username'	=> $user->getUsername(),
     		    'name'	=> $user->getName(),
     		    'email'	=> ($user->getEmail() == $user->getUsername())? '' : $user->getEmail(),
-                'alert-success' => $this->formatSuccessMessage('Benvenuto/a '. $user->getUsername() .'!', 0),
+                'alert-success' => $this->formatSuccessMessage('Benvenuto/a '. $user->getName()?:$user->getUsername() .'!', 0),
 		    ];
     	}
     	return $this->jsonModel ( $result );
