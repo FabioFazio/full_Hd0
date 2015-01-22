@@ -12,6 +12,22 @@ max-width: 330px;
 margin: 0 auto;
 }
 
+/* Animazione di attesa */
+
+body.loading { overflow: hidden; }
+
+body.loading .modal.modal-wait { display: block; }
+
+.modal.modal-wait {
+	display: none;
+	position: fixed;
+	z-index: 1000; top: 0; left: 0; height: 100%; width: 100%;
+	background: rgba( 255, 255, 255, .5 )
+	url('../img/ajax-loader.gif') 50% 50% no-repeat;
+}
+
+/* Animazione di attesa -- Fine */
+
 .btn-xxs {
 	padding: 2px 2px;
 	font-size: 10px;

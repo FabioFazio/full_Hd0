@@ -16,10 +16,11 @@ return array(
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'Test\Controller\Frontend',
-                        'action'     => 'index2',
+                        'action'     => 'static',
                     ),
                 ),
             ),
+
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -83,8 +84,8 @@ return array(
     'navigation' => array (
 		'default' => array (
     		array (
-				'label' => 'Home',
-				'route' => 'home',
+                'label' => 'Home',
+                'route' => 'home',
     		),
 			array (
 				'label' => 'Test',

@@ -60,6 +60,8 @@ echo $this->doctype(); ?>
         <!-- Scripts -->
         <?php echo $this->headScript()
             ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+            // http://formvalidator.net/index.html
+            ->prependFile('//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js')
             ->prependFile($this->basePath() . '/js/jquery.min.js')
             ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
             ->prependFile($this->basePath() . '/js/html5shiv.js',  'text/javascript', array('conditional' => 'lt IE 9',))
@@ -67,6 +69,7 @@ echo $this->doctype(); ?>
 
             ->appendFile($this->basePath() . '/js/jquery-sortable.js', 'text/javascript', array('conditional' => '!IE',))
             ->appendFile($this->basePath() . '/js/jquery-sortable-mirror.js', 'text/javascript', array('conditional' => 'gte IE 8',))
+            ->appendFile($this->basePath() . '/js/bootstrap-alert.js')
             ->appendFile($this->basePath() . '/js/bootstrap-confirmation.js')
             // https://github.com/Tavicu/bootstrap-confirmation
             ->appendFile($this->basePath() . '/js/jquery.bootstrap.wizard.js')
@@ -108,36 +111,19 @@ echo $this->doctype(); ?>
                             </form>
                         </li> -->
                         <?php // Retrive current view & page 
-            				$view = current($this->viewModel()->getCurrent()->getChildren());
-        				    if (true || isset($view->username)): ?>
+            				$view = current($this->viewModel()->getCurrent()->getChildren());?>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
                                 style="color: #9cf; background-color:#555; border-radius:10px; padding:8px; margin:7px 0px;">
-                                <span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo "Guest"//$view->username; ?>&nbsp;<span class="caret"></span>
+                                <span class="glyphicon glyphicon-user"></span>&nbsp;<span id="name"><?php echo $view->name; ?></span>&nbsp;<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a data-toggle="modal" href="#settings"><span class="glyphicon glyphicon-cog"></span> Configurazione</a></li>
+                                <li><a data-toggle="modal" data-backdrop="static" data-keyboard="false" href="#settings"><span class="glyphicon glyphicon-cog"></span> Configurazione</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
                             </ul>
                         </li>
-                        <?php endif; ?>
                     </ul>
-                    
-<!--                <div class="btn-group usertools">
-                    <?php // Retrive current view & page 
-        				$view = current($this->viewModel()->getCurrent()->getChildren());
-        				if (true || isset($view->username)): ?>
-					    <a name="usertools" class="btn btn-primary navbar-btn dropdown-toggle" data-toggle="dropdown" href="#">
-					    	<i class="glyphicon glyphicon-user"></i>&nbsp;<?php echo "Guest"//$view->username; ?>&nbsp;<span class="caret"></span>
-					    </a>
-					    <ul class="dropdown-menu">
-					        <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Preferenze</a></li>
-						    <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
-					    </ul>
-					<?php endif; ?>
-					</div>
--->                    
                 </div>
                 <!--/.nav-collapse -->
             </div>
@@ -145,6 +131,7 @@ echo $this->doctype(); ?>
         <div class="container">
             <?php echo $this->content; ?>
             <hr>
+            <div class="modal modal-wait"></div>
             <footer>
                 <p>&copy; 2005 - <?php echo date('Y') ?> by Zenatek S.P.A. <?php echo $this->translate('All rights reserved.') ?></p>
             </footer>

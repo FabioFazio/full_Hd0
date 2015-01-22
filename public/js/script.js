@@ -36,12 +36,80 @@ function get_browser_version() {
     return M[1];
 }
 
+/////////////////////////////////////////////
+///////////// __CONFIRMATION__ //////////////
+/////////////////////////////////////////////
+
 function closeConf(e) {
 	$(this).closest('div.popover').siblings('[data-toggle="confirmation"]').confirmation('hide');
 }
 
 function submitConf(e) {
 	$(this).closest('div.popover').siblings('[data-toggle="confirmation"]').siblings('form').submit();
+}
+
+/////////////////////////////////////////////
+///////////// __FORM SUBMIT__ ///////////////
+/////////////////////////////////////////////
+
+function formSubmit ( form )
+{
+	var $form = $(form);
+    var $target = $($form.attr('data-target'));
+    
+    $.ajax({
+        type: $form.attr('method'),
+        url: $form.attr('action'),
+        data: $form.serialize(),
+        success: function (data, status) {
+            return formResponce (data, status, $target, $form );
+        }
+    });
+}
+
+function formResponce ( data, status, $msgBox, $form )
+{
+	//console.log(data); // for debugging
+	// display feedback cleaning previous
+
+	alertHint( $msgBox, data, $form );
+
+	if (status=='success' && !('alert-warning' in data) && !('alert-danger' in data)){
+		// update page
+		//loadFullPage (data['email']);
+		setTimeout(function() {
+				$msgBox.closest('.modal').modal('hide');
+				$('.alert', $msgBox ).alert('close');
+			}, 1500);
+	}
+} 
+
+function alertHint ( $target, data, $form )
+{
+	var hint_box = '<div class="alert %type%" role="alert">';
+	hint_box += '<button type="button" class="close" data-dismiss="alert">×</button>';
+	hint_box += '<span>%hint%</span>';
+	hint_box += '</div>';
+
+	$('.alert', $target ).alert('close');
+	$.each(data, function (index, value){
+		if ( $.inArray(index, ['alert-warning','alert-info','alert-danger','alert-success']) > -1 )
+			$target.prepend ( hint_box.replace ( /%hint%/g, value ).replace ( /%type%/g, index ));
+		else{
+			var paramId = (index.indexOf("_") >= 0)? index : $form.attr('id') +'_'+ index;
+			if ($('#'+paramId).length)
+				$('#'+paramId).val( value );
+			else
+				$target.before(
+					$('<input>').attr('type','hidden')
+						.attr('id', paramId)
+						.attr('name', index)
+						.val( value )
+				);
+			$('#'+paramId).trigger('change');
+		}
+	});
+	$target.alert();
 }
 
 $(function () {
@@ -127,9 +195,9 @@ $(function () {
 		  });
 	  }
 	  
-		/////////////////////////////////////////////
-		////////////// __BLINKING__ ///////////////// 
-		/////////////////////////////////////////////
+	/////////////////////////////////////////////
+	////////////// __BLINKING__ ///////////////// 
+	/////////////////////////////////////////////
 	  
 	// Source: http://www.antiyes.com/jquery-blink-plugin
 	// http://www.antiyes.com/jquery-blink/jquery-blink.js
@@ -164,6 +232,7 @@ $(function () {
 	/////////////////////////////////////////////
 	///////////// __CONFIRMATION__ //////////////
 	/////////////////////////////////////////////
+
     var optConfBase = {
     		singleton: true,
     		popout: true,
@@ -230,7 +299,7 @@ $(function () {
     $('[data-toggle="tooltip"][title]').tooltip(optTooltBase);
    
 	/////////////////////////////////////////////
-	///////////// __WIZARD__ ////////////////////
+	/////////////// __WIZARD__ //////////////////
 	/////////////////////////////////////////////    
     
     $('#rootwizard').bootstrapWizard(
@@ -263,4 +332,60 @@ $(function () {
 						return false;
 					}
     		});
+
+	/////////////////////////////////////////////
+	///////////// __WAITING__ ///////////////////
+	/////////////////////////////////////////////    
+    
+    // http://www.dallalibera.net/animazione-attendere-prego-con-jquery/
+    
+    $(document).on({
+    	ajaxStart: function() { $("body").addClass("loading"); },
+    	ajaxStop: function() { 
+    		setTimeout(function(){$("body").removeClass("loading");},1000);
+    	}
+	});
+    
+	/////////////////////////////////////////////
+	///////////// __FORM SUBMIT__ ///////////////
+	/////////////////////////////////////////////
+    
+    $('form[data-async]').not('form[data-validate]').submit ( 
+    		function(event){
+    			formSubmit(this);
+    			event.preventDefault();
+    		}
+    	);
+    
+	/////////////////////////////////////////////
+	/////////// __FORM VALIDATION__ /////////////
+	/////////////////////////////////////////////
+    
+    // http://formvalidator.net/index.html#configuration_setup
+    // http://formvalidator.net/#reg-form
+    // https://github.com/victorjonsson/jQuery-Form-Validator/tree/master/form-validator
+    
+    $.formUtils.addValidator({
+    	  name : 'confirmation',
+    	  validatorFunction : function(value, $el, config, language, $form) {
+    		  var name = $el.attr('name')+'_confirmation';
+    		  return ($('input[name="'+name+'"]').val() == value); 
+    	  },
+    	  errorMessage : 'You have to give same value to confirm',
+    	  errorMessageKey: 'badConfirmation'
+    	});
+    
+    $.validate({
+    	form: 'form[data-validate]',
+    	dateFormat: 'dd/mm/yyyy',
+    	decimalSeparator: ',',
+    	onSuccess: function(form){formSubmit(form); return false;},
+    	onError: function(){return false;}, // Stop the submission
+    });
+    
+    $('form[data-validate]').closest('.modal').on('click', 'button[data-dismiss="modal"]', function(){
+    	// clear form and alerts
+    	$('form', $(this).closest('.modal')).get(0).reset();
+    });
+    
 });

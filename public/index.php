@@ -4,6 +4,7 @@
  * to the application root now.
  */
 chdir(dirname(__DIR__));
+define('SERVER_ROOT', getcwd());
 
 // debug
 ini_set('display_errors', 1);

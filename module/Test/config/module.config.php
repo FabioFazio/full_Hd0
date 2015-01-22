@@ -7,7 +7,7 @@ return array(
         ),
         'router' => array(
         		'routes' => array(
-        				'test' => array(
+        		        'test' => array(
         						'type'    => 'segment',
         						'options' => array(
         								'route'    => '/test[/:controller[/:action[/:id]]]',

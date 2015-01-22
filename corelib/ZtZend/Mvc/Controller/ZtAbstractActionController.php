@@ -10,17 +10,23 @@ use Zend\Session\Container;
 
 class ZtAbstractActionController extends AbstractActionController {
     
-    function formatErrorMessage ($message, $storedProcedure="")
+    function formatErrorMessage ($message, $type = 2 )
     {
-    	if ($storedProcedure)
-    		return sprintf('<strong>Server Error:</strong> %s (%s)', $message, $storedProcedure);
-    	else
-    		return sprintf('<strong>Server Error:</strong> %s', $message);
+        $presentation = [
+            0 => '',
+            1 => '<strong>Errore:</strong> ',
+            2 => '<strong>Errore Server:</strong> ',
+        ];
+   		return sprintf($presentation[$type].'%s', $message);
     }
     
-    function formatSuccessMessage ($message )
+    function formatSuccessMessage ($message, $type = 1 )
     {
-    	return sprintf('<strong>Success:</strong> %s', $message);
+        $presentation = [
+            0 => '',
+            1 => '<strong>Successo:</strong> ',
+        ];
+    	return sprintf($presentation[$type].'%s', $message);
     }
     
     /**
@@ -74,13 +80,10 @@ class ZtAbstractActionController extends AbstractActionController {
 
     	$session = $this->getSession();
     	
-     	if (isset($session->username))
-    		$username =
-    			(strpos($session->username,'\\')===false)? // if is not a domain user1
-    				$session->username :
-    					substr($session->username, strpos($session->username,'\\')+1);
+     	if (isset($session->user))
+    		$name = ($session->user->getName())?:$session->user->getUsername();
      	else
-     		$username = null;
+     		$name = null;
 
      	$page = $this->getServiceLocator()->get('structure')->findOneBy('active', 1);
      	     	
@@ -109,7 +112,7 @@ class ZtAbstractActionController extends AbstractActionController {
         		'alert' =>  $alert,
         		'here' => $page,
         		//'displayLength' => $displayLength,
-        		'username' => $username,
+        		'name' => $name,
         		//'log' => isset($this->getSession()->log)?$this->getSession()->log:array(),
         	);
         

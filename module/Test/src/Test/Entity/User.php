@@ -14,44 +14,44 @@ class User {
 	 */
 	protected $id;
 
-	/** @ORM\Column(type="string") */
-	protected $fullName;
-
-	/** @ORM\Column(type="string") */
+	/** @ORM\Column(type="string", length=255, nullable=true) */
+	protected $name;
+	
+	/** @ORM\Column(type="string", length=255, unique=true) */
 	protected $email;
 	
-	/** @ORM\Column(type="string") */
-	protected $domainCredentials;
+	/** @ORM\Column(type="string", length=255, unique=true)) */
+	protected $username;
 	
 	public function getId(){
 	    return $this->id;
 	}
-	
-	public function getFullName(){
-	    return $this->fullName;
-    }
 
     public function getEmail(){
     	return $this->email;
     }
     
-    public function getdomainCredentials(){
-    	return $this->domainCredentials;
+    public function getUsername(){
+    	return $this->username;
+    }
+    
+    public function getName(){
+    	return $this->name;
     }
     
     public function setId($id){
         $this->id = $id;
     }
     
-    public function setFullName($fullName){
-        $this->fullName = $fullName;
-    }
-    
     public function setEmail($email){
     	$this->email = $email;
     }
     
-    public function setDomainCredentials($domainCredentials){
-    	$this->domainCredentials = $domainCredentials;
+    public function setUsername($username){
+    	$this->username = $username;
+    }
+    
+    public function setName($name){
+    	$this->name = $name;
     }
 }
