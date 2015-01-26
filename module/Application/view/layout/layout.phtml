@@ -93,7 +93,7 @@ echo $this->doctype(); ?>
                         <span class="icon-bar"></span>
                     </button>
                     <!--/.nav-toggle -->
-                    <a class="navbar-brand" href="<?php echo $this->url('home') ?>"><img src="<?php echo $this->basePath('img/zf2-logo.png') ?>" style="max-height:20px;" alt="Zend Framework 2"/>&nbsp;<?php echo $this->translate('Caronte - Assistenza Tecnica') ?></a>
+                    <a class="navbar-brand" href="<?php echo $this->url('home') ?>"><img src="<?php echo $this->basePath('img/zf2-logo.png') ?>" style="max-height:20px;" alt="Zend Framework 2"/>&nbsp;<?php echo $this->translate('Caronte')?> - <?php echo $this->translate('Assistenza Tecnica')?></a>
                 </div>
                 <!--.nav-collapse -->
                 <div class="collapse navbar-collapse">
@@ -102,14 +102,6 @@ echo $this->doctype(); ?>
                     </ul> -->
                     
                     <ul class="nav navbar-nav navbar-right">
-                        <!-- <li>
-                             <form class="navbar-form navbar-right" style="margin-right:0px">
-                                <div class="form-group">
-                                    <input type="text" class="form-control input-sm" placeholder="Email">
-                                </div>
-                                <button type="submit" class="btn btn-sm btn-default">Conferma</button>
-                            </form>
-                        </li> -->
                         <?php // Retrive current view & page 
             				$view = current($this->viewModel()->getCurrent()->getChildren());?>
                         <li class="dropdown">
@@ -118,9 +110,9 @@ echo $this->doctype(); ?>
                                 <span class="glyphicon glyphicon-user"></span>&nbsp;<span id="name"><?php echo $view->name; ?></span>&nbsp;<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a data-toggle="modal" data-backdrop="static" data-keyboard="false" href="#settings"><span class="glyphicon glyphicon-cog"></span> Configurazione</a></li>
+                                <li><a data-toggle="modal" data-backdrop="static" data-keyboard="false" href="#settings"><span class="glyphicon glyphicon-cog"></span> <?php echo $this->translate('Configurazioni') ?></a></li>
                                 <li class="divider"></li>
-                                <li><a href="<?php echo $this->url('logout')?>"><span class="glyphicon glyphicon-log-out"></span> Esci</a></li>
+                                <li><a href="<?php echo $this->url('logout')?>"><span class="glyphicon glyphicon-log-out"></span> <?php echo $this->translate('Esci') ?></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -133,7 +125,7 @@ echo $this->doctype(); ?>
             <hr>
             <div class="modal modal-wait"></div>
             <footer>
-                <p>&copy; 2005 - <?php echo date('Y') ?> by Zenatek S.P.A. <?php echo $this->translate('All rights reserved.') ?></p>
+                <p>&copy; 2005 - <?php echo date('Y') ?> by Zenatek S.P.A. <?php echo $this->translate('Tutti i diritti riservati.') ?></p>
             </footer>
         </div> <!-- /container -->
         <?php if (isset($view->modals)) foreach ($view->modals as $modal) {

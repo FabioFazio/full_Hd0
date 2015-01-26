@@ -25,7 +25,7 @@ $(function($) {
     <div class="modal-content">
       <div class="modal-header">
          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title form-signin-heading" id="settingsLabel">Impostazioni Utente</h4>
+        <h4 class="modal-title form-signin-heading" id="settingsLabel"><?php echo $this->translate('Impostazioni Utente') ?></h4>
       </div>
       <form id="profile" class="form-settings" data-async data-validate data-target="#settings [name='feedback']" 
         action="<?php echo $this->url('test', array('controller' => 'frontend', 'action'=>'settings'))?>" 
@@ -33,36 +33,38 @@ $(function($) {
       <div class="modal-body">
          <span name="feedback">
              <p class="alert alert-warning">
-                <b>Caronte</b> richiede l'email di lavoro!<br/>
-                <u><b>Può esser richiesto l'invio di mail</b></u> per comunicare con gli operatori
+                <b><?php echo $this->translate('Caronte') ?></b> <?php echo $this->translate('richiede l\'email di lavoro!') ?><br/>
+                <u><b><?php echo $this->translate('Può esser richiesto l\'invio di mail') ?></b></u> <?php echo $this->translate('per comunicare con gli operatori') ?>
              </p>
          </span>
          <input name="id" type="hidden">
           <div class="form-group">
-            <label for="inputUsername">Nome Utente:</label>
+            <label for="inputUsername"><?php echo $this->translate('Nome Utente') ?>:</label>
             <input name="username" type="username" id="inputUsername" class="form-control"
-                placeholder="Nome Utente" disabled="disabled">
+                placeholder="<?php echo $this->translate('Nome Utente') ?>" disabled="disabled">
           </div>
           <div class="form-group">
-            <label for="inputName">Nome:</label>
+            <label for="inputName"><?php echo $this->translate('Nome') ?>:</label>
             <input name="name" type="name" id="inputName" class="form-control"
                 data-validation-error-msg="Attese lettere o numeri massimo di 30 caratteri"
-                placeholder="Nome" data-validation="alphanumeric length" data-validation-length="max30">
+                placeholder="<?php echo $this->translate('Nome') ?>" data-validation="alphanumeric length" 
+                data-validation-length="max30">
           </div>
           <div class="form-group">
-            <label for="inputEmail">Email:</label>
+            <label for="inputEmail"><?php echo $this->translate('Email') ?>:</label>
             <input name="email_confirmation" data-validation="email required" id="inputEmail"
                 data-validation-error-msg="Inserire un indirizzo email valido" class="form-control"
-                placeholder="Il tuo indirizzo email">
+                placeholder="<?php echo $this->translate('Il tuo indirizzo email') ?>">
           </div>
           <div class="form-group">
-            <label for="inputEmail">Conferma Email:</label>
-<!--            <input name="email2" type="email" title="Riscrivere l'email per conferma!" id="inputEmail" class="form-control" placeholder="Conferma la tua email" required="required"> -->
-                <input name="email" data-validation="confirmation required" data-validation-error-msg="Riscrivere l'email per conferma!" id="inputEmail" class="form-control" placeholder="Conferma la tua email">
+            <label for="inputEmail"><?php echo $this->translate('Conferma Email') ?>:</label>
+                <input name="email" data-validation="confirmation required" 
+                    data-validation-error-msg="Riscrivere l'email per conferma!" id="inputEmail" 
+                    class="form-control" placeholder="<?php echo $this->translate('Conferma la tua email') ?>">
           </div>
           <center>
-          <button type="submit" class="btn btn-primary">Salva</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+          <button type="submit" class="btn btn-primary"><?php echo $this->translate('Salva') ?></button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->translate('Annulla') ?></button>
           </center>
       </div>
     </form>

@@ -23,18 +23,11 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
         
-        $this->initSession(array(
-        		'remember_me_seconds' => 1209600, // two weeks
-        		'use_cookies' => true,
-        		'cookie_httponly' => true,
-        ));
-        
-        $session = new Container('session');
-        if (isset($_SESSION['raw'])){
-        	foreach ($_SESSION['raw'] as $k => $v)
-        		$session->$k = $v;
-        	unset($_SESSION['raw']);
-        }
+        // multilingua
+        $translator = $e->getApplication()->getServiceManager()->get('translator');
+        $translator
+            ->setLocale(\Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+            ->setFallbackLocale('en_US');
     }
 
     public function getConfig()
@@ -52,14 +45,5 @@ class Module
                 ),
             ),
         );
-    }
-    
-    public function initSession($config)
-    {
-    	$sessionConfig = new SessionConfig();
-    	$sessionConfig->setOptions($config);
-    	$sessionManager = new SessionManager($sessionConfig);
-    	$sessionManager->start();
-    	Container::setDefaultManager($sessionManager);
     }
 }

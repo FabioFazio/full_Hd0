@@ -68,7 +68,7 @@ class FrontendController extends ZtAbstractActionController {
     	
     	if ( !$result->isValid() ) { // if ( strtolower($messages[0]) == 'invalid credentials' ) {
     	    $result = ['alert-danger' =>
-    	    		$this->formatErrorMessage('Nome Utente o Password errati!', 0) ];
+    	    		$this->formatErrorMessage( _('Nome Utente o Password errati!'), 0) ];
     	} else {
     	    // check db: if not exists, create. if has no email, require it
     	    $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');

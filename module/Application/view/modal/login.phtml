@@ -33,8 +33,8 @@ $(function($) {
   <div class="modal-dialog modal-m">
     <div class="modal-content">
       <div class="modal-header">
-         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3 class="modal-title form-signin-heading" id="loginLabel">Autenticazione</h3>
+         <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+        <h3 class="modal-title form-signin-heading" id="loginLabel"><?php echo $this->translate('Autenticazione') ?></h3>
       </div>
       <form id="auth" class="form-signin" data-async data-validate data-target="#login [name='feedback']" 
         action="<?php echo $this->url('login')?>"
@@ -49,24 +49,24 @@ $(function($) {
         <span name="feedback"></span>
         
          <div class="form-group">
-            <label for="inputUsername" class="sr-only">Username</label>
+            <label for="inputUsername" class="sr-only"><?php echo $this->translate('Nome Utente') ?></label>
                 <input name="username" data-validation="required" 
                     data-validation-error-msg="Questo campo è obbligatorio!" 
-                    id="inputUsername" class="form-control" placeholder="Nome Utente">
+                    id="inputUsername" class="form-control" placeholder="<?php echo $this->translate('Nome Utente') ?>">
          </div>
          
          <div class="form-group">
-            <label for="inputPassword" class="sr-only">Password</label>
+            <label for="inputPassword" class="sr-only"><?php echo $this->translate('Password') ?></label>
                 <input name="password" data-validation="required" type="password" 
                     data-validation-error-msg="Questo campo è obbligatorio!" 
-                    id="inputPassword" class="form-control" placeholder="Password">
+                    id="inputPassword" class="form-control" placeholder="<?php echo $this->translate('Password') ?>">
         </div>
         
         <div class="checkbox">
-          <label for="checkboxRemember">Ricordami</label>
+          <label for="checkboxRemember"><?php echo $this->translate('Ricordami') ?></label>
                 <input  name="rememberme" id="checkboxRemember" type="checkbox" value="1" checked="checked">
         </div>
-        <button class="btn btn-primary btn-block" type="submit">Entra</button>
+        <button class="btn btn-primary btn-block" type="submit"><?php echo $this->translate('Entra') ?></button>
       </div>
     </form>
     </div><!-- /.modal-content -->

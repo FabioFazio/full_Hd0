@@ -13,9 +13,6 @@ use Zend\Log\Logger;
 use Zend\Log\Writer\Stream as LogWriter;
 use Zend\Log\Filter\Priority as LogFilter;
 
-define('CONFIG_LDAP', SERVER_ROOT . '/config/ldap-config.ini');
-define('LOG_PATH', '/tmp/ldap.log');
-
 class Module
 {
     public function getServiceConfig()
@@ -24,13 +21,14 @@ class Module
     	'factories'=>array(
     			'StorageService' => function($sm){
     			    
-    				return new \ZtZend\Authentication\Storage\AuthStorage('storagee');
+    				return new \ZtZend\Authentication\Storage\AuthStorage('authStorage');
     			},
 
     			'LogService' => function($sm) {
     				
 			    	$logger = new Logger;
-			    	$writer = new LogWriter(LOG_PATH);
+			    	
+			    	$writer = new LogWriter($sm->get('Config')['logPath']);
 			    	
 			    	$logger->addWriter($writer);
 			    	 
@@ -45,7 +43,7 @@ class Module
     			    $authService = new AuthenticationService();
     				
     				$configReader = new ConfigReader();
-    				$configData = $configReader->fromFile(CONFIG_LDAP);
+    				$configData = $configReader->fromFile($sm->get('Config')['configLdap']);
     				$config = new Config($configData, true);
     				 
     				$log_path = $config->develop->ldap->log_path;
