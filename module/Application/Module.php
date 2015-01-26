@@ -27,7 +27,7 @@ class Module
         $translator = $e->getApplication()->getServiceManager()->get('translator');
         $translator
             ->setLocale(\Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']))
-            ->setFallbackLocale('en_US');
+            ->setFallbackLocale($e->getApplication()->getServiceManager()->get('Config')['defaultLanguage']);
     }
 
     public function getConfig()
