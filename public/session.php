@@ -1,10 +1,17 @@
 <?php
+ini_set('display_errors', 1);
+define('SERVER_ROOT', getcwd());
+
 $session = array();
+
 if(isset($_COOKIE['PHPSESSID']))
 {
 	$cwd = getcwd();
-	require '../init_autoloader.php';
+	chdir('..');
+	require 'init_autoloader.php';
 	Zend\Mvc\Application::init(require 'config/application.config.php');
+	chdir($cwd);
+	
 	$session = $_SESSION;
 }
 ?>

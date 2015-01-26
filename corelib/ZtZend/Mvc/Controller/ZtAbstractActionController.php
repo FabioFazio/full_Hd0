@@ -7,8 +7,12 @@ use Zend\View\Model\JsonModel;
 //use Zend\Db\Adapter\Adapter as Adapter;
 //use Zend\Db\ResultSet\ResultSet;
 use Zend\Session\Container;
+use Zend\Session\SessionManager;
+use Zend\Session\Storage\SessionArrayStorage;
 
 class ZtAbstractActionController extends AbstractActionController {
+    
+    private $session;
     
     function formatErrorMessage ($message, $type = 2 )
     {
@@ -47,19 +51,8 @@ class ZtAbstractActionController extends AbstractActionController {
     
     public function getSession()
     {
-    	if (isset($this->session))
-    		return $this->session;
-    
-    	$this->session = new Container('session');
-    	$error = null;
-    	 
-    	if (isset($this->session->voyageCurrent) &&
-    	!isset($this->session->voyageFilter))
-    		$error = $this->initVoyageFilter();
-    
-    	if($error)
-    		$this->flashmessenger()->addErrorMessage($error);
-    
+    	if (!isset($this->session))
+    	    $this->session = new Container('session');
     	return $this->session;
     }
     
@@ -85,7 +78,7 @@ class ZtAbstractActionController extends AbstractActionController {
      	else
      		$name = null;
 
-     	$page = $this->getServiceLocator()->get('structure')->findOneBy('active', 1);
+     	$page = $this->getServiceLocator()->get('navigation')->findOneBy('active', 1);
      	     	
     	// Alerting for session penting events
      	$scripts = [

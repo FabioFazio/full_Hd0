@@ -58,18 +58,16 @@ return array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
         ),
-        'factories' => array (
-         		'navigation' => function($sm) {
-         			$navigation = new \Zend\Navigation\Service\DefaultNavigationFactory;
-         			$navigation = $navigation->createService($sm);
-         			return $navigation;
-         		},
-
-        		'structure' => 'ZtZend\Navigation\Service\DefaultNavigationFactory\ZtNavigationFactory',
-		),
-        'aliases' => array(
-            'translator' => 'MvcTranslator',
+    'factories' => array (
+      		'navigation' => function($sm) {
+      			$navigation = new \Zend\Navigation\Service\DefaultNavigationFactory;
+      			$navigation = $navigation->createService($sm);
+      			return $navigation;
+      		},
         ),
+     'aliases' => array(
+         'translator' => 'MvcTranslator',
+     ),
     ),
     'translator' => array(
         'locale' => 'en_US',

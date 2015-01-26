@@ -1,17 +1,18 @@
 <script type="text/javascript">
 <!--
 $(function($) {
+<?php if(!$user): ?>
     $( '#login' ).modal({
 		keyboard : false,
 		backdrop: 'static',
 	});
-
+<?php endif; ?>
     $('#login').on('change', '#auth_name', function(e){
         var name = $('#auth_name').val()?
                 $('#auth_name').val() : $('#auth_username').val();
         $('#name').html(name);
     });
-    
+
     $('#login').on('hidden.bs.modal', function (e) {
         
         if ( $('#auth_email').length > 0 && !$('#auth_email').val().length )
@@ -36,9 +37,15 @@ $(function($) {
         <h3 class="modal-title form-signin-heading" id="loginLabel">Autenticazione</h3>
       </div>
       <form id="auth" class="form-signin" data-async data-validate data-target="#login [name='feedback']" 
-        action="<?php echo $this->url('test', array('controller' => 'frontend', 'action'=>'login'))?>"
+        action="<?php echo $this->url('login')?>"
         method="POST">
       <div class="modal-body" style="background-color: #f5f5f5;">
+<?php if($user): ?>
+        <input type="hidden" id="auth_id" name="id" value="<?php echo $user['id']; ?>">
+        <input type="hidden" id="auth_username" name="username" value="<?php echo $user['username']; ?>">
+        <input type="hidden" id="auth_name" name="name" value="<?php echo $user['name']; ?>">
+        <input type="hidden" id="auth_email" name="email" value="<?php echo $user['email']; ?>">
+<?php endif; ?>
         <span name="feedback"></span>
         
          <div class="form-group">
@@ -56,8 +63,8 @@ $(function($) {
         </div>
         
         <div class="checkbox">
-          <label for="remember">Ricordami</label>
-                <input  name="remember" id="remember" type="checkbox" value="remember-me" checked="checked">
+          <label for="checkboxRemember">Ricordami</label>
+                <input  name="rememberme" id="checkboxRemember" type="checkbox" value="1" checked="checked">
         </div>
         <button class="btn btn-primary btn-block" type="submit">Entra</button>
       </div>

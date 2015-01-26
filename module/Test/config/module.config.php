@@ -7,8 +7,33 @@ return array(
         ),
         'router' => array(
         		'routes' => array(
+
+        		        'login' => array(
+        		        		'type'    => 'literal',
+        		        		'options' => array(
+        		        				'route'    => '/login',
+        		        				'defaults' => array(
+        		        						'__NAMESPACE__' => 'Test\Controller',
+        		        						'controller'    => 'Frontend',
+        		        						'action'        => 'login',
+        		        				),
+        		        		),
+        		        ),
+        		        
+        		        'logout' => array(
+        		        		'type'    => 'literal',
+        		        		'options' => array(
+        		        				'route'    => '/logout',
+        		        				'defaults' => array(
+        		        						'__NAMESPACE__' => 'Test\Controller',
+        		        						'controller'    => 'Frontend',
+        		        						'action'        => 'logout',
+        		        				),
+        		        		),
+        		        ),
+        		        
         		        'test' => array(
-        						'type'    => 'segment',
+        		                'type'    => 'segment',
         						'options' => array(
         								'route'    => '/test[/:controller[/:action[/:id]]]',
         								'constraints' => array(

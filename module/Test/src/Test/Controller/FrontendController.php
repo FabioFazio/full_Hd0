@@ -12,67 +12,78 @@ use Zend\Log\Logger;
 use Zend\Log\Writer\Stream as LogWriter;
 use Zend\Log\Filter\Priority as LogFilter;
 
-define('CONFIG_LDAP', SERVER_ROOT . '/config/ldap-config.ini');
-
 class FrontendController extends ZtAbstractActionController {
 
-    public function loginAction() {
-    	$pars = $this->request->getPost ()->toArray ();
-    	$input = [];
-    
-    	//validate input
-    	$expected_params = [
-    	'username'		=> '/[.]*/',
-    	'password'		=> '/[.]*/',
-    	];
-    
-    	// check paramers
-    	foreach (array_keys($expected_params) as $par)
-    	{
-    		if (!array_key_exists($par, $pars) ||
-                    preg_match($expected_params[$par], $pars[$par]) !== 1)
-    			return $this->jsonModel ( ['alert-danger' =>
-    			        $this->formatErrorMessage('Dati trasmessi incompleti o errati!') ] );
-    		else
-    			$input[$par] = $pars[$par];
+    protected $authservice;
+    protected $storage;
+    protected $logservice;
+     
+    public function getAuthService()
+    {
+    	if (! $this->authservice) {
+    		$this->authservice = $this->getServiceLocator()->get('AuthService');
     	}
+    	return $this->authservice;
+    }
     
-    	$auth = new AuthenticationService();
+    public function getStorageService()
+    {
+    	if (! $this->storage) {
+    		$this->storage = $this->getServiceLocator()->get('StorageService');
+    	}
+    	return $this->storage;
+    }
+    
+    public function getLogService()
+    {
+    	if (! $this->logservice) {
+    		$this->logservice = $this->getServiceLocator()->get('LogService');
+    	}
+    	return $this->logservice;
+    }
+    
+    public function inputEvaulate (&$input, $expected_params = []) {
+        
+        $pars = $this->request->getPost ()->toArray ();
+
+        // check paramers
+        foreach (array_keys($expected_params) as $par)
+        {
+        	if (!array_key_exists($par, $pars) ||
+        	       preg_match($expected_params[$par], $pars[$par]) !== 1)
+        		return ['alert-danger' => $this->formatErrorMessage('Dati trasmessi incompleti o errati!') ];
+        	else
+        		$input[$par] = $pars[$par];
+        }
+        
+        return false;
+    }
+    
+    public function loginAction() {
+        //validate input
+        $input = [];
+        $errors = $this->inputEvaulate ($input, [
+    	       'username'		=> '/[.]*/',
+    	       'password'		=> '/[.]*/',
+    	   ]);
+        if ($errors)
+            return $this->jsonModel ( $errors );
     	
-    	$configReader = new ConfigReader();
-    	$configData = $configReader->fromFile(CONFIG_LDAP);
-    	$config = new Config($configData, true);
+    	$result = $this->getAuthService()->getAdapter()
+    	               ->setUsername($input['username'])
+    	               ->setPassword($input['password'])
+    	               ->authenticate();
     	
-    	$log_path = $config->develop->ldap->log_path;
-    	$options = $config->develop->ldap->toArray();
-    	unset($options['log_path']);
-    	
-    	$adapter = new AuthAdapter($options,
-    			$input['username'],
-    			$input['password']);
-    	
-    	$result = $auth->authenticate($adapter);
     	$messages = $result->getMessages();
     	
-    	if ($log_path) {
-    		
-    		$logger = new Logger;
-    		$writer = new LogWriter($log_path);
+		foreach ($messages as $i => $message) {
+			if ($i-- > 1) { // $messages[2] and up are log messages
+				$message = str_replace("\n", "\n  ", $message);
+				$this->getLogService()->debug("Ldap: $i: $message");
+			}
+		}
     	
-    		$logger->addWriter($writer);
-    	
-    		$filter = new LogFilter(Logger::DEBUG);
-    		$writer->addFilter($filter);
-    	
-    		foreach ($messages as $i => $message) {
-    			if ($i-- > 1) { // $messages[2] and up are log messages
-    				$message = str_replace("\n", "\n  ", $message);
-    				$logger->debug("Ldap: $i: $message");
-    			}
-    		}
-    	}
-    	
-    	if ((strtolower($messages[0]) == 'invalid credentials')) {
+    	if ( !$result->isValid() ) { // if ( strtolower($messages[0]) == 'invalid credentials' ) {
     	    $result = ['alert-danger' =>
     	    		$this->formatErrorMessage('Nome Utente o Password errati!', 0) ];
     	} else {
@@ -80,7 +91,7 @@ class FrontendController extends ZtAbstractActionController {
     	    $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
     	    $user = $objectManager
         	    ->getRepository('Test\Entity\User')
-        	    ->findOneBy(array('username' => $input['username']));
+        	       ->findOneBy(array('username' => $input['username']));
     	    if (!$user)
     	    {
     	    	$user = new \Test\Entity\User();
@@ -88,8 +99,15 @@ class FrontendController extends ZtAbstractActionController {
     	    	$user->setEmail($input['username']); // Temporary value
     	    	$objectManager->persist($user); // local commit
     	    }
+    	    $objectManager->flush(); // push on db
+    	    
+    	    if (isset($input['rememberme']))
+    	    {
+    	        $storage = $this->getServiceLocator()->get('StorageService');
+    	        $storage->setRememberMe(1);
+    	        $this->getAuthService()->setStorage($storage);
+    	    }
     	    $this->getSession()->user = $user; // push on session
-    	    $objectManager->flush(); // push on db    	    
     	    
     		$result = [
     		    'id'	=> $user->getId(),
@@ -102,27 +120,27 @@ class FrontendController extends ZtAbstractActionController {
     	return $this->jsonModel ( $result );
     }
     
+    public function logoutAction() {
+
+        $this->getStorageService()->forgetMe();
+        $this->getAuthService()->clearIdentity();
+        $this->getStorageService()->clear('');
+        
+        $this->flashmessenger()->addSuccessMessage('Sessione di lavoro terminata!');
+        return $this->redirect()->toRoute('home');
+    }
+    
     public function settingsAction() {
-    	$pars = $this->request->getPost ()->toArray ();
-    	$input = [];
-    
-    	//validate input
-    	$expected_params = [
-        	'id'		=> '/'. $this->getSession()->user->getId(). '/',
-        	'name'		=> '/[.]*/',
-        	'email'		=> '/[.]*/',
-    	];
-    
-    	// check paramers
-    	foreach (array_keys($expected_params) as $par)
-    	{
-    		if (!array_key_exists($par, $pars) ||
-    		  preg_match($expected_params[$par], $pars[$par]) !== 1)
-    			return $this->jsonModel ( ['alert-danger' =>
-    			        $this->formatErrorMessage('Dati trasmessi incompleti o errati!') ] );
-    		else
-    			$input[$par] = $pars[$par];
-    	}
+        
+        //validate input
+        $input = [];
+        $errors = $this->inputEvaulate ($input, [
+        	   'id'		=> '/'. $this->getSession()->user->getId(). '/',
+        	   'name'		=> '/[.]*/',
+        	   'email'		=> '/[.]*/',
+    	   ]);
+        if ($errors)
+        	return $this->jsonModel ( $errors );
     
     	// db update email
     	$objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
@@ -164,6 +182,14 @@ class FrontendController extends ZtAbstractActionController {
     
     public function staticAction()
     {
+        if ($user = $this->getSession()->user)
+        	$user = [
+        		    'id'	=> $user->getId(),
+        		    'username'	=> $user->getUsername(),
+        		    'name'	=> $user->getName(),
+        		    'email'	=> ($user->getEmail() == $user->getUsername())? '' : $user->getEmail(),
+                ];
+            
     	$modals = array (
             array (
 				'modalName' => 'modal/demo2-ticket.phtml',
@@ -171,7 +197,7 @@ class FrontendController extends ZtAbstractActionController {
 			),
 	        array (
         		'modalName' => 'modal/login.phtml',
-        		'modalParams' => array ()
+        		'modalParams' => array ( 'user' => $user ),
 	        ),
 	        array (
         		'modalName' => 'modal/settings.phtml',

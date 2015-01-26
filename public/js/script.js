@@ -62,6 +62,7 @@ function formSubmit ( form )
         url: $form.attr('action'),
         data: $form.serialize(),
         success: function (data, status) {
+        	window.console&&console.log(data);
             return formResponce (data, status, $target, $form );
         }
     });
