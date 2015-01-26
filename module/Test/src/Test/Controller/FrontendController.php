@@ -42,23 +42,6 @@ class FrontendController extends ZtAbstractActionController {
     	return $this->logservice;
     }
     
-    public function inputEvaulate (&$input, $expected_params = []) {
-        
-        $pars = $this->request->getPost ()->toArray ();
-
-        // check paramers
-        foreach (array_keys($expected_params) as $par)
-        {
-        	if (!array_key_exists($par, $pars) ||
-        	       preg_match($expected_params[$par], $pars[$par]) !== 1)
-        		return ['alert-danger' => $this->formatErrorMessage('Dati trasmessi incompleti o errati!') ];
-        	else
-        		$input[$par] = $pars[$par];
-        }
-        
-        return false;
-    }
-    
     public function loginAction() {
         //validate input
         $input = [];
