@@ -13,24 +13,32 @@ use Zend\Session\Storage\SessionArrayStorage;
 class ZtAbstractActionController extends AbstractActionController {
     
     private $session;
+    private $translate;
+    
+    function translate ($string) {
+        if (!isset($translate))
+            $this->translate = $this->getServiceLocator()->get('viewhelpermanager')->get('translate');
+        
+        return $this->translate($string);
+    }
     
     function formatErrorMessage ($message, $type = 2 )
     {
         $presentation = [
             0 => '',
-            1 => '<strong>Errore:</strong> ',
-            2 => '<strong>Errore Server:</strong> ',
+            1 => '<strong>'.$this->translate('Errore').':</strong> ',
+            2 => '<strong>'.$this->translate('Errore Server').':</strong> ',
         ];
-   		return sprintf($presentation[$type].'%s', $message);
+   		return sprintf($presentation[$type].'%s', $this->translate($message));
     }
     
     function formatSuccessMessage ($message, $type = 1 )
     {
         $presentation = [
             0 => '',
-            1 => '<strong>Successo:</strong> ',
+            1 => '<strong>.'.$this->translate('Successo').':</strong> ',
         ];
-    	return sprintf($presentation[$type].'%s', $message);
+    	return sprintf($presentation[$type].'%s', $this->translate($message));
     }
     
     public function inputEvaulate (&$input, $expected_params = []) {
