@@ -4,22 +4,18 @@ namespace ZtZend\Mvc\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
-//use Zend\Db\Adapter\Adapter as Adapter;
-//use Zend\Db\ResultSet\ResultSet;
 use Zend\Session\Container;
 use Zend\Session\SessionManager;
 use Zend\Session\Storage\SessionArrayStorage;
+use Zend\I18n\Translator\Translator;
 
 class ZtAbstractActionController extends AbstractActionController {
     
     private $session;
-    private $translate;
     
     function translate ($string) {
-        if (!isset($translate))
-            $this->translate = $this->getServiceLocator()->get('viewhelpermanager')->get('translate');
-        
-        return $this->translate($string);
+        $translator = $this->getServiceLocator()->get('viewhelpermanager')->get('translate');
+        return $translator($string);
     }
     
     function formatErrorMessage ($message, $type = 2 )
@@ -54,6 +50,9 @@ class ZtAbstractActionController extends AbstractActionController {
     		else
     			$input[$par] = $pars[$par];
     	}
+    	// add remaining
+    	$diff = array_diff_key($pars, $input);
+    	$input = array_merge($input, $diff);
     
     	return false;
     }

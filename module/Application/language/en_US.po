@@ -2,60 +2,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-26 17:26+0100\n"
-"PO-Revision-Date: 2015-01-26 17:26+0100\n"
+"POT-Creation-Date: 2015-01-26 16:48+0100\n"
+"PO-Revision-Date: 2015-01-26 18:11+0100\n"
 "Last-Translator: Fabio <fabio.fazio@zenatek.it>\n"
 "Language-Team: ZF Contibutors <zf-devteam@zend.com>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: translate;_;formatErrorMessage;formatSuccessMessage\n"
+"X-Poedit-KeywordsList: translate;_\n"
 "X-Poedit-Basepath: .\n"
 "X-Generator: Poedit 1.5.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
-"X-Poedit-SearchPath-1: ../..\n"
-"X-Poedit-SearchPath-2: ../../../corelib\n"
-
-#: ../../Test/src/Test/Controller/FrontendController.php:71
-#: ../../Test/src/Test/Controller/FrontendController.php:140
-msgid "Nome Utente o Password errati!"
-msgstr "Username or Password wrong!"
-
-#: ../../Test/src/Test/Controller/FrontendController.php:100
-msgid "Benvenuto/a "
-msgstr "Welcome"
-
-#: ../../Test/src/Test/Controller/FrontendController.php:144
-msgid "Profilo Utente aggiornato!"
-msgstr "User profile updated!"
-
-#: ../../../corelib/ZtZend/Mvc/Controller/ZtAbstractActionController.php:29
-msgid "Errore"
-msgstr "Error"
-
-#: ../../../corelib/ZtZend/Mvc/Controller/ZtAbstractActionController.php:30
-msgid "Errore Server"
-msgstr "Server Error"
-
-#: ../../../corelib/ZtZend/Mvc/Controller/ZtAbstractActionController.php:39
-msgid "Successo"
-msgstr "Success"
-
-#: ../../../corelib/ZtZend/Mvc/Controller/ZtAbstractActionController.php:53
-msgid "Dati trasmessi incompleti o errati!"
-msgstr "Data transmitted incomplete or wrong! "
 
 #: ../view/application/index/index.phtml:2
-#: ../../Application/view/application/index/index.phtml:2
 #, php-format
 msgid "Welcome to %sZend Framework 2%s"
 msgstr ""
 
 #: ../view/application/index/index.phtml:3
-#: ../../Application/view/application/index/index.phtml:3
 #, php-format
 msgid ""
 "Congratulations! You have successfully installed the %sZF2 Skeleton "
@@ -65,17 +32,14 @@ msgid ""
 msgstr ""
 
 #: ../view/application/index/index.phtml:4
-#: ../../Application/view/application/index/index.phtml:4
 msgid "Fork Zend Framework 2 on GitHub"
 msgstr ""
 
 #: ../view/application/index/index.phtml:12
-#: ../../Application/view/application/index/index.phtml:12
 msgid "Follow Development"
 msgstr ""
 
 #: ../view/application/index/index.phtml:15
-#: ../../Application/view/application/index/index.phtml:15
 #, php-format
 msgid ""
 "Zend Framework 2 is under active development. If you are interested in "
@@ -86,17 +50,14 @@ msgid ""
 msgstr ""
 
 #: ../view/application/index/index.phtml:16
-#: ../../Application/view/application/index/index.phtml:16
 msgid "ZF2 Development Portal"
 msgstr ""
 
 #: ../view/application/index/index.phtml:24
-#: ../../Application/view/application/index/index.phtml:24
 msgid "Discover Modules"
 msgstr ""
 
 #: ../view/application/index/index.phtml:27
-#: ../../Application/view/application/index/index.phtml:27
 #, php-format
 msgid ""
 "The community is working on developing a community site to serve as a "
@@ -106,17 +67,14 @@ msgid ""
 msgstr ""
 
 #: ../view/application/index/index.phtml:28
-#: ../../Application/view/application/index/index.phtml:28
 msgid "Explore ZF2 Modules"
 msgstr ""
 
 #: ../view/application/index/index.phtml:36
-#: ../../Application/view/application/index/index.phtml:36
 msgid "Help &amp; Support"
 msgstr ""
 
 #: ../view/application/index/index.phtml:39
-#: ../../Application/view/application/index/index.phtml:39
 #, php-format
 msgid ""
 "If you need any help or support while developing with ZF2, you may reach us "
@@ -126,205 +84,160 @@ msgid ""
 msgstr ""
 
 #: ../view/application/index/index.phtml:40
-#: ../../Application/view/application/index/index.phtml:40
 msgid "Ping us on IRC"
 msgstr ""
 
-#: ../view/error/index.phtml:1 ../../Application/view/error/index.phtml:1
+#: ../view/error/index.phtml:1
 msgid "An error occurred"
 msgstr ""
 
 #: ../view/error/index.phtml:8 ../view/error/404.phtml:53
-#: ../../Application/view/error/index.phtml:8
-#: ../../Application/view/error/404.phtml:53
 msgid "Additional information"
 msgstr ""
 
 #: ../view/error/index.phtml:11 ../view/error/index.phtml:35
 #: ../view/error/404.phtml:56 ../view/error/404.phtml:80
-#: ../../Application/view/error/index.phtml:11
-#: ../../Application/view/error/index.phtml:35
-#: ../../Application/view/error/404.phtml:56
-#: ../../Application/view/error/404.phtml:80
 msgid "File"
 msgstr ""
 
 #: ../view/error/index.phtml:15 ../view/error/index.phtml:39
 #: ../view/error/404.phtml:60 ../view/error/404.phtml:84
-#: ../../Application/view/error/index.phtml:15
-#: ../../Application/view/error/index.phtml:39
-#: ../../Application/view/error/404.phtml:60
-#: ../../Application/view/error/404.phtml:84
 msgid "Message"
 msgstr ""
 
 #: ../view/error/index.phtml:19 ../view/error/index.phtml:43
 #: ../view/error/404.phtml:64 ../view/error/404.phtml:88
-#: ../../Application/view/error/index.phtml:19
-#: ../../Application/view/error/index.phtml:43
-#: ../../Application/view/error/404.phtml:64
-#: ../../Application/view/error/404.phtml:88
 msgid "Stack trace"
 msgstr ""
 
 #: ../view/error/index.phtml:29 ../view/error/404.phtml:74
-#: ../../Application/view/error/index.phtml:29
-#: ../../Application/view/error/404.phtml:74
 msgid "Previous exceptions"
 msgstr ""
 
 #: ../view/error/index.phtml:58 ../view/error/404.phtml:103
-#: ../../Application/view/error/index.phtml:58
-#: ../../Application/view/error/404.phtml:103
 msgid "No Exception available"
 msgstr ""
 
-#: ../view/error/404.phtml:1 ../../Application/view/error/404.phtml:1
+#: ../view/error/404.phtml:1
 msgid "A 404 error occurred"
 msgstr ""
 
-#: ../view/error/404.phtml:10 ../../Application/view/error/404.phtml:10
+#: ../view/error/404.phtml:10
 msgid "The requested controller was unable to dispatch the request."
 msgstr ""
 
-#: ../view/error/404.phtml:13 ../../Application/view/error/404.phtml:13
+#: ../view/error/404.phtml:13
 msgid ""
 "The requested controller could not be mapped to an existing controller class."
 msgstr ""
 
-#: ../view/error/404.phtml:16 ../../Application/view/error/404.phtml:16
+#: ../view/error/404.phtml:16
 msgid "The requested controller was not dispatchable."
 msgstr ""
 
-#: ../view/error/404.phtml:19 ../../Application/view/error/404.phtml:19
+#: ../view/error/404.phtml:19
 msgid "The requested URL could not be matched by routing."
 msgstr ""
 
-#: ../view/error/404.phtml:22 ../../Application/view/error/404.phtml:22
+#: ../view/error/404.phtml:22
 msgid "We cannot determine at this time why a 404 was generated."
 msgstr ""
 
-#: ../view/error/404.phtml:34 ../../Application/view/error/404.phtml:34
+#: ../view/error/404.phtml:34
 msgid "Controller"
 msgstr ""
 
-#: ../view/error/404.phtml:41 ../../Application/view/error/404.phtml:41
+#: ../view/error/404.phtml:41
 #, php-format
 msgid "resolves to %s"
 msgstr ""
 
 #: ../view/modal/settings.phtml:28
-#: ../../Application/view/modal/settings.phtml:28
 msgid "Impostazioni Utente"
 msgstr "User Settings"
 
 #: ../view/modal/settings.phtml:36 ../view/layout/layout.phtml:35
 #: ../view/layout/layout.phtml:96
-#: ../../Application/view/modal/settings.phtml:36
-#: ../../Application/view/layout/layout.phtml:35
-#: ../../Application/view/layout/layout.phtml:96
 msgid "Caronte"
 msgstr "Hd0"
 
 #: ../view/modal/settings.phtml:36
-#: ../../Application/view/modal/settings.phtml:36
 msgid "richiede l'email di lavoro!"
 msgstr "require your job email!"
 
 #: ../view/modal/settings.phtml:37
-#: ../../Application/view/modal/settings.phtml:37
 msgid "Può esser richiesto l'invio di mail"
 msgstr "May be required to use email"
 
 #: ../view/modal/settings.phtml:37
-#: ../../Application/view/modal/settings.phtml:37
 msgid "per comunicare con gli operatori"
 msgstr "to talk with technical staff"
 
 #: ../view/modal/settings.phtml:42 ../view/modal/settings.phtml:44
 #: ../view/modal/login.phtml:52 ../view/modal/login.phtml:55
-#: ../../Application/view/modal/settings.phtml:42
-#: ../../Application/view/modal/settings.phtml:44
-#: ../../Application/view/modal/login.phtml:52
-#: ../../Application/view/modal/login.phtml:55
 msgid "Nome Utente"
 msgstr "Username"
 
 #: ../view/modal/settings.phtml:47 ../view/modal/settings.phtml:50
-#: ../../Application/view/modal/settings.phtml:47
-#: ../../Application/view/modal/settings.phtml:50
 msgid "Nome"
 msgstr "Name"
 
 #: ../view/modal/settings.phtml:54
-#: ../../Application/view/modal/settings.phtml:54
 msgid "Email"
 msgstr ""
 
 #: ../view/modal/settings.phtml:57
-#: ../../Application/view/modal/settings.phtml:57
 msgid "Il tuo indirizzo email"
 msgstr "your email address"
 
 #: ../view/modal/settings.phtml:60
-#: ../../Application/view/modal/settings.phtml:60
 msgid "Conferma Email"
 msgstr "Email Confirmation"
 
 #: ../view/modal/settings.phtml:63
-#: ../../Application/view/modal/settings.phtml:63
 msgid "Conferma la tua email"
 msgstr "Repeat your email"
 
 #: ../view/modal/settings.phtml:66
-#: ../../Application/view/modal/settings.phtml:66
 msgid "Salva"
 msgstr "Save"
 
 #: ../view/modal/settings.phtml:67
-#: ../../Application/view/modal/settings.phtml:67
 msgid "Annulla"
 msgstr "Cancel"
 
-#: ../view/modal/login.phtml:37 ../../Application/view/modal/login.phtml:37
+#: ../view/modal/login.phtml:37
 msgid "Autenticazione"
 msgstr "Authentication"
 
 #: ../view/modal/login.phtml:59 ../view/modal/login.phtml:62
-#: ../../Application/view/modal/login.phtml:59
-#: ../../Application/view/modal/login.phtml:62
 msgid "Password"
 msgstr ""
 
-#: ../view/modal/login.phtml:66 ../../Application/view/modal/login.phtml:66
+#: ../view/modal/login.phtml:66
 msgid "Ricordami"
 msgstr "Remember me"
 
-#: ../view/modal/login.phtml:69 ../../Application/view/modal/login.phtml:69
+#: ../view/modal/login.phtml:69
 msgid "Entra"
 msgstr "Enter"
 
 #: ../view/layout/layout.phtml:96
-#: ../../Application/view/layout/layout.phtml:96
 msgid "Assistenza Tecnica"
 msgstr "Technical Support"
 
 #: ../view/layout/layout.phtml:101
-#: ../../Application/view/layout/layout.phtml:101
 msgid "Home"
 msgstr ""
 
 #: ../view/layout/layout.phtml:113
-#: ../../Application/view/layout/layout.phtml:113
 msgid "Configurazioni"
 msgstr "Settings"
 
 #: ../view/layout/layout.phtml:115
-#: ../../Application/view/layout/layout.phtml:115
 msgid "Esci"
 msgstr "Logoff"
 
 #: ../view/layout/layout.phtml:128
-#: ../../Application/view/layout/layout.phtml:128
 msgid "Tutti i diritti riservati."
 msgstr "All rights are reserved."
