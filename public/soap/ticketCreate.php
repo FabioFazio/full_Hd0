@@ -18,7 +18,7 @@ $XMLArray = [
 		'Queue'=>'ZTAC Incoming Queue',
 		'Type'=>'default',
 		'State'=>'new',
-		'Priority'=>'2 very low',//'2 very low',//'3 normal',//'4 high',//'5 very high',
+		'Priority'=>'1 very low', //'1 very low',//'2 low',//'3 normal',//'4 high',//'5 very high',
 	],
 	'Article' => [
 		'Subject'=>'some subject',
@@ -54,14 +54,17 @@ $ticketId = $soapclient->$operation (
 	new SoapParam ( $XMLArray['Article'], 'Article' )
 );
 
-$req = str_replace("\n", "<br/>", htmlspecialchars($soapclient->__getLastRequest()));
-$req = str_replace("&lt;/item&gt;&lt;item&gt;", "&lt;/item&gt; <br/> &lt;item&gt;", $req);
-$req = preg_replace("/(&gt;)([\\w\\s\\.!]+)(&lt;)/i", "$1<b>$2</b>$3", $req);
+foreach ([$soapclient->__getLastRequest(), $soapclient->__getLastResponse()] as $k => $r)
+{
+    $r = str_replace("\n", "<br/>", htmlspecialchars($r));
+    $r = str_replace("&lt;/item&gt;&lt;item&gt;", "&lt;/item&gt; <br/> &lt;item&gt;", $r);
+    $r = preg_replace("/(&gt;)([\\w\\s\\.@!-:]+)(&lt;)/i", "$1<b>$2</b>$3", $r);
+    $r = str_replace("&gt;&lt;", "&gt; <br/> &lt;", $r);
+    $xml[] = $r;
+}
 
-$res = str_replace("&gt;&lt;", "&gt; <br/> &lt;", htmlspecialchars($soapclient->__getLastResponse()));
-
-print "<h3>Request</h3> ". $req ."\n";
-print "<h3>Response</h3> ". $res ."\n";
+print "<h3>Request</h3> ". $xml[0] ."\n";
+print "<h3>Response</h3> ". $xml[1] ."\n";
 
 //print $soapclient->__getLastRequest(); echo "<!--"; print $soapclient->__getLastResponse(); echo "-->"; exit(0);
 
