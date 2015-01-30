@@ -57,6 +57,15 @@ class FrontendController extends ZtAbstractActionController {
     	               ->setPassword($input['password'])
     	               ->authenticate();
     	
+    	// Gestione dei gruppi utenti FIXME @fbfz
+    	$groups = $this->getAuthService()->getAdapter()->getAllGroups();
+    	$userGroupsDn = []; $userGroupsCn = [];
+    	foreach ($groups as $group){
+    	    if($this->getAuthService()->getAdapter()->isMemberOf($group['cn'][0]))
+    	        $userGroupsCn[] = $group['cn'][0];
+    	}
+    	// Gestione dei gruppi utenti - FINE
+    	
     	$messages = $result->getMessages();
     	
 		foreach ($messages as $i => $message) {

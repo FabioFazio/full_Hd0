@@ -260,6 +260,13 @@ class Ldap extends AbstractAdapter
                 }
                 $dn = $ldap->getCanonicalAccountName($canonicalName, ZendLdap\Ldap::ACCTNAME_FORM_DN);
 
+                //start @fbfz
+                $this->ldap = $ldap;
+                $this->canonicalName = $canonicalName; 
+                $this->dn = $dn;
+                $this->adapterOptions = $adapterOptions; 
+                //end @fbfz
+                
                 $groupResult = $this->checkGroupMembership($ldap, $canonicalName, $dn, $adapterOptions);
                 if ($groupResult === true) {
                     $this->authenticatedDn = $dn;
@@ -371,6 +378,20 @@ class Ldap extends AbstractAdapter
         return $adapterOptions;
     }
 
+    public function getAllGroups() //@fbfz
+    {
+        $filter      = ZendLdap\Filter::equals('objectClass', 'group');
+        $attributes = ['cn'];
+    	return $this->ldap->searchEntries($filter, 
+    	        $this->adapterOptions['groupDn'], $this->adapterOptions['groupScope'], $attributes);
+    }    
+    
+    public function isMemberOf( $groupName ) //@fbfz
+    {
+        return $this->checkGroupMembership($this->ldap, $this->canonicalName, $this->dn, 
+                array_merge($this->adapterOptions, ['group'=>'$groupName']));
+    }
+    
     /**
      * Checks the group membership of the bound user
      *
