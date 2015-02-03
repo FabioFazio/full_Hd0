@@ -1,4 +1,5 @@
 <?php
+use Test\Entity\User;
 return array(
         'controllers' => array(
         		'invokables' => array(
@@ -69,6 +70,18 @@ return array(
         								'Test\Entity' => 'application_entities'
         						)
         				)
-        		)
+        		),
+                'authentication' => array(
+                		'orm_default' => array(
+                				'objectManager' => 'Doctrine\ORM\EntityManager',
+                				'identityClass' => 'Test\Entity\User',
+                				'identityProperty' => 'username',
+                				'credentialProperty' => 'password',
+                				'credentialCallable' => function(User $user, $passwordGiven) {
+                					return $user->getPassword() === $passwordGiven;
+                				}
+                		),
+                ),
+
         ),
 );

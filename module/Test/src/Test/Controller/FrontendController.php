@@ -14,16 +14,37 @@ use Zend\Log\Filter\Priority as LogFilter;
 
 class FrontendController extends ZtAbstractActionController {
 
-    protected $authservice;
+    protected $baseauthservice;
+    protected $ldapauthservice;
     protected $storage;
     protected $logservice;
-     
+
     public function getAuthService()
     {
-    	if (! $this->authservice) {
-    		$this->authservice = $this->getServiceLocator()->get('AuthService');
+    	return $this->getBaseAuthService();
+        //return $this->getLdapAuthService();
+    }
+    
+    public function authentication($input)
+    {
+        return $this->baseAuthentication($input);
+        //return $this->ldapAuthentication($input);
+    }
+    
+    public function getLdapAuthService()
+    {
+    	if (! $this->ldapauthservice) {
+    		$this->ldapauthservice = $this->getServiceLocator()->get('LdapAuthService');
     	}
-    	return $this->authservice;
+    	return $this->ldapauthservice;
+    }
+    
+    public function getBaseAuthService()
+    {
+    	if (! $this->baseauthservice) {
+    		$this->baseauthservice = $this->getServiceLocator()->get('BaseAuthService');
+    	}
+    	return $this->baseauthservice;
     }
     
     public function getStorageService()
@@ -42,6 +63,66 @@ class FrontendController extends ZtAbstractActionController {
     	return $this->logservice;
     }
     
+    protected function ldapAuthentication($input)
+    {
+        $result = $this->getLdapAuthService()->getAdapter()
+            ->setUsername($input['username'])
+            ->setPassword($input['password'])
+            ->authenticate();
+         
+        /*
+         // Gestione dei gruppi utenti FIXME @fbfz
+        $groups = $this->getAuthService()->getAdapter()->getAllGroups();
+        $userGroupsDn = []; $userGroupsCn = [];
+        foreach ($groups as $group){
+        if($this->getAuthService()->getAdapter()->isMemberOf($group['cn'][0]))
+        	$userGroupsCn[] = $group['cn'][0];
+        }
+        // Gestione dei gruppi utenti - FINE
+        */
+         
+        $messages = $result->getMessages();
+         
+        foreach ($messages as $i => $message) {
+        	if ($i-- > 1) { // $messages[2] and up are log messages
+        		$message = str_replace("\n", "\n  ", $message);
+        		$this->getLogService()->debug("Ldap: $i: $message");
+        	}
+        }
+        
+        if ($result->isValid()) /// if ( strtolower($messages[0]) == 'invalid credentials' )
+        {
+            // check db: if not exists, create. if has no email, require it
+            $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+            $user = $objectManager
+                ->getRepository('Test\Entity\User')
+                ->findOneBy(array('username' => $input['username']));
+            if (!$user)
+            {
+            	$user = new \Test\Entity\User();
+            	$user->setUsername($input['username']);
+            	$user->setEmail($input['username']); // Temporary value
+            	$objectManager->persist($user); // local commit
+            }
+            $objectManager->flush(); // push on db
+            
+            return $user;
+        }
+        else
+            return false;
+    }
+    
+    protected function baseAuthentication($input)
+    {
+        $this->getBaseAuthService()->getAdapter()
+        	->setIdentityValue($input['username'])
+        	->setCredentialValue($input['password']);
+        
+        $result = $this->getBaseAuthService()->getAdapter()->authenticate();
+    	 
+    	return $result->isValid()?$result->getIdentity():false;
+    }
+    
     public function loginAction() {
         //validate input
         $input = [];
@@ -51,50 +132,14 @@ class FrontendController extends ZtAbstractActionController {
     	   ]);
         if ($errors)
             return $this->jsonModel ( $errors );
-    	
-    	$result = $this->getAuthService()->getAdapter()
-    	               ->setUsername($input['username'])
-    	               ->setPassword($input['password'])
-    	               ->authenticate();
-    	
-    	/*
-    	// Gestione dei gruppi utenti FIXME @fbfz
-    	$groups = $this->getAuthService()->getAdapter()->getAllGroups();
-    	$userGroupsDn = []; $userGroupsCn = [];
-    	foreach ($groups as $group){
-    	    if($this->getAuthService()->getAdapter()->isMemberOf($group['cn'][0]))
-    	        $userGroupsCn[] = $group['cn'][0];
-    	}
-    	// Gestione dei gruppi utenti - FINE
-    	*/
-    	
-    	$messages = $result->getMessages();
-    	
-		foreach ($messages as $i => $message) {
-			if ($i-- > 1) { // $messages[2] and up are log messages
-				$message = str_replace("\n", "\n  ", $message);
-				$this->getLogService()->debug("Ldap: $i: $message");
-			}
-		}
-    	
-    	if ( !$result->isValid() ) { // if ( strtolower($messages[0]) == 'invalid credentials' ) {
-    	    $result = ['alert-danger' =>
-    	    		$this->formatErrorMessage( 'Nome Utente o Password errati!', 0) ];
-    	} else {
-    	    // check db: if not exists, create. if has no email, require it
-    	    $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-    	    $user = $objectManager
-        	    ->getRepository('Test\Entity\User')
-        	       ->findOneBy(array('username' => $input['username']));
-    	    if (!$user)
-    	    {
-    	    	$user = new \Test\Entity\User();
-    	    	$user->setUsername($input['username']);
-    	    	$user->setEmail($input['username']); // Temporary value
-    	    	$objectManager->persist($user); // local commit
-    	    }
-    	    $objectManager->flush(); // push on db
-    	    
+        
+        
+        if (!($user = $this->authentication($input)))
+        {
+            $result = ['alert-danger' =>
+            $this->formatErrorMessage( 'Nome Utente o Password errati!', 0) ];
+        }else{
+
     	    if (isset($input['rememberme']))
     	    {
     	        $storage = $this->getServiceLocator()->get('StorageService');

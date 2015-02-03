@@ -366,15 +366,20 @@ $(function () {
     // http://formvalidator.net/#reg-form
     // https://github.com/victorjonsson/jQuery-Form-Validator/tree/master/form-validator
     
-//    $.formUtils.addValidator({
-//    	  name : 'confirmation',
-//    	  validatorFunction : function(value, $el, config, language, $form) {
-//    		  var name = $el.attr('name')+'_confirmation';
-//    		  return ($('input[name="'+name+'"]').val() == value); 
-//    	  },
-//    	  errorMessage : 'You have to give same value to confirm',
-//    	  errorMessageKey: 'badConfirmation'
-//    	});
+    $.formUtils.addValidator({
+    	  name : 'domain',
+    	  validatorFunction : function(value, $el, config, language, $form) {
+    		  var domains = ['iper.it','ortofin.it','unes.it', 'zenatek'];
+    		  var valid = false;
+    		  while (domains.length > 0)
+    			  {
+    			  	valid |= value.indexOf(domains.shift()) > -1;
+    			  }
+    		  return valid; 
+    	  },
+    	  errorMessage : 'La mail deve essere di lavoro: @iper.it @ortofin.it @unes.it etc..', /* non usato */
+    	  errorMessageKey: 'badDomain'
+    	});
     
     $.validate({
     	form: 'form[data-validate]',

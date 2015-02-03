@@ -38,7 +38,16 @@ class Module
                     return $logger;
     			},
     			
-    			'AuthService' => function($sm) {
+    			'BaseAuthService' => function($sm) {
+
+    			    $authService = $sm->get('doctrine.authenticationservice.orm_default');
+    				
+    				$authService->setStorage($sm->get('StorageService'));
+    			
+    				return $authService;
+    			},
+    			
+    			'LdapAuthService' => function($sm) {
 
     			    $authService = new AuthenticationService();
     				

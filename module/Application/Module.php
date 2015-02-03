@@ -23,10 +23,12 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
         
+        $http_lang = isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])?$_SERVER['HTTP_ACCEPT_LANGUAGE']:null;
+        
         // multilingua
         $translator = $e->getApplication()->getServiceManager()->get('translator');
         $translator
-            ->setLocale(\Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+            ->setLocale(\Locale::acceptFromHttp($http_lang))
             ->setFallbackLocale($e->getApplication()->getServiceManager()->get('Config')['defaultLanguage']);
     }
 

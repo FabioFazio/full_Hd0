@@ -32,7 +32,7 @@ class ZtAbstractActionController extends AbstractActionController {
     {
         $presentation = [
             0 => '',
-            1 => '<strong>.'.$this->translate('Successo').':</strong> ',
+            1 => '<strong>'.$this->translate('Successo').':</strong> ',
         ];
     	return sprintf($presentation[$type].'%s', $this->translate($message));
     }

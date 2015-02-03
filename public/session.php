@@ -1,6 +1,5 @@
 <?php
 ini_set('display_errors', 1);
-define('SERVER_ROOT', getcwd());
 
 $session = array();
 
@@ -12,7 +11,7 @@ if(isset($_COOKIE['PHPSESSID']))
 	Zend\Mvc\Application::init(require 'config/application.config.php');
 	chdir($cwd);
 	
-	$session = $_SESSION;
+	$session =isset($_SESSION)?$_SESSION:[];
 }
 ?>
 <h2>PHP Session</h2>

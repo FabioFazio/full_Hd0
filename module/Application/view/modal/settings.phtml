@@ -52,8 +52,8 @@ $(function($) {
           </div>
           <div class="form-group">
             <label for="inputEmail"><?php echo $this->translate('Email') ?>:</label>
-            <input name="email_confirmation" data-validation="email required" id="inputEmail"
-                data-validation-error-msg="Inserire un indirizzo email valido" class="form-control"
+            <input name="email_confirmation" data-validation="email domain required" id="inputEmail"
+                data-validation-error-msg="Inserire una email di lavoro valida (@iper.it, @ortofin.it o @unes.it)" class="form-control"
                 placeholder="<?php echo $this->translate('Il tuo indirizzo email') ?>">
           </div>
           <div class="form-group">
