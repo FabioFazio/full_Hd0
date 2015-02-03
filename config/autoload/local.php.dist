@@ -10,6 +10,7 @@
  * in ZendSkeletonApplication. This is a good practice, as it prevents sensitive
  * credentials from accidentally being committed into version control.
  */
+define('SERVER_ROOT', getcwd());
 
 return array(
     'db' => array(
@@ -23,7 +24,8 @@ return array(
     ),
         
     'configLdap'    => SERVER_ROOT . '/config/ldap-config.ini',
-    'logPath'       => '/tmp/ldap.log',
+    'logPath'       => SERVER_ROOT . '/data/log/main.log',
+
     'defaultLanguage'  => 'it_IT', //'en_US', 
 
 );

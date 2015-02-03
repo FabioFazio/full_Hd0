@@ -86,7 +86,7 @@ class FrontendController extends ZtAbstractActionController {
         foreach ($messages as $i => $message) {
         	if ($i-- > 1) { // $messages[2] and up are log messages
         		$message = str_replace("\n", "\n  ", $message);
-        		$this->getLogService()->debug("Ldap: $i: $message");
+        		$this->getLogService()->debug("Auth Ldap: $i: $message");
         	}
         }
         
@@ -119,7 +119,17 @@ class FrontendController extends ZtAbstractActionController {
         	->setCredentialValue($input['password']);
         
         $result = $this->getBaseAuthService()->getAdapter()->authenticate();
-    	 
+    	
+        $messages = $result->getMessages();
+         
+        foreach ($messages as $i => $message) {
+    		$message = str_replace("\n", "\n  ", $message);
+    		$username = $input['username'];
+    		$this->getLogService()->debug("Auth Base: $i: $username $message");
+        }
+        
+        $this->getLogService()->debug("Auth Base: ".$input['username']." $message");
+        
     	return $result->isValid()?$result->getIdentity():false;
     }
     
@@ -163,12 +173,16 @@ class FrontendController extends ZtAbstractActionController {
     }
     
     public function logoutAction() {
-
+        $user = $this->getSession()->user;
+        $username = ($user)?$user->getUsername():'[?]';
+        
         $this->getStorageService()->forgetMe();
         $this->getAuthService()->clearIdentity();
         $this->getStorageService()->clear('');
         
         $this->flashmessenger()->addSuccessMessage('Sessione di lavoro terminata!');
+        $this->getLogService()->debug("Auth: $username Session terminated.");
+        
         return $this->redirect()->toRoute('home');
     }
     
