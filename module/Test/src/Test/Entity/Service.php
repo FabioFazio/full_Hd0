@@ -7,7 +7,7 @@ use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 /** @ORM\Entity */
 class Service {
     
-    const TYPE_OTRS = "otrs";
+    public static $TYPE_OTRS = "OTRS";
     
     /**
 	 * @ORM\Id
@@ -16,14 +16,14 @@ class Service {
 	 */
 	protected $id;
 
-	/** @ORM\Column(type="string", length=255) */
+	/** @ORM\Column(type="string", length=255, unique=true) */
 	protected $company;
 	
 	/** @ORM\Column(type="string", length=255) */
 	protected $type;
 	
 	/** @ORM\Column(type="string", length=255) */
-	protected $url;
+	protected $location;
 	
 	/** @ORM\Column(type="string", length=255) */
 	protected $username;
@@ -32,7 +32,7 @@ class Service {
 	protected $password;
 	
 	/** @ORM\Column(type="string", length=255) */
-	protected $workspace;
+	protected $namespace;
 	
 	
 	public function getId(){
@@ -61,12 +61,12 @@ class Service {
         }
     	$this->type = $type;
     }
-    public function getUrl(){
-    	return $this->url;
+    public function getLocation(){
+    	return $this->location;
     }
     
-    public function setUrl($url){
-    	$this->url = $url;
+    public function setLocation($location){
+    	$this->location = $location;
     }
     public function getUsername(){
     	return $this->username;
@@ -83,11 +83,11 @@ class Service {
     	$this->password = $password;
     }
     
-    public function getWorkspace(){
-    	return $this->workspace;
+    public function getNamespace(){
+    	return $this->namespace;
     }
     
-    public function setWorkspace($workspace){
-    	$this->workspace = $workspace;
+    public function setNamespace($namespace){
+    	$this->namespace = $namespace;
     }
 }

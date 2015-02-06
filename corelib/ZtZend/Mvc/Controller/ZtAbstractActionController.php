@@ -13,6 +13,148 @@ class ZtAbstractActionController extends AbstractActionController {
     
     private $session;
     
+    const TICKET_SEARCH  = 'TicketSearch';
+    const TICKET_CREATE  = 'TicketCreate';
+    const TICKET_GET     = 'TicketGet';
+    const TICKET_UPDATE  = 'TicketUpdate';
+    
+    public function ticketSearch_Otrs ($otrs, $queueCodes, $email, &$extraTickets = [])
+    {
+        $location = $otrs->getLocation();
+        $username = $otrs->getUsername();
+        $password = $otrs->getPassword();
+        $namespace = $otrs->getNamespace();
+        
+        $mergeList = $extraTickets;
+        
+        $ticketList = [];
+        
+        $xml = [
+            'UserLogin' => $username,
+            'Password' => $password,
+        ];
+        
+        $searchXml      = $xml + [ 'QueueIDs' => $queueCodes ]; 
+        $filter_from    = [ 'From' => $email ];
+        $filter_to      = [ 'To' => $email ];
+        $filter_cc      = [ 'Cc' => $email ];
+        
+        $respFrom   = $this->callOtrs($location, $username, $password, $namespace,
+                self::TICKET_SEARCH, $searchXml + $filter_from);
+        $respTo     = $this->callOtrs($location, $username, $password, $namespace,
+                self::TICKET_SEARCH, $searchXml + $filter_to);
+        $respCc     = $this->callOtrs($location, $username, $password, $namespace,
+                self::TICKET_SEARCH, $searchXml + $filter_cc);
+        
+        $listFrom    = $this->extractTagFromSoapResp($respFrom, 'TicketID');
+        $listTo      = $this->extractTagFromSoapResp($respTo,   'TicketID');
+        $listCc      = $this->extractTagFromSoapResp($respCc,   'TicketID');
+       
+        $ticketIdList = $listFrom + array_diff($listTo, $listFrom);
+        $ticketIdList += array_diff($listCc, $ticketIdList);
+        $ticketIdList += array_diff($mergeList, $ticketIdList);
+
+        // Search for all tickets
+        $getXml      = $xml + [
+            'Extended' => true,
+            'AllArticles' => true,
+            // gli attachments solo in apertura della preview
+            'Attachments' => false,
+        ];
+        $respTickets = $this->callOtrs($location, $username, $password, $namespace,
+        		self::TICKET_GET, $getXml + ['TicketID' => $ticketIdList]);
+        
+        $ticketList    = $this->extractTagFromSoapResp($respTickets, 'Ticket');
+        
+        
+        // aggiorno la lista con i ticket da rimuovere perchè già raggiungibili
+        $extraTickets = array_intersect($extraTickets, $listFrom, $listTo, $listCc);
+        
+        return $ticketList;
+    }
+    
+    private function extractTagFromSoapResp($xmlResponce, $tagName)
+    {
+        $doc    = new \DOMDocument('1.0', 'utf-8');
+        $doc->loadXML( $xmlResponce );
+        $nodes  = $doc->getElementsByTagName($tagName);
+        $list = [];
+        foreach($nodes as $node){
+            $value = $this->nodeToArray( $doc, $node);
+        	$list[] = $value?:$node->nodeValue;
+        }
+        return $list;
+    }
+    
+     /**
+     * Returns an array representation of a DOMNode
+     * Note, make sure to use the LIBXML_NOBLANKS flag when loading XML into the DOMDocument
+     * @see http://php.net/manual/en/class.domnode.php#115448
+     * 
+     * @param DOMDocument $dom
+     * @param DOMNode $node
+     * @return array
+     */
+    private function nodeToArray( $dom, $node) {
+        if(!is_a( $dom, 'DOMDocument' ) || !is_a( $node, 'DOMNode' )) {
+            return false;
+        }
+        $array = false; 
+        if( empty( trim( $node->localName ))) {// Discard empty nodes
+            return false;
+        }
+        if( XML_TEXT_NODE == $node->nodeType ) {
+            return $node->nodeValue;
+        }
+        foreach ($node->attributes as $attr) { 
+            $array['@'.$attr->localName] = $attr->nodeValue; 
+        } 
+        foreach ($node->childNodes as $childNode) { 
+            if ( isset($childNode->childNodes) && // added by @fbfz to prevent warning
+                1 == $childNode->childNodes->length &&
+                XML_TEXT_NODE == $childNode->firstChild->nodeType ) { 
+                $array[$childNode->localName] = $childNode->nodeValue; 
+            }  else {
+                if( false !== ($a = self::nodeToArray( $dom, $childNode))) {
+                    $array[$childNode->localName] =     $a;
+                }
+            }
+        }
+        return $array; 
+    }
+    
+    private function callOtrs($location, $username, $password, $namespace, $operation, $xml)
+    {
+        // Set up a new SOAP Connection
+        $soapclient = new \SoapClient(null, array('location'  => $location,
+            'uri'       => $namespace,
+            'trace'     => 1,
+            'login'     => $username,
+            'password'  => $password,
+            'style'     => SOAP_RPC,
+            'use'       => SOAP_ENCODED,
+        ));
+        
+        // Preparing Params for call
+        $param_arr = [];
+        foreach ($xml as $k => $v)
+        	if(is_array($v))
+        		if (!empty($v) && array_keys($v) !== range(0, count($v) - 1))
+        		  {$param_arr[] = new \SoapParam ( $v, $k );}
+        		else
+        			foreach($v as $vv)
+        		      {$param_arr[] = new \SoapParam ( $vv, 'ns1:'.$k );}
+            else
+                {$param_arr[] = new \SoapParam ( $v, 'ns1:'.$k );}
+        
+    	// Call
+        $result = call_user_func_array([$soapclient, $operation], $param_arr);
+        //$req = $soapclient->__getLastRequest();
+        $xml = $soapclient->__getLastResponse();
+        
+        return $xml;
+    }
+    
     function translate ($string) {
         $translator = $this->getServiceLocator()->get('viewhelpermanager')->get('translate');
         return $translator($string);

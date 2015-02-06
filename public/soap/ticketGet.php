@@ -6,7 +6,8 @@ $XMLArray = [
     'Password' =>'aaAA11!!',
     
     'TicketID' => [
-        '1010'
+        '734',
+        '709',
 		],
 
 	'DynamicFields' => '',

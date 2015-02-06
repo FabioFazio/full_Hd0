@@ -11,6 +11,7 @@ use Zend\Config\Config;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Stream as LogWriter;
 use Zend\Log\Filter\Priority as LogFilter;
+use Test\Entity\Service;
 
 class FrontendController extends ZtAbstractActionController {
 
@@ -133,6 +134,63 @@ class FrontendController extends ZtAbstractActionController {
     	return $result->isValid()?$result->getIdentity():false;
     }
     
+    public function ticketListsAction()
+    {
+        $user = $this->getSession()->user;
+        $email = $user->getEmail();
+        $result = [];
+        
+        if (TRUE || !isset($this->getSession()->queues)) // FIXME TRUE solo per forzare le query
+        {
+            $queues = [];
+            $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+            
+            if (count($objectManager->getRepository('Test\Entity\Group')->findAll())){
+                foreach($user->getGroups()->toArray() as $group)
+                    foreach($group->getGrants()->toArray() as $grant)
+                        foreach($grant->getQueues()->toArray() as $queue)
+                            if(!in_array($queue, $queues)){
+                                $queues[] = $queue;
+                            }
+            }else{
+                $items = $objectManager->getRepository('Test\Entity\Queue')->findBy([],['order'=>'ASC']);
+                foreach ($items as $item) $queues[] = $item->toArray();
+            }
+            //array_walk($queues, function($v){return $v->service = $v->getService();});
+            $this->getSession()->queues = $queues;
+        }
+        
+        $queues = $this->getSession()->queues;
+        
+        // Genero le query per gli OTRS allo code relative di cui l utente ha accesso
+        $serviceType = Service::$TYPE_OTRS;
+        $otrsServices = $objectManager->getRepository('Test\Entity\Service')->findBy(['type'=>$serviceType]);
+        
+        foreach($otrsServices as $otrs){
+            global $otrsId;
+            $otrsId = $otrs->getId();
+            $func = function($v){
+            	global $otrsId;
+            	return $v['service_id'] == $otrsId;
+            };
+            $otrsQueues = array_filter($queues, $func); 
+            $queueCodes = array_column($otrsQueues, 'code');
+            unset($otrsId);
+
+            $param_arr = [
+                'otrs' => $otrs,
+                'queueCodes' => $queueCodes,
+                'email' => $email,
+            ];
+            
+            $callName = "ticketSearch_" . ucfirst(strtolower($serviceType));
+            $ticketList = call_user_func_array([$this, $callName], $param_arr);
+           	$result += $ticketList;
+        }
+        
+        return $this->jsonModel ( $result );
+    }
+    
     public function loginAction() {
         //validate input
         $input = [];
@@ -222,20 +280,6 @@ class FrontendController extends ZtAbstractActionController {
     	return $this->jsonModel ( $result );
     }
         
-    public function doctrineAction()
-    {
-    	$objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-    
-    	$user = new \Test\Entity\UserTest();
-    	$user->setFullName('Marco Pivetta');
-    	$user->setEmail('marco@vetta.it');
-    
-    	$objectManager->persist($user);
-    	$objectManager->flush();
-    
-    	die(var_dump($user->getId())); // yes, I'm lazy
-    }
-    
     public function staticAction()
     {
         if ($user = $this->getSession()->user)

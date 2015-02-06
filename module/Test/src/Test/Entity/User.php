@@ -24,7 +24,7 @@ class User {
 	/** @ORM\Column(type="string", length=25, nullable=true) */
 	protected $password;
 	
-	/** @ORM\Column(type="string", length=255, unique=true)) */
+	/** @ORM\Column(type="string", length=255, unique=true) */
 	protected $username;
 	
 	/** @ORM\ManyToMany(targetEntity="Group") */

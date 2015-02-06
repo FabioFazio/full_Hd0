@@ -2,8 +2,8 @@
 $operation = 'TicketSearch';
 
 $XMLArray = [
-    'UserLogin' =>'fabio.fazio',
-    'Password' =>'aaAA11!!',
+    'UserLogin' => 'fabio.fazio',
+    'Password' => 'aaAA11!!',
 
     'TicketNumber' => [],
     'Title' => [],
@@ -15,7 +15,7 @@ $XMLArray = [
     'UseSubQueues' => '',
     'Types'     => ['default'],
     'TypeIDs'   => [],
-    'States'    => ['new','closed successful'],
+    'States'    => ['new','open','closed successful'],
     'StateIDs'  => [],
     'StateType' => [],
     'StateTypeIDs' => [],
@@ -42,10 +42,10 @@ $XMLArray = [
     'CreatedQueues' => [],
     'CreatedQueueIDs' => [],
     'DynamicFields' => [
-        //'Equals' => '',
+        'Equals' => '',
         //'Like' => '',
         //'GreaterThan' => '',
-        'GreaterThanEquals' => '',
+        //'GreaterThanEquals' => '',
         //'SmallerThan' => '',
         //'SmallerThanEquals' => '',
         ],                
@@ -53,12 +53,11 @@ $XMLArray = [
         'Seen' => '',
         ],
     'From' => 'fmfazio@gmail.com',
-
-    'To' => '',
+    'To' => '', //ffazio@zenatek.it',
     'Cc' => '',
     'Subject' => '',
     'Body' => '',
-    'FullTextIndex' => '',
+    'FullTextIndex' =>  '',
     'ContentSearch' => '',
     'ConditionInline' => '',
     'ArticleCreateTimeOlderMinutes' => '',

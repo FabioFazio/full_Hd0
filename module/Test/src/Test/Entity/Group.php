@@ -4,7 +4,10 @@ namespace Test\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
-/** @ORM\Entity */
+/** 
+ * @ORM\Entity
+ * @ORM\Table(name="UserGroup")
+ */
 class Group {
     /**
 	 * @ORM\Id
