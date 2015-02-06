@@ -8,3 +8,7 @@ nbproject
 .settings
 composer.lock
 vendor/bin
+
+/data/cache/*
+/data/log/*
+/data/sql/*~
