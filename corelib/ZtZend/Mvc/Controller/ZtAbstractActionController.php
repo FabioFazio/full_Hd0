@@ -54,17 +54,7 @@ class ZtAbstractActionController extends AbstractActionController {
         $ticketIdList += array_diff($listCc, $ticketIdList);
         $ticketIdList += array_diff($mergeList, $ticketIdList);
 
-        // Search for all tickets
-        $getXml      = $xml + [
-            'Extended' => true,
-            'AllArticles' => true,
-            // gli attachments solo in apertura della preview
-            'Attachments' => false,
-        ];
-        $respTickets = $this->callOtrs($location, $username, $password, $namespace,
-        		self::TICKET_GET, $getXml + ['TicketID' => $ticketIdList]);
-        
-        $ticketList    = $this->extractTagFromSoapResp($respTickets, 'Ticket');
+        $ticketList    = $this->getSearch_Otrs ($otrs, $ticketIdList);
         
         
         // aggiorno la lista con i ticket da rimuovere perchè già raggiungibili
@@ -72,6 +62,35 @@ class ZtAbstractActionController extends AbstractActionController {
         
         return $ticketList;
     }
+    
+    public function getSearch_Otrs ($otrs, $ticketIdList = [])
+    {
+    	$location = $otrs->getLocation();
+    	$username = $otrs->getUsername();
+    	$password = $otrs->getPassword();
+    	$namespace = $otrs->getNamespace();
+    
+    	$ticketList = [];
+    
+    	$xml = [
+    	'UserLogin' => $username,
+    	'Password' => $password,
+    	];
+    
+    	// Search for all tickets
+    	$getXml      = $xml + [
+        	'Extended' => true,
+        	'AllArticles' => true,
+        	// gli attachments solo in apertura della preview
+        	'Attachments' => false,
+    	];
+    	
+    	$respTickets = $this->callOtrs($location, $username, $password, $namespace,
+    			self::TICKET_GET, $getXml + ['TicketID' => $ticketIdList]);
+    
+    	return $this->extractTagFromSoapResp($respTickets, 'Ticket');
+    }
+    
     
     private function extractTagFromSoapResp($xmlResponce, $tagName)
     {
