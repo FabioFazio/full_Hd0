@@ -1,8 +1,51 @@
 <!-- Pref Modal -->
 <script type="text/javascript">
 <!--
-$(function () {
-	
+function removeMetaColors (index, css) {
+    return (css.match (/(^|\s)color-\S+/g) || []).join(' ');
+}
+
+$( function ($) {
+    	var $modal = $('#ticketModal');
+    	
+       $modal.on('show.bs.modal', function (e) {
+            var $related = $(e.relatedTarget);
+            var $current = $(e.currentTarget);
+            var assignments = {
+        			"queue-id"    : true,
+        			"queue-name"  : true,
+        			"queue-color" : true
+        	};
+            
+            if ($related.length)
+            {
+                $.each(assignments, function(index, value){
+                     var data = $related.data(index);
+
+                     $current.find('input:hidden[name="'+index+'"]').prop('value',data);
+
+                     var $items = $current.find('*[data-name="'+index+'"][data-prop]');
+                     
+                     $items.each(function(index, item){
+                    	  var $item = $(item);
+                    	  $item.prop($item.data('prop'), data);
+                         });
+                     
+                     $items = $current.find('*[data-name="'+index+'"]').not('*[data-prop]');
+                     $items.text(data);
+
+                     $current.find('.'+index).removeClass(removeMetaColors).addClass(data);
+                });
+                $current.find('#ticketQueue').text( $('#ticketQueue').text().trimToLength(10) );
+                
+                if (parseInt($current.find('input:hidden[name="id"]').val())>0)
+                	$current.find('.articoli').removeClass('hidden');
+                else
+                	$current.find('.articoli').addClass('hidden');
+            }
+        	colorize($current);
+        });
+
 $("#ticketModal").on ("change", "#tagCloud :checkbox", function(e) {
 	var buttons = $(this).siblings("[data-toggle='buttons']").eq(0);
 	$('label < :checked', buttons).eq(0).button('toggle').find(':checkbox').prop('checked');
@@ -28,22 +71,34 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
     }).get(); 
     console.log(tag);
 });
+
 });
 //-->
 </script>
 <div id="ticketModal" class="modal modal-sm fade" tabindex="-2" role="dialog">
 	<div class="modal-dialog">
 		<div class="modal-content">
-		    <form method="post" data-async data-target="#ticketModal [name='feedback']">
+		    <form method="post" data-validate data-async data-target="#ticketModal [name='feedback']" method="POST"
+		      action="<?php echo $this->url('test', array('controller' => 'frontend', 'action'=>'saveTicket'))?>" >
 		    
-		    <div class="zero-clipboard"><span class="bg-dark-r btn-clipboard">EasyPOP <span title="EasyPOP" class="glyphicon glyphicon-tag"></span></span></span></div>
+		    <div class="zero-clipboard" data-name="queue-name" data-prop="title" title="Queue" >
+		      <span class="queue-color btn-clipboard" >
+		          <span id="ticketQueue" data-name="queue-name"></span>
+		          <span class="glyphicon glyphicon-tag"></span>
+	          </span>
+          </div>
 		    
 			<div class="modal-header b-grey">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
 				<div class="row">
     				<div class="col-md-9">	
-    				    <input type="text" class="form-control" name="title" placeholder="Titolo..." />
+    				    <input type="text" class="form-control" name="title" 
+    				        data-name="ticket-title" placeholder="Titolo..."
+    				        data-validation-error-msg="Campo obbligatorio non superiore a 50 caratteri"
+                            data-validation="required length" 
+                            data-validation-length="max50"
+				        />
     				</div>
 				</div>
 			</div>
@@ -52,65 +107,61 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
         			<span name="feedback"></span>
         			<span name="hint"></span>
     
-    				<input name="id" type="hidden" value="" />
+    				<input name="id" type="hidden" value="0" />
+    				<input name="queue-id" type="hidden" value="" />
+    				<input name="queue-name" type="hidden" value="" />
+    				<input name="queue-color" type="hidden" value="" />
     				
     				<div class="col-md-9">
         				    
-        				        <textarea class="col-md-12 form-control" name="description"  placeholder="Descrizione..."></textarea>
-        			
-                                <div class="col-md-12 form-control wizard">
-                                    <div id="rootwizard">
-                                    	<div class="navbar">
-                                    	  <div class="navbar-inner">
-                                        	<ul>
-                                    	  	<li><a href="#tab1" data-toggle="tab">1# Domanda</a></li>
-                                    		<li><a href="#tab2" data-toggle="tab">2# Domanda</a></li>
-                                    		<li><a href="#tab3" data-toggle="tab">3# Domanda</a></li>
-                                    	   </ul>
-                                    	  </div>
-                                    	</div>
-                                        <div id="bar" class="progress progress-striped active">
-                                           <div class="bar progress-bar"></div>
-                                        </div>
-                                    	<div class="tab-content">
-                                    	    <div class="tab-pane" id="tab1">
-                                    	      1
-                                    	    </div>
-                                    	    <div class="tab-pane" id="tab2">
-                                    	      2
-                                    	    </div>
-                                    		<div class="tab-pane" id="tab3">
-                                    		  3
-                                    	    </div>
-                                    		<ul class="pager wizard">
-                                    			<li class="previous first" style="display:none;"><a href="#">Primo</a></li>
-                                    			<li class="previous"><a href="#">Indietro</a></li>
-                                    <!-- 		<li class="next last" style="display:none;"><a href="#">Ultimo</a></li> -->
-                                    		  	<li class="next"><a href="#">Avanti</a></li>
-                                    		  	<li class="next finish" style="display:none;"><a href="javascript:;">Pubblica</a></li>
-                                    		</ul>
-                                    	</div>	
-                                    </div> 
+   				        <textarea class="col-md-12 form-control" name="description"
+   				            data-name="ticket-desc" placeholder="Descrizione..."
+     				        data-validation-error-msg="Testo atteso non inferiore a 50 caratteri"
+                            data-validation="length" 
+                            data-validation-length="min50"></textarea>
+<!-- start@wizard -->
+                        <div class="col-md-12 form-control wizard hidden">
+                            <div id="rootwizard">
+                            	<div class="navbar">
+                            	  <div class="navbar-inner">
+                                	<ul>
+                            	  	<li><a href="#tab1" data-toggle="tab">1# Domanda</a></li>
+                            		<li><a href="#tab2" data-toggle="tab">2# Domanda</a></li>
+                            		<li><a href="#tab3" data-toggle="tab">3# Domanda</a></li>
+                            	   </ul>
+                            	  </div>
+                            	</div>
+                                <div id="bar" class="progress progress-striped active">
+                                   <div class="bar progress-bar"></div>
                                 </div>
+                            	<div class="tab-content">
+                            	    <div class="tab-pane" id="tab1">
+                            	      1
+                            	    </div>
+                            	    <div class="tab-pane" id="tab2">
+                            	      2
+                            	    </div>
+                            		<div class="tab-pane" id="tab3">
+                            		  3
+                            	    </div>
+                            		<ul class="pager wizard">
+                            			<li class="previous first" style="display:none;"><a href="#">Primo</a></li>
+                            			<li class="previous"><a href="#">Indietro</a></li>
+                            <!-- 		<li class="next last" style="display:none;"><a href="#">Ultimo</a></li> -->
+                            		  	<li class="next"><a href="#">Avanti</a></li>
+                            		  	<li class="next finish" style="display:none;"><a href="javascript:;">Pubblica</a></li>
+                            		</ul>
+                            	</div>	
+                            </div>
+                        </div> 
+<!-- end@wizard -->
     				</div>
-    				
     				<div class="col-md-3">
     				    <div id="priority" data-toggle="buttons">
     				        <label title="Non posso lavorare!" class="btn btn-default"><input type="checkbox" />Urgente <span class="glyphicon glyphicon-exclamation-sign alert-danger"></span></input></label>
     				    </div>
-    				    <div id="tagCloud" class="well">
-    				        <center><label>Dettaglio Applicativo</label></center>
-    				        <div class="well well-inner">
-    				        
-    				            <div data-toggle="buttons">
-                                      <label class="btn btn-default btn-xs"><input type="checkbox" />a</button></label>
-                                      <label class="btn btn-default btn-xs"><input type="checkbox" />b</button></label>
-                                      <label class="btn btn-default btn-xs"><input type="checkbox" />Home</button></label>
-                                      <label class="btn btn-default btn-xs"><input type="checkbox" />asd a sa </button></label>
-                                </div>
-    				        </div>
-    				    </div>
     				</div>
+<!-- start@articles -->
     				<div class="col-md-12">
     				    <div class="well articoli">
     				        <h4><span title="articoli" class="glyphicon glyphicon-comment"></span> Articoli</h4>
@@ -183,13 +234,12 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
                             </div>
     				    </div>
     				</div>
+<!-- end@articles -->
 				</div>
             </div>
 			<div class="modal-footer b-grey">
-<!-- 				<button type="submit" class="btn btn-primary"> -->
-<!-- 				    <span class="glyphicon glyphicon-floppy-disk"></span> Salva -->
-<!--                 </button> -->
-				<button type="submit" class="btn btn-info" disabled="disabled">
+			     <!-- if wizards disabled="disabled" che lo attiva lui -->
+				<button type="submit" class="btn btn-info">
 				    <span class="glyphicon glyphicon-send"></span> Pubblica
                 </button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">
@@ -200,4 +250,4 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
 		</form>
 	</div>
 </div>
-<!-- /Pref Modal -->
+    				

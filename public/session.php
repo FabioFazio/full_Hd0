@@ -11,6 +11,7 @@ if(isset($_COOKIE['PHPSESSID']))
 	Zend\Mvc\Application::init(require 'config/application.config.php');
 	chdir($cwd);
 	
+	session_start();
 	$session =isset($_SESSION)?$_SESSION:[];
 }
 ?>

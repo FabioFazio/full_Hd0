@@ -19,6 +19,7 @@ class FrontendController extends ZtAbstractActionController {
     protected $ldapauthservice;
     protected $storage;
     protected $logservice;
+    protected $objectManager;
 
     public function getAuthService()
     {
@@ -64,6 +65,14 @@ class FrontendController extends ZtAbstractActionController {
     	return $this->logservice;
     }
     
+    public function getObjectManager()
+    {
+        if (! $this->objectManager) {
+        	$this->objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+        }
+        return $this->objectManager;
+    }
+    
     protected function ldapAuthentication($input)
     {
         $result = $this->getLdapAuthService()->getAdapter()
@@ -94,7 +103,7 @@ class FrontendController extends ZtAbstractActionController {
         if ($result->isValid()) /// if ( strtolower($messages[0]) == 'invalid credentials' )
         {
             // check db: if not exists, create. if has no email, require it
-            $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+            $objectManager = $this->getObjectManager();
             $user = $objectManager
                 ->getRepository('Test\Entity\User')
                 ->findOneBy(array('username' => $input['username']));
@@ -134,33 +143,41 @@ class FrontendController extends ZtAbstractActionController {
     	return $result->isValid()?$result->getIdentity():false;
     }
     
+    private function getUserQueues()
+    {
+        $user = $this->getSession()->user;
+        $result = [];
+        
+        if (!isset($this->getSession()->queues))
+        {
+        	$queues = [];
+        	$objectManager = $this->getObjectManager();
+        
+        	if (count($objectManager->getRepository('Test\Entity\Group')->findAll())){
+        		foreach($user->getGroups()->toArray() as $group)
+        		foreach($group->getGrants()->toArray() as $grant)
+        		foreach($grant->getQueues()->toArray() as $queue)
+        		if(!in_array($queue, $queues)){
+        			$queues[] = $queue;
+        		}
+        	}else{
+        		$items = $objectManager->getRepository('Test\Entity\Queue')->findBy([],['order'=>'ASC']);
+        		foreach ($items as $item) $queues[] = $item->toArray();
+        	}
+        	$this->getSession()->queues = $queues;
+        }
+        
+        return $this->getSession()->queues;
+    }
+    
     public function ticketListsAction()
     {
         $user = $this->getSession()->user;
         $email = $user->getEmail();
         $result = [];
         
-        if (TRUE || !isset($this->getSession()->queues)) // FIXME TRUE solo per forzare le query
-        {
-            $queues = [];
-            $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-            
-            if (count($objectManager->getRepository('Test\Entity\Group')->findAll())){
-                foreach($user->getGroups()->toArray() as $group)
-                    foreach($group->getGrants()->toArray() as $grant)
-                        foreach($grant->getQueues()->toArray() as $queue)
-                            if(!in_array($queue, $queues)){
-                                $queues[] = $queue;
-                            }
-            }else{
-                $items = $objectManager->getRepository('Test\Entity\Queue')->findBy([],['order'=>'ASC']);
-                foreach ($items as $item) $queues[] = $item->toArray();
-            }
-            //array_walk($queues, function($v){return $v->service = $v->getService();});
-            $this->getSession()->queues = $queues;
-        }
-        
-        $queues = $this->getSession()->queues;
+        $objectManager = $this->getObjectManager();
+        $queues = $this->getUserQueues();
         
         // Genero le query per gli OTRS allo code relative di cui l utente ha accesso
         $serviceType = Service::$TYPE_OTRS;
@@ -188,7 +205,10 @@ class FrontendController extends ZtAbstractActionController {
            	$result += $ticketList;
         }
         
-        return $this->jsonModel ( $result );
+        if ($this->request->getQuery('dump', false))
+            die(var_dump( $result ));
+        else
+            return $this->jsonModel ( $result );
     }
     
     public function loginAction() {
@@ -230,7 +250,8 @@ class FrontendController extends ZtAbstractActionController {
     	return $this->jsonModel ( $result );
     }
     
-    public function logoutAction() {
+    public function logoutAction()
+    {
         $user = $this->getSession()->user;
         $username = ($user)?$user->getUsername():'[?]';
         
@@ -244,7 +265,8 @@ class FrontendController extends ZtAbstractActionController {
         return $this->redirect()->toRoute('home');
     }
     
-    public function settingsAction() {
+    public function settingsAction()
+    {
         
         //validate input
         $input = [];
@@ -279,17 +301,55 @@ class FrontendController extends ZtAbstractActionController {
     	}
     	return $this->jsonModel ( $result );
     }
-        
+    
+    public function homeAction()
+    {
+    	$user = [];
+    	$queues = [];
+    	if ($user = $this->getSession()->user) {
+    		$user = [
+    		'id'	=> $user->getId(),
+    		'username'	=> $user->getUsername(),
+    		'name'	=> $user->getName(),
+    		'email'	=> ($user->getEmail() == $user->getUsername())? '' : $user->getEmail(),
+    		];
+    		$queues = $this->getUserQueues();
+    	}
+    	$modals = array (
+    			array (
+    					'modalName' => 'modal/ticket.phtml',
+    					'modalParams' => array ()
+    			),
+    			array (
+    					'modalName' => 'modal/login.phtml',
+    					'modalParams' => array ( 'user' => $user ),
+    			),
+    			array (
+    					'modalName' => 'modal/settings.phtml',
+    					'modalParams' => array ()
+    			),
+    	);
+    
+    	return $this->viewModel ( array (
+    			'modals' => $modals,
+    			'queues' => $queues,
+    	)
+    	);
+    }
+    
     public function staticAction()
     {
-        if ($user = $this->getSession()->user)
+        $user = [];
+        $queues = [];
+        if ($user = $this->getSession()->user) {
         	$user = [
         		    'id'	=> $user->getId(),
         		    'username'	=> $user->getUsername(),
         		    'name'	=> $user->getName(),
         		    'email'	=> ($user->getEmail() == $user->getUsername())? '' : $user->getEmail(),
                 ];
-            
+            $queues = $this->getUserQueues();
+        }
     	$modals = array (
             array (
 				'modalName' => 'modal/demo2-ticket.phtml',
@@ -306,7 +366,8 @@ class FrontendController extends ZtAbstractActionController {
     	);
     
     	return $this->viewModel ( array (
-			'modals' => $modals,
+			 'modals' => $modals,
+	         'queues' => $queues,
 	        )
     	);
     }

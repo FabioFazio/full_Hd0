@@ -1,6 +1,17 @@
 "use strict";
 
 /////////////////////////////////////////////
+//////__CUSTOM STRING JS EXTENSION _ ////////
+// http://stackoverflow.com/questions/4637942/how-can-i-truncate-a-string-in-jquery
+/////////////////////////////////////////////
+
+String.prototype.trimToLength = function(m) {
+	  return (this.length > m) 
+	    ? $.trim(this).substring(0, m).split(" ").slice(0, -1).join(" ") + "..."
+	    : this;
+	};
+
+/////////////////////////////////////////////
 //////// __DETECT CLIENT BROWSER__ ////////// 
 /////////////////////////////////////////////
 

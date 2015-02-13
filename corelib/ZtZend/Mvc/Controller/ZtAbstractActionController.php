@@ -5,7 +5,6 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Zend\Session\Container;
-use Zend\Session\SessionManager;
 use Zend\Session\Storage\SessionArrayStorage;
 use Zend\I18n\Translator\Translator;
 

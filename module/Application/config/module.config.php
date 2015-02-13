@@ -16,7 +16,7 @@ return array(
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'Test\Controller\Frontend',
-                        'action'     => 'static',
+                        'action'     => 'home',
                     ),
                 ),
             ),
