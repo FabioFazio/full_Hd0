@@ -98,8 +98,10 @@ function populate(data){
     var counters = {};
 
     // generazione liste di visualizzazione
-    $.each(bozzeStateIds, function(k,id){if(id in data) $.merge(bozze, data[id]);});
-    $.each(chiuseStateIds, function(k,id){if(id in data) $.merge(chiuse, data[id]);});
+    $.each(bozzeStateIds, function(k,id){
+        if(id in data) $.merge(bozze, data[id]);});
+    $.each(chiuseStateIds, function(k,id){
+        if(id in data) $.merge(chiuse, data[id]);});
 
     // aggiornamento contatori
     $.each(bozze, function(k,v){
