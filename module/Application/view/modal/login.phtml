@@ -36,7 +36,7 @@ $(function($) {
          <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
         <h3 class="modal-title form-signin-heading" id="loginLabel"><?php echo $this->translate('Autenticazione') ?></h3>
       </div>
-      <form id="auth" class="form-signin" data-async data-validate data-target="#login [name='feedback']" 
+      <form id="auth" class="form-signin" data-refresh="true" data-async data-validate data-target="#login [name='feedback']" 
         action="<?php echo $this->url('login')?>"
         method="POST">
       <div class="modal-body" style="background-color: #f5f5f5;">

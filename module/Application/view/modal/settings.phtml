@@ -27,7 +27,7 @@ $(function($) {
          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title form-signin-heading" id="settingsLabel"><?php echo $this->translate('Impostazioni Utente') ?></h4>
       </div>
-      <form id="profile" class="form-settings" data-async data-validate data-target="#settings [name='feedback']" 
+      <form id="profile" class="form-settings" data-refresh="true" data-async data-validate data-target="#settings [name='feedback']" 
         action="<?php echo $this->url('test', array('controller' => 'frontend', 'action'=>'settings'))?>" 
         method="POST">
       <div class="modal-body">

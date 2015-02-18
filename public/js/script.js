@@ -92,6 +92,8 @@ function formResponce ( data, status, $msgBox, $form )
 		setTimeout(function() {
 				$msgBox.closest('.modal').modal('hide');
 				$('.alert', $msgBox ).alert('close');
+		    	if($form.data('refresh'))
+		    		content();
 			}, 1500);
 	}
 } 
@@ -385,7 +387,7 @@ $(function () {
     $.formUtils.addValidator({
     	  name : 'domain',
     	  validatorFunction : function(value, $el, config, language, $form) {
-    		  var domains = ['iper.it','ortofin.it','unes.it', 'zenatek'];
+    		  var domains = ['iper.it','ortofin.it','unes.it', 'zenatek', 'gmail'];
     		  var valid = false;
     		  while (domains.length > 0)
     			  {
