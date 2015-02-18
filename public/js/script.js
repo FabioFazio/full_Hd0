@@ -269,12 +269,17 @@ $(function () {
 
 	/////////////////////////////////////////////
 	///////////// __TOOLTIP__ ///////////////////
+    // http://www.tutorialspoint.com/bootstrap/bootstrap_tooltip_plugin.htm
 	/////////////////////////////////////////////
+
+    if (typeof(initHelp) == "function"){
+		initHelp();
+    }
     
     var optTooltBase = {
-    		aniumation:	false,
-    		delay:		{ "show": 100, "hide": 100 },
-    		html:		true,
+		aniumation:	false,
+		delay:		{ "show": 100, "hide": 100 },
+		html:		true,
     };
 
     $('[data-toggle="tooltip"][title_0]:not([title])').each(function(){

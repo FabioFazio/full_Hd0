@@ -1,40 +1,54 @@
 <!-- Pref Modal -->
 <script type="text/javascript">
 <!--
-function removeMetaColors (index, css) {
-    return (css.match (/(^|\s)color-\S+/g) || []).join(' ');
+function priorityButton (e) {
+   var $button = e? $(this) : $('#priority .btn');
+   var $input = $button.find('input:checkbox');
+   if (e){
+	   $button.toggleClass("btn-default").toggleClass("btn-danger");
+	   $button.find(".glyphicon").toggleClass("alert-danger");
+	   $input.prop("checked", !$input.prop("checked"));
+   } else {
+	   $input.prop("checked", !$input.prop("checked"));
+	   $button.click();
+   }
 }
 
 $( function ($) {
-    	var $modal = $('#ticketModal');
+       var $modal = $('#ticketModal');
     	
        $modal.on('show.bs.modal', function (e) {
             var $related = $(e.relatedTarget);
             var $current = $(e.currentTarget);
-            var assignments = {
-        			"queue-id"    : true,
-        			"queue-name"  : true,
-        			"queue-color" : true
+            var assignments = { // true: attr false: prop
+        			"queue-id"       :   true,
+        			"queue-name"     :   true,
+        			"queue-color"    :   true,
+        			"id"             :   true,
+        			"ticket-priority":   false,
+        			"ticket-title"   :   false,
+        			"ticket-desc"    :   false,
         	};
             
             if ($related.length)
             {
-                $.each(assignments, function(index, value){
-                     var data = $related.data(index);
+                $.each(assignments, function(index, attr){
 
-                     $current.find('input:hidden[name="'+index+'"]').prop('value',data);
+                    var data = (attr)?$related.data(index):$related.prop('data-'+index);
 
-                     var $items = $current.find('*[data-name="'+index+'"][data-prop]');
+                    $current.find('input:hidden[name="'+index+'"]').prop('value',data);
+
+                    var $items = $current.find('*[data-name="'+index+'"][data-prop]');
                      
-                     $items.each(function(index, item){
+                    $items.each(function(index, item){
                     	  var $item = $(item);
                     	  $item.prop($item.data('prop'), data);
-                         });
+                        });
                      
-                     $items = $current.find('*[data-name="'+index+'"]').not('*[data-prop]');
-                     $items.text(data);
+                    $items = $current.find('*[data-name="'+index+'"]').not('*[data-prop]');
+                    $items.text(data);
 
-                     $current.find('.'+index).removeClass(removeMetaColors).addClass(data);
+                    $current.find('.'+index).removeClass(removeMetaColors).addClass(data);
                 });
                 $current.find('#ticketQueue').text( $('#ticketQueue').text().trimToLength(10) );
                 
@@ -43,35 +57,22 @@ $( function ($) {
                 else
                 	$current.find('.articoli').addClass('hidden');
             }
-        	colorize($current);
+            colorize($current);
+            priorityButton();
         });
-
-$("#ticketModal").on ("change", "#tagCloud :checkbox", function(e) {
+       $("#priority .btn").on('click', priorityButton);
+   	
+/* $("#ticketModal").on ("change", "#tagCloud :checkbox", function(e) {
 	var buttons = $(this).siblings("[data-toggle='buttons']").eq(0);
 	$('label < :checked', buttons).eq(0).button('toggle').find(':checkbox').prop('checked');
 });
 
-$("#priority .btn").on('click', function (e) {
-	if ($(":checkbox", this).is(":checked"))
-	{
-		$(this).removeClass("btn-danger");
-		$(this).addClass("btn-default");
-		$(".glyphicon", this).addClass("alert-danger");
-	}else{
-		$(this).removeClass("btn-default");
-		$(this).addClass("btn-danger");
-		$(".glyphicon", this).removeClass("alert-danger"); 
-	}
-});
-
 $("#tagCloud [data-toggle='buttons']").change(function (e) {
-
 	var tag = $("#tagCloud :checkbox").map(function () {
         return +$(this).is(':checked');
     }).get(); 
     console.log(tag);
-});
-
+}); */
 });
 //-->
 </script>
@@ -94,7 +95,7 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
 				<div class="row">
     				<div class="col-md-9">	
     				    <input type="text" class="form-control" name="title" 
-    				        data-name="ticket-title" placeholder="Titolo..."
+    				        data-name="ticket-title" data-prop="value" placeholder="Titolo..."
     				        data-validation-error-msg="Campo obbligatorio non superiore a 50 caratteri"
                             data-validation="required length" 
                             data-validation-length="max50"
@@ -158,7 +159,7 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
     				</div>
     				<div class="col-md-3">
     				    <div id="priority" data-toggle="buttons">
-    				        <label title="Non posso lavorare!" class="btn btn-default"><input type="checkbox" />Urgente <span class="glyphicon glyphicon-exclamation-sign alert-danger"></span></input></label>
+    				        <label title="Non posso lavorare!" class="btn btn-default"><input data-name="ticket-priority" data-prop="checked" type="checkbox" />Urgente <span class="glyphicon glyphicon-exclamation-sign alert-danger"></span></label>
     				    </div>
     				</div>
 <!-- start@articles -->

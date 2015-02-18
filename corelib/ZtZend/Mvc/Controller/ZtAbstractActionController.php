@@ -17,6 +17,33 @@ class ZtAbstractActionController extends AbstractActionController {
     const TICKET_GET     = 'TicketGet';
     const TICKET_UPDATE  = 'TicketUpdate';
     
+    private $OTRS_ARTICLE_TYPES  = [
+        'webrequest',
+        'email-external'
+        // 'note-internal',
+    ];
+    
+    private $OTRS_INLAV_STATEIDS  = [1,4,6,7,8];    // new, open, pending reminder, pending close+, pending close- 
+    
+    private $OTRS_CHIUSE_STATEIDS  = [2,3,10,5];    // closed_succ, closed_unsucc, closed_w_workaround, removed
+    
+    private $OTRS_INVIS_STATEIDS  = [9];            // merged
+    
+    public function getOtrsArticleTypes()
+    {
+    	return $this->OTRS_ARTICLE_TYPES;
+    }
+    
+    public function getOtrsInlavStateIds()
+    {
+    	return $this->OTRS_INLAV_STATEIDS;
+    }
+    
+    public function getOtrsChiuseStateIds()
+    {
+    	return $this->OTRS_CHIUSE_STATEIDS;
+    }
+    
     public function ticketSearch_Otrs ($otrs, $queueCodes, $email, &$extraTickets = [])
     {
         $location = $otrs->getLocation();
@@ -26,7 +53,7 @@ class ZtAbstractActionController extends AbstractActionController {
         
         $mergeList = $extraTickets;
         
-        $ticketList = [];
+        $ticketList = $stateList = [];
         
         $xml = [
             'UserLogin' => $username,
@@ -54,15 +81,25 @@ class ZtAbstractActionController extends AbstractActionController {
         $ticketIdList += array_diff($mergeList, $ticketIdList);
 
         $ticketList    = $this->getSearch_Otrs ($otrs, $ticketIdList);
+
+        // new list of states with all tickets
+        $stateList = [];
+        $states = array_column($ticketList , 'State', 'StateID');
+        global $filter;
+        foreach ($states as $id => $state){
+            $filter = $id;
+            $stateList[$id] = array_filter($ticketList , 
+                    function($v){ global $filter; return $v['StateID']==$filter; });
+        }
+        unset($filter);
         
-        
-        // aggiorno la lista con i ticket da rimuovere perchè già raggiungibili
+        // aggiorno la lista con i ticket da rimuovere perchè già raggiungibili TODO
         $extraTickets = array_intersect($extraTickets, $listFrom, $listTo, $listCc);
         
-        return $ticketList;
+        return $stateList;
     }
     
-    public function getSearch_Otrs ($otrs, $ticketIdList = [])
+    public function getSearch_Otrs ($otrs, $ticketIdList = [], $attachments = false)
     {
     	$location = $otrs->getLocation();
     	$username = $otrs->getUsername();
@@ -81,13 +118,14 @@ class ZtAbstractActionController extends AbstractActionController {
         	'Extended' => true,
         	'AllArticles' => true,
         	// gli attachments solo in apertura della preview
-        	'Attachments' => false,
+        	'Attachments' => $attachments,
     	];
     	
     	$respTickets = $this->callOtrs($location, $username, $password, $namespace,
     			self::TICKET_GET, $getXml + ['TicketID' => $ticketIdList]);
     
-    	return $this->extractTagFromSoapResp($respTickets, 'Ticket');
+    	$result = $this->extractTagFromSoapResp($respTickets, 'Ticket');
+    	return $result;
     }
     
     
@@ -113,7 +151,7 @@ class ZtAbstractActionController extends AbstractActionController {
      * @param DOMNode $node
      * @return array
      */
-    private function nodeToArray( $dom, $node) {
+    private function nodeToArray( $dom, $node, $multiNode = ['Article']) {
         if(!is_a( $dom, 'DOMDocument' ) || !is_a( $node, 'DOMNode' )) {
             return false;
         }
@@ -130,11 +168,23 @@ class ZtAbstractActionController extends AbstractActionController {
         foreach ($node->childNodes as $childNode) { 
             if ( isset($childNode->childNodes) && // added by @fbfz to prevent warning
                 1 == $childNode->childNodes->length &&
-                XML_TEXT_NODE == $childNode->firstChild->nodeType ) { 
-                $array[$childNode->localName] = $childNode->nodeValue; 
+                XML_TEXT_NODE == $childNode->firstChild->nodeType ) {
+                // note by @fbfz: multiple nodes with same name are overriden
+                //$array[$childNode->localName] = $childNode->nodeValue;
+                if (in_array($childNode->localName, $multiNode)){
+                	$array[$childNode->localName][] = $childNode->nodeValue;
+                }else{
+                	$array[$childNode->localName] = $childNode->nodeValue;
+                }
             }  else {
                 if( false !== ($a = self::nodeToArray( $dom, $childNode))) {
-                    $array[$childNode->localName] =     $a;
+                    // replaced by @fbfz to support multiple nodes with same name
+                    //$array[$childNode->localName] =     $a;
+                	if (in_array($childNode->localName, $multiNode)){
+                		$array[$childNode->localName][] = $a;
+                	}else{
+                	    $array[$childNode->localName] = $a;
+                	}
                 }
             }
         }

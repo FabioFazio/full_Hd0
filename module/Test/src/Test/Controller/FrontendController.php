@@ -202,7 +202,27 @@ class FrontendController extends ZtAbstractActionController {
             
             $callName = "ticketSearch_" . ucfirst(strtolower($serviceType));
             $ticketList = call_user_func_array([$this, $callName], $param_arr);
-           	$result += $ticketList;
+            $tickets = [];
+            
+            foreach($ticketList as $state => $list){
+                array_walk($list, function(&$v,$k,$qs){
+                   global $f; $f=$v['QueueID'];
+                   $q = current(array_filter($qs, function($q){global $f; return $q['code']==$f;}));
+                   unset($f);
+                   $articles = array_filter($v['Article'], function($a){
+                            return in_array($a['ArticleType'], $this->getOtrsArticleTypes());
+                        });
+            	   $v = array_merge ( $v, [
+            	           'ArticleNum' => count($articles)-1,
+            	           'Article' => [current($v['Article'])],
+            	           'QueueName' => $q['name'],
+            	           'QueueColor' => 'color-' . $q['order'],
+                        ]);
+                }, $otrsQueues);
+                $tickets[$state] = array_values($list);
+            }
+            
+           	$result += $tickets;
         }
         
         if ($this->request->getQuery('dump', false))
@@ -333,6 +353,8 @@ class FrontendController extends ZtAbstractActionController {
     	return $this->viewModel ( array (
     			'modals' => $modals,
     			'queues' => $queues,
+    	        'otrsInlav' => $this->getOtrsInlavStateIds(),
+    	        'otrsChiuse' => $this->getOtrsChiuseStateIds(),
     	)
     	);
     }
