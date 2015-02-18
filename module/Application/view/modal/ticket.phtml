@@ -45,7 +45,7 @@ $( function ($) {
 
                     var $items = $current.find('*[data-name="'+index+'"][data-prop]');
                      
-                    $items.each(function(index, item){
+                    $items.each(function(k, item){
                     	  var $item = $(item);
                     	  $item.prop($item.data('prop'), data);
                         });
@@ -57,15 +57,28 @@ $( function ($) {
                 });
                 $current.find('#ticketQueue').text( $('#ticketQueue').text().trimToLength(10) );
                 
-                if (parseInt($current.find('input:hidden[name="id"]').val())>0)
+                if (parseInt($current.find('input:hidden[name="id"]').val())>0){
+                    
                 	$current.find('.articoli').removeClass('hidden');
-                else
+                	$current.find('input').add($current.find('textarea')).each(
+                        	function(){this.disabled=true});
+                	$("#priority .btn").addClass('disabled');
+                	$("#send").add("#cancel").addClass('hidden');
+                	$("#close").removeClass('hidden');
+                }else{
+                    
                 	$current.find('.articoli').addClass('hidden');
+                	$current.find('input').add($current.find('textarea')).each(
+                        	function(){this.disabled=false});
+                	$("#priority .btn").removeClass('disabled');
+                	$("#send").add("#cancel").removeClass('hidden');
+                	$("#close").addClass('hidden');
+            	}
             }
             colorize($current);
             priorityButton();
+            $("#priority .btn").on('click', priorityButton);
         });
-       $("#priority .btn").on('click', priorityButton);
    	
 /* $("#ticketModal").on ("change", "#tagCloud :checkbox", function(e) {
 	var buttons = $(this).siblings("[data-toggle='buttons']").eq(0);
@@ -121,7 +134,7 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
     				<div class="col-md-9">
         				    
    				        <textarea class="col-md-12 form-control" name="description"
-   				            data-name="ticket-desc" placeholder="Descrizione..."
+   				            data-name="ticket-desc" data-prop="value" placeholder="Descrizione..."
      				        data-validation-error-msg="Testo atteso non inferiore a 50 caratteri"
                             data-validation="length" 
                             data-validation-length="min50"></textarea>
@@ -245,11 +258,14 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
             </div>
 			<div class="modal-footer b-grey">
 			     <!-- if wizards disabled="disabled" che lo attiva lui -->
-				<button type="submit" class="btn btn-info">
+				<button id="send" type="submit" class="btn btn-info">
 				    <span class="glyphicon glyphicon-send"></span> Pubblica
                 </button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">
+				<button id="cancel" type="button" class="btn btn-default" data-dismiss="modal">
 				    Annulla
+                </button>
+                <button id="close" type="button" class="btn btn-default hidden" data-dismiss="modal">
+				    Chiudi
                 </button>
 			</div>
 		</div>
