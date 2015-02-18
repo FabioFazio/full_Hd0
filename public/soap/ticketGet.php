@@ -6,10 +6,12 @@ $XMLArray = [
     'Password' =>'aaAA11!!',
     
     'TicketID' => [
-        '734',
-        '709',
+        //'734',
+        //'709',
+        //'1031',
+        '1029',
 		],
-
+		
 	'DynamicFields' => '',
 	'Extended' => true,
 	'AllArticles' => true,
@@ -19,8 +21,11 @@ $XMLArray = [
 	'Attachments' => true,
 ];
 
-
 error_reporting(E_ALL);
+
+if(isset($_GET['id'])){
+    $XMLArray['TicketID'] = explode("-", $_GET['id']);
+}
 
 $url	  = "http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector";
 $username = "fabio.fazio";
