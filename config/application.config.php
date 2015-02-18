@@ -14,7 +14,7 @@ $modules = array (
     'Test',
     );
 
-if ($env == 'development') {
+if (false && $env == 'development') {
     $modules[] = 'BjyProfiler';
     $modules[] = 'ZendDeveloperTools';
 }
