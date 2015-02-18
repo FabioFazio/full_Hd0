@@ -193,11 +193,22 @@ class FrontendController extends ZtAbstractActionController {
             $otrsQueues = array_filter($queues, $func); 
             $queueCodes = array_column($otrsQueues, 'code');
             unset($otrsId);
+            
+            /*
+            $queueIds = array_column($otrsQueues, 'id');
+            $criteria = new \Doctrine\Common\Collections\Criteria();
+            $criteria->expr()->eq('queue', array_pop($queueIds));
+            foreach ($queueIds as $id)
+                $criteria->orWhere('queue = '.$id);
+            $extraTickets = $user->getTracks()->findBy($criteria);
+            $extraTicketsCode = array_column($extraTickets, 'code');
+            */
 
             $param_arr = [
                 'otrs' => $otrs,
                 'queueCodes' => $queueCodes,
                 'email' => $email,
+                //'extraTickets' => &$extraTicketsCode,
             ];
             
             $callName = "ticketSearch_" . ucfirst(strtolower($serviceType));
