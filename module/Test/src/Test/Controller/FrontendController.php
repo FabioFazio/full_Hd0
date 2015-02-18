@@ -217,6 +217,7 @@ class FrontendController extends ZtAbstractActionController {
             	           'Article' => [current($v['Article'])],
             	           'QueueName' => $q['name'],
             	           'QueueColor' => 'color-' . $q['order'],
+            	           'QueueOrder' => $q['order'],
                         ]);
                 }, $otrsQueues);
                 $tickets[$state] = array_values($list);

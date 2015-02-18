@@ -22,18 +22,17 @@ var ambitiApplicativiHelps = {
 var bozzeHelps = {
 		title_0: "<b>In Lavorazione</b><br />contengono le segnalazioni pubblicate <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button> per tutte le fasi di avanzamenti fino alla chiusura",
 		title_1: "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina l'Ambito Applicativo di appartenenza",
-		title_2: "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare lo stato di avanzamento <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span>",
+		title_2: "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare il loro stato di avanzamento <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span>",
 };
 
 var chiuseHelps = {
 		title_0: "<b>Chiuse</b><br />contiene segnalazioni in fine avanzamento e risolte <span class='badge alert-success'><span class='glyphicon glyphicon-ok'></span></span> dagli operatori di supporto",
 		title_1: "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina l'Ambito Applicativo di appartenenza",
-		title_2: "Aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> la segnalazione per vedere tutti gli articoli <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span> e/o allegati <span class='badge alert-info'><span class='glyphicon glyphicon-paperclip'></span></span>",
-		title_3: "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare articoli <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span> e/o allegati <span class='badge alert-info'><span class='glyphicon glyphicon-paperclip'></span></span>",
+		title_2: "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare si sono consluse <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span>",
 };
 
 var legendaHelps = {
-		'data-original-title': "<b>Legenda</b><br />contiene suggerimenti e chiarisce ogni bottone o icona.<br />Ogni <b>Sezione</b> <span class='glyphicon glyphicon-chevron-down'></span> è espandibile"
+		title: "<b>Legenda</b><br />contiene suggerimenti e chiarisce ogni bottone o icona.<br />Ogni <b>Sezione</b> <span class='glyphicon glyphicon-chevron-down'></span> è espandibile"
 };
 
 
@@ -96,10 +95,24 @@ function populate(data){
     var bozze = [], chiuse = [];
     var $bozzeTicket = $('.bozze-ticket');    
     var $chiuseTicket = $('.chiuse-ticket');
-    
-    $.each(bozzeStateIds, function(k,id){if(id in data) $.merge(bozze, data[id])});
+    var counters = {};
+
+    // generazione liste di visualizzazione
+    $.each(bozzeStateIds, function(k,id){if(id in data) $.merge(bozze, data[id]);});
     $.each(chiuseStateIds, function(k,id){if(id in data) $.merge(chiuse, data[id]);});
 
+    // aggiornamento contatori
+    $.each(bozze, function(k,v){
+    		var id = 'q'+v['QueueOrder']+'_bozze';
+    		counters[id] = (id in counters)?counters[id]+1:1;
+		});
+    $.each(chiuse, function(k,v){
+			var id = 'q'+v['QueueOrder']+'_chiuse';
+			counters[id] = (id in counters)?counters[id]+1:1;
+		});
+    $.each(counters, function(k,v){
+    	$('#'+k).text(v+"");});
+    
     var $bozzeMsg = (bozze.length)? $('#bozze_empty').fadeOut() : $('#bozze_empty').fadeIn();
     var $chiuseMsg = (chiuse.length)? $('#chiuse_empty').fadeOut() : $('#chiuse_empty').fadeIn();
 
@@ -166,9 +179,11 @@ $(function () {
 </div>
 <ol class="well sortable simple_with_no_drag bugsBox">
 <?php foreach ($this->queues as $queue): ?>
-    <li class="color-<?php echo $queue['order']; ?>">
+    <li id="q<?php echo $queue['order']; ?>" class="color-<?php echo $queue['order']; ?>">
         <p><?php echo $queue['name']; ?></p>
         <ol><li>
+            <a href="#inLavorazione"><span id="q<?php echo $queue['order']; ?>_bozze" title="segnalazioni in lavorazione" class="badge alert-warning">N</span></a>
+            <a href="#chiuse"><span id="q<?php echo $queue['order']; ?>_chiuse" title="segnalazioni chiuse" class="badge alert-success">N</span></a>
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary"
                     data-queue-id="<?php echo $queue['id']; ?>" data-queue-name="<?php echo $queue['name']; ?>"
@@ -254,9 +269,7 @@ $(function () {
 <div id="legenda" class="col-md-3 colBox">
 <div class="well titleBox bg-rgb">
     <span>Legenda</span>
-    <span class="pull-right" data-toggle="tooltip" data-placement="left"
-        title = "<b>Legenda</b><br />contiene suggerimenti e chiarisce ogni bottone o icona.<br />Ogni <b>Sezione</b> <span class='glyphicon glyphicon-chevron-down'></span> è espandibile"
-    >
+    <span class="pull-right" data-toggle="tooltip" data-placement="left">
         <span class="small glyphicon glyphicon-question-sign"></span>
     </span>
 </div>
@@ -321,7 +334,7 @@ $(function () {
             <span class="badge alert-info">N <span class="glyphicon glyphicon-comment"></span></span> <b>N</b> Articoli
         </p>
         <p>
-            <span class="badge alert-info">N <span class="glyphicon glyphicon-paperclip"></span></span> <b>N</b> Allegati
+            <span class="badge alert-info">N <span class="glyphicon glyphicon-paperclip"></span></span> <b>N</b> Allegati <small>(non attivo nella demo)</small>
         </p>
         <p>
             <button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span></button> Visualizza la segnalazione
@@ -342,7 +355,7 @@ $(function () {
             <span class="badge"><span class="glyphicon glyphicon-tag"></span></span> Colore di Ambito Applicativo
         </p>
         <p>
-            <button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-search"></span></button> Applica il filtro di ricerca
+            <button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-search"></span></button> Filtra la lista <small>(non attivo nella demo)</small>
         </p>
         <p>
             <span class="badge alert-success"><span class="glyphicon glyphicon-ok"></span></span> Risolta con successo
@@ -351,7 +364,7 @@ $(function () {
             <span class="badge alert-info">N <span class="glyphicon glyphicon-comment"></span></span> <b>N</b> Articoli
         </p>
         <p>
-            <span class="badge alert-info">N <span class="glyphicon glyphicon-paperclip"></span></span> <b>N</b> Allegati
+            <span class="badge alert-info">N <span class="glyphicon glyphicon-paperclip"></span></span> <b>N</b> Allegati <small>(non attivo nella demo)</small>
         </p>
         <p>
             <button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span></button> Visualizza segnalazione
