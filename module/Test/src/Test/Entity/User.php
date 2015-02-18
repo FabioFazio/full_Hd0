@@ -85,8 +85,8 @@ class User {
     	$this->groups = $groups;
     }
     
-    public function getTraks(){
-    	return $this->traks;
+    public function getTracks(){
+    	return $this->tracks;
     }
     
     public function setTracks($tracks){
