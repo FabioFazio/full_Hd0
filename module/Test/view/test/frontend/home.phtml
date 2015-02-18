@@ -87,6 +87,13 @@ function updateTicket(v, $li){
 	$button.prop('data-ticket-priority', parseInt(v['Article'][0]['PriorityID']) >= 4);
 	$button.prop('data-ticket-title', v['Title']);
 	$button.prop('data-ticket-desc', v['Article'][0]['Body']);
+
+	var stateId = parseInt(v['StateID']);
+	if( stateId = 2 ){
+		$li.find('.badge.alert-success').removeClass('hidden');
+	}else{
+		$li.find('.badge.alert-success').addClass('hidden');
+	}
 }
 
 function populate(data){
@@ -112,11 +119,19 @@ function populate(data){
 			var id = 'q'+v['QueueOrder']+'_chiuse';
 			counters[id] = (id in counters)?counters[id]+1:1;
 		});
+    // reset
+	$('[data-name="counter"]').text(0);
     $.each(counters, function(k,v){
     	$('#'+k).text(v+"");});
     
-    var $bozzeMsg = (bozze.length)? $('#bozze_empty').fadeOut() : $('#bozze_empty').fadeIn();
-    var $chiuseMsg = (chiuse.length)? $('#chiuse_empty').fadeOut() : $('#chiuse_empty').fadeIn();
+    if (bozze.length)
+        $('#bozze_empty').addClass('hidden');
+    else
+        $('#bozze_empty').removeClass('hidden');
+    if (chiuse.length)
+        $('#chiuse_empty').addClass('hidden');
+    else
+        $('#chiuse_empty').removeClass('hidden');
 
     var $currentList = [];
 	$.each(bozze, function(k,v){
@@ -135,7 +150,26 @@ function populate(data){
     		}
     		$.merge($currentList,$li);
 		});
-	$bozzeTicket.siblings("li").not($currentList).remove();
+	$bozzeTicket.siblings("li").not($currentList).not('#bozze_empty').remove();
+
+    $currentList = [];
+	$.each(chiuse, function(k,v){
+    		var $li = $chiuseTicket.siblings("li[data-ticket-id='"+v['TicketID']+"']");
+    		if ($li.length){
+    			// update
+    			updateTicket(v, $li);
+    			$chiuseTicket.before($li);
+    		}else{
+    			// create		  
+		        $li = $chiuseTicket.clone();
+		        $chiuseTicket.before($li);
+		        $li.removeClass('chiuse-ticket');
+		        $li.toggleClass('hidden');
+		        updateTicket(v, $li);
+    		}
+    		$.merge($currentList,$li);
+		});
+	$chiuseTicket.siblings("li").not($currentList).not('#chiuse_empty').remove();
 }
 
 function content(){
@@ -184,8 +218,8 @@ $(function () {
     <li id="q<?php echo $queue['order']; ?>" class="color-<?php echo $queue['order']; ?>">
         <p><?php echo $queue['name']; ?></p>
         <ol><li>
-            <a href="#inLavorazione"><span id="q<?php echo $queue['order']; ?>_bozze" title="segnalazioni in lavorazione" class="badge alert-warning">N</span></a>
-            <a href="#chiuse"><span id="q<?php echo $queue['order']; ?>_chiuse" title="segnalazioni chiuse" class="badge alert-success">N</span></a>
+            <a href="#inLavorazione"><span id="q<?php echo $queue['order']; ?>_bozze" data-name="counter" title="segnalazioni in lavorazione" class="badge alert-warning">N</span></a>
+            <a href="#chiuse"><span id="q<?php echo $queue['order']; ?>_chiuse" data-name="counter" title="segnalazioni chiuse" class="badge alert-success">N</span></a>
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary"
                     data-queue-id="<?php echo $queue['id']; ?>" data-queue-name="<?php echo $queue['name']; ?>"
@@ -243,25 +277,19 @@ $(function () {
 <!--         </div> -->
 <!--         <center class="small">2 segnalazioni trovate</center> -->
 <!--     </form> -->
-    <li class="bg-rgb">
-        Messaggio di errore
-        <span class="badge bg-r pull-right"><span title="Presidio MQ" class="glyphicon glyphicon-tag"></span></span>
+    <li id="chiuse_empty"><center><i>Vuoto</i></center></li>
+    <li data-ticket-id="0" class="chiuse-ticket hidden bg-rgb">
+    <span data-name="Title">Default Title</span>
+    <span class="badge queue-color pull-right"><span data-name="QueueName" data-prop="title" title="Default Queue" class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
             <span class="badge alert-success"><span title="risolta con successo" class="glyphicon glyphicon-ok"></span></span>
-            <span class="badge alert-info">3 <span title="articoli" class="glyphicon glyphicon-comment"></span></span>
+            <span class="badge alert-info"><span data-name="ArticleNum">?</span> <span title="articoli" class="glyphicon glyphicon-comment"></span></span>
+            <!-- span class="badge alert-info"><span  data-name="AttachmentNum">?</span> <span title="allegati" class="glyphicon glyphicon-paperclip"></span></span -->
             <div class="pull-right">
-                <button class="pull-right btn btn-xs btn-default"><span title="apri" class="glyphicon glyphicon-zoom-in"></span></button>
-            </div>
-        </li></ol>
-    </li>
-    <li class="bg-rgb">
-        Batch troppo lento
-        <span class="badge bg-dark-b pull-right"><span title="Cassa Centrale" class="glyphicon glyphicon-tag"></span></span>
-        <ol><li>
-            <span class="badge alert-success"><span title="risolta con successo" class="glyphicon glyphicon-ok"></span></span>
-            <span class="badge alert-info">5 <span title="articoli" class="glyphicon glyphicon-comment"></span></span>
-            <div class="pull-right">
-                <button class="pull-right btn btn-xs btn-default"><span title="apri" class="glyphicon glyphicon-zoom-in"></span></button>
+                <button data-toggle="modal" data-target="#ticketModal" class="pull-right btn btn-xs btn-default"
+                    data-queue-id="0" data-queue-name="Default Queue" data-queue-color="color-?"
+                    data-ticket-title="Default Title" data-ticket-desc="Default Desc" data-ticket-priority="0"
+                ><span title="apri" class="glyphicon glyphicon-zoom-in"></span></button>
             </div>
         </li></ol>
     </li>
