@@ -357,7 +357,7 @@ class ZtAbstractActionController extends AbstractActionController {
     	);
     	
     	// Merge json vars with default
-    	$vars = array_merge_recursive($variables, $default);
+    	$vars = $variables + $default;
     	
     	return new JsonModel($vars);
     }
