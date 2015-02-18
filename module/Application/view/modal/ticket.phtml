@@ -5,12 +5,17 @@ function priorityButton (e) {
    var $button = e? $(this) : $('#priority .btn');
    var $input = $button.find('input:checkbox');
    if (e){
-	   $button.toggleClass("btn-default").toggleClass("btn-danger");
-	   $button.find(".glyphicon").toggleClass("alert-danger");
 	   $input.prop("checked", !$input.prop("checked"));
+   }
+   if ($input.prop("checked"))
+   {
+	   $button.removeClass("btn-default").addClass("btn-danger");
+	   $button.find(".glyphicon").removeClass("alert-danger");
+	   if (!e) $button.addClass('active');
    } else {
-	   $input.prop("checked", !$input.prop("checked"));
-	   $button.click();
+	   $button.addClass("btn-default").removeClass("btn-danger");
+	   $button.find(".glyphicon").addClass("alert-danger");
+	   if (!e) $button.removeClass('active');
    }
 }
 
