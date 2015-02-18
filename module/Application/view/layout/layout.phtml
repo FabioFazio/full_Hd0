@@ -110,7 +110,7 @@ echo $this->doctype(); ?>
                                 <span class="glyphicon glyphicon-user"></span>&nbsp;<span id="name"><?php echo $view->name; ?></span>&nbsp;<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?php echo $this->url('test', array('controller' => 'frontend', 'action'=>'ticketLists'))?>"><span class="glyphicon glyphicon-refresh"></span> <?php echo $this->translate('Aggiorna') ?></a></li>
+                                <li><a href="#" onclick="return content();"><span class="glyphicon glyphicon-refresh"></span> <?php echo $this->translate('Aggiorna') ?></a></li>
                                 <li class="divider"></li>
                                 <li><a data-toggle="modal" data-backdrop="static" data-keyboard="false" href="#settings"><span class="glyphicon glyphicon-cog"></span> <?php echo $this->translate('Configurazioni') ?></a></li>
                                 <li><a href="<?php echo $this->url('logout')?>"><span class="glyphicon glyphicon-log-out"></span> <?php echo $this->translate('Esci') ?></a></li>
