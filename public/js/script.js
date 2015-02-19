@@ -92,8 +92,9 @@ function formResponce ( data, status, $msgBox, $form )
 		setTimeout(function() {
 				$msgBox.closest('.modal').modal('hide');
 				$('.alert', $msgBox ).alert('close');
-		    	if($form.data('refresh'))
-		    		content();
+				var refresh = parseInt($form.data('refresh'));
+		    	if(refresh >= 0)
+		    		setTimeout(content,refresh);
 			}, 1500);
 	}
 } 
