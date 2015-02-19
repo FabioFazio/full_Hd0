@@ -11,7 +11,7 @@ $XMLArray = [
     'Password' =>'aaAA11!!',
     
     'Ticket' => [
-        'Title' => 'Title',
+        'Title' => 'Test Title',
         //'QueueID' => '',
         'Queue' => 'ZTAC Incoming Queue',
         //'TypeID' => '',
@@ -23,7 +23,7 @@ $XMLArray = [
     	//'StateID' => '',
     	'State' => 'new', //'closed successful','closed unsuccessful','closed with workaraund','merged','new','open','pending auto close+','pending auto close-','pending reminder','removed'
         //'PriorityID' => '',
-    	'Priority'=>'1 very low', //'1 very low',//'2 low',//'3 normal',//'4 high',//'5 very high',
+    	'Priority'=>'3 normal', //'1 very low',//'2 low',//'3 normal',//'4 high',//'5 very high',
     	//'OwnerID' => '',
     	'Owner' => '',
     	//'ResponsibleID' => '',
@@ -49,8 +49,8 @@ $XMLArray = [
         'SenderType' => '',
         
         'From' => 'fmfazio@gmail.com',
-        'Subject' => 'Subject',
-        'Body' => 'Body',
+        'Subject' => 'Test Subject',
+        'Body' => 'Test Description',
         
         'ContentType'=>'text/plain; charset=utf8',
         //'Charset' => 'utf8',

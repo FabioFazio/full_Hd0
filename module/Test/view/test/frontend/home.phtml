@@ -113,6 +113,14 @@ function populate(data){
     $.each(chiuseStateIds, function(k,id){
         if(id in data) $.merge(chiuse, data[id]);});
 
+    var func = function(a, b){
+    	  var aTime = a['Changed'];
+    	  var bTime = b['Changed']; 
+    	  return ((aTime < bTime) ? -1 : ((aTime > bTime) ? 1 : 0));
+    	}
+    bozze.sort(func);
+    chiuse.sort(func);
+    
     // aggiornamento contatori
     $.each(bozze, function(k,v){
     		var id = 'q'+v['QueueOrder']+'_bozze';

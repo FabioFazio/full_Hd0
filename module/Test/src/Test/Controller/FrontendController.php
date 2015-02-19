@@ -243,6 +243,56 @@ class FrontendController extends ZtAbstractActionController {
             return $this->jsonModel ( $result );
     }
     
+    public function saveTicketAction()
+    {
+        //return $this->jsonModel ($this->request->getPost ()->toArray ());
+        $user = $this->getSession()->user;
+        $objectManager = $this->getObjectManager();
+
+        $result = [];
+        $input = [];
+        
+        //validate input
+        $errors = $this->inputEvaulate ($input, [
+               'id'		     => '/^\\d+$/',
+    	       'title'	     => '/[.]*/',
+               'description' => '/[.]*/',
+               'queue-id'	 => '/[.]*/',
+               'queue-name'	 => '/[.]*/',
+               'queue-color' => '/[.]*/',
+    	   ]);
+        
+        if ($errors){
+            return $this->jsonModel ( $errors );
+        }
+        if (!in_array($input['queue-id'], array_column($this->getUserQueues(), 'id'))){
+            return $this->jsonModel ( [
+                    'alert-danger' => $this->formatErrorMessage('Mancano i permessi per creare questa segnalazione!') 
+                ] );
+        }
+        
+        $queue = $objectManager->find('Test\Entity\Queue', intval($input['queue-id']));
+        $service = $queue->getService();
+        $input += ['queueCode' => $queue->getCode()];
+        $input += ['email' => $user->getEmail()];
+        $serviceType = Service::$TYPE_OTRS;
+        if ($service->getType() == $serviceType)
+        {
+            $param_arr = [
+                'otrs' => $service,
+                'input' => $input,
+            ];
+            
+            $callName = "ticketCreate_" . ucfirst(strtolower($serviceType));
+            $resp = call_user_func_array([$this, $callName], $param_arr);
+        }
+        if(count($resp)>1)
+            $result = $resp + ['alert-success' => $this->formatSuccessMessage('La segnalazione è stata presa in consegna!')];
+        else
+            $result = [ 'alert-danger' => $this->formatErrorMessage(current($resp)) ];
+    	return $this->jsonModel ( $result );
+    }
+    
     public function loginAction() {
         //validate input
         $input = [];

@@ -99,6 +99,50 @@ class ZtAbstractActionController extends AbstractActionController {
         return $stateList;
     }
     
+    public function ticketCreate_Otrs ($otrs, $input)
+    {
+    	$location = $otrs->getLocation();
+    	$username = $otrs->getUsername();
+    	$password = $otrs->getPassword();
+    	$namespace = $otrs->getNamespace();
+    
+    	$xml = [
+    	'UserLogin' => $username,
+    	'Password' => $password,
+    	];
+    
+    	$type           = ['TypeID'  => 1]; // 1 default
+    	$priority       = ['PriorityID'  => (isset($input['priority']))?4:3]; // 3 normal, 4 high
+    	$state          = ['StateID' => 1]; // 1 new
+    	$queue          = [ 'QueueID' => $input['queueCode'] ];
+    	$title          = ['Title' => $input['title']];
+    	$user           = ['CustomerUser' => $input['email']];
+    	$article        = [
+               //'ArticleType' => '',
+               //'SenderType'  => '',
+    	       'From'        => $input['email'],
+    	       'Subject'     => $input['title'],
+               'Body'        => $input['description'],
+    	       'ContentType' => 'text/plain; charset=utf8',
+    	];
+    	
+    	$createXml = $xml + [ 'Ticket' => $type + $priority + $state + $queue + $title + $user ] + [ 'Article' => $article ];
+    
+    	$resp   = $this->callOtrs($location, $username, $password, $namespace,
+    			self::TICKET_CREATE, $createXml);
+    
+    	$errorMsg     = $this->extractTagFromSoapResp($resp, 'ErrorMessage');
+    	$articleId    = $this->extractTagFromSoapResp($resp, 'ArticleID');
+    	$ticketId     = $this->extractTagFromSoapResp($resp, 'TicketID');
+    	$ticketNumber = $this->extractTagFromSoapResp($resp, 'TicketNumber');
+    
+    	return $errorMsg?:[
+    	       'articleId'  => $articleId,
+    	       'ticketId'  => $ticketId,
+    	       'ticketNumber'  => $ticketNumber,
+        ];
+    }
+    
     public function getSearch_Otrs ($otrs, $ticketIdList = [], $attachments = false)
     {
     	$location = $otrs->getLocation();
@@ -127,6 +171,8 @@ class ZtAbstractActionController extends AbstractActionController {
     	$result = $this->extractTagFromSoapResp($respTickets, 'Ticket');
     	return $result;
     }
+    
+    
     
     
     private function extractTagFromSoapResp($xmlResponce, $tagName)
@@ -255,10 +301,11 @@ class ZtAbstractActionController extends AbstractActionController {
     	foreach (array_keys($expected_params) as $par)
     	{
     		if (!array_key_exists($par, $pars) ||
-    		preg_match($expected_params[$par], $pars[$par]) !== 1)
+    		preg_match($expected_params[$par], $pars[$par]) !== 1){
     			return ['alert-danger' => $this->formatErrorMessage('Dati trasmessi incompleti o errati!') ];
-    		else
+    		}else{
     			$input[$par] = $pars[$par];
+    		}
     	}
     	// add remaining
     	$diff = array_diff_key($pars, $input);
