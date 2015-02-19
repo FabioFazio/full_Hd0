@@ -89,7 +89,7 @@ function updateTicket(v, $li){
 	$button.prop('data-ticket-desc', v['Article'][0]['Body']);
 
 	var stateId = parseInt(v['StateID']);
-	if( stateId = 2 ){
+	if( stateId == 2 ){
 		$li.find('.badge.alert-success').removeClass('hidden');
 	}else{
 		$li.find('.badge.alert-success').addClass('hidden');
@@ -102,6 +102,9 @@ function populate(data){
     var bozze = [], chiuse = [];
     var $bozzeTicket = $('.bozze-ticket');    
     var $chiuseTicket = $('.chiuse-ticket');
+    var $bozzeEmpty = $('#bozze_empty');
+    var $chiuseEmpty = $('#chiuse_empty');
+    
     var counters = {};
 
     // generazione liste di visualizzazione
@@ -129,13 +132,13 @@ function populate(data){
     	$('#'+k).text(v+"");});
     
     if (bozze.length)
-        $('#bozze_empty').addClass('hidden');
+        $bozzeEmpty.addClass('hidden');
     else
-        $('#bozze_empty').removeClass('hidden');
+        $bozzeEmpty.removeClass('hidden');
     if (chiuse.length)
-        $('#chiuse_empty').addClass('hidden');
+        $chiuseEmpty.addClass('hidden');
     else
-        $('#chiuse_empty').removeClass('hidden');
+        $chiuseEmpty.removeClass('hidden');
 
     var $currentList = [];
 	$.each(bozze, function(k,v){
@@ -143,11 +146,11 @@ function populate(data){
     		if ($li.length){
     			// update
     			updateTicket(v, $li);
-    			$bozzeTicket.before($li);
+    			$bozzeEmpty.after($li);
     		}else{
     			// create		  
 		        $li = $bozzeTicket.clone();
-		        $bozzeTicket.before($li);
+		        $bozzeEmpty.after($li);
 		        $li.removeClass('bozze-ticket');
 		        $li.toggleClass('hidden');
 		        updateTicket(v, $li);
@@ -162,11 +165,11 @@ function populate(data){
     		if ($li.length){
     			// update
     			updateTicket(v, $li);
-    			$chiuseTicket.before($li);
+    			$chiuseEmpty.after($li);
     		}else{
     			// create		  
 		        $li = $chiuseTicket.clone();
-		        $chiuseTicket.before($li);
+		        $chiuseEmpty.after($li);
 		        $li.removeClass('chiuse-ticket');
 		        $li.toggleClass('hidden');
 		        updateTicket(v, $li);
