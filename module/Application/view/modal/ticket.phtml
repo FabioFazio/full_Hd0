@@ -76,6 +76,8 @@ $( function ($) {
             	}
             }
             colorize($current);
+            $('#articoli [role="tabpanel"]').collapse('hide');
+            $('#articoli [aria-labelledby="h_ticketCode_1"]').collapse('show');
             priorityButton();
             $("#priority .btn").on('click', priorityButton);
         });
