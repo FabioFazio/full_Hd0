@@ -80,7 +80,7 @@ class ZtAbstractActionController extends AbstractActionController {
         $ticketIdList += array_diff($listCc, $ticketIdList);
         $ticketIdList += array_diff($mergeList, $ticketIdList);
 
-        $ticketList    = $this->getSearch_Otrs ($otrs, $ticketIdList);
+        $ticketList    = $this->getTicket_Otrs ($otrs, $ticketIdList);
 
         // new list of states with all tickets
         $stateList = [];
@@ -143,7 +143,12 @@ class ZtAbstractActionController extends AbstractActionController {
         ];
     }
     
-    public function getSearch_Otrs ($otrs, $ticketIdList = [], $attachments = false)
+    public function ticketGet_Otrs ($otrs, $input)
+    {
+    	return $this->getTicket_Otrs ($otrs, [$input['id']], false);
+    }
+    
+    private function getTicket_Otrs ($otrs, $ticketIdList = [], $attachments = false)
     {
     	$location = $otrs->getLocation();
     	$username = $otrs->getUsername();
@@ -171,9 +176,6 @@ class ZtAbstractActionController extends AbstractActionController {
     	$result = $this->extractTagFromSoapResp($respTickets, 'Ticket');
     	return $result;
     }
-    
-    
-    
     
     private function extractTagFromSoapResp($xmlResponce, $tagName)
     {
