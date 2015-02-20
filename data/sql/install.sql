@@ -6,4 +6,4 @@ INSERT INTO `hd0`.`Queue` (`id`, `service_id`, `order`, `name`, `code`)
 		(NULL, '1', '1', 'Junk', '3');
 
 INSERT INTO `hd0`.`User` (`id`, `name`, `email`, `password`, `username`)
-	VALUES (NULL, 'Fabio', 'fmfazio@gmail.com', 123, 'fabio.fazio');
+	VALUES (NULL, 'Fabio', 'fmfazio@gmail.com', 123, 'fabio');
