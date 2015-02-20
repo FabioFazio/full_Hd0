@@ -229,6 +229,7 @@ class FrontendController extends ZtAbstractActionController {
             	           'QueueName' => $q['name'],
             	           'QueueColor' => 'color-' . $q['order'],
             	           'QueueOrder' => $q['order'],
+            	           'ServiceId' => $q['service_id'],
                         ]);
                 }, $otrsQueues);
                 $tickets[$state] = array_values($list);
@@ -243,6 +244,51 @@ class FrontendController extends ZtAbstractActionController {
             return $this->jsonModel ( $result );
     }
     
+    public function getArticlesAction()
+    {
+        $result = [];
+        $input = [];
+        //validate input
+        $errors = $this->inputEvaulate ($input, [
+        		'id'		             => '/^\\d+$/',
+                'service-id'		     => '/^\\d+$/',
+        		]);
+        
+        if ($errors){
+        	return $this->jsonModel ( $errors ); // not managed by now
+        }
+        
+        // mi fido che sia otrs altrimenti non mi chiamata TODO chiamare solo se otrs
+        $objectManager = $this->getObjectManager();
+        $service = $objectManager->find('Test\Entity\Service', intval($input['service-id']));
+        
+        $serviceType = Service::$TYPE_OTRS;
+        if ($service->getType() == $serviceType)
+        {
+            $param_arr = [
+            'otrs' => $service,
+            'input' => $input,
+            ];
+            
+            $callName = "ticketGet_" . ucfirst(strtolower($serviceType));
+            $resp = call_user_func_array([$this, $callName], $param_arr);
+            $result += $resp[0]['Article'];
+            
+            global $filter;
+            $filter = $this->getOtrsArticleTypes();
+            $result = array_filter($result,
+            		function($v){ global $filter; return in_array($v['ArticleType'], $filter); });
+            unset($filter);
+            
+            usort($result, function($a,$b){
+            	return ($a['Created']==$b['Created'])? 0: ($a['Created'] < $b['Created'])? -1: 1;
+            });
+            array_pop($result);
+        }
+        
+        return $this->jsonModel ( $result );
+    }
+    
     public function saveTicketAction()
     {
         //return $this->jsonModel ($this->request->getPost ()->toArray ());
@@ -255,6 +301,7 @@ class FrontendController extends ZtAbstractActionController {
         //validate input
         $errors = $this->inputEvaulate ($input, [
                'id'		     => '/^\\d+$/',
+               'service-id'  => '/^\\d+$/',
     	       'title'	     => '/[.]*/',
                'description' => '/[.]*/',
                'queue-id'	 => '/[.]*/',

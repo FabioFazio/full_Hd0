@@ -19,17 +19,72 @@ function priorityButton (e) {
    }
 }
 
+function loadArticles ($current) {
+	var id = $current.find('input[name="id"]').val();
+	var serviceId = $current.find('input[name="service-id"]').val();
+	
+    var $target = $('#articoli');
+    var request = {id : id, 'service-id': serviceId};
+    var url = '<?php echo $this->url('test', array('controller' => 'frontend', 'action'=>'getArticles')); ?>';
+    
+    $.ajax({
+        type: 'post',
+        url: url,
+        data: request,
+        success: function (data, status) {
+        	window.console&&console.log(data);
+            return showArticles (data, status, $target );
+        }
+    });
+}
+
+function showArticles (articoli, status, $target)
+{
+	$articolo = $target.find('.mock');
+	$articolo.siblings().remove();
+
+	$.each(articoli, function(k,a){
+			// create		  
+	        var $clone = $articolo.clone().removeClass('mock').removeClass('hidden');
+	        $target.prepend(updateArticle(a, $clone));
+		});
+	$target.find('[role="tabpanel"]:first').collapse('show');
+}
+
+function updateArticle (a, $articolo)
+{
+	$articolo.find('.panel-heading')
+	   .attr('id', 'h_a'+ a['ArticleID']);
+	$articolo.find('a[aria-controls]')
+	   .attr('aria-controls', 'a'+ a['ArticleID'])
+	   .attr('href', "#"+ 'a'+ a['ArticleID']);
+	$articolo.find('span[data-name="authorName"]')
+	   .text(a['FromRealname']);
+	$articolo.find('span[data-name="created"]')
+	   .text(a['Created']);
+	   
+	$articolo.find('[role="tabpanel"]')
+	   .attr('id', 'a'+ a['ArticleID'])
+	   .attr('aria-labelledby', 'h_a'+ a['ArticleID']);
+	$articolo.find('span[data-name="body"]')
+	   .empty().html(a['Body']);
+	return $articolo;
+}
+
 $( function ($) {
        var $modal = $('#ticketModal');
     	
        $modal.on('show.bs.modal', function (e) {
             var $related = $(e.relatedTarget);
             var $current = $(e.currentTarget);
+
             var assignments = { // true: attr false: prop
+            		"service-id"     :   true,
         			"queue-id"       :   true,
         			"queue-name"     :   true,
         			"queue-color"    :   true,
         			"id"             :   true,
+        			"articles"       :   true,
         			"ticket-priority":   false,
         			"ticket-title"   :   false,
         			"ticket-desc"    :   false,
@@ -55,29 +110,43 @@ $( function ($) {
 
                     $current.find('.'+index).removeClass(removeMetaColors).addClass(data);
                 });
+                
                 $current.find('#ticketQueue').text( $('#ticketQueue').text().trimToLength(10) );
                 
                 if (parseInt($current.find('input:hidden[name="id"]').val())>0){
-                    
+
+                    // mostra box articoli
                 	$current.find('.articoli').removeClass('hidden');
+                	if(parseInt($current.find('input:hidden[name="articles"]').val())>0)
+                		$('.articoli').removeClass('hidden');
+                	else
+                		$('.articoli').addClass('hidden');
+                	// blocca gli input
                 	$current.find('input').add($current.find('textarea')).each(
-                        	function(){this.disabled=true});
+                        	function(){this.disabled=true;});
                 	$("#priority .btn").addClass('disabled');
+                	// bottoni sono per chiusura
                 	$("#send").add("#cancel").addClass('hidden');
                 	$("#close").removeClass('hidden');
+                	// popola articoli
+                    loadArticles($current);
+                    // reset articoli
+                    $current.find('#articoli [role="tabpanel"]').collapse('hide');
                 }else{
-                    
+
+                    // nascondi box articoli
                 	$current.find('.articoli').addClass('hidden');
+                	// abilita gli input
                 	$current.find('input').add($current.find('textarea')).each(
-                        	function(){this.disabled=false});
+                        	function(){this.disabled=false;});
+                	// bottoni per il submit
                 	$("#priority .btn").removeClass('disabled');
                 	$("#send").add("#cancel").removeClass('hidden');
                 	$("#close").addClass('hidden');
             	}
             }
+            
             colorize($current);
-            $('#articoli [role="tabpanel"]').collapse('hide');
-            $('#articoli [aria-labelledby="h_ticketCode_1"]').collapse('show');
             priorityButton();
             $("#priority .btn").on('click', priorityButton);
         });
@@ -129,9 +198,11 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
         			<span name="hint"></span>
     
     				<input name="id" type="hidden" value="0" />
+    				<input name="service-id" type="hidden" value="" />
     				<input name="queue-id" type="hidden" value="" />
     				<input name="queue-name" type="hidden" value="" />
     				<input name="queue-color" type="hidden" value="" />
+    				<input name="articles" type="hidden" value="" />
     				
     				<div class="col-md-9">
         				    
@@ -184,76 +255,30 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
     				</div>
 <!-- start@articles -->
     				<div class="col-md-12">
-    				    <div class="well articoli">
-    				        <h4><span title="articoli" class="glyphicon glyphicon-comment"></span> Articoli</h4>
-    				        <center><i><a data-toggle="tooltip" title="Invia una mail anche con allegati dalla tua casella di posta e incolla come oggetto 'Re: Subject [Ticket#2015123100000000]'">Come aggiungere un nuovo articolo ...</a></i></center>
-    				        <div class="panel-group" id="articoli" role="tablist" aria-multiselectable="true">
-                              <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="h_ticketCode_1">
-                                  <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#articoli" href="#b_ticketCode_1" aria-expanded="false" aria-controls="b_ticketCode_1">
-                                      Luca - Zenatek (gg/mm/aaaa - hh:mm)
-                                      <span class="badge alert-info pull-right">2 <span title="allegati" class="glyphicon glyphicon-paperclip"></span></span>
-                                    </a>
-                                  </h4>
-                                </div>
-                                <div id="b_ticketCode_1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h_ticketCode_1">
-                                  <div class="panel-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                    <div class="attachmentsList col-md-12 form-control">
-                				        <div>
-                    				        <ul>
-                    				            <li>
-                    				                <span title="scarica" class="glyphicon glyphicon-download"></span><a>screenshot.jpg</a><small class="pull-right">96 KB</small>
-                    				            </li>
-                    				            <li>
-                    				                <span title="scarica" class="glyphicon glyphicon-download"></span><a>screenshot(1).jpg</a><small class="pull-right">198 KB</small>
-                    				            </li>
-                    				        </ul>
-                				        </div>
-                				    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="h_ticketCode_2">
-                                  <h4 class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#articoli" href="#b_ticketCode_2" aria-expanded="false" aria-controls="b_ticketCode_2">
-                                      Fabio - Finiper (gg/mm/aaaa - hh:mm)
-                                      <span class="badge alert-info pull-right">1 <span title="allegati" class="glyphicon glyphicon-paperclip"></span></span>
-                                    </a>
-                                  </h4>
-                                </div>
-                                <div id="b_ticketCode_2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h_ticketCode_2">
-                                  <div class="panel-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                    <div class="attachmentsList col-md-12 form-control">
-                				        <div>
-                    				        <ul>
-                    				            <li>
-                    				                <span title="scarica" class="glyphicon glyphicon-download"></span><a>screenshot.jpg</a><small class="pull-right">86 KB</small>
-                    				            </li>
-                    				        </ul>
-                				        </div>
-                				    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="h_ticketCode_3">
-                                  <h4 class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#articoli" href="#b_ticketCode_3" aria-expanded="false" aria-controls="b_ticketCode_3">
-                                        Luca - Zenatek (gg/mm/aaaa - hh:mm)
-                                    </a>
-                                  </h4>
-                                </div>
-                                <div id="b_ticketCode_3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h_ticketCode_3">
-                                  <div class="panel-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+    				
+    				     <div class="well alert articoli">
+                            <h4 class="article-title"><span title="articoli" class="glyphicon glyphicon-comment"></span> Articoli</h4>
+    				        <p class="text-center"><em><a data-toggle="tooltip"
+				                title="Invia una mail anche con allegati dalla tua casella di posta e incolla come oggetto 'Re: Subject [Ticket#2015123100000000]'"
+			                >Come aggiungere un nuovo articolo ...</a></em></p>
+			                
+			                <div class="panel-group" id="articoli" role="tablist" aria-multiselectable="true">
+			                     <div class="panel panel-default mock hidden">
+			                         <div class="panel-heading" role="tab" id="h_a0">
+			                             <h4 class="panel-title">
+			                                <a data-toggle="collapse" data-parent="#articoli" href="#a0" aria-expanded="false" aria-controls="a0">
+                                                Da: <span data-name="authorName">Autore</span>
+                                            </a>
+                                            <em class="pull-right small"><span data-name="created">aaaa-mm-gg hh:mm:ss</span></em>
+                                         </h4>
+			                         </div>
+			                         <div id="a0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h_a0">
+                                          <div class="panel-body">
+                                            <span data-name="body">Testo</span>
+                                          </div>
+			                         </div>
+			                     </div>
+			                </div>    				     
     				    </div>
     				</div>
 <!-- end@articles -->

@@ -5,7 +5,10 @@
 #ambitoApplicativo li span[class!='glyphicon'] {
     float: left !important;
 }";
-$this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));?>
+$this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));
+
+//$this->headScript ()->appendFile($this->basePath() . '/js/script.js')
+?>
 
 <script type="text/javascript">
 <!--
@@ -80,9 +83,11 @@ function updateTicket(v, $li){
 		$(this).prop($(this).data('prop'), v['QueueName']);});
 
 	var $button = $li.find('button[data-toggle]');
+	$button.attr('data-service-id', v['ServiceId']);
 	$button.attr('data-queue-id', v['QueueID']);
 	$button.attr('data-queue-name', v['QueueName']);
 	$button.attr('data-queue-color', v['QueueColor']);
+	$button.attr('data-articles', v['ArticleNum']);
 	$button.attr('data-id', v['TicketID']);
 	$button.prop('data-ticket-priority', parseInt(v['Article'][0]['PriorityID']) >= 4);
 	$button.prop('data-ticket-title', v['Title']);
@@ -188,6 +193,8 @@ function populate(data){
 }
 
 function content(){
+	if ($('#auth_email').length && $('#auth_email').val().length)
+	{
 	$.ajax({
 		url:			"<?php echo $this->url('test', array('controller' => 'frontend', 'action'=>'ticketLists'))?>",
 		type:			"POST",
@@ -203,6 +210,7 @@ function content(){
 		},
 		error: function(data, status) { console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>'); },
 		});
+	}	
 }
 
 $(function () {
@@ -237,9 +245,9 @@ $(function () {
             <a href="#chiuse"><span id="q<?php echo $queue['order']; ?>_chiuse" data-name="counter" title="segnalazioni chiuse" class="badge alert-success">N</span></a>
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary"
-                    data-queue-id="<?php echo $queue['id']; ?>" data-queue-name="<?php echo $queue['name']; ?>"
-                    data-queue-color="color-<?php echo $queue['order']; ?>" data-id="0"
-                    data-ticket-priority="0" data-ticket-desc="" >
+                    data-service-id="<?php echo $queue['service_id']; ?>" data-queue-id="<?php echo $queue['id']; ?>"
+                    data-queue-name="<?php echo $queue['name']; ?>" data-queue-color="color-<?php echo $queue['order']; ?>"
+                    data-id="0" data-ticket-priority="0" data-articles="0" data-ticket-desc="" >
                     <span title="apri una nuova segnalazione" class="glyphicon glyphicon-plus"></span>
                 </button>
             </div>
@@ -266,8 +274,8 @@ $(function () {
             <!-- span class="badge alert-info"><span  data-name="AttachmentNum">?</span> <span title="allegati" class="glyphicon glyphicon-paperclip"></span></span -->
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="pull-right btn btn-xs btn-default"
-                    data-queue-id="0" data-queue-name="Default Queue" data-queue-color="color-?"
-                    data-ticket-title="Default Title" data-ticket-desc="Default Desc" data-ticket-priority="0"
+                    data-service-id="0" data-queue-id="0" data-queue-name="Default Queue" data-queue-color="color-?"
+                    data-ticket-title="Default Title" data-ticket-desc="Default Desc" data-ticket-priority="0" data-articles="0"
                 ><span title="apri" class="glyphicon glyphicon-zoom-in"></span></button>
             </div>
         </li></ol>
@@ -303,7 +311,7 @@ $(function () {
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="pull-right btn btn-xs btn-default"
                     data-queue-id="0" data-queue-name="Default Queue" data-queue-color="color-?"
-                    data-ticket-title="Default Title" data-ticket-desc="Default Desc" data-ticket-priority="0"
+                    data-ticket-title="Default Title" data-ticket-desc="Default Desc" data-ticket-priority="0" data-articles="0"
                 ><span title="apri" class="glyphicon glyphicon-zoom-in"></span></button>
             </div>
         </li></ol>
