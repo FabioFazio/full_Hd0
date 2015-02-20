@@ -170,6 +170,11 @@ class FrontendController extends ZtAbstractActionController {
         return $this->getSession()->queues;
     }
     
+    public function categoryListAction()
+    {
+        return $this->jsonModel ( $this->getUserQueues() );
+    }
+    
     public function ticketListsAction()
     {
         $user = $this->getSession()->user;

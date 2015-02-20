@@ -38,7 +38,8 @@ var legendaHelps = {
 var bozzeStateIds = <?php echo json_encode($this->otrsInlav)?>;
 var chiuseStateIds = <?php echo json_encode($this->otrsChiuse)?>;
 /* Function Content */
-var content_url = "<?php echo $this->url('test', array('controller' => 'frontend', 'action'=>'ticketLists'))?>";
+var category_url = "<?php echo $this->url('test', array('controller' => 'frontend', 'action'=>'categoryList'))?>";
+var ticket_url = "<?php echo $this->url('test', array('controller' => 'frontend', 'action'=>'ticketLists'))?>";
 
 $(function () {
     content();
@@ -63,13 +64,13 @@ $(function () {
         <span class="small glyphicon glyphicon-question-sign"></span>
     </span>
 </div>
-<ol class="well sortable simple_with_no_drag bugsBox">
+<ol id="catList" class="well sortable simple_with_no_drag bugsBox">
 <?php foreach ($this->queues as $queue): ?>
     <li id="q<?php echo $queue['order']; ?>" class="color-<?php echo $queue['order']; ?>">
         <p><?php echo $queue['name']; ?></p>
         <ol><li>
-            <a href="#inLavorazione"><span id="q<?php echo $queue['order']; ?>_bozze" data-name="counter" title="segnalazioni in lavorazione" class="badge alert-warning">N</span></a>
-            <a href="#chiuse"><span id="q<?php echo $queue['order']; ?>_chiuse" data-name="counter" title="segnalazioni chiuse" class="badge alert-success">N</span></a>
+            <a href="#inLavorazione"><span id="q<?php echo $queue['order']; ?>_bozze" data-name="counter" title="segnalazioni in lavorazione" class="badge alert-warning">0</span></a>
+            <a href="#chiuse"><span id="q<?php echo $queue['order']; ?>_chiuse" data-name="counter" title="segnalazioni chiuse" class="badge alert-success">0</span></a>
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary"
                     data-service-id="<?php echo $queue['service_id']; ?>" data-queue-id="<?php echo $queue['id']; ?>"
@@ -81,6 +82,21 @@ $(function () {
         </li></ol>
     </li>
 <?php endforeach; ?>
+    <li id="cat_empty" class="text-center<?php echo empty($this->queues)?'':' hidden'?>"><i>Vuoto</i></li>
+    <li id="qN" class="color-? mock hidden">
+        <p  data-name="name"></p>
+        <ol><li>
+            <a href="#inLavorazione"><span id="qN_bozze" data-name="counter" title="segnalazioni in lavorazione" class="badge alert-warning">0</span></a>
+            <a href="#chiuse"><span id="qN_chiuse" data-name="counter" title="segnalazioni chiuse" class="badge alert-success">0</span></a>
+            <div class="pull-right">
+                <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary"
+                    data-service-id="N" data-queue-id="N" data-queue-name="N" data-queue-color="color-N"
+                    data-id="N" data-ticket-priority="0" data-articles="0" data-ticket-desc="" >
+                    <span title="apri una nuova segnalazione" class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+        </li></ol>
+    </li>
 </ol>
 </div>
 
@@ -92,7 +108,7 @@ $(function () {
     </span>
 </div>
 <ol class="well sortable simple_with_no_drag bugsBox">
-    <li id="bozze_empty"><center><i>Vuoto</i></center></li>
+    <li id="bozze_empty" class="text-center"><i>Vuoto</i></li>
     <li data-ticket-id="0" class="bozze-ticket hidden bg-rgb">
     <span data-name="Title">Default Title</span>
     <span class="badge queue-color pull-right"><span data-name="QueueName" data-prop="title" title="Default Queue" class="glyphicon glyphicon-tag"></span></span>
@@ -127,7 +143,7 @@ $(function () {
 <!--         </div> -->
 <!--         <center class="small">2 segnalazioni trovate</center> -->
 <!--     </form> -->
-    <li id="chiuse_empty"><center><i>Vuoto</i></center></li>
+    <li id="chiuse_empty" class="text-center"><i>Vuoto</i></li>
     <li data-ticket-id="0" class="chiuse-ticket hidden bg-rgb">
     <span data-name="Title">Default Title</span>
     <span class="badge queue-color pull-right"><span data-name="QueueName" data-prop="title" title="Default Queue" class="glyphicon glyphicon-tag"></span></span>

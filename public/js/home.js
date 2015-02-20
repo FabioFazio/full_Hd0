@@ -149,23 +149,76 @@ function populate(data){
 	$chiuseTicket.siblings("li").not($currentList).not('#chiuse_empty').remove();
 }
 
+function updateCategory (q, $categoria)
+{
+	$categoria
+		.attr('id', 'q'+q['order'])
+		.attr('class','color-'+q['order']);
+	
+	$categoria.find('p[data-name="name"]')
+	   .text(q['name']);
+	$categoria.find('#qN_bozze')
+	   .attr('id', 'q'+q['order']+'_bozze');
+	$categoria.find('#qN_chiuse')
+	   .attr('id', 'q'+q['order']+'_chiuse');
+	
+	var $button = $categoria.find('button[data-toggle]');
+	$button
+		.attr('data-service-id', q['service_id'])
+		.attr('data-queue-id', q['id'])
+		.attr('data-queue-name', q['name'])
+		.attr('data-queue-color', 'color-'+q['order']);
+	
+	return $categoria;
+}
+
+function prepare(categories, $target){
+    var $cat = $target.find('.mock');
+    if (categories.length)
+    	$target.find('#cat_empty').addClass('hidden');
+    
+	$.each(categories, function(k,c){
+		// create		  
+        var $clone = $cat.clone().removeClass('mock').removeClass('hidden');
+        $target.append(updateCategory(c, $clone));
+	});
+}
+
 function content(){
 	if ($('#auth_email').length && $('#auth_email').val().length)
 	{
-	$.ajax({
-		url:			content_url,
-		type:			"POST",
-		datatype:		"json",
-		data:{
-			unsername:		$('#auth_username').val(),
-		},
-		async: true, // default true
-		success: function(data, status) {
-			console.log(data); // for debugging
-			populate(data);
-			colorize();
-		},
-		error: function(data, status) { console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>'); },
+		var $catList = $('#catList');
+		if (!$catList.find('li.mock').siblings().not('#cat_empty').length){
+			$.ajax({
+				url:			category_url,
+				type:			"POST",
+				datatype:		"json",
+				data:{
+					username:		$('#auth_username').val(),
+				},
+				async: true, // devo aver reso disponibili i contatori
+				success: function(data, status) {
+					window.console&&console.log(data); // for debugging
+					prepare(data, $catList);
+					colorize();
+				},
+				error: function(data, status) { window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>'); },
+			});
+		}
+		$.ajax({
+			url:			ticket_url,
+			type:			"POST",
+			datatype:		"json",
+			data:{
+				username:		$('#auth_username').val(),
+			},
+			async: true, // default true
+			success: function(data, status) {
+				window.console&&console.log(data); // for debugging
+				populate(data);
+				colorize();
+			},
+			error: function(data, status) { window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>'); },
 		});
 	}	
 }
