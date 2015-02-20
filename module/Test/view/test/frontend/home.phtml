@@ -6,212 +6,39 @@
     float: left !important;
 }";
 $this->headStyle()->appendStyle($style_ie7, array('conditional' => 'IE 7'));
-
-//$this->headScript ()->appendFile($this->basePath() . '/js/script.js')
+$this->headScript ()->appendFile($this->basePath() . '/js/home.js')
 ?>
 
 <script type="text/javascript">
 <!--
+/* Function Colorize */
 var palette = {
 		"color-0" : "bg-r",
 		"color-1" : "bg-dark-r"
 };
-
+/* Function initHelp */
 var ambitiApplicativiHelps = {
 		title_0: "<b>Ambiti Applicativi</b><br />rappresentano le categorie a cui le segnalazioni appartengono" ,
 		title_1: "Per ogni Ambito Applicativo è possibile creare <button class='btn btn-xxs btn-primary'><span class='glyphicon glyphicon-plus'></span></button> e monitorare le proprie segnalazioni in <span class='badge alert-warning'>In Lavorazione</span> e <span class='badge alert-success'>Chiuse</span>" ,
 };
-
 var bozzeHelps = {
 		title_0: "<b>In Lavorazione</b><br />contengono le segnalazioni pubblicate <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button> per tutte le fasi di avanzamenti fino alla chiusura",
 		title_1: "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina l'Ambito Applicativo di appartenenza",
 		title_2: "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare il loro stato di avanzamento <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span>",
 };
-
 var chiuseHelps = {
 		title_0: "<b>Chiuse</b><br />contiene segnalazioni in fine avanzamento e risolte <span class='badge alert-success'><span class='glyphicon glyphicon-ok'></span></span> dagli operatori di supporto",
 		title_1: "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina l'Ambito Applicativo di appartenenza",
 		title_2: "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare si sono consluse <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span>",
 };
-
 var legendaHelps = {
 		title: "<b>Legenda</b><br />contiene suggerimenti e chiarisce ogni bottone o icona.<br />Ogni <b>Sezione</b> <span class='glyphicon glyphicon-chevron-down'></span> è espandibile"
 };
-
-
-function removeColors (index, css) {
-    return (css.match (/(^|\s)bg-\S+/g) || []).join(' ');
-}
-
-function removeMetaColors (index, css) {
-    return (css.match (/(^|\s)color-\S+/g) || []).join(' ');
-}
-
-function colorize($scope)
-{
-	var $target = $scope || $(document);
-	$.each(palette, function (index, value){
-		var $items = $target.find('.'+index);
-		$items.removeClass(removeColors)
-            .addClass(value);
-	});
-	return true;
-}
-
-function initHelp() // called from script.js
-{
-	$.each( ambitiApplicativiHelps, function(index, value){
-		   $('#ambitiApplicativi span[data-toggle="tooltip"]').attr(index, value);
-    });
-	$.each( bozzeHelps, function(index, value){
-		   $('#bozze span[data-toggle="tooltip"]').attr(index, value);
-    });
-	$.each( chiuseHelps, function(index, value){
-		   $('#chiuse span[data-toggle="tooltip"]').attr(index, value);
-	});
-	$.each( legendaHelps, function(index, value){
-		   $('#legenda span[data-toggle="tooltip"]').attr(index, value);
-	});
-}
-
-function updateTicket(v, $li){
-	$li.attr('data-ticket-id', v['TicketID']);
-	$li.find('*[data-name="Title"]').not('[data-prop]').empty().html(v['Title']);
-	$li.find('*[data-name="ArticleNum"]').not('[data-prop]').empty().html(v['ArticleNum']);
-	$li.find('.queue-color').removeClass(removeMetaColors).addClass(v['QueueColor']);
-	$li.find('*[data-name="QueueName"][data-prop]').each(function(){
-		$(this).prop($(this).data('prop'), v['QueueName']);});
-
-	var $button = $li.find('button[data-toggle]');
-	$button.attr('data-service-id', v['ServiceId']);
-	$button.attr('data-queue-id', v['QueueID']);
-	$button.attr('data-queue-name', v['QueueName']);
-	$button.attr('data-queue-color', v['QueueColor']);
-	$button.attr('data-articles', v['ArticleNum']);
-	$button.attr('data-id', v['TicketID']);
-	$button.prop('data-ticket-priority', parseInt(v['Article'][0]['PriorityID']) >= 4);
-	$button.prop('data-ticket-title', v['Title']);
-	$button.prop('data-ticket-desc', v['Article'][0]['Body']);
-
-	var stateId = parseInt(v['StateID']);
-	if( stateId == 2 ){
-		$li.find('.badge.alert-success').removeClass('hidden');
-	}else{
-		$li.find('.badge.alert-success').addClass('hidden');
-	}
-}
-
-function populate(data){
-	var bozzeStateIds = <?php echo json_encode($this->otrsInlav)?>;
-    var chiuseStateIds = <?php echo json_encode($this->otrsChiuse)?>;
-    var bozze = [], chiuse = [];
-    var $bozzeTicket = $('.bozze-ticket');    
-    var $chiuseTicket = $('.chiuse-ticket');
-    var $bozzeEmpty = $('#bozze_empty');
-    var $chiuseEmpty = $('#chiuse_empty');
-    
-    var counters = {};
-
-    // generazione liste di visualizzazione
-    $.each(bozzeStateIds, function(k,id){
-        if(id in data) $.merge(bozze, data[id]);});
-    $.each(chiuseStateIds, function(k,id){
-        if(id in data) $.merge(chiuse, data[id]);});
-
-    var func = function(a, b){
-    	  var aTime = a['Changed'];
-    	  var bTime = b['Changed']; 
-    	  return ((aTime < bTime) ? -1 : ((aTime > bTime) ? 1 : 0));
-    	}
-    bozze.sort(func);
-    chiuse.sort(func);
-    
-    // aggiornamento contatori
-    $.each(bozze, function(k,v){
-    		var id = 'q'+v['QueueOrder']+'_bozze';
-    		var tot = 'tot_bozze';
-    		counters[id] = (id in counters)?counters[id]+1:1;
-    		counters[tot] = (tot in counters)?counters[tot]+1:1;
-		});
-    $.each(chiuse, function(k,v){
-			var id = 'q'+v['QueueOrder']+'_chiuse';
-			var tot = 'tot_chiuse';
-			counters[id] = (id in counters)?counters[id]+1:1;
-			counters[tot] = (tot in counters)?counters[tot]+1:1;
-		});
-    // reset
-	$('[data-name="counter"]').text(0);
-    $.each(counters, function(k,v){
-    	$('#'+k).text(v+"");});
-    
-    if (bozze.length)
-        $bozzeEmpty.addClass('hidden');
-    else
-        $bozzeEmpty.removeClass('hidden');
-    if (chiuse.length)
-        $chiuseEmpty.addClass('hidden');
-    else
-        $chiuseEmpty.removeClass('hidden');
-
-    var $currentList = [];
-	$.each(bozze, function(k,v){
-    		var $li = $bozzeTicket.siblings("li[data-ticket-id='"+v['TicketID']+"']");
-    		if ($li.length){
-    			// update
-    			updateTicket(v, $li);
-    			$bozzeEmpty.after($li);
-    		}else{
-    			// create		  
-		        $li = $bozzeTicket.clone();
-		        $bozzeEmpty.after($li);
-		        $li.removeClass('bozze-ticket');
-		        $li.toggleClass('hidden');
-		        updateTicket(v, $li);
-    		}
-    		$.merge($currentList,$li);
-		});
-	$bozzeTicket.siblings("li").not($currentList).not('#bozze_empty').remove();
-
-    $currentList = [];
-	$.each(chiuse, function(k,v){
-    		var $li = $chiuseTicket.siblings("li[data-ticket-id='"+v['TicketID']+"']");
-    		if ($li.length){
-    			// update
-    			updateTicket(v, $li);
-    			$chiuseEmpty.after($li);
-    		}else{
-    			// create		  
-		        $li = $chiuseTicket.clone();
-		        $chiuseEmpty.after($li);
-		        $li.removeClass('chiuse-ticket');
-		        $li.toggleClass('hidden');
-		        updateTicket(v, $li);
-    		}
-    		$.merge($currentList,$li);
-		});
-	$chiuseTicket.siblings("li").not($currentList).not('#chiuse_empty').remove();
-}
-
-function content(){
-	if ($('#auth_email').length && $('#auth_email').val().length)
-	{
-	$.ajax({
-		url:			"<?php echo $this->url('test', array('controller' => 'frontend', 'action'=>'ticketLists'))?>",
-		type:			"POST",
-		datatype:		"json",
-		data:{
-			unsername:		$('#auth_username').val(),
-		},
-		async: true, // default true
-		success: function(data, status) {
-			console.log(data); // for debugging
-			populate(data);
-			colorize();
-		},
-		error: function(data, status) { console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>'); },
-		});
-	}	
-}
+/* Function Populate */
+var bozzeStateIds = <?php echo json_encode($this->otrsInlav)?>;
+var chiuseStateIds = <?php echo json_encode($this->otrsChiuse)?>;
+/* Function Content */
+var content_url = "<?php echo $this->url('test', array('controller' => 'frontend', 'action'=>'ticketLists'))?>";
 
 $(function () {
     content();

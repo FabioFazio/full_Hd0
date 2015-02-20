@@ -81,7 +81,6 @@ function formSubmit ( form )
 
 function formResponce ( data, status, $msgBox, $form )
 {
-	//console.log(data); // for debugging
 	// display feedback cleaning previous
 
 	alertHint( $msgBox, data, $form );
