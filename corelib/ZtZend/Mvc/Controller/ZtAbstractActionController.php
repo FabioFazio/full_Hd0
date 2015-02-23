@@ -23,11 +23,11 @@ class ZtAbstractActionController extends AbstractActionController {
         // 'note-internal',
     ];
     
-    private $OTRS_INLAV_STATEIDS  = [1,4,6,7,8];    // new, open, pending reminder, pending close+, pending close- 
+    private $OTRS_INLAV_STATEIDS  = [1,4,6,7,8];  // new, open, pending reminder, pending close+, pending close- 
     
-    private $OTRS_CHIUSE_STATEIDS  = [2,3,10,5];    // closed_succ, closed_unsucc, closed_w_workaround, removed
+    private $OTRS_CHIUSE_STATEIDS  = [2,3,10];    // closed_succ, closed_unsucc, closed_w_workaround
     
-    private $OTRS_INVIS_STATEIDS  = [9];            // merged
+    private $OTRS_INVIS_STATEIDS  = [5,9];        // removed, merged
     
     public function getOtrsArticleTypes()
     {
