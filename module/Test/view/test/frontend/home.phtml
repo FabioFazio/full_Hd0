@@ -19,10 +19,10 @@ var palette = {
 /* Function initHelp */
 var ambitiApplicativiHelps = {
 		title_0: "<b>Categorie</b><br />rappresentano le categorie a cui le segnalazioni appartengono" ,
-		title_1: "Per ogni Categoria è possibile creare <button class='btn btn-xxs btn-primary'><span class='glyphicon glyphicon-plus'></span></button> e monitorare le proprie segnalazioni in <span class='badge alert-warning'>In Lavorazione</span> e <span class='badge alert-success'>Chiuse</span>" ,
+		title_1: "Per ogni Categoria è possibile creare <button class='btn btn-xxs btn-primary'><span class='glyphicon glyphicon-plus'></span></button> e monitorare le proprie segnalazioni in <span class='badge alert-warning'>Inviate</span> e <span class='badge alert-success'>Chiuse</span>" ,
 };
 var bozzeHelps = {
-		title_0: "<b>In Lavorazione</b><br />contengono le segnalazioni inviate <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button> per tutte le fasi di avanzamenti fino alla chiusura",
+		title_0: "<b>Inviate</b><br />contengono le segnalazioni inviate <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button> per tutte le fasi di avanzamenti fino alla chiusura",
 		title_1: "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina la Categoria di appartenenza",
 		title_2: "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare il loro stato di avanzamento <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span>",
 };
@@ -69,7 +69,7 @@ $(function () {
     <li id="q<?php echo $queue['order']; ?>" class="color-<?php echo $queue['order']; ?>">
         <p><?php echo $queue['name']; ?></p>
         <ol><li>
-            <a href="#inLavorazione"><span id="q<?php echo $queue['order']; ?>_bozze" data-name="counter" title="segnalazioni in lavorazione" class="badge alert-warning">0</span></a>
+            <a href="#inLavorazione"><span id="q<?php echo $queue['order']; ?>_bozze" data-name="counter" title="segnalazioni inviate" class="badge alert-warning">0</span></a>
             <a href="#chiuse"><span id="q<?php echo $queue['order']; ?>_chiuse" data-name="counter" title="segnalazioni chiuse" class="badge alert-success">0</span></a>
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary"
@@ -86,7 +86,7 @@ $(function () {
     <li id="qN" class="color-? mock hidden">
         <p  data-name="name"></p>
         <ol><li>
-            <a href="#inLavorazione"><span id="qN_bozze" data-name="counter" title="segnalazioni in lavorazione" class="badge alert-warning">0</span></a>
+            <a href="#inLavorazione"><span id="qN_bozze" data-name="counter" title="segnalazioni inviate" class="badge alert-warning">0</span></a>
             <a href="#chiuse"><span id="qN_chiuse" data-name="counter" title="segnalazioni chiuse" class="badge alert-success">0</span></a>
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary"
@@ -102,7 +102,7 @@ $(function () {
 
 <div id="bozze" class="col-md-3 colBox">
 <div id="inLavorazione" class="well titleBox bg-rg">
-    <span class="">In Lavorazione <span id="tot_bozze" data-name="counter" title="totale" class="badge">N</span></span>
+    <span class="">Inviate <span id="tot_bozze" data-name="counter" title="totale" class="badge">N</span></span>
     <span class="pull-right" data-toggle="tooltip" data-placement="left">
         <span class="small glyphicon glyphicon-question-sign"></span>
     </span>
@@ -205,7 +205,7 @@ $(function () {
             &nbsp;<span class="glyphicon glyphicon-warning-sign alert-danger"></span>&nbsp; Nuove segnalazioni bloccate
         </p>
         <p>
-            <span class="badge alert-warning">N</span> <b>N</b> Segnalazioni in Lavorazione
+            <span class="badge alert-warning">N</span> <b>N</b> Segnalazioni Inviate
         </p>
         <p>
             <span class="badge alert-success">N</span> <b>N</b> Segnalazioni Chiuse
@@ -218,7 +218,7 @@ $(function () {
     <div class="panel-heading" role="tab" id="headingThree">
       <h4 class="panel-title">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          In Lavorazione
+          Inviate
           <span class="pull-right glyphicon glyphicon-chevron-down"></span>
         </a>
       </h4>
