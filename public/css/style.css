@@ -22,7 +22,6 @@ margin: 0 auto;
 }
 
 input[disabled], textarea[disabled] {
-	background-color:#ffffff;
 	color: #4B4B4B;
 	-webkit-opacity: 1;
 	-webkit-text-fill-color:#4B4B4B;
