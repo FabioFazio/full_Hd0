@@ -54,10 +54,18 @@ function updateTicket(v, $li){
 	$button.prop('data-ticket-desc', v['Article'][0]['Body']);
 
 	var stateId = parseInt(v['StateID']);
-	if( stateId == 2 ){
+	switch (stateId) {
+	case 2: //success
+		$li.find('.badge.alert-danger').addClass('hidden');
 		$li.find('.badge.alert-success').removeClass('hidden');
-	}else{
+		break;
+	case 3: //unsuccess
 		$li.find('.badge.alert-success').addClass('hidden');
+		$li.find('.badge.alert-danger').removeClass('hidden');
+		break;
+	default:
+		$li.find('.badge.alert-success').addClass('hidden');
+		$li.find('.badge.alert-danger').addClass('hidden');
 	}
 }
 

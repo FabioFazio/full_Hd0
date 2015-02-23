@@ -29,7 +29,7 @@ var bozzeHelps = {
 var chiuseHelps = {
 		title_0: "<b>Chiuse</b><br />contiene segnalazioni in fine avanzamento e risolte <span class='badge alert-success'><span class='glyphicon glyphicon-ok'></span></span> dagli operatori di supporto",
 		title_1: "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina la Categoria di appartenenza",
-		title_2: "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare si sono consluse <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span>",
+		title_2: "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare come si sono consluse <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span>",
 };
 var legendaHelps = {
 		title: "<b>Legenda</b><br />contiene suggerimenti e chiarisce ogni bottone o icona.<br />Ogni <b>Sezione</b> <span class='glyphicon glyphicon-chevron-down'></span> è espandibile"
@@ -113,7 +113,7 @@ $(function () {
     <span data-name="Title">Default Title</span>
     <span class="badge queue-color pull-right"><span data-name="QueueName" data-prop="title" title="Default Queue" class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
-            <span class="badge alert-info"><span data-name="ArticleNum">?</span> <span title="articoli" class="glyphicon glyphicon-comment"></span></span>
+            <span class="badge alert-info"><span data-name="ArticleNum">?</span> <span title="aggiornamenti" class="glyphicon glyphicon-comment"></span></span>
             <!-- span class="badge alert-info"><span  data-name="AttachmentNum">?</span> <span title="allegati" class="glyphicon glyphicon-paperclip"></span></span -->
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="pull-right btn btn-xs btn-default"
@@ -150,7 +150,8 @@ $(function () {
     <span class="badge queue-color pull-right"><span data-name="QueueName" data-prop="title" title="Default Queue" class="glyphicon glyphicon-tag"></span></span>
         <ol><li>
             <span class="badge alert-success"><span title="risolta con successo" class="glyphicon glyphicon-ok"></span></span>
-            <span class="badge alert-info"><span data-name="ArticleNum">?</span> <span title="articoli" class="glyphicon glyphicon-comment"></span></span>
+            <span class="badge alert-danger"><span title="chiusa senza successo" class="glyphicon glyphicon-remove"></span></span>
+            <span class="badge alert-info"><span data-name="ArticleNum">?</span> <span title="aggiornamenti" class="glyphicon glyphicon-comment"></span></span>
             <!-- span class="badge alert-info"><span  data-name="AttachmentNum">?</span> <span title="allegati" class="glyphicon glyphicon-paperclip"></span></span -->
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="pull-right btn btn-xs btn-default"
@@ -229,7 +230,7 @@ $(function () {
             <span class="badge"><span class="glyphicon glyphicon-tag"></span></span> Colore di Categoria
         </p>
         <p>
-            <span class="badge alert-info">N <span class="glyphicon glyphicon-comment"></span></span> <b>N</b> Articoli
+            <span class="badge alert-info">N <span class="glyphicon glyphicon-comment"></span></span> <b>N</b> Aggiornamenti
         </p>
         <p>
             <span class="badge alert-info">N <span class="glyphicon glyphicon-paperclip"></span></span> <b>N</b> Allegati <small>(non attivo nella demo)</small>
@@ -259,7 +260,10 @@ $(function () {
             <span class="badge alert-success"><span class="glyphicon glyphicon-ok"></span></span> Risolta con successo
         </p>
         <p>
-            <span class="badge alert-info">N <span class="glyphicon glyphicon-comment"></span></span> <b>N</b> Articoli
+            <span class="badge alert-danger"><span class="glyphicon glyphicon-remove"></span></span> Chiusa senza successo
+        </p>
+        <p>
+            <span class="badge alert-info">N <span class="glyphicon glyphicon-comment"></span></span> <b>N</b> Aggiornamenti
         </p>
         <p>
             <span class="badge alert-info">N <span class="glyphicon glyphicon-paperclip"></span></span> <b>N</b> Allegati <small>(non attivo nella demo)</small>
