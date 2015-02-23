@@ -89,7 +89,8 @@ body.loading .modal.modal-wait { display: block; }
 }
 
 .body-bg {
-background-image: url("../img/bg.jpg");
+background-image: url("../img/z-bg.jpg");
+background-attachment: fixed;
 /* https://www.flickr.com/photos/webtreatsetc/4521444188 */
 background-repeat: repeat;
 background-color: rgba(200,200,200,0);
