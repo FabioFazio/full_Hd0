@@ -60,8 +60,12 @@ echo $this->doctype(); ?>
         <!-- Scripts -->
         <?php echo $this->headScript()
             ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+            
             // http://formvalidator.net/index.html
-            ->prependFile('//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js')
+            ->prependFile($this->basePath() . '/js/security.js')
+            ->prependFile($this->basePath() . '/js/date.js')
+            ->prependFile($this->basePath() . '/js/jquery.form-validator.min.js')
+            
             ->prependFile($this->basePath() . '/js/jquery.min.js')
             ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
             ->prependFile($this->basePath() . '/js/html5shiv.js',  'text/javascript', array('conditional' => 'lt IE 9',))
