@@ -18,17 +18,17 @@ var palette = {
 };
 /* Function initHelp */
 var ambitiApplicativiHelps = {
-		title_0: "<b>Ambiti Applicativi</b><br />rappresentano le categorie a cui le segnalazioni appartengono" ,
-		title_1: "Per ogni Ambito Applicativo è possibile creare <button class='btn btn-xxs btn-primary'><span class='glyphicon glyphicon-plus'></span></button> e monitorare le proprie segnalazioni in <span class='badge alert-warning'>In Lavorazione</span> e <span class='badge alert-success'>Chiuse</span>" ,
+		title_0: "<b>Categorie</b><br />rappresentano le categorie a cui le segnalazioni appartengono" ,
+		title_1: "Per ogni Categoria è possibile creare <button class='btn btn-xxs btn-primary'><span class='glyphicon glyphicon-plus'></span></button> e monitorare le proprie segnalazioni in <span class='badge alert-warning'>In Lavorazione</span> e <span class='badge alert-success'>Chiuse</span>" ,
 };
 var bozzeHelps = {
-		title_0: "<b>In Lavorazione</b><br />contengono le segnalazioni pubblicate <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button> per tutte le fasi di avanzamenti fino alla chiusura",
-		title_1: "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina l'Ambito Applicativo di appartenenza",
+		title_0: "<b>In Lavorazione</b><br />contengono le segnalazioni inviate <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button> per tutte le fasi di avanzamenti fino alla chiusura",
+		title_1: "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina la Categoria di appartenenza",
 		title_2: "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare il loro stato di avanzamento <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span>",
 };
 var chiuseHelps = {
 		title_0: "<b>Chiuse</b><br />contiene segnalazioni in fine avanzamento e risolte <span class='badge alert-success'><span class='glyphicon glyphicon-ok'></span></span> dagli operatori di supporto",
-		title_1: "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina l'Ambito Applicativo di appartenenza",
+		title_1: "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina la Categoria di appartenenza",
 		title_2: "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare si sono consluse <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span>",
 };
 var legendaHelps = {
@@ -59,7 +59,7 @@ $(function () {
 
 <div id="ambitiApplicativi" class="col-md-3 colBox">
 <div class="well titleBox bg-rgb">
-    <span>Ambiti Applicativi</span>
+    <span>Categorie</span>
     <span class="pull-right" data-toggle="tooltip" data-placement="left">
         <span class="small glyphicon glyphicon-question-sign"></span>
     </span>
@@ -194,7 +194,7 @@ $(function () {
     <div class="panel-heading" role="tab" id="headingOne">
       <h4 class="panel-title">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-          Ambiti Applicativi
+          Categorie
           <span class="pull-right glyphicon glyphicon-chevron-down"></span>
         </a>
       </h4>
@@ -226,7 +226,7 @@ $(function () {
     <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
       <div class="panel-body">
         <p>
-            <span class="badge"><span class="glyphicon glyphicon-tag"></span></span> Colore di Ambito Applicativo
+            <span class="badge"><span class="glyphicon glyphicon-tag"></span></span> Colore di Categoria
         </p>
         <p>
             <span class="badge alert-info">N <span class="glyphicon glyphicon-comment"></span></span> <b>N</b> Articoli
@@ -250,7 +250,7 @@ $(function () {
     <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
       <div class="panel-body">
         <p>
-            <span class="badge"><span class="glyphicon glyphicon-tag"></span></span> Colore di Ambito Applicativo
+            <span class="badge"><span class="glyphicon glyphicon-tag"></span></span> Colore di Categoria
         </p>
         <p>
             <button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-search"></span></button> Filtra la lista <small>(non attivo nella demo)</small>

@@ -43,7 +43,7 @@ function showArticles (articoli, status, $target, $current)
 	$articolo = $target.find('.mock');
 	$articolo.siblings().remove();
 
-	var addArticle = "Per pubblicare nuovi aggiornamenti invia una mail (anche con allegati) dal tuo indirizzo di posta <b>%mail%</b> incollando come <b>Oggetto</b> della mail quanto segue: <br/><b><u>Re: Subject [Ticket#%num%]</u></b>";
+	var addArticle = "Per inviare nuovi aggiornamenti invia una mail (anche con allegati) dal tuo indirizzo di posta <b>%mail%</b> incollando come <b>Oggetto</b> della mail quanto segue: <br/><b><u>Re: Subject [Ticket#%num%]</u></b>";
 	var num = $current.find('input[name="num"]').val();
 	var mail = $('#auth_email').val();
 	addArticle = addArticle.replace('%mail%',mail).replace('%num%',num);
@@ -254,7 +254,7 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
                             			<li class="previous"><a href="#">Indietro</a></li>
                             <!-- 		<li class="next last" style="display:none;"><a href="#">Ultimo</a></li> -->
                             		  	<li class="next"><a href="#">Avanti</a></li>
-                            		  	<li class="next finish" style="display:none;"><a href="javascript:;">Pubblica</a></li>
+                            		  	<li class="next finish" style="display:none;"><a href="javascript:;">Invia</a></li>
                             		</ul>
                             	</div>	
                             </div>
@@ -272,7 +272,7 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
     				     <div class="well alert articoli">
                             <h4 class="article-title"><span title="articoli" class="glyphicon glyphicon-comment"></span> Aggiornamenti</h4>
     				        <p class="text-center"><em><a data-toggle="alert"
-			                ><b>[Demo]</b> Come pubblicare un nuovo Aggiornamento ...</a></em></p>
+			                ><b>[Demo]</b> Come inviare un nuovo Aggiornamento ...</a></em></p>
 			                
 			                <div class="panel-group" id="articoli" role="tablist" aria-multiselectable="true">
 			                     <div class="panel panel-default mock hidden">
@@ -299,7 +299,7 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
 			<div class="modal-footer b-grey">
 			     <!-- if wizards disabled="disabled" che lo attiva lui -->
 				<button id="send" type="submit" class="btn btn-info">
-				    <span class="glyphicon glyphicon-send"></span> Pubblica
+				    <span class="glyphicon glyphicon-send"></span> Invia
                 </button>
 				<button id="cancel" type="button" class="btn btn-default" data-dismiss="modal">
 				    Annulla
