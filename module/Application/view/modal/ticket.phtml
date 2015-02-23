@@ -33,16 +33,26 @@ function loadArticles ($current) {
         data: request,
         success: function (data, status) {
         	window.console&&console.log(data);
-            return showArticles (data, status, $target );
+            return showArticles (data, status, $target, $current );
         }
     });
 }
 
-function showArticles (articoli, status, $target)
+function showArticles (articoli, status, $target, $current)
 {
 	$articolo = $target.find('.mock');
 	$articolo.siblings().remove();
 
+	var addArticle = "Per pubblicare nuovi aggiornamenti invia una mail (anche con allegati) dal tuo indirizzo di posta <b>%mail%</b> incollando come <b>Oggetto</b> della mail quanto segue: <br/><b><u>Re: Subject [Ticket#%num%]</u></b>";
+	var num = $current.find('input[name="num"]').val();
+	var mail = $('#auth_email').val();
+	addArticle = addArticle.replace('%mail%',mail).replace('%num%',num);
+
+    $("a[data-toggle='alert']").on('click', function(e){
+             var alert = {'alert-info': addArticle};
+             alertHint( $current.find('span[name="feedback"]'), alert );
+        });
+	
 	$.each(articoli, function(k,a){
 			// create		  
 	        var $clone = $articolo.clone().removeClass('mock').removeClass('hidden');
@@ -84,6 +94,7 @@ $( function ($) {
         			"queue-name"     :   true,
         			"queue-color"    :   true,
         			"id"             :   true,
+        			"num"            :   true,
         			"articles"       :   true,
         			"ticket-priority":   false,
         			"ticket-title"   :   false,
@@ -147,6 +158,7 @@ $( function ($) {
             }
             
             colorize($current);
+            $('.alert', $current.find('span[name="feedback"]') ).alert('close');
             priorityButton();
             $("#priority .btn").on('click', priorityButton);
         });
@@ -165,7 +177,7 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
 });
 //-->
 </script>
-<div id="ticketModal" class="modal modal-sm fade" tabindex="-2" role="dialog">
+<div id="ticketModal" class="modal fade" tabindex="-2" role="dialog">
 	<div class="modal-dialog">
 		<div class="modal-content">
 		    <form method="post" data-validate data-refresh="5000" data-async data-target="#ticketModal [name='feedback']" method="POST"
@@ -198,6 +210,7 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
         			<span name="hint"></span>
     
     				<input name="id" type="hidden" value="0" />
+    				<input name="num" type="hidden" value="0" />
     				<input name="service-id" type="hidden" value="" />
     				<input name="queue-id" type="hidden" value="" />
     				<input name="queue-name" type="hidden" value="" />
@@ -257,10 +270,9 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
     				<div class="col-md-12">
     				
     				     <div class="well alert articoli">
-                            <h4 class="article-title"><span title="articoli" class="glyphicon glyphicon-comment"></span> Articoli</h4>
-    				        <p class="text-center"><em><a data-toggle="tooltip"
-				                title="Invia una mail anche con allegati dalla tua casella di posta e incolla come oggetto 'Re: Subject [Ticket#2015123100000000]'"
-			                >Come aggiungere un nuovo articolo ...</a></em></p>
+                            <h4 class="article-title"><span title="articoli" class="glyphicon glyphicon-comment"></span> Aggiornamenti</h4>
+    				        <p class="text-center"><em><a data-toggle="alert"
+			                ><b>[Demo]</b> Come pubblicare un nuovo Aggiornamento ...</a></em></p>
 			                
 			                <div class="panel-group" id="articoli" role="tablist" aria-multiselectable="true">
 			                     <div class="panel panel-default mock hidden">
@@ -296,8 +308,7 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
 				    Chiudi
                 </button>
 			</div>
-		</div>
 		</form>
+		</div>
 	</div>
-</div>
-    				
+</div>    				

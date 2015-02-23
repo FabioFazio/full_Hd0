@@ -75,7 +75,7 @@ $(function () {
                 <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary"
                     data-service-id="<?php echo $queue['service_id']; ?>" data-queue-id="<?php echo $queue['id']; ?>"
                     data-queue-name="<?php echo $queue['name']; ?>" data-queue-color="color-<?php echo $queue['order']; ?>"
-                    data-id="0" data-ticket-priority="0" data-articles="0" data-ticket-desc="" >
+                    data-id="0" data-ticket-num="0" data-ticket-priority="0" data-articles="0" data-ticket-desc="" >
                     <span title="apri una nuova segnalazione" class="glyphicon glyphicon-plus"></span>
                 </button>
             </div>
@@ -91,7 +91,7 @@ $(function () {
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary"
                     data-service-id="N" data-queue-id="N" data-queue-name="N" data-queue-color="color-N"
-                    data-id="N" data-ticket-priority="0" data-articles="0" data-ticket-desc="" >
+                    data-id="N" data-num="N" data-ticket-priority="0" data-articles="0" data-ticket-desc="" >
                     <span title="apri una nuova segnalazione" class="glyphicon glyphicon-plus"></span>
                 </button>
             </div>
@@ -117,8 +117,9 @@ $(function () {
             <!-- span class="badge alert-info"><span  data-name="AttachmentNum">?</span> <span title="allegati" class="glyphicon glyphicon-paperclip"></span></span -->
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="pull-right btn btn-xs btn-default"
-                    data-service-id="0" data-queue-id="0" data-queue-name="Default Queue" data-queue-color="color-?"
-                    data-ticket-title="Default Title" data-ticket-desc="Default Desc" data-ticket-priority="0" data-articles="0"
+                    data-service-id="?" data-queue-id="?" data-queue-name="Default Queue" data-queue-color="color-?"
+                    data-id="?" data-num="?" data-ticket-title="Default Title" data-ticket-desc="Default Desc"
+                    data-ticket-priority="0" data-articles="0"
                 ><span title="apri" class="glyphicon glyphicon-zoom-in"></span></button>
             </div>
         </li></ol>
@@ -154,7 +155,8 @@ $(function () {
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="pull-right btn btn-xs btn-default"
                     data-queue-id="0" data-queue-name="Default Queue" data-queue-color="color-?"
-                    data-ticket-title="Default Title" data-ticket-desc="Default Desc" data-ticket-priority="0" data-articles="0"
+                    data-id="?" data-num="?" data-ticket-title="Default Title" data-ticket-desc="Default Desc" 
+                    data-ticket-priority="0" data-articles="0"
                 ><span title="apri" class="glyphicon glyphicon-zoom-in"></span></button>
             </div>
         </li></ol>
