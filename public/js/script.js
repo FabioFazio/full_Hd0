@@ -387,7 +387,7 @@ $(function () {
     $.formUtils.addValidator({
     	  name : 'domain',
     	  validatorFunction : function(value, $el, config, language, $form) {
-    		  var domains = ['iper.it','ortofin.it','unes.it', 'zenatek', 'gmail'];
+    		  var domains = ['iper.it','ortofin.it','unes.it', 'zenatek'];
     		  var valid = false;
     		  while (domains.length > 0)
     			  {
