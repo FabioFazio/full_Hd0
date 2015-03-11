@@ -1,0 +1,49 @@
+<script type="text/javascript">
+<!--
+$(function($) {
+    $( '#welcome' ).modal({
+	});
+<?php if(!$user): ?>
+    $('#welcome').on('hidden.bs.modal', function (e) {
+        if (e) {
+            $( '#login' ).modal({
+                keyboard : false,
+                backdrop: 'static',
+            });
+        }
+    });
+<?php endif; ?>
+});
+-->
+</script>
+
+<!-- Modal -->
+<div class="modal fade in" id="welcome" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #f5f5f5;">
+         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title form-signin-heading text-center" id="loginLabel"><?php echo $this->translate('Benvenuto/a') ?></h3>
+      </div>
+        <div class="modal-body">
+            <h4>
+                <?php echo $this->translate('Questo servizio è realizzato e offerto da Zenatek spa') ?>
+            </h4>
+
+                <img src="img/zenatek.png">
+
+            <p>
+                <br/>
+                <em>
+                    Per problemi, dubbi o suggerimenti su questo servizio scrivi a <a href="mailto://hd0@zenatek.it">hd0@zenatek.it</a>
+                </em>
+            </p>
+            <?php if(!$user): ?>
+            <button class="btn btn-primary btn-block" type="button" data-dismiss="modal"><?php echo $this->translate('Entra') ?></button>
+            <?php else: ?>
+            <button class="btn btn-success btn-block" type="button" data-dismiss="modal"><?php echo $this->translate('Continua') ?></button>
+            <?php endif; ?>
+        </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -8,9 +8,9 @@ use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Adapter\Ldap as AuthAdapter;
 use Zend\Config\Reader\Ini as ConfigReader;
 use Zend\Config\Config;
-use Zend\Log\Logger;
-use Zend\Log\Writer\Stream as LogWriter;
-use Zend\Log\Filter\Priority as LogFilter;
+//use Zend\Log\Logger;
+//use Zend\Log\Writer\Stream as LogWriter;
+//use Zend\Log\Filter\Priority as LogFilter;
 use Test\Entity\Service;
 
 class FrontendController extends ZtAbstractActionController {
@@ -454,7 +454,11 @@ class FrontendController extends ZtAbstractActionController {
     					'modalName' => 'modal/ticket.phtml',
     					'modalParams' => array ()
     			),
-    			array (
+    	        array (
+    	        		'modalName' => 'modal/welcome.phtml',
+    	        		'modalParams' => array ( 'user' => $user ),
+    	        ),
+    	        array (
     					'modalName' => 'modal/login.phtml',
     					'modalParams' => array ( 'user' => $user ),
     			),
