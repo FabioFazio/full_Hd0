@@ -16,13 +16,28 @@ h4.panel-title a {
 	width: 300px;
 }
 
-.modal-xl {
+[class*='modal-m'] {
+	width: 300px;
+}
+
+[class*='modal-l'] {
 	width: 600px;
 }
 
-.modal-xl .modal-body {
-	padding-top: 0px;
+[class*='modal-xl'] {
+	width: 900px;
+}
+
+.visible-sm-modal-l .modal-body {
 	left: 40px;
+}
+
+.visible-lg-modal-xl .modal-body, .visible-md-modal-xl .modal-body {
+	left: 190px;
+}
+
+#welcome .modal-body {
+	padding-top: 0px;
 	display: table-cell;
 	vertical-align: middle;
 	text-align: center;

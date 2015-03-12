@@ -18,16 +18,16 @@ var palette = {
 };
 /* Function initHelp */
 var ambitiApplicativiHelps = {
-		title_0: "<b>Categorie</b><br />rappresentano le categorie a cui le segnalazioni appartengono" ,
+		title_0: "<b>Categorie di Segnalzioni</b><br />rappresentano le categorie per le quali è possibile aprire e seguire segnalazioni" ,
 		title_1: "Per ogni Categoria è possibile creare <button class='btn btn-xxs btn-primary'><span class='glyphicon glyphicon-plus'></span></button> e monitorare le proprie segnalazioni in <span class='badge alert-warning'>Inviate</span> e <span class='badge alert-success'>Chiuse</span>" ,
 };
 var bozzeHelps = {
-		title_0: "<b>Inviate</b><br />contengono le segnalazioni inviate <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button> per tutte le fasi di avanzamenti fino alla chiusura",
+		title_0: "<b>Segnalazioni Aperte</b><br />contengono le segnalazioni aperte <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button> per tutte le fasi di avanzamenti fino alla chiusura",
 		title_1: "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina la Categoria di appartenenza",
 		title_2: "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare il loro stato di avanzamento <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span>",
 };
 var chiuseHelps = {
-		title_0: "<b>Chiuse</b><br />contiene segnalazioni in fine avanzamento e risolte <span class='badge alert-success'><span class='glyphicon glyphicon-ok'></span></span> dagli operatori di supporto",
+		title_0: "<b>Segnalazioni Chiuse</b><br />contiene segnalazioni in fine avanzamento e risolte <span class='badge alert-success'><span class='glyphicon glyphicon-ok'></span></span> dagli operatori di supporto",
 		title_1: "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina la Categoria di appartenenza",
 		title_2: "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare come si sono consluse <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span>",
 };
@@ -59,7 +59,7 @@ $(function () {
 
 <div id="ambitiApplicativi" class="col-md-3 colBox">
 <div class="well titleBox bg-rgb">
-    <span>Categorie</span>
+    <span>Categorie di Segnalazioni</span>
     <span class="pull-right" data-toggle="tooltip" data-placement="left">
         <span class="small glyphicon glyphicon-question-sign"></span>
     </span>
@@ -69,7 +69,7 @@ $(function () {
     <li id="q<?php echo $queue['order']; ?>" class="color-<?php echo $queue['order']; ?>">
         <p><?php echo $queue['name']; ?></p>
         <ol><li>
-            <a href="#inLavorazione"><span id="q<?php echo $queue['order']; ?>_bozze" data-name="counter" title="segnalazioni inviate" class="badge alert-warning">0</span></a>
+            <a href="#inLavorazione"><span id="q<?php echo $queue['order']; ?>_bozze" data-name="counter" title="segnalazioni aperte" class="badge alert-warning">0</span></a>
             <a href="#chiuse"><span id="q<?php echo $queue['order']; ?>_chiuse" data-name="counter" title="segnalazioni chiuse" class="badge alert-success">0</span></a>
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary"
@@ -102,7 +102,7 @@ $(function () {
 
 <div id="bozze" class="col-md-3 colBox">
 <div id="inLavorazione" class="well titleBox bg-rg">
-    <span class="">Inviate <span id="tot_bozze" data-name="counter" title="totale" class="badge">N</span></span>
+    <span class="">Segnalazioni Aperte <span id="tot_bozze" data-name="counter" title="totale" class="badge">N</span></span>
     <span class="pull-right" data-toggle="tooltip" data-placement="left">
         <span class="small glyphicon glyphicon-question-sign"></span>
     </span>
@@ -124,14 +124,12 @@ $(function () {
             </div>
         </li></ol>
     </li>
-    
 </ol>
-
 </div>
 
 <div id="chiuse" class="col-md-3 colBox">
 <div class="well titleBox bg-g">
-    <span class="">Chiuse <span id="tot_chiuse" data-name="counter" title="totale" class="badge">N</span></span>
+    <span class="">Segnalazioni Chiuse <span id="tot_chiuse" data-name="counter" title="totale" class="badge">N</span></span>
     <span class="pull-right" data-toggle="tooltip" data-placement="left">
         <span class="small glyphicon glyphicon-question-sign"></span>
     </span>
@@ -195,7 +193,7 @@ $(function () {
     <div class="panel-heading" role="tab" id="headingOne">
       <h4 class="panel-title">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-          Categorie
+          Categorie di Segnalazioni
           <span class="pull-right glyphicon glyphicon-chevron-down"></span>
         </a>
       </h4>
@@ -206,7 +204,7 @@ $(function () {
             &nbsp;<span class="glyphicon glyphicon-warning-sign alert-danger"></span>&nbsp; Nuove segnalazioni bloccate
         </p>
         <p>
-            <span class="badge alert-warning">N</span> <b>N</b> Segnalazioni Inviate
+            <span class="badge alert-warning">N</span> <b>N</b> Segnalazioni Aperte
         </p>
         <p>
             <span class="badge alert-success">N</span> <b>N</b> Segnalazioni Chiuse
@@ -219,7 +217,7 @@ $(function () {
     <div class="panel-heading" role="tab" id="headingThree">
       <h4 class="panel-title">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Inviate
+          Segnalazioni Inviate
           <span class="pull-right glyphicon glyphicon-chevron-down"></span>
         </a>
       </h4>
@@ -243,7 +241,7 @@ $(function () {
     <div class="panel-heading" role="tab" id="headingFour">
       <h4 class="panel-title">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-          Chiuse
+          Segnalazioni Chiuse
           <span class="pull-right glyphicon glyphicon-chevron-down"></span>
         </a>
       </h4>
