@@ -16,31 +16,19 @@ h4.panel-title a {
 	width: 300px;
 }
 
-[class*='modal-m'] {
-	width: 300px;
-}
-
-[class*='modal-l'] {
+.modal-l {
 	width: 600px;
 }
 
 [class*='modal-xl'] {
-	width: 900px;
-}
-
-.visible-sm-modal-l .modal-body {
-	left: 40px;
-}
-
-.visible-lg-modal-xl .modal-body, .visible-md-modal-xl .modal-body {
-	left: 190px;
+	width: 1500px;
 }
 
 #welcome .modal-body {
 	padding-top: 0px;
 	display: table-cell;
 	vertical-align: middle;
-	text-align: center;
+	text-align: left;
 }
 
 .form-signin {
