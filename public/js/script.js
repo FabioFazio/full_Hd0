@@ -1,6 +1,18 @@
 "use strict";
 
 /////////////////////////////////////////////
+//////////__WAITING FUNCTIONS__ ///////////// 
+/////////////////////////////////////////////
+
+function startWait () {
+	$("body").addClass("loading");
+}
+
+function stopWait () {
+	$("body").removeClass("loading");
+}
+
+/////////////////////////////////////////////
 //////__CUSTOM STRING JS EXTENSION _ ////////
 // http://stackoverflow.com/questions/4637942/how-can-i-truncate-a-string-in-jquery
 /////////////////////////////////////////////
@@ -93,6 +105,7 @@ function formResponce ( data, status, $msgBox, $form )
 				$('.alert', $msgBox ).alert('close');
 				var refresh = parseInt($form.data('refresh'));
 		    	if(refresh >= 0)
+		    		startWait();
 		    		setTimeout(content,refresh);
 			}, 1500);
 	}
@@ -359,9 +372,9 @@ $(function () {
     // http://www.dallalibera.net/animazione-attendere-prego-con-jquery/
     
     $(document).on({
-    	ajaxStart: function() { $("body").addClass("loading"); },
+    	ajaxStart: startWait,
     	ajaxStop: function() { 
-    		setTimeout(function(){$("body").removeClass("loading");},1000);
+    		setTimeout(stopWait, 1000);
     	}
 	});
     
