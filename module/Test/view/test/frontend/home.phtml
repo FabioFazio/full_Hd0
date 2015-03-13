@@ -18,7 +18,7 @@ var palette = {
 };
 /* Function initHelp */
 var ambitiApplicativiHelps = {
-		title_0: "<b>Categorie di Segnalzioni</b><br />rappresentano le categorie per le quali è possibile aprire e seguire segnalazioni" ,
+		title_0: "<b>Categorie di Segnalazione</b><br />rappresentano le categorie per le quali è possibile aprire e seguire segnalazioni" ,
 		title_1: "Per ogni Categoria è possibile creare <button class='btn btn-xxs btn-primary'><span class='glyphicon glyphicon-plus'></span></button> e monitorare le proprie segnalazioni in <span class='badge alert-warning'>Inviate</span> e <span class='badge alert-success'>Chiuse</span>" ,
 };
 var bozzeHelps = {
@@ -59,7 +59,7 @@ $(function () {
 
 <div id="ambitiApplicativi" class="col-md-3 colBox">
 <div class="well titleBox bg-rgb">
-    <span>Categorie di Segnalazioni</span>
+    <span>Categorie di Segnalazione</span>
     <span class="pull-right" data-toggle="tooltip" data-placement="left">
         <span class="small glyphicon glyphicon-question-sign"></span>
     </span>
@@ -135,13 +135,13 @@ $(function () {
     </span>
 </div>
 <ol class="well sortable simple_with_no_drag bugsBox">
-<!--     <form class="form-inline filter" role="form"> -->
-<!--         <div class="input-group"> -->
-<!--             <input type="text" class="form-control" id="filterSearch" placeholder="Filtro di ricerca..."> -->
-<!--             <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span> -->
-<!--         </div> -->
-<!--         <center class="small">2 segnalazioni trovate</center> -->
-<!--     </form> -->
+    <form class="form-inline filter" role="form">
+        <div class="input-group">
+            <input type="text" class="form-control" id="filterSearch" placeholder="Filtro di ricerca...">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+        </div>
+        <center class="small"><span id="filterCounter">2</span> segnalazione/i trovata/e</center>
+    </form>
     <li id="chiuse_empty" class="text-center"><i>Vuoto</i></li>
     <li data-ticket-id="0" class="chiuse-ticket hidden bg-rgb">
     <span data-name="Title">Default Title</span>
@@ -184,8 +184,8 @@ $(function () {
     <div id="collapseZero" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingZero">
       <div class="panel-body">
         <ul>
-            <li>Ogni sezione prevede una guida <span class="small glyphicon glyphicon-question-sign"></span> che aiuta a capirne il significato</li>
-            <li>Posizionando il mouse sopra a <span class="small glyphicon glyphicon-question-sign"></span> è possibile leggerne il contenuto</li>
+            <li>Ogni sezione prevede una guida <span class="small glyphicon glyphicon-question-sign"></span> che aiuta a capirne il significato<br/>
+            Posizionando il mouse sopra a <span class="small glyphicon glyphicon-question-sign"></span> è possibile leggerne il contenuto</li>
             <li>Quando la guida è <span class="small glyphicon glyphicon-question-sign alert-warning"></span>, è possibile clickare e leggere più suggerimenti</li>
         </ul>
       </div>
@@ -193,7 +193,7 @@ $(function () {
     <div class="panel-heading" role="tab" id="headingOne">
       <h4 class="panel-title">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-          Categorie di Segnalazioni
+          Categorie di Segnalazione
           <span class="pull-right glyphicon glyphicon-chevron-down"></span>
         </a>
       </h4>
