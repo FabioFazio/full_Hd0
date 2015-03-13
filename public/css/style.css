@@ -176,7 +176,8 @@ div.container a.brand {
 }
 
 .titleBox [data-name="counter"] {
-	vertical-align: text-top;
+	vertical-align: middle;
+	font-size:	20px;
 }
 
 ol.bugsBox > li > span.badge {
@@ -217,7 +218,7 @@ ol.bugsBox > li > span.badge {
 
 .bg-rg {
 	background-color: rgb(245, 245, 200) !important;
-	background-image: linear-gradient(rgb(200, 200, 150) 0px, rgb(200, 200, 150) 100%);
+	background-image: linear-gradient(rgb(200, 200, 150) 0px, rgb(245, 245, 200) 100%);
 }
 .fg-rg { color: rgb(245, 245, 200) }
 
@@ -312,6 +313,10 @@ ol.bugsBox li {
 	font-weight: bold;
 	font-size: 14px;
 	margin: 0px;
+}
+
+#ambitiApplicativi [data-name="counter"], [data-name="ArticleNum"] {
+	font-size: 16px;
 }
 
 ol.bugsBox li ol li {

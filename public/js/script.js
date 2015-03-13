@@ -296,7 +296,7 @@ $(function () {
     	
     	var paging = "<br /><small>1/"+ t +"<small>";
     	$(this).attr('title', $(this).attr('title_' + n)  + paging );
-    	$('span.glyphicon-question-sign', this).addClass('alert-warning');
+    	//$('span.glyphicon-question-sign', this).addClass('alert-warning');
     });
     
     $('[data-toggle="tooltip"][data-current]').on( 'click', function(){

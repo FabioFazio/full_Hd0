@@ -13,8 +13,8 @@ $this->headScript ()->appendFile($this->basePath() . '/js/home.js')
 <!--
 /* Function Colorize */
 var palette = {
-		"color-0" : "bg-r",
-		"color-1" : "bg-gb",
+		"color-0" : "bg-rg",
+		"color-1" : "bg-b",
 };
 /* Function initHelp */
 var ambitiApplicativiHelps = {
@@ -61,7 +61,7 @@ $(function () {
 <div class="well titleBox bg-rgb">
     <span>Categorie di Segnalazione</span>
     <span class="pull-right" data-toggle="tooltip" data-placement="left">
-        <span class="small glyphicon glyphicon-question-sign"></span>
+        <span class="alert-info glyphicon glyphicon-question-sign"></span>
     </span>
 </div>
 <ol id="catList" class="well sortable simple_with_no_drag bugsBox">
@@ -69,7 +69,7 @@ $(function () {
     <li id="q<?php echo $queue['order']; ?>" class="color-<?php echo $queue['order']; ?>">
         <p><?php echo $queue['name']; ?></p>
         <ol><li>
-            <a href="#inLavorazione"><span id="q<?php echo $queue['order']; ?>_bozze" data-name="counter" title="segnalazioni aperte" class="badge alert-warning">0</span></a>
+            <a href="#inLavorazione"><span id="q<?php echo $queue['order']; ?>_bozze" data-name="counter" title="segnalazioni aperte" class="badge alert-danger">0</span></a>
             <a href="#chiuse"><span id="q<?php echo $queue['order']; ?>_chiuse" data-name="counter" title="segnalazioni chiuse" class="badge alert-success">0</span></a>
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary"
@@ -101,10 +101,10 @@ $(function () {
 </div>
 
 <div id="bozze" class="col-md-3 colBox">
-<div id="inLavorazione" class="well titleBox bg-rg">
+<div id="inLavorazione" class="well titleBox bg-r">
     <span class="">Segnalazioni Aperte <span id="tot_bozze" data-name="counter" title="totale" class="badge">N</span></span>
     <span class="pull-right" data-toggle="tooltip" data-placement="left">
-        <span class="small glyphicon glyphicon-question-sign"></span>
+        <span class="alert-info glyphicon glyphicon-question-sign"></span>
     </span>
 </div>
 <ol class="well sortable simple_with_no_drag bugsBox">
@@ -131,7 +131,7 @@ $(function () {
 <div class="well titleBox bg-g">
     <span class="">Segnalazioni Chiuse <span id="tot_chiuse" data-name="counter" title="totale" class="badge">N</span></span>
     <span class="pull-right" data-toggle="tooltip" data-placement="left">
-        <span class="small glyphicon glyphicon-question-sign"></span>
+        <span class="alert-info glyphicon glyphicon-question-sign"></span>
     </span>
 </div>
 <ol class="well sortable simple_with_no_drag bugsBox">
@@ -167,7 +167,7 @@ $(function () {
 <div class="well titleBox bg-rgb">
     <span>Legenda</span>
     <span class="pull-right" data-toggle="tooltip" data-placement="left">
-        <span class="small glyphicon glyphicon-question-sign"></span>
+        <span class="alert-info glyphicon glyphicon-question-sign"></span>
     </span>
 </div>
 
@@ -184,9 +184,9 @@ $(function () {
     <div id="collapseZero" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingZero">
       <div class="panel-body">
         <ul>
-            <li>Ogni sezione prevede una guida <span class="small glyphicon glyphicon-question-sign"></span> che aiuta a capirne il significato<br/>
-            Posizionando il mouse sopra a <span class="small glyphicon glyphicon-question-sign"></span> è possibile leggerne il contenuto</li>
-            <li>Quando la guida è <span class="small glyphicon glyphicon-question-sign alert-warning"></span>, è possibile clickare e leggere più suggerimenti</li>
+            <li>Ogni sezione prevede una guida che aiuta a capirne il significato.<br/>
+            Posizionando il mouse sopra a <span class="alert-info glyphicon glyphicon-question-sign"></span> è possibile leggerne il contenuto</li>
+            <li>Clickando sopra al <span class="glyphicon glyphicon-question-sign alert-info"></span>, è possibile visualizzare altri suggerimenti, se disponibili</li>
         </ul>
       </div>
     </div>
@@ -217,7 +217,7 @@ $(function () {
     <div class="panel-heading" role="tab" id="headingThree">
       <h4 class="panel-title">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Segnalazioni Inviate
+          Segnalazioni Aperte
           <span class="pull-right glyphicon glyphicon-chevron-down"></span>
         </a>
       </h4>
