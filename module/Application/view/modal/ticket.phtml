@@ -58,6 +58,7 @@ function showArticles (articoli, status, $target, $current)
 	        var $clone = $articolo.clone().removeClass('mock').removeClass('hidden');
 	        $target.prepend(updateArticle(a, $clone));
 		});
+	$current.find('input:hidden[name="articles"]').val(articoli.length);
 	$target.find('[role="tabpanel"]:first').collapse('show');
 }
 
@@ -68,8 +69,14 @@ function updateArticle (a, $articolo)
 	$articolo.find('a[aria-controls]')
 	   .attr('aria-controls', 'a'+ a['ArticleID'])
 	   .attr('href', "#"+ 'a'+ a['ArticleID']);
-	$articolo.find('span[data-name="authorName"]')
-	   .text(a['FromRealname']);
+	   
+    var author = escapeHtml(a['FromRealname']);
+	if (a['From'].indexOf( $('#auth_email').val() ) > -1) {
+		author = $('#auth_name').val();
+	}
+   $articolo.find('span[data-name="authorName"]').text(author);
+
+	   
 	$articolo.find('span[data-name="created"]')
 	   .text(a['Created']);
 	   
@@ -127,9 +134,9 @@ $( function ($) {
                 if (parseInt($current.find('input:hidden[name="id"]').val())>0){
 
                     // mostra box articoli
-                	$current.find('#articoli').removeClass('hidden');
+                	$current.find('.articoli').removeClass('hidden');
                 	if(parseInt($current.find('input:hidden[name="articles"]').val())>0)
-                		$('.articoli').removeClass('hidden');
+                		$('#articoli').removeClass('hidden');
                 	else
                 		$('#articoli').addClass('hidden');
                 	// blocca gli input
