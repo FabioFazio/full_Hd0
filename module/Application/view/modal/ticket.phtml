@@ -43,10 +43,10 @@ function showArticles (articoli, status, $target, $current)
 	$articolo = $target.find('.mock');
 	$articolo.siblings().remove();
 
-	var addArticle = "Per inviare nuovi aggiornamenti invia una mail (anche con allegati) dal tuo indirizzo di posta <b>%mail%</b> incollando come <b>Oggetto</b> della mail quanto segue: <br/><b><u>Re: Subject [Ticket#%num%]</u></b>";
+	var addArticle = "Per inviare nuovi aggiornamenti invia una mail a <b><a href='mailto://%mailservice%'>%mailservice%</a></b> (anche con allegati) dal tuo indirizzo di posta <b>%mail%</b> incollando come <b>Oggetto</b> della mail quanto segue: <br/><b><u>Re: Subject [Ticket#%num%]</u></b>";
 	var num = $current.find('input[name="num"]').val();
 	var mail = $('#auth_email').val();
-	addArticle = addArticle.replace('%mail%',mail).replace('%num%',num);
+	addArticle = addArticle.replace(/%mailservice%/g,'hd0@zenatek.com').replace('%mail%',mail).replace('%num%',num);
 
     $("a[data-toggle='alert']").on('click', function(e){
              var alert = {'alert-info': addArticle};
@@ -127,11 +127,11 @@ $( function ($) {
                 if (parseInt($current.find('input:hidden[name="id"]').val())>0){
 
                     // mostra box articoli
-                	$current.find('.articoli').removeClass('hidden');
+                	$current.find('#articoli').removeClass('hidden');
                 	if(parseInt($current.find('input:hidden[name="articles"]').val())>0)
                 		$('.articoli').removeClass('hidden');
                 	else
-                		$('.articoli').addClass('hidden');
+                		$('#articoli').addClass('hidden');
                 	// blocca gli input
                 	$current.find('input').add($current.find('textarea')).each(
                         	function(){this.disabled = true;});
