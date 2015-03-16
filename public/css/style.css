@@ -42,6 +42,10 @@ input[disabled], textarea[disabled] {
 	-webkit-text-fill-color:#4B4B4B;
 }
 
+#ticketModal textarea {
+	height: 30vh;
+}
+
 /* Animazione di attesa */
 
 body.loading { overflow: hidden; }
@@ -211,16 +215,14 @@ ol.bugsBox > li > span.badge {
 }
 
 .bg-r {
-	/*background-color: rgb(245, 200, 200) !important;
-	background-image: linear-gradient( rgb(200, 150, 150) 0px, rgb(245, 200, 200) 100%);*/
 	background-color: rgb(255, 200, 200) !important;
 	background-image: linear-gradient( rgb(255, 100, 100) 0px, rgb(255, 100, 100) 100%);
 }
 .fg-r { color: rgb(245, 200, 200) }
 
 .bg-rg {
-	background-color: rgb(245, 245, 200) !important;
-	background-image: linear-gradient(rgb(200, 200, 150) 0px, rgb(245, 245, 200) 100%);
+	background-color: rgb(245, 245, 0) !important;
+	background-image: linear-gradient(rgb(200, 200, 0) 0px, rgb(245, 245, 200) 100%);
 }
 .fg-rg { color: rgb(245, 245, 200) }
 
