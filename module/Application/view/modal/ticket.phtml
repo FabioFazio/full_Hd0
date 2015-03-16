@@ -77,7 +77,7 @@ function updateArticle (a, $articolo)
 	   .attr('id', 'a'+ a['ArticleID'])
 	   .attr('aria-labelledby', 'h_a'+ a['ArticleID']);
 	$articolo.find('span[data-name="body"]')
-	   .empty().html(a['Body']);
+	   .empty().html(a['Body'].replace(/\n/g, "<br/>"));
 	return $articolo;
 }
 

@@ -288,7 +288,7 @@ class FrontendController extends ZtAbstractActionController {
             usort($result, function($a,$b){
             	return ($a['Created']==$b['Created'])? 0: ($a['Created'] < $b['Created'])? -1: 1;
             });
-            array_pop($result);
+            array_shift($result);
         }
         
         return $this->jsonModel ( $result );
