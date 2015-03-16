@@ -265,7 +265,7 @@ class ZtAbstractActionController extends AbstractActionController {
         
     	// Call
         $result = call_user_func_array([$soapclient, $operation], $param_arr);
-        //$req = $soapclient->__getLastRequest();
+        $req = $soapclient->__getLastRequest();
         $xml = $soapclient->__getLastResponse();
         
         return $xml;
