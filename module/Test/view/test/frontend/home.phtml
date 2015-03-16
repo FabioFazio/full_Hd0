@@ -110,8 +110,12 @@ $(function () {
 <ol class="well sortable simple_with_no_drag bugsBox">
     <li id="bozze_empty" class="text-center"><i>Vuoto</i></li>
     <li data-ticket-id="0" class="bozze-ticket hidden bg-rgb">
-    <span data-name="Title">Default Title</span>
-    <span class="badge queue-color pull-right"><span data-name="QueueName" data-prop="title" title="Default Queue" class="glyphicon glyphicon-tag"></span></span>
+    <div class="row titleTicket">
+        <div class="col-md-10" data-name="Title">Default Title</div>
+        <div class="col-md-offset-1 col-md-1 badge queue-color">
+            <span data-name="QueueName" data-prop="title" title="Default Queue" class="glyphicon glyphicon-tag tagQueue"></span>
+        </div>
+    </div>
         <ol><li>
             <span class="badge alert-info"><span data-name="ArticleNum">?</span> <span title="aggiornamenti" class="glyphicon glyphicon-comment"></span></span>
             <!-- span class="badge alert-info"><span  data-name="AttachmentNum">?</span> <span title="allegati" class="glyphicon glyphicon-paperclip"></span></span -->
@@ -135,17 +139,21 @@ $(function () {
     </span>
 </div>
 <ol class="well sortable simple_with_no_drag bugsBox">
-    <form class="form-inline filter" role="form">
+    <!-- form class="form-inline filter" role="form">
         <div class="input-group">
             <input type="text" class="form-control" id="filterSearch" placeholder="Filtro di ricerca...">
             <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
         </div>
-        <!--  center class="small"><span id="filterCounter">2</span> segnalazione/i trovata/e</center -->
-    </form>
+        <!--  center class="small"><span id="filterCounter">2</span> segnalazione/i trovata/e</center ->
+    </form -->
     <li id="chiuse_empty" class="text-center"><i>Vuoto</i></li>
     <li data-ticket-id="0" class="chiuse-ticket hidden bg-rgb">
-    <span data-name="Title">Default Title</span>
-    <span class="badge queue-color pull-right"><span data-name="QueueName" data-prop="title" title="Default Queue" class="glyphicon glyphicon-tag"></span></span>
+    <div class="row titleTicket">
+        <div class="col-md-10" data-name="Title">Default Title</div>
+        <div class="col-md-offset-1 col-md-1 badge queue-color">
+            <span data-name="QueueName" data-prop="title" title="Default Queue" class="glyphicon glyphicon-tag tagQueue"></span>
+        </div>
+    </div>
         <ol><li>
             <span class="badge alert-success"><span title="risolta con successo" class="glyphicon glyphicon-ok"></span></span>
             <span class="badge alert-danger"><span title="chiusa senza successo" class="glyphicon glyphicon-remove"></span></span>

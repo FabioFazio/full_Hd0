@@ -299,6 +299,15 @@ ol.sidebar-offcanvas {
 	overflow-y:scroll; 
 }
 
+.row.titleTicket {
+	margin-right: 0px;
+	margin-bottom: 1px;
+}
+
+.tagQueue {
+	left: -2px;
+}
+
 ol.bugsBox li {
 	border: 1px solid #cccccc;
 	background: #fff;
