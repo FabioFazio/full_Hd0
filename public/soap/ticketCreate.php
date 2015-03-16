@@ -7,8 +7,8 @@ $filename = 'fester.jpg';
 
 
 $XMLArray = [
-    'UserLogin' =>'fabio.fazio',
-    'Password' =>'aaAA11!!',
+    'UserLogin' =>'hd0',
+    'Password' =>'hd0',
     
     'Ticket' => [
         'Title' => 'Test Title',
@@ -84,9 +84,9 @@ $XMLArray = [
 
 error_reporting(E_ALL);
 
-$url	  = "http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector";
-$username = "fabio.fazio";
-$password = "aaAA11!!";
+$url	  = "http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector";
+$username = "hd0";
+$password = "hd0";
 $namespace = 'http://www.otrs.org/TicketConnector/';
 
 echo "<html>\n";

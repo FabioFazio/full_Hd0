@@ -2,8 +2,8 @@
 $operation = 'TicketSearch';
 
 $XMLArray = [
-    'UserLogin' => 'fabio.fazio',
-    'Password' => 'aaAA11!!',
+    'UserLogin' => 'hd0',
+    'Password' => 'hd0',
 
     'TicketNumber' => [],
     'Title' => [],
@@ -94,9 +94,10 @@ $XMLArray = [
 
 error_reporting(E_ALL);
 
-$url	  = "http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector";
-$username = "fabio.fazio";
-$password = "aaAA11!!";
+//$url	  = "http://ztac.zenatek.eu/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector";
+$url	  = "http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector";
+$username = "hd0"; //"hd0";
+$password = "hd0"; //"hd0";
 $namespace = 'http://www.otrs.org/TicketConnector/';
 
 echo "<html>\n";
@@ -135,8 +136,11 @@ foreach ($XMLArray as $k => $v)
 	}
 }
 
+try{
 $ticketIds = call_user_func_array([$soapclient, $operation], $param_arr);
-
+} catch (Exception $e){
+	echo $e->xdebug_message;
+}
 foreach ([$soapclient->__getLastRequest(), $soapclient->__getLastResponse()] as $k => $r)
 {
     $r = str_replace("\n", "<br/>", htmlspecialchars($r));
