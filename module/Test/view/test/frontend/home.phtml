@@ -19,7 +19,7 @@ var palette = {
 /* Function initHelp */
 var ambitiApplicativiHelps = {
 		title_0: "<b>Categorie di Segnalazione</b><br />rappresentano le categorie per le quali è possibile aprire e seguire segnalazioni" ,
-		title_1: "Per ogni Categoria è possibile creare <button class='btn btn-xxs btn-primary'><span class='glyphicon glyphicon-plus'></span></button> e monitorare le proprie segnalazioni in <span class='badge alert-warning'>Inviate</span> e <span class='badge alert-success'>Chiuse</span>" ,
+		title_1: "Per ogni Categoria è possibile creare <button class='btn btn-xxs btn-primary'><span class='glyphicon glyphicon-plus'></span></button> e monitorare le proprie segnalazioni <span class='badge alert-danger'>Aperte</span> e <span class='badge alert-success'>Chiuse</span>" ,
 };
 var bozzeHelps = {
 		title_0: "<b>Segnalazioni Aperte</b><br />contengono le segnalazioni aperte <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button> per tutte le fasi di avanzamenti fino alla chiusura",
@@ -86,7 +86,7 @@ $(function () {
     <li id="qN" class="color-? mock hidden">
         <p  data-name="name"></p>
         <ol><li>
-            <a href="#inLavorazione"><span id="qN_bozze" data-name="counter" title="segnalazioni inviate" class="badge alert-danger">0</span></a>
+            <a href="#inLavorazione"><span id="qN_bozze" data-name="counter" title="segnalazioni aperte" class="badge alert-danger">0</span></a>
             <a href="#chiuse"><span id="qN_chiuse" data-name="counter" title="segnalazioni chiuse" class="badge alert-success">0</span></a>
             <div class="pull-right">
                 <button data-toggle="modal" data-target="#ticketModal" class="btn btn-xs btn-primary"
