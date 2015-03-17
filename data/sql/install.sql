@@ -8,4 +8,4 @@ INSERT INTO `hd0`.`Queue` (`id`, `service_id`, `order`, `name`, `code`)
 INSERT INTO `hd0`.`User` (`id`, `name`, `email`, `password`, `username`)
 	VALUES	(NULL, 'Fabio', 'fmfazio@gmail.com', 123, 'fabio'),
 		(NULL, NULL, 'stefano', 123, 'stefano'),
-		(NULL, 'Mario', 'fabio.fazio@zenatek.it', 123, 'mario');
+		(NULL, 'Mario Rossi', 'fabio.fazio@zenatek.it', 123, 'mario');
