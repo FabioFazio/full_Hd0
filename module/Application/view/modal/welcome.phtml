@@ -3,7 +3,7 @@
 $(function($) {
     $( '#welcome' ).modal({
 	});
-<?php if(!$user): ?>
+<?php if(!isset($user) || !$user): ?>
     $('#welcome').on('hidden.bs.modal', function (e) {
         if (e) {
             $( '#login' ).modal({
@@ -13,6 +13,7 @@ $(function($) {
         }
     });
 <?php endif; ?>
+    
 });
 -->
 </script>
