@@ -159,10 +159,14 @@ $(function () {
 
 	var browserK = get_browser();
     var browserV = get_browser_version();
-     if (browserK.indexOf('IE') >= 0 && browserV < 7)
-    	alert('Internet Explorer supported from ver.7. Actually you are using ver.: ' + browserV);
+     if (browserK.indexOf('IE') >= 0 && browserV < 9)
+    	alert('Internet Explorer supported from ver.9. Actually you are using ver.: ' + browserV);
     //alert(browserK +' ver.' + browserV);
 	
+     if (browserK.indexOf('IE') >= 0){
+    	 $(".titleTicket").removeClass("row");
+     }
+     
 	/////////////////////////////////////////////
 	/////////// __DRAG & DROP LIST__ //////////// 
 	/////////////////////////////////////////////
