@@ -231,6 +231,7 @@ class FrontendController extends ZtAbstractActionController {
             	   $v = array_merge ( $v, [
             	           'ArticleNum' => count($articles)-1,
             	           'Article' => [current($v['Article'])],
+            	           'Author' => current($v['Article'])['FromRealname'],
             	           'QueueName' => $q['name'],
             	           'QueueColor' => 'color-' . $q['order'],
             	           'QueueOrder' => $q['order'],
@@ -369,6 +370,7 @@ class FrontendController extends ZtAbstractActionController {
     	        $this->getAuthService()->setStorage($storage);
     	    }
     	    $this->getSession()->user = $user; // push on session
+    	    $queues = $this->getUserQueues();
     	    
     	    $email = ($user->getEmail() == $user->getUsername())? '' : $user->getEmail();
     	    $alertSuccess = $this->formatSuccessMessage('Benvenuto/a '. $user->getName()?:$user->getUsername() .'!', 0);
@@ -378,6 +380,7 @@ class FrontendController extends ZtAbstractActionController {
     		    'username'	=> $user->getUsername(),
     		    'name'	=> $user->getName(),
     		    'email'	=> $email,
+    		    'queues' => $queues,
                 'alert-success' => $alertSuccess,
 		    ];
     	}
@@ -397,6 +400,22 @@ class FrontendController extends ZtAbstractActionController {
         $this->getLogService()->debug("Auth: $username Session terminated.");
         
         return $this->redirect()->toRoute('home');
+    }
+    
+    public function logoffAction()
+    {
+    	$user = $this->getSession()->user;
+    	$username = ($user)?$user->getUsername():'[?]';
+    
+    	$this->getStorageService()->forgetMe();
+    	$this->getAuthService()->clearIdentity();
+    	$this->getStorageService()->clear('');
+    
+    	$this->getLogService()->debug("Auth: $username Session terminated.");
+    	$result = [
+    	   'alert-success' => 'Sessione di lavoro terminata!'
+        ];
+    	return $this->jsonModel( $result );
     }
     
     public function settingsAction()
