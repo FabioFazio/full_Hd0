@@ -23,6 +23,9 @@ class Queue {
 	
 	/** @ORM\ManyToOne(targetEntity="Service") */
 	protected $service;
+	
+	/** @ORM\ManyToOne(targetEntity="Filter") */
+	protected $filter;
 
 	public function getId(){
 	    return $this->id;
@@ -64,11 +67,24 @@ class Queue {
     	$this->service = $service;
     }
     
+    public function getFilter(){
+    	return $this->filter;
+    }
+    
+    public function setFilter($filter){
+    	$this->filter = $filter;
+    }
+    
     public function toArray()
     {
         $array = get_object_vars($this);
+        
         $array['service_id'] = $this->getService()->getId();
         unset($array['service']);
+        
+        $array['filter_id'] = $this->getFilter()?$this->getFilter()->getId():null;
+        unset($array['filter']);
+        
     	return $array;
     }
 }
