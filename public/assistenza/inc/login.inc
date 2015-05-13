@@ -1,9 +1,8 @@
 <script type="text/javascript">
 <!--
 $( function($) {
-	var splashscreen = true;
-	
 	if(!splashscreen){
+		
 	    $( '#login' ).modal({
 			keyboard : false,
 			backdrop: 'static',

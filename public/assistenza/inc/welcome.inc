@@ -1,9 +1,16 @@
 <script type="text/javascript">
 <!--
 $( function($) {
-//  $( '#welcome' ).modal({
-// 	});
-
+	if (splashscreen){
+	   $( '#welcome' ).modal({
+		    });
+    } else if ( !authenticated ) {
+        $( '#login' ).modal({
+            keyboard : false,
+            backdrop: 'static',
+        });
+    }
+    
     $( '#welcome div.modal-xl' ).css( "width", $(window).innerWidth()-50 );
 	
     $('#welcome').on('hidden.bs.modal', function (e) {
