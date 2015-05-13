@@ -1,0 +1,501 @@
+/* Background modal START */
+
+.modal-backdrop.fade {
+opacity: 0.5;
+filter: alpha(opacity=50);
+}
+.modal-backdrop.fade.in {
+opacity: 0.9;
+filter: alpha(opacity=90);
+}
+/* Background modal END */
+
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+h4.article-title {
+	font-size: 16px;
+	margin-top: 10px;
+}
+
+h4.panel-title a {
+	font-size: 14px;
+}
+
+.modal-m {
+	width: 300px;
+}
+
+.modal-l {
+	width: 600px;
+}
+
+[class*='modal-xl'] {
+	width: 1500px;
+}
+
+#welcome .modal-body {
+	padding-top: 0px;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: left;
+}
+
+.form-signin {
+max-width: 330px;
+margin: 0 auto;
+}
+
+input[disabled], textarea[disabled] {
+	color: #4B4B4B;
+	-webkit-opacity: 1;
+	-webkit-text-fill-color:#4B4B4B;
+}
+
+#ticketModal textarea {
+	height: 30vh;
+}
+
+/* Animazione di attesa */
+
+body.loading { overflow: hidden; }
+
+body.loading .modal.modal-wait { display: block; }
+
+.modal.modal-wait {
+	display: none;
+	position: fixed;
+	z-index: 1000; top: 0; left: 0; height: 100%; width: 100%;
+	background: rgba( 255, 255, 255, .5 )
+	url('../img/ajax-loader.gif') 50% 50% no-repeat;
+}
+
+/* Animazione di attesa -- Fine */
+
+.btn-xxs {
+	padding: 2px 2px;
+	font-size: 10px;
+	line-height: 1;
+	border-radius: 3px;
+}
+
+.zero-clipboard {
+	display: block;
+	position: relative;
+}
+
+.zero-clipboard .btn-clipboard {
+	top: 0px;
+	border-radius: 0px 0px 10px 10px;
+}
+
+.btn-clipboard {
+	position: absolute;
+	top: 0;
+	right: 50px;
+	z-index: 10;
+	display: block;
+	padding: 5px 8px;
+	font-size: 12px;
+	color: #777;
+	cursor: pointer;
+	background-color: #fff;
+	border: 1px solid #e1e1e8;
+	border-radius: 0 4px 0 4px;
+}
+
+.zero-clipboard+.modal-header {
+	margin-top: -16px;
+	margin-right: 0;
+	margin-left: 0;
+	border-width: 1px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	
+}
+
+.modal-body textarea {
+	margin-bottom: 10px;
+}
+
+#legenda ul {
+	padding-left: 5px;
+}
+
+.body-bg {
+background-image: url("../img/z-bg.jpg");
+background-attachment: fixed;
+/* https://www.flickr.com/photos/webtreatsetc/4521444188 */
+background-repeat: repeat;
+background-color: rgba(200,200,200,0);
+}
+
+.zf-green {
+    color: #68b604;
+}
+
+.btn-success {
+  background-color: #57a900;
+  background-image: -moz-linear-gradient(top, #70d900, #57a900);
+  background-image: -ms-linear-gradient(top, #70d900, #57a900);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#70d900), to(#57a900));
+  background-image: -webkit-linear-gradient(top, #70d900, #57a900);
+  background-image: -o-linear-gradient(top, #70d900, #57a900);
+  background-image: linear-gradient(top, #70d900, #57a900);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#70d900', endColorstr='#57a900', GradientType=0);
+}
+
+.btn-success:hover,
+.btn-success:active,
+.btn-success.active,
+.btn-success.disabled,
+.btn-success[disabled] {
+  background-color: #57a900;
+}
+
+.btn-success:active, .btn-success.active {
+  background-color: #57a900;
+}
+
+div.container a.brand {
+    background: url("../img/zf2-logo.png") no-repeat scroll 0 10px transparent;
+    margin-left: 0;
+    padding: 8px 20px 12px 40px;
+}
+
+.usertools {
+	margin-top: 8px;	
+}
+
+/* Fix bootstrap 3.3.2 */
+
+.navbar-brand {
+	display: -webkit-flex;
+	display: flex;
+}
+
+/* Card Collectors */
+
+.titleBox {
+	padding: 5px;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	font-size: 19px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 500;
+	line-height: 1.1;
+	color: inherit;
+	text-align: center;
+	min-height: 36px;
+}
+
+.titleBox [data-name="counter"] {
+	vertical-align: middle;
+	font-size:	20px;
+}
+
+ol.bugsBox > li > span.badge {
+	padding: 2px 7px;
+	color: #fff;	
+}
+
+.filter {
+	margin: 15px;
+}
+
+.titleBox abbr[title] {
+	border-bottom: 0px;
+	
+}
+
+.search {
+	margin:	10px;
+}
+
+/* Hignlights */
+[class*='bg-'] {
+	background-origin: padding-box;
+	background-position: 0% 0%;
+	background-repeat: repeat-x;
+}
+
+.glyphicon {
+	background: rgb(0, 0, 0); /* The Fallback */
+	background: rgba(0, 0, 0, 0);
+}
+
+.bg-r {
+	background-color: rgb(255, 200, 200) !important;
+	background-image: linear-gradient( rgb(255, 100, 100) 0px, rgb(255, 100, 100) 100%);
+}
+.fg-r { color: rgb(245, 200, 200) }
+
+.bg-rg {
+	background-color: rgb(245, 245, 0) !important;
+	background-image: linear-gradient(rgb(200, 200, 0) 0px, rgb(245, 245, 200) 100%);
+}
+.fg-rg { color: rgb(245, 245, 200) }
+
+.bg-g {
+	background-color: rgb(200, 245, 200) !important;
+	background-image: linear-gradient(rgb(150, 200, 150) 0px, rgb(150, 200, 150) 100%);
+}
+.fg-g { color: rgb(200, 245, 200) }
+
+.bg-gb {
+	background-color: rgb(200, 245, 245) !important;
+	background-image: linear-gradient(rgb(150, 200, 200) 0px, rgb(200, 245, 245) 100%);
+}
+.fg-gb { color: rgb(200, 245, 245) }
+
+.bg-b {
+	background-color: rgb(200, 200, 245) !important;
+	background-image: linear-gradient(rgb(150, 150, 200) 0px, rgb(200, 200, 245) 100%);
+}
+.fg-b { color: rgb(200, 200, 245) }
+
+.bg-rb {
+	background-color: rgb(245, 200, 245) !important;
+	background-image: linear-gradient(rgb(200, 150, 200) 0px, rgb(245, 200, 245) 100%);
+}
+.fg-rb { color: rgb(245, 200, 245) }
+
+.bg-rgb {
+	background-color: rgb(200, 200, 200) !important;
+	background-image: linear-gradient(rgb(150, 150, 150) 0px, rgb(150, 150, 150) 100%);
+	color: #FFF;
+	border-color: #888;
+}
+.fg-rgb { color: rgb(200, 200, 200) }
+
+[class*='bg-dark-'] { color: #FFF !important; }
+.bg-dark-r	{background-color: rgb(200, 100, 100) !important;}
+.fg-dark-r	{color: rgb(200, 100, 100) !important;}
+.bg-dark-rg	{background-color: rgb(200, 200, 100) !important;}
+.fg-dark-rg	{color: rgb(200, 200, 100) !important;}
+.bg-dark-g	{background-color: rgb(100, 200, 100) !important;}
+.fg-dark-g	{color: rgb(100, 200, 100) !important;}
+.bg-dark-gb	{background-color: rgb(100, 200, 200) !important;}
+.fg-dark-gb	{color: rgb(100, 200, 200) !important;}
+.bg-dark-b	{background-color: rgb(100, 100, 200) !important;}
+.fg-dark-b	{color: rgb(100, 100, 200) !important;}
+.bg-dark-rb	{background-color: rgb(200, 100, 200) !important;}
+.fg-dark-rb	{color: rgb(200, 100, 200) !important;}
+
+
+
+/* end Highlights */
+
+div.colBox {
+	/*height: 550px;*/
+}
+
+li.reverse-highlight {
+	background: #444;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#404040',endColorstr='#404040',GradientType=0);
+	color: #eee;
+}
+
+ol.bugsBox {
+	/* min-height: 300px; */
+	max-height: 500px;
+	overflow-y: auto;
+}
+
+ol.bugsBox.halfBox {
+	min-height: inherit;
+	max-height: 224px;
+}
+
+ol.sidebar-offcanvas {
+	overflow-y:scroll; 
+}
+
+.titleTicket {
+	margin-right: 0px;
+	margin-bottom: 1px;
+}
+
+.tagQueue {
+	left: -3px;
+}
+
+ol.bugsBox li {
+	border: 1px solid #cccccc;
+	background: #fff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ffffff',GradientType=0);
+    color: #003366;
+}
+
+#ambitiApplicativi ol.bugsBox li {
+	border: 1px solid #888;
+}
+
+#ambitiApplicativi ol.bugsBox li > p {
+	text-align: center;
+	font-weight: bold;
+	font-size: 14px;
+	margin: 0px;
+}
+
+#ambitiApplicativi [data-name="counter"], [data-name="ArticleNum"] {
+	font-size: 16px;
+}
+
+ol.bugsBox li ol li {
+	min-height: 33px;
+	color: #555;
+	font-size: 16px;
+	margin: -2px;
+}
+
+.bacheca {
+	border: 1px solid #555;
+	margin-bottom: 20px;
+}
+
+.legenda {
+	border: 1px solid #555;
+}
+
+.strong {
+	font-weight: bold;
+}
+
+/* CONFIRMATION */
+
+.popover-title p {
+	font-weight: bold;
+}
+
+.popover-title {
+	font-size: 14px;
+}
+
+/* TOOLTIP */
+
+.tooltip-inner {
+	font-size: 13px;
+}
+
+/* MODAL */
+
+/* TICKET */
+
+#priority {
+	padding-bottom: 8px;
+	text-align: center;
+}
+
+.middle-box { /* non usato */
+ 	margin: 10px 0px;
+	background-image: linear-gradient(to bottom,#e8e8e8 0,#f5f5f5 100%);
+	background-repeat: repeat-x;
+	border-color: #dcdcdc;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe8e8e8',endColorstr='#fff5f5f5',GradientType=0);
+	-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.05),0 1px 0 rgba(255,255,255,0.1);
+	box-shadow: inset 0 1px 3px rgba(0,0,0,0.05),0 1px 0 rgba(255,255,255,0.1);
+}
+
+/* http://codepen.io/bi11johnston/pen/bsGDf/ */
+
+.b-grey {
+	background-color: #DDD;
+}
+
+.well.well-inner {
+	background-color: #FFF;
+	background-image: none;
+	padding: 8px;
+}
+
+#tagCloud {
+	padding: 5px;	
+}
+
+#tagCloud [data-toggle="buttons"] label {
+	margin: 2px;
+}
+
+.wizard.form-control {
+	height: inherit;
+	margin: 10px 0px;
+}
+
+.wizard .navbar {
+	min-height: 0px;
+	margin-bottom: 0px;
+}
+
+.wizard .nav-pills>li>a {
+	padding-top: 3px;
+	padding-bottom: 3px;
+	margin-top: 2px;
+	margin-bottom: 10px;
+}
+
+.pager.wizard
+{
+	margin: 5px 0px;
+}
+
+.attachmentsList {
+	height: inherit;
+	margin: 10px 0px 0px 0px;
+}
+
+.attachmentsList > div {
+	max-height: 45px;
+	overflow-y: auto;
+}
+
+.attachmentsList ul {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	font-size: 85%;
+}
+
+.attachmentsList ul li {
+	padding: 2px 5px;
+}
+
+.attachmentsList ul li a {
+	padding: 0px 5px;
+	font-weight: bold;
+}
+
+#ticketModal .panel-heading {
+	padding: 2px;
+}
+
+#ticketModal .modal-body {
+	padding-bottom: 0px;
+}
+
+.articoli.well {
+	padding: 0px 10px 10px 10px;
+}
+
+#articoli .badge {
+	padding: 2px 7px;
+}
+
+
+/** Fix per HD ai bottoni e badge con gliphicons troppo piccoli **/
+span.glyphicon {
+	top: inherit;
+	line-height: inherit;
+}
+
+.tagSize
+{
+	font-size:	13px;
+}
+
+.fright
+{
+	float: right;
+}

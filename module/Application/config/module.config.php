@@ -15,8 +15,10 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        'controller' => 'Test\Controller\Frontend',
-                        'action'     => 'home',
+                        //'controller' => 'Test\Controller\Frontend',
+                        //'action'     => 'home',
+                        'controller' => 'Home\Controller\Index',
+                        'action'     => 'index',
                     ),
                 ),
             ),

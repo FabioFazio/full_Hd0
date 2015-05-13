@@ -8,25 +8,27 @@
 $env = getenv('APP_ENV') ?: 'production';
 
 $modules = array (
-    'DoctrineModule',
-    'DoctrineORMModule',
-    'Application',
-    'Test',
-    );
+		'DoctrineModule',
+		'DoctrineORMModule',
+		'Application',
+		'Test',
+        'Home'
+);
 
 if (false && $env == 'development') {
-    $modules[] = 'BjyProfiler';
-    $modules[] = 'ZendDeveloperTools';
+	$modules[] = 'BjyProfiler';
+	$modules[] = 'ZendDeveloperTools';
 }
-
-return array(
-    'modules' => $modules,
         
-    'module_listener_options' => array(
-        'module_paths' => array(
+return array(
+		'modules' => $modules,        
+        
+        'module_listener_options' => array(
+            'module_paths' => array(
             './module',
             './vendor'
         ),
+            
         'config_glob_paths' => array(
             'config/autoload/{,*.}{global,local}.php'
         )

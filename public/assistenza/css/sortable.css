@@ -1,0 +1,30 @@
+body.dragging, body.dragging * {
+	cursor: move !important;
+}
+
+.dragged {
+	position: absolute;
+	opacity: 0.5;
+	z-index: 2000;
+}
+
+ol.sortable, ol.sortable ol {
+	list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+ol.sortable li {
+    sursor: pointer;
+    display: block;
+    margin: 5px;
+    padding: 5px;
+}    
+
+ol.sortable li.placeholder {
+	position: relative;
+}
+
+ol.sortable li.placeholder:before {
+	position: absolute;
+}

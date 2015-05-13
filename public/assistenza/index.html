@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Finiper - Hd0</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- start@style -->
+<link href="css/bootstrap.css" media="screen" rel="stylesheet"
+	type="text/css">
+<link href="css/bootstrap-theme.min.css" media="screen"
+	rel="stylesheet" type="text/css">
+<link href="img/favicon.ico" rel="shortcut icon"
+	type="image/vnd.microsoft.icon">
+<!--[if lt IE 8]><link href="css/glyphicons-ie7.less" media="screen" rel="stylesheet" type="text/css"><![endif]-->
+<!--[if lt IE 8]><link href="css/glyphicons-ie7.css" media="screen" rel="stylesheet" type="text/css"><![endif]-->
+<link href="css/sortable.css" media="screen" rel="stylesheet"
+	type="text/css">
+<link href="css/toastr.min.css" media="screen" rel="stylesheet"
+	type="text/css">
+<link href="css/style.css" media="screen" rel="stylesheet"
+	type="text/css">
+<!--[if IE]><link href="css/style-ie.css" media="screen" rel="stylesheet" type="text/css"><![endif]-->
+<!-- end@style -->
+
+<!-- start@script -->
+<!--[if lt IE 9]><script type="text/javascript" src="js/html5shiv.js"></script><![endif]-->
+<!--[if lt IE 9]><script type="text/javascript" src="js/respond.min.js"></script><![endif]-->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script type="text/javascript"
+	src="js/jquery.form-validator.min.js"></script>
+<script type="text/javascript" src="js/date.js"></script>
+<script type="text/javascript" src="js/security.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-alert.js"></script>
+<script type="text/javascript" src="js/bootstrap-confirmation.js"></script>
+<script type="text/javascript" src="js/toastr.min.js"></script>
+<!--[if !IE]><!-->
+<script type="text/javascript" src="js/jquery-sortable.js"></script>
+<!--<![endif]-->
+<!--[if gte IE 8]><script type="text/javascript" src="js/jquery-sortable-mirror.js"></script><![endif]-->
+<script type="text/javascript" src="js/jquery.bootstrap.wizard.js"></script>
+
+<script type="text/javascript" src="js/library.js"></script>
+
+<script type="text/javascript" src="js/script.js"></script>
+
+<script type="text/javascript" src="inc/js/home.js"></script>
+<script type="text/javascript" src="inc/js/filter.js"></script>
+<script type="text/javascript" src="inc/js/ticket.js"></script>
+<script type="text/javascript" src="inc/js/welcome.js"></script>
+<script type="text/javascript" src="inc/js/login.js"></script>
+<script type="text/javascript" src="inc/js/settings.js"></script>
+<!-- end@script -->
+
+<!--[if IE 7]>
+	<style type="text/css">
+		.titleBox span:first-child {
+			float: left !important;
+		}
+		#ambitoApplicativo li span[class!='glyphicon'] {
+		    float: left !important;
+		}
+	</style>
+<![endif]-->
+
+</head>
+
+<body class="body-bg">
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+
+		<div class="navbar-header">
+			<!--.nav-toggle -->
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<!--/.nav-toggle -->
+			<a class="navbar-brand" href="#"><img src="img/iper-logo.png"
+				style="max-height: 20px;" alt="Iper" />&nbsp;Hd0 - Assistenza
+				Tecnica</a>
+		</div>
+		<!--.nav-collapse -->
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-expanded="false"
+					style="color: #9cf; background-color: #555; border-radius: 10px; padding: 8px; margin: 7px 0px;">
+						<span class="glyphicon glyphicon-user"></span>&nbsp;<span
+						id="name"></span>&nbsp;<span class="caret"></span>
+				</a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#" onclick="return content();"><span
+								class="glyphicon glyphicon-refresh"></span> Aggiorna</a></li>
+						<li class="divider"></li>
+						<li><a data-toggle="modal" data-backdrop="static"
+							data-keyboard="false" href="#settings"><span
+								class="glyphicon glyphicon-cog"></span> Configurazioni</a></li>
+						<li><a href="#" onclick="return logoff();"><span
+								class="glyphicon glyphicon-log-out"></span> Esci</a></li>
+					</ul></li>
+			</ul>
+		</div>
+		<!--/.nav-collapse -->
+	</div>
+	</nav>
+
+	<!-- start@content	-->
+	<div class="container">
+
+<script type="text/javascript">
+<!--
+/* Function Colorize */
+var palette = {
+	"color-0" : "bg-rg",
+	"color-1" : "bg-b",
+};
+/* Function initHelp */
+var ambitiApplicativiHelps = {
+	title_0 : "<b>Categorie di Segnalazione</b><br />rappresentano le categorie per le quali è possibile aprire e seguire segnalazioni",
+	title_1 : "Per ogni Categoria è possibile creare <button class='btn btn-xxs btn-primary'><span class='glyphicon glyphicon-plus'></span></button> e monitorare le proprie segnalazioni <span class='badge alert-danger'>Aperte</span> e <span class='badge alert-success'>Chiuse</span>",
+};
+var bozzeHelps = {
+	title_0 : "<b>Segnalazioni Aperte</b><br />contengono le segnalazioni aperte <button class='btn btn-xxs btn-info'><span class='glyphicon glyphicon-send'></span></button> per tutte le fasi di avanzamenti fino alla chiusura",
+	title_1 : "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina la Categoria di appartenenza",
+	title_2 : "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare il loro stato di avanzamento <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span>",
+};
+var chiuseHelps = {
+	title_0 : "<b>Segnalazioni Chiuse</b><br />contiene segnalazioni in fine avanzamento e risolte <span class='badge alert-success'><span class='glyphicon glyphicon-ok'></span></span> dagli operatori di supporto",
+	title_1 : "Il colore del tag <span class='badge'><span class='glyphicon glyphicon-tag'></span></span> determina la Categoria di appartenenza",
+	title_2 : "E' possibile aprire <button class='btn btn-xxs btn-default'><span class='glyphicon glyphicon-zoom-in'></span></button> le segnalazioni per consultare come si sono concluse <span class='badge alert-info'><span class='glyphicon glyphicon-comment'></span></span>",
+};
+var legendaHelps = {
+	title : "<b>Legenda</b><br />contiene suggerimenti e chiarisce ogni bottone o icona.<br />Ogni <b>Sezione</b> <span class='glyphicon glyphicon-chevron-down'></span> è espandibile"
+};
+/* Tickets Filters */
+var bozzeStateIds = [ 1, 4, 6, 7, 8 ];		/* todo@ajax getOtrsInlavStateIds */
+var chiuseStateIds = [ 2, 3, 10 ];			/* todo@ajax getOtrsChiuseStateIds */
+
+/* Ajax Calls */
+var logoff_url = "/hd0/test/frontend/logoff";
+var category_url = "/hd0/test/frontend/categoryList";
+var ticket_url = "/hd0/test/frontend/ticketLists";
+var settings_url = "/hd0/test/frontend/settings";
+var articles_url = '/hd0/test/frontend/getArticles';
+
+/* Env vars */
+var cookieExpires	= (10 * 365);
+var cookiePath		= '/';
+-->
+</script>
+
+	<div data-include="inc/home.inc" class="container"></div>
+
+	<!-- end@content -->
+	</div>
+
+	<hr />
+
+	<div class="modal modal-wait"></div>
+
+	<footer>
+	<p>&copy; 2005 - 2015 by Zenatek S.P.A. Tutti i diritti riservati.</p>
+	</footer>
+
+	</div>
+
+	<div data-include="inc/filter.inc"></div>
+	<div data-include="inc/ticket.inc"></div>
+	<div data-include="inc/welcome.inc"><!-- 'user' => $user --></div>
+	<div data-include="inc/login.inc"><!-- 'user' => $user --></div>
+	<div data-include="inc/settings.inc"></div>
+
+</body>
+
+</html>
