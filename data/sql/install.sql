@@ -79,9 +79,12 @@ INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
 		id FROM `hd0`.`Filter` WHERE code = 'q05ar4';
 		
 		
-INSERT INTO `hd0`.`Queue` (`id`, `service_id`, `order`, `name`, `code`)
-	VALUES	(NULL, '1', '0', 'EasyPOP', '5'),
-		(NULL, '1', '1', 'ContPV', '3');
+INSERT INTO `hd0`.`Queue` (`id`, `service_id`, `order`, `name`, `code`, `filter_id`)
+	SELECT NULL, '1', '0', 'EasyPOP', '5',
+		id FROM `hd0`.`Filter` WHERE code = 'q05ar';
+INSERT INTO `hd0`.`Queue` (`id`, `service_id`, `order`, `name`, `code`, `filter_id`)
+	VALUES	(NULL, '1', '1', 'ContPV', '3', null);
+		
 
 INSERT INTO `hd0`.`User` (`id`, `name`, `email`, `password`, `username`)
 	VALUES	(NULL, 'Fabio', 'fmfazio@gmail.com', 123, 'fabio'),
