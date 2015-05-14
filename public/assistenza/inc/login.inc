@@ -1,14 +1,16 @@
 <script type="text/javascript">
 <!--
 $( function($) {
-	if(!splashscreen){
-		
-	    $( '#login' ).modal({
-			keyboard : false,
-			backdrop: 'static',
-		});
-	}
 
+	if ( !(splashscreen || authenticated) )
+	{
+        $( '#login' ).modal({
+            keyboard : false,
+            backdrop: 'static',
+        });
+        
+    }
+	
     $('#login').on('hidden.bs.modal', function (e) {
         
         if ( $('#auth_email').length > 0 && !$('#auth_email').val().length )
