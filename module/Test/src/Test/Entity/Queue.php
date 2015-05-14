@@ -82,7 +82,7 @@ class Queue {
         $array['service_id'] = $this->getService()->getId();
         unset($array['service']);
         
-        $array['filter_id'] = $this->getFilter()?$this->getFilter()->getId():null;
+        $array['filters'] = $array['filter']?$array['filter']->toArray():null;
         unset($array['filter']);
         
     	return $array;

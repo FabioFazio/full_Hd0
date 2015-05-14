@@ -155,11 +155,11 @@ class FrontendController extends ZtAbstractActionController {
         
         	if (count($objectManager->getRepository('Test\Entity\Group')->findAll())){
         		foreach($user->getGroups()->toArray() as $group)
-        		foreach($group->getGrants()->toArray() as $grant)
-        		foreach($grant->getQueues()->toArray() as $queue)
-        		if(!in_array($queue, $queues)){
-        			$queues[] = $queue;
-        		}
+        		  foreach($group->getGrants()->toArray() as $grant)
+        		      foreach($grant->getQueues()->toArray() as $queue)
+        		          if(!in_array($queue, $queues)){
+        			         $queues[] = $queue;
+        		          }
         	}else{
         		$items = $objectManager->getRepository('Test\Entity\Queue')->findBy([],['order'=>'ASC']);
         		foreach ($items as $item) $queues[] = $item->toArray();

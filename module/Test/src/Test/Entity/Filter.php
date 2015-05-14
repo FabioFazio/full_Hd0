@@ -89,8 +89,32 @@ class Filter {
         	$askedBy->getResponces()->add($this);
         }
     }
+
+    public function hasResponces() {
+    	return $this->responces->count();
+    }
     
     public function getResponces() {
     	return $this->responces;
+    }
+    
+    public function toArray()
+    {
+    	$array = get_object_vars($this);
+    	unset($array['askedBy']);
+    	
+    	unset($array['__initializer__']);
+    	unset($array['__cloner__']);
+    	unset($array['__isInitialized__']);
+    	
+    	$array['responces'] = [];
+    	
+    	if ($this->hasResponces()){
+    		foreach ($this->getResponces() as $resp){
+    		    $array['responces'][] = $resp->toArray();
+    		}
+    	}
+    
+    	return $array;
     }
 }
