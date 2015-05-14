@@ -101,12 +101,16 @@ class Filter {
     public function toArray()
     {
     	$array = get_object_vars($this);
-    	unset($array['askedBy']);
     	
     	unset($array['__initializer__']);
     	unset($array['__cloner__']);
     	unset($array['__isInitialized__']);
+
     	
+    	unset($array['askedBy']);
+    	$array['responce'] = !$array['responce']?:htmlentities($array['responce']);
+    	$array['question'] = !$array['question']?:htmlentities($array['question']);
+
     	$array['responces'] = [];
     	
     	if ($this->hasResponces()){
