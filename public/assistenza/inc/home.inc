@@ -50,9 +50,6 @@
 	    
 	    $('[data-toggle="tooltip"][title]').tooltip(optTooltBase);
 
-	    // New tooltips with Toastr
-	    alertTitle();
-		
 		content();
 	});
 //-->
@@ -85,51 +82,12 @@
 							id="qN_chiuse" data-name="counter" title="segnalazioni chiuse"
 							class="badge alert-success">0</span></a>
 						<div class="pull-right">
-							<!-- standard ->
 							<button data-toggle="modal" data-target="#ticketModal"
-								class="btn btn-xs btn-primary" data-service-id="N"
-								data-queue-id="N" data-queue-name="N" data-queue-color="color-N"
-								data-id="0" data-num="N" data-ticket-priority="0"
-								data-articles="0" data-ticket-desc="">
-							<!-- end standard -->
-							<!-- with taxonomy -->
-							<button data-toggle="modal" data-target="#filterModal"
 								class="btn btn-xs btn-primary" data-service-id="N"
 								data-queue-id="N" data-queue-name="N" data-queue-color="color-N"
 								data-id="0" data-num="N" data-ticket-priority="0"
 								data-articles="0" data-ticket-desc=""
 								data-filters="">
-<!-- 
-	questions="
-	{0:{0:'Da quale dispositivo hai acceduto al servizio?'},
-	1:{
-		0:'In che momento si è riscontrato il problema?',
-		1:'Che browser hai utilizzato per accedere al servizio?',
-		3:'Che modello di smarphone hai utilizzato per accedere al servizio?'
-		}
-	}"
-	responces="
-	{0:{
-		0:{0:'---', 1:'PC',
-			2:'Tablet',
-			3:'Smartphone',
-			4:'Altro'
-			}
-		},
-	1:{
-		0:{0:'---', 1:'Accesso al servizio',
-			2:'Gestione delle utenze',
-			3:'Finalizzazione di una stampa'
-			4:'Altro'
-			},
-		1:{0:'---', 1:'Internet Explorer',
-			2:'Firefox', 3:'Chrome', 4:'Altro'},
-		3:{0:'---', 1:'Android',
-			2:'IPhone', 3:'Windows Mobile', 4:'Altro'}
-		}
-	}"
--->
-							<!-- end taxonomy -->
 								<span title="Apri una Nuova Segnalazione"
 									class="glyphicon glyphicon-plus"></span>
 							</button>

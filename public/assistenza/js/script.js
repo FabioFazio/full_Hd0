@@ -24,6 +24,15 @@ $(function () {
     	 $(".titleTicket").removeClass("row");
      }
 
+ 	/////////////////////////////////////////////
+ 	///////// __TOOLTIPS FROM TOASTR__ //////////
+ 	/////////////////////////////////////////////
+ 	$(document).on('click', '*[data-prop="title"]', function() {
+			window.console&&console.log($(this).attr('title'));
+			toastr["info"]($(this).attr('title'));
+		}
+	);
+     
 	/////////////////////////////////////////////
 	/////////// __DRAG & DROP LIST__ //////////// NOT USED
 	/////////////////////////////////////////////
