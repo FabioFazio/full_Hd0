@@ -108,8 +108,8 @@ class Filter {
 
     	
     	unset($array['askedBy']);
-    	$array['responce'] = !$array['responce']?:htmlentities($array['responce']);
-    	$array['question'] = !$array['question']?:htmlentities($array['question']);
+    	$array['responce'] = !$array['responce']?null:htmlentities($array['responce'], ENT_HTML401);
+    	$array['question'] = !$array['question']?null:htmlentities($array['question'], ENT_HTML401);
 
     	$array['responces'] = [];
     	
