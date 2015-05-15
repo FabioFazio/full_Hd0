@@ -29,7 +29,7 @@ INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
 		id FROM `hd0`.`Filter` WHERE code = 'q05ar';
 INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
 	SELECT NULL, 'q05ar5',
-		'Non ricordo',
+		'Non ricordo / Non saprei',
 		NULL,
 		id FROM `hd0`.`Filter` WHERE code = 'q05ar';		
 		
