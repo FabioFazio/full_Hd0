@@ -90,7 +90,6 @@ function onShowFilterModal (e)
 			"ticket-title"   :   false,
 			"ticket-desc"    :   false,
 			"filters"		 :   false,
-			//"taxonomie"		 :   false,
 	};
     
     $.each(assignments, function(index, attr){
@@ -105,7 +104,6 @@ function onShowFilterModal (e)
     });
     
     var filters = $related.prop('data-filters');
-    //var taxonomie = $related.prop('data-taxonomie');
     
     populateSteps($current, filters);
     
@@ -190,7 +188,8 @@ function populateSteps ($current, filters)
 				var $sel1 = $tab1.find('select');
 				
 				// set current taxonomie
-				$laucher.attr('data-taxonomie', ''+res);
+				$laucher
+					.attr('data-taxonomie', ''+res);
 				// use current filters
 				var filters = $(this).find('option:selected').prop('data-filters');
 				
@@ -218,7 +217,8 @@ function populateSteps ($current, filters)
 						var res = $(this).val();
 						if(e && res!=0)
 						{
-							$laucher.removeClass('hidden').attr('data-taxonomie', res);
+							$laucher.removeClass('hidden')
+								.attr('data-taxonomie', ''+res);
 							$close.removeClass('fright');
 						} else {
 							$laucher.addClass('hidden');

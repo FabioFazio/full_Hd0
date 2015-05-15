@@ -13,13 +13,14 @@ function onShowTicketModal (e) {
 			"ticket-priority":   false,
 			"ticket-title"   :   false,
 			"ticket-desc"    :   false,
+			"taxonomie"		 :   true,
 	};
     
     if ($related.length)
     {
         $.each(assignments, function(index, attr){
 
-            var data = (attr)?$related.data(index):$related.prop('data-'+index);
+            var data = (attr)?$related.attr('data-'+index):$related.prop('data-'+index);
 
             $current.find('input:hidden[name="'+index+'"]').prop('value',data);
 
@@ -37,7 +38,12 @@ function onShowTicketModal (e) {
         });
         
         $current.find('#ticketQueue').text( $('#ticketQueue').text().trimToLength(10) );
-        
+
+    	var filters		= $related.prop('data-filters');
+    	var taxonomie	= $current.find('input:hidden[name="taxonomie"]').val();
+		var $taxonomie = $current.find('#taxonomie');
+		$taxonomie.html('');
+
         if (parseInt($current.find('input:hidden[name="id"]').val())>0){
 
             // mostra box articoli
@@ -58,7 +64,26 @@ function onShowTicketModal (e) {
             // reset articoli
             $current.find('#articoli [role="tabpanel"]').collapse('hide');
         }else{
-
+    		// nuovo ticket
+        	if(filters && taxonomie)
+        	{
+        		// show it
+        		var func = function(obj){ return obj.id == this; };
+        		$.each(taxonomie.split('-'), function(index, value){
+        			var item = filters['responces'].filter(func, value);
+        			if (item.length){
+        				filters = item[0];
+        				$taxonomie.append($('<label/>')
+							.addClass('badge btn-primary')
+							.attr('data-prop', 'title')
+							.attr('title', filters['responce'])
+							.html(filters['responce'].trimToLength(20)));
+        				$taxonomie.append($('<br/>'));
+        			}
+        		});
+        	}
+        	
+        	
             // nascondi box articoli
         	$current.find('.articoli').addClass('hidden');
         	// abilita gli input

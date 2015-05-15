@@ -63,6 +63,7 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
     				<input name="queue-name" type="hidden" value="" />
     				<input name="queue-color" type="hidden" value="" />
     				<input name="articles" type="hidden" value="" />
+    				<input name="taxonomie" type="hidden" value="" />
     				
     				<div class="col-md-9">
         				    
@@ -71,47 +72,12 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
      				        data-validation-error-msg="Testo atteso non inferiore a 25 caratteri"
                             data-validation="length" 
                             data-validation-length="min25"></textarea>
-<!-- start@wizard -->
-                        <div class="col-md-12 form-control wizard hidden">
-                            <div id="rootwizard">
-                            	<div class="navbar">
-                            	  <div class="navbar-inner">
-                                	<ul>
-                            	  	<li><a href="#tab1" data-toggle="tab">1# Domanda</a></li>
-                            		<li><a href="#tab2" data-toggle="tab">2# Domanda</a></li>
-                            		<li><a href="#tab3" data-toggle="tab">3# Domanda</a></li>
-                            	   </ul>
-                            	  </div>
-                            	</div>
-                                <div id="bar" class="progress progress-striped active">
-                                   <div class="bar progress-bar"></div>
-                                </div>
-                            	<div class="tab-content">
-                            	    <div class="tab-pane" id="tab1">
-                            	      1
-                            	    </div>
-                            	    <div class="tab-pane" id="tab2">
-                            	      2
-                            	    </div>
-                            		<div class="tab-pane" id="tab3">
-                            		  3
-                            	    </div>
-                            		<ul class="pager wizard">
-                            			<li class="previous first" style="display:none;"><a href="#">Primo</a></li>
-                            			<li class="previous"><a href="#">Indietro</a></li>
-                            <!-- 		<li class="next last" style="display:none;"><a href="#">Ultimo</a></li> -->
-                            		  	<li class="next"><a href="#">Avanti</a></li>
-                            		  	<li class="next finish" style="display:none;"><a href="javascript:;">Invia</a></li>
-                            		</ul>
-                            	</div>	
-                            </div>
-                        </div> 
-<!-- end@wizard -->
     				</div>
     				<div class="col-md-3">
     				    <div id="priority" data-toggle="buttons">
     				        <label title="Non posso lavorare!" class="btn btn-default"><input name="priority" data-name="ticket-priority" data-prop="checked" type="checkbox" />Bloccante <span class="glyphicon glyphicon-exclamation-sign alert-danger"></span></label>
     				    </div>
+    				    <div id="taxonomie" class="row text-center"></div>
     				</div>
 <!-- start@articles -->
     				<div class="col-md-12">

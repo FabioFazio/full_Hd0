@@ -87,7 +87,7 @@
 								data-queue-id="N" data-queue-name="N" data-queue-color="color-N"
 								data-id="0" data-num="N" data-ticket-priority="0"
 								data-articles="0" data-ticket-desc=""
-								data-filters="">
+								data-filters="" data-taxonomie="">
 								<span title="Apri una Nuova Segnalazione"
 									class="glyphicon glyphicon-plus"></span>
 							</button>
@@ -153,7 +153,7 @@
 								data-queue-color="color-?" data-id="?" data-num="?"
 								data-ticket-title="Default Title"
 								data-ticket-desc="Default Desc" data-ticket-priority="0"
-								data-articles="0">
+								data-articles="0" data-filters="" data-taxonomie="">
 								<span title="apri" class="glyphicon glyphicon-zoom-in"></span>
 							</button>
 						</div>
@@ -223,7 +223,7 @@
 								data-queue-name="Default Queue" data-queue-color="color-?"
 								data-id="?" data-num="?" data-ticket-title="Default Title"
 								data-ticket-desc="Default Desc" data-ticket-priority="0"
-								data-articles="0">
+								data-articles="0" data-filters="" data-taxonomie="">
 								<span title="apri" class="glyphicon glyphicon-zoom-in"></span>
 							</button>
 						</div>
