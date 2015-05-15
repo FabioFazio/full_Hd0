@@ -197,7 +197,8 @@ function updateCategory (q, $categoria){
 		.attr('data-service-id', q['service_id'])
 		.attr('data-queue-id', q['id'])
 		.attr('data-queue-name', q['name'])
-		.attr('data-queue-color', 'color-'+q['order']);
+		.attr('data-queue-color', 'color-'+q['order'])
+		.prop('data-filters', q['filters']);
 	
 	return $categoria;
 }

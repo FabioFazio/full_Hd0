@@ -54,12 +54,12 @@ $( function($) {
 	                        		data-queue-name="N" data-queue-color="color-N" data-id="0"
 	                        		data-num="N" data-ticket-priority="0" data-articles="0"
 	                        		data-ticket-title="" data-ticket-desc="" data-filter=""
-	                        		data-questions="" data-responces="" data-dismiss="modal">
+	                        		data-filters="" data-taxonomie="" data-dismiss="modal">
 									Crea
 									<span class="glyphicon glyphicon-plus"></span>
 								</a>
 							</li>
-							<li><a href="#" class="closer fright" data-dismiss="modal">Annulla</a></li>
+							<li><a href="#" class="closer fright alert-info" data-dismiss="modal">Annulla</a></li>
 						</ul>
 					</div>	
 				</div> 

@@ -1,32 +1,76 @@
 // mock
-var questions=
-{0:{0:'Da quale dispositivo hai acceduto al servizio?'},
-	1:{
-		0:'In che momento si è riscontrato il problema?',
-		1:'Che browser hai utilizzato per accedere al servizio?',
-		3:'Che modello di smarphone hai utilizzato per accedere al servizio?'
-	}
-};
-var responces=
+var mockFilters =
 {
-	0:{
-		0:{0:'---', 1:'PC', 2:'Tablet', 3:'Smartphone', 4:'Altro'}
-	},
-	1:{
-		0:{0:'---', 1:'Accesso al servizio',
-			2:'Gestione delle utenze',
-			3:'Finalizzazione di una stampa',
-			4:'Altro'
-		},
-		1:{0:'---', 1:'Internet Explorer',
-			2:'Firefox', 3:'Chrome', 4:'Altro'
-		},
-		3:{0:'---', 1:'Android',
-			2:'IPhone', 3:'Windows Mobile', 4:'Altro'
-		}
-	}
+		id: 1, responce: null, 
+        question: 'Da quale dispositivo hai acceduto al servizio?',
+        responces: [{
+        		id: 2, responce: 'PC',
+            	question: 'Che browser hai utilizzato per accedere al servizio?',
+            	responces: [{
+            			id: 6, responce: 'Internet Explorer',
+						question: null,
+						responces: []
+					},{
+						id: 7, responce: 'Firefox',
+						question: null,
+						responces: []
+					},{
+						id: 8, responce: 'Chrome',
+						question: null,
+						responces: []
+					},{
+						id: 9, responce: 'Altro',
+						question: null,
+						responces: []
+				}]
+            },{
+            	id: 3, responce: 'Tablet',
+            	question: null,
+            	responces: []
+            },{
+        		id: 4, responce: 'Smartphone',
+            	question: 'Che modello di smarphone hai utilizzato per accedere al servizio?',
+            	responces: [{
+            			id: 10, responce: 'Android',
+						question: null,
+						responces: []
+					},{
+						id: 11, responce: 'IPhone',
+						question: null,
+						responces: []
+					},{
+						id: 12, responce: 'Windows Mobile',
+						question: null,
+						responces: []
+					},{
+						id: 13, responce: 'Altro',
+						question: null,
+						responces: []
+				}]
+            },{
+            	id: 5, responce: 'Altro',
+            	question: 'In che momento si &egrave; riscontrato il problema?',
+            	responces: [{
+            			id: 14, responce: 'Accesso al servizio',
+						question: null,
+						responces: []
+					},{
+						id: 15, responce: 'Gestione delle utenze',
+						question: null,
+						responces: []
+					},{
+						id: 16, responce: 'Finalizzazione di una stampa',
+						question: null,
+						responces: []
+					},{
+						id: 17, responce: 'Altro',
+						question: null,
+						responces: []
+				}]
+        }]
 };
 // end mock
+
 var continueText = 'Per procedere premere il tasto di creazione in basso a destra.';
 
 function onShowFilterModal (e)
@@ -45,8 +89,8 @@ function onShowFilterModal (e)
 			"ticket-priority":   false,
 			"ticket-title"   :   false,
 			"ticket-desc"    :   false,
-			"questions"		 :   false,
-			"responces"		 :   false,
+			"filters"		 :   false,
+			//"taxonomie"		 :   false,
 	};
     
     $.each(assignments, function(index, attr){
@@ -60,10 +104,10 @@ function onShowFilterModal (e)
         	$item.prop('data-'+index, data);
     });
     
-    //var questions = $related.prop('data-questions');
-    //var responces = $related.prop('data-responces');
+    var filters = $related.prop('data-filters');
+    //var taxonomie = $related.prop('data-taxonomie');
     
-    populateSteps($current, questions, responces);
+    populateSteps($current, filters);
     
 	/////////////////////////////////////////////
 	/////////////// __WIZARD__ //////////////////
@@ -104,55 +148,77 @@ function onShowFilterModal (e)
 		);
 }
 
-function populateSteps ($current, questions, responces)
+function populateSteps ($current, filters)
 {
-	var steps = questions.length;
-	
-	if (steps != responces.length){
-		window.console&&console.log('Taxonomie Error: Question and Resp not aligned!');
+	var validity = true; //todo
+	if (!validity){
+		window.console&&console.log('Taxonomie Filters Error: Inconsistency!');
 		return;
 	}
 	
+	// init pointers
 	var $tab0 = $current.find('#tab0');
 	var $sel0 = $current.find('#q_0-0');
 	
+	// return to first
 	$current.find('.pager .first').click();
 	
-	$tab0.find('label').text(questions[0][0]);
+	// fill content in select
+	$tab0.find('label').html(filters['question']);
 	$sel0.find('option').remove();
-	$.each(responces[0][0], function(index, value) {
-		$sel0.append($("<option />").val(index).text(value));
+	$sel0.append($("<option />")
+			.val('0')
+			.html('---'));
+	$.each(filters['responces'], function(index, value) {
+		$sel0.append($("<option />")
+				.val(value['id'])
+				.prop('data-filters',value)
+				.html(value['responce']));
 	});
-	
+	// activate triggers
 	$sel0.on('change', function(e)
 		{
-			var res = $(this).val();
+			var res = parseInt($(this).val());
 			if(e && res > 0){
+				// init pointers
 				var $tab1 = $current.find('#tab1');
 				var $laucher = $current.find('#ticketLaucher');
 				var $close = $current.find('.closer');
 				
+				// clone previous
 				$tab1.html($tab0.html());
-				$laucher.attr('data-filter', res);
+				var $sel1 = $tab1.find('select');
 				
-				if (res in questions[1])
+				// set current taxonomie
+				$laucher.attr('data-taxonomie', ''+res);
+				// use current filters
+				var filters = $(this).find('option:selected').prop('data-filters');
+				
+				if (filters['responces'].length > 0 )
 				{
-					if (!(res in responces[1])){
-						window.console&&console.log('Taxonomie Error: Question '+res+' without resp!');
+					var validity = true; //todo
+					if (!validity){
+						window.console &&
+							console.log('Taxonomie Filters Error: Inconsistency to Second Step!');
 						return;
 					}
-					$tab1.find('label').text(questions[1][res]);
-					var $sel1 = $tab1.find('select');
-					$sel1.attr('id','q_1-'+res)
-					$sel1.find('option').remove();
-					$.each(responces[1][res], function(index, value) {
-						$sel1.append($("<option />").val(res+'-'+index).text(value));
+
+					$tab1.find('label').html(filters['question']);
+					$sel1.attr('id',filters['id']);
+					$sel1.find('option[value="0"]').siblings('option').remove();
+					
+					$.each(filters['responces'], function(index, value) {
+						$sel1.append($("<option />")
+								.val(res+'-'+value['id'])
+								.prop('data-filters',value)
+								.html(value['responce']));
 					});
 					
 					$sel1.on('change', function(e){
-						var res = parseInt($(this).val().split('-').pop());
-						if(e && res > 0){
-							$laucher.removeClass('hidden');
+						var res = $(this).val();
+						if(e && res!=0)
+						{
+							$laucher.removeClass('hidden').attr('data-taxonomie', res);
 							$close.removeClass('fright');
 						} else {
 							$laucher.addClass('hidden');
@@ -160,14 +226,23 @@ function populateSteps ($current, questions, responces)
 						}
 					});
 					
-					$laucher.on('click', function(e){
-						$laucher.attr('data-filter', $sel1.val());
-					});
-					
 					$laucher.addClass('hidden');
-				}else{
-					$tab1.find('label').text(continueText);
+				}
+				else if (filters['question'])
+				{
+					// no resps -> no select
 					$tab1.find('select').remove();
+					// quuestion -> stop with description
+					$tab1.find('label').addClass('text-danger').html(filters['question']);
+					$laucher.addClass('hidden');
+					$close.addClass('fright');
+				}
+				else
+				{
+					// no resps -> no select &
+					$tab1.find('select').remove();
+					// no question -> continue with default msg
+					$tab1.find('label').text(continueText);
 					$laucher.removeClass('hidden');
 					$close.removeClass('fright');
 				}
@@ -175,171 +250,3 @@ function populateSteps ($current, questions, responces)
 			}
 		});
 }
-
-/*
-	var $related = $(e.relatedTarget);
-    var $current = $(e.currentTarget);
-
-    var assignments = { // true: attr false: prop
-    		"service-id"     :   true,
-			"queue-id"       :   true,
-			"queue-name"     :   true,
-			"queue-color"    :   true,
-			"id"             :   true,
-			"num"            :   true,
-			"articles"       :   true,
-			"ticket-priority":   false,
-			"ticket-title"   :   false,
-			"ticket-desc"    :   false,
-			"questions"		 :   false,
-			"responces"		 :   false,
-	};
-    
-    if ($related.length)
-    {
-        $.each(assignments, function(index, attr){
-
-            var data = (attr)?$related.data(index):$related.prop('data-'+index);
-
-            $current.find('input:hidden[name="'+index+'"]').prop('value',data);
-
-            var $items = $current.find('*[data-name="'+index+'"][data-prop]');
-             
-            $items.each(function(k, item){
-            	  var $item = $(item);
-            	  $item.prop($item.data('prop'), data);
-                });
-             
-            $items = $current.find('*[data-name="'+index+'"]').not('*[data-prop]');
-            $items.text(data);
-
-            $current.find('.'+index).removeClass(removeMetaColors).addClass(data);
-        });
-        
-        $current.find('#ticketQueue').text( $('#ticketQueue').text().trimToLength(10) );
-        
-        if (parseInt($current.find('input:hidden[name="id"]').val())>0){
-
-            // mostra box articoli
-        	$current.find('.articoli').removeClass('hidden');
-        	if(parseInt($current.find('input:hidden[name="articles"]').val())>0)
-        		$('#articoli').removeClass('hidden');
-        	else
-        		$('#articoli').addClass('hidden');
-        	// blocca gli input
-        	$current.find('input').add($current.find('textarea')).each(
-                	function(){this.disabled = true;});
-        	$("#priority .btn").addClass('disabled');
-        	// bottoni sono per chiusura
-        	$("#send").add("#cancel").addClass('hidden');
-        	$("#close").removeClass('hidden');
-        	// popola articoli
-            loadArticles($current);
-            // reset articoli
-            $current.find('#articoli [role="tabpanel"]').collapse('hide');
-        }else{
-
-            // nascondi box articoli
-        	$current.find('.articoli').addClass('hidden');
-        	// abilita gli input
-        	$current.find('input').add($current.find('textarea')).each(
-                	function(){this.disabled = false;});
-        	// bottoni per il submit
-        	$("#priority .btn").removeClass('disabled');
-        	$("#send").add("#cancel").removeClass('hidden');
-        	$("#close").addClass('hidden');
-    	}
-    }
-    
-    colorize($current);
-    $('.alert', $current.find('span[name="feedback"]') ).alert('close');
-    priorityButton();
-    $("#priority .btn").on('click', priorityButton);
-}
-
-function priorityButton (e) {
-   var $button = e? $(this) : $('#priority .btn');
-   var $input = $button.find('input:checkbox');
-   if (e){
-	   $input.prop("checked", !$input.prop("checked"));
-   }
-   if ($input.prop("checked"))
-   {
-	   $button.removeClass("btn-default").addClass("btn-danger");
-	   $button.find(".glyphicon").removeClass("alert-danger");
-	   if (!e) $button.addClass('active');
-   } else {
-	   $button.addClass("btn-default").removeClass("btn-danger");
-	   $button.find(".glyphicon").addClass("alert-danger");
-	   if (!e) $button.removeClass('active');
-   }
-}
-
-function loadArticles ($current) {
-	var id = $current.find('input[name="id"]').val();
-	var serviceId = $current.find('input[name="service-id"]').val();
-	
-    var $target = $('#articoli');
-    var request = {id : id, 'service-id': serviceId};
-    var url = '/hd0/test/frontend/getArticles';
-    
-    $.ajax({
-        type: 'post',
-        url: url,
-        data: request,
-        success: function (data, status) {
-        	window.console&&console.log(data);
-            return showArticles (data, status, $target, $current );
-        }
-    });
-}
-
-function showArticles (articoli, status, $target, $current)
-{
-	$articolo = $target.find('.mock');
-	$articolo.siblings().remove();
-
-	var addArticle = "Per inviare nuovi aggiornamenti invia una mail a <b><a href='mailto://%mailservice%'>%mailservice%</a></b> (anche con allegati) dal tuo indirizzo di posta <b>%mail%</b> incollando come <b>Oggetto</b> della mail quanto segue: <br/><b><u>Re: Subject [Ticket#%num%]</u></b>";
-	var num = $current.find('input[name="num"]').val();
-	var mail = $('#auth_email').val();
-	addArticle = addArticle.replace(/%mailservice%/g,'hd0@zenatek.com').replace('%mail%',mail).replace('%num%',num);
-
-    $("a[data-toggle='alert']").on('click', function(e){
-             var alert = {'alert-info': addArticle};
-             alertHint( $current.find('span[name="feedback"]'), alert );
-        });
-	
-	$.each(articoli, function(k,a){
-			// create		  
-	        var $clone = $articolo.clone().removeClass('mock').removeClass('hidden');
-	        $target.prepend(updateArticle(a, $clone));
-		});
-	$current.find('input:hidden[name="articles"]').val(articoli.length);
-	$target.find('[role="tabpanel"]:first').collapse('show');
-}
-
-function updateArticle (a, $articolo)
-{
-	$articolo.find('.panel-heading')
-	   .attr('id', 'h_a'+ a['ArticleID']);
-	$articolo.find('a[aria-controls]')
-	   .attr('aria-controls', 'a'+ a['ArticleID'])
-	   .attr('href', "#"+ 'a'+ a['ArticleID']);
-	   
-    var author = escapeHtml(a['FromRealname']);
-	if (a['From'].indexOf( $('#auth_email').val() ) > -1) {
-		author = $('#auth_name').val();
-	}
-   $articolo.find('span[data-name="authorName"]').text(author);
-
-	   
-	$articolo.find('span[data-name="created"]')
-	   .text(a['Created']);
-	   
-	$articolo.find('[role="tabpanel"]')
-	   .attr('id', 'a'+ a['ArticleID'])
-	   .attr('aria-labelledby', 'h_a'+ a['ArticleID']);
-	$articolo.find('span[data-name="body"]')
-	   .empty().html(a['Body'].replace(/\n/g, "<br/>"));
-	return $articolo;
-}*/

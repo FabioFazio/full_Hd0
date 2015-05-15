@@ -98,7 +98,7 @@
 								data-queue-id="N" data-queue-name="N" data-queue-color="color-N"
 								data-id="0" data-num="N" data-ticket-priority="0"
 								data-articles="0" data-ticket-desc=""
-								data-questions="" data-responces="">
+								data-filters="">
 <!-- 
 	questions="
 	{0:{0:'Da quale dispositivo hai acceduto al servizio?'},
