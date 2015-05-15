@@ -1,11 +1,3 @@
-function alertTitle () {
-	$('ol.bugsBox').on('click', 'span[data-prop="title"]', function() {
-			window.console&&console.log($(this).attr('title'));
-    		toastr["info"]($(this).attr('title'));
-    	}
-	);
-}
-
 function removeColors (index, css) {
     return (css.match (/(^|\s)bg-\S+/g) || []).join(' ');
 }
@@ -197,8 +189,15 @@ function updateCategory (q, $categoria){
 		.attr('data-service-id', q['service_id'])
 		.attr('data-queue-id', q['id'])
 		.attr('data-queue-name', q['name'])
-		.attr('data-queue-color', 'color-'+q['order'])
-		.prop('data-filters', q['filters']);
+		.attr('data-queue-color', 'color-'+q['order']);
+	
+	if (q['filters']){
+		$button
+			.attr('data-target', '#filterModal')
+			.prop('data-filters', q['filters']);
+	}else{
+		$button.attr('data-target', '#ticketModal');
+	}
 	
 	return $categoria;
 }
