@@ -126,6 +126,18 @@ class ZtAbstractActionController extends AbstractActionController {
     	       'ContentType' => 'text/plain; charset=utf8',
     	];
     	
+//	    $dynamicField = [ [ 'Name' => 'Sorgente', 'Value' => [ 'Servizio Hd0' ] ] ];
+	    
+// 	    if(!empty($input['taxonomie']))
+// 	    {
+// 	        $dynamicField[] = [
+//                 'Name' => 'Taxonomie',
+//                 'Value' => $input['taxonomie']
+// 	        ];
+// 	    }
+	    
+//	    $xml['DynamicField'] = $dynamicField;
+    	
     	$createXml = $xml + [ 'Ticket' => $type + $priority + $state + $queue + $title + $user ] + [ 'Article' => $article ];
     
     	$resp   = $this->callOtrs($location, $username, $password, $namespace,

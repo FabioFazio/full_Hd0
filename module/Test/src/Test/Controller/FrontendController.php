@@ -325,10 +325,23 @@ class FrontendController extends ZtAbstractActionController {
         }
         
         $queue = $objectManager->find('Test\Entity\Queue', intval($input['queue-id']));
+        $taxonomie = [];
+        
+        if (isset($input['taxonomie']) && $input['taxonomie'])
+        {
+        	foreach(explode("-",$input['taxonomie']) as $responce)
+        	{
+                $filter = $objectManager->find( 'Test\Entity\Filter', (int)$responce );
+                $taxonomie[] = $filter->getResponce();
+        	}
+        }
+        $input['taxonomie'] = $taxonomie;
+        
         $service = $queue->getService();
         $input += ['queueCode' => $queue->getCode()];
         $input += ['email' => $user->getEmail()];
         $serviceType = Service::$TYPE_OTRS;
+        
         if ($service->getType() == $serviceType)
         {
             $param_arr = [

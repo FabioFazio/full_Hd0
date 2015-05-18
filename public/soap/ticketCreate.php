@@ -69,7 +69,7 @@ $XMLArray = [
     'DynamicField' => [
             [
             'Name' => 'Sorgente',
-            'Value' >= ['Servizio Hd0'],
+            'Value' => ['Servizio Hd0'],
             ],
         ],
 
