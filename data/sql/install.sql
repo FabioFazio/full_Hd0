@@ -95,5 +95,82 @@ INSERT INTO `hd0`.`Queue` (`id`, `service_id`, `order`, `name`, `code`, `filter_
 
 INSERT INTO `hd0`.`User` (`id`, `name`, `email`, `password`, `username`)
 	VALUES	(NULL, 'Fabio', 'fmfazio@gmail.com', 123, 'fabio'),
-		(NULL, NULL, 'stefano', 123, 'stefano'),
 		(NULL, 'Mario Rossi', 'fabio.fazio@zenatek.it', 123, 'mario');
+
+		
+INSERT INTO `Store` (`id`, `manager_id`, `code`, `name`, `address`)
+	SELECT	NULL, u.id, 'Busnago', 'Busnago', 'Via Italia 197 20874 Busnago (MB)'
+		FROM User as u WHERE u.username ='fabio';
+	
+INSERT INTO `Store` (`id`, `manager_id`, `code`, `name`, `address`)	
+	VALUES	(NULL, NULL, 'Brembate', 'Brembate', 'Strada Provinciale 184 24041 Brembate (BG)');
+	
+	
+INSERT INTO `Department`(`id`, `manager_id`, `store_id`, `code`, `name`)
+	SELECT	NULL, NULL, s.id, 'Busnago-Scatolame', 'Scatolame'
+		FROM Store as s WHERE s.name ='Busnago';
+
+	
+INSERT INTO `Sector`(`id`, `manager_id`, `department_id`, `code`, `name`)
+	SELECT	NULL, NULL, d.id, 'Busnago-Scatolame-Liquidi', 'Liquidi'
+		FROM Store as s join Department as d on d.store_id = s.id
+			WHERE s.name ='Busnago' and d.name = 'Scatolame';
+
+INSERT INTO `Sector`(`id`, `manager_id`, `department_id`, `code`, `name`)
+	SELECT	NULL, NULL, d.id, 'Busnago-Scatolame-Profumeria', 'Profumeria'
+		FROM Store as s join Department as d on d.store_id = s.id
+			WHERE s.name ='Busnago' and d.name = 'Scatolame';
+	
+INSERT INTO `Sector`(`id`, `manager_id`, `department_id`, `code`, `name`)
+	SELECT	NULL, NULL, d.id, 'Busnago-Scatolame-Detergenti', 'Detergenti'
+		FROM Store as s join Department as d on d.store_id = s.id
+			WHERE s.name ='Busnago' and d.name = 'Scatolame';
+			
+
+INSERT INTO `UserGroup`(`id`, `sector_id`, `code`, `name`, `focalpoint`, `administrator`)
+	SELECT NULL, sr.id, 'Busnago-Scatolame-Liquidi', 'Busnago-Scatolame-Liquidi', 0, 0
+		FROM Store st join Department d on d.store_id = st.id join
+			Sector sr on sr.department_id = d.id
+		WHERE st.name ='Busnago' and d.name = 'Scatolame' and sr.name = 'Liquidi';
+	
+INSERT INTO `UserGroup`(`id`, `sector_id`, `code`, `name`, `focalpoint`, `administrator`)
+	SELECT NULL, NULL, 'Focalpoint-5', 'Focalpoint-5', 0, 0;
+
+
+INSERT INTO `GroupGrant`(`id`, `name`)
+	VALUES	(NULL,'Focalpoint-5'),
+		(NULL,'Busnago-Scatolame-Liquidi');
+	
+		
+INSERT INTO `group_grant`(`group_id`, `grant_id`)
+	SELECT gp.id, gt.id
+		FROM `hd0`.`UserGroup` gp, `hd0`.`GroupGrant` gt
+		WHERE gp.code ='Focalpoint-5' and gt.name = 'Focalpoint-5';
+	
+INSERT INTO `group_grant`(`group_id`, `grant_id`)
+	SELECT gp.id, gt.id
+		FROM `hd0`.`UserGroup` gp, `hd0`.`GroupGrant` gt
+		WHERE gp.code ='Busnago-Scatolame-Liquidi' and gt.name = 'Busnago-Scatolame-Liquidi';
+
+
+INSERT INTO `user_group`(`user_id`, `group_id`)
+	SELECT u.id, g.id
+		FROM User u, `hd0`.`UserGroup` g
+		WHERE u.username ='fabio' and g.code = 'Focalpoint-5';
+
+INSERT INTO `user_group`(`user_id`, `group_id`)
+	SELECT u.id, g.id
+		FROM User u, `hd0`.`UserGroup` g
+		WHERE u.username ='mario' and g.code = 'Busnago-Scatolame-Liquidi';
+
+
+INSERT INTO `grant_queue`(`grant_id`, `queue_id`)
+	SELECT gt.id, q.id
+		FROM `hd0`.`GroupGrant` gt, Queue q
+		WHERE gt.name ='Focalpoint-5' and q.name = 'EasyPOP';
+
+INSERT INTO `grant_queue`(`grant_id`, `queue_id`)
+	SELECT gt.id, q.id
+		FROM `hd0`.`GroupGrant` gt, Queue q
+		WHERE gt.name ='Busnago-Scatolame-Liquidi' and (q.name = 'EasyPOP' || q.name = 'ContPV' );
+

@@ -30,7 +30,6 @@ class Filter {
 	protected $responces;
 	
 	public function __construct(){
-	    $this->queues = new ArrayCollection();
 		$this->responces = new ArrayCollection();
 	}
 

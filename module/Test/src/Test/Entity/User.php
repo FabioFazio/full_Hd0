@@ -92,4 +92,25 @@ class User {
     public function setTracks($tracks){
     	$this->tracks = $tracks;
     }
+    
+    public function toArray()
+    {
+    	$array = get_object_vars($this);
+    
+    	$groups_id = [];
+    	foreach($this->getGroups()->toArray() as $group){
+    	    $groups_id[] = $group->getId();
+    	}
+    	unset($array['groups']);
+    	$array['groups_id'] = $groups_id;
+    
+    	$tracks_id = [];
+    	foreach($this->getTracks()->toArray() as $track){
+    		$tracks_id[] = $track->getId();
+    	}
+    	unset($array['tracks']);
+    	$array['tracks_id'] = $tracks_id;
+    
+    	return $array;
+    }
 }

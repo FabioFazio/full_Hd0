@@ -154,16 +154,21 @@ class FrontendController extends ZtAbstractActionController {
         	$objectManager = $this->getObjectManager();
         
         	if (count($objectManager->getRepository('Test\Entity\Group')->findAll())){
-        		foreach($user->getGroups()->toArray() as $group)
-        		  foreach($group->getGrants()->toArray() as $grant)
-        		      foreach($grant->getQueues()->toArray() as $queue)
+        		foreach($objectManager->getRepository('Test\Entity\Group')->findBy(array('id' => $user['groups_id'])) as $group){
+        		  foreach($group->getGrants()->toArray() as $grant){
+        		      foreach($grant->getQueues()->toArray() as $queue){
         		          if(!in_array($queue, $queues)){
         			         $queues[] = $queue;
         		          }
+        		      }
+        		  }
+        		}
         	}else{
-        		$items = $objectManager->getRepository('Test\Entity\Queue')->findBy([],['order'=>'ASC']);
-        		foreach ($items as $item) $queues[] = $item->toArray();
+        		$queues = $objectManager->getRepository('Test\Entity\Queue')->findBy([],['order'=>'ASC']);
         	}
+        	
+        	array_walk ( $queues , function(&$v){ $v = $v->toArray(); } );
+        	
         	$this->getSession()->queues = $queues;
         }
         
@@ -178,7 +183,7 @@ class FrontendController extends ZtAbstractActionController {
     public function ticketListsAction()
     {
         $user = $this->getSession()->user;
-        $email = $user->getEmail();
+        $email = $user['email'];
         $result = [];
         
         $objectManager = $this->getObjectManager();
@@ -339,7 +344,7 @@ class FrontendController extends ZtAbstractActionController {
         
         $service = $queue->getService();
         $input += ['queueCode' => $queue->getCode()];
-        $input += ['email' => $user->getEmail()];
+        $input += ['email' => $user['email']];
         $serviceType = Service::$TYPE_OTRS;
         
         if ($service->getType() == $serviceType)
@@ -382,7 +387,7 @@ class FrontendController extends ZtAbstractActionController {
     	        $storage->setRememberMe(1);
     	        $this->getAuthService()->setStorage($storage);
     	    }
-    	    $this->getSession()->user = $user; // push on session
+    	    $this->getSession()->user = $user->toArray(); // push on session
     	    $queues = $this->getUserQueues();
     	    
     	    $email = ($user->getEmail() == $user->getUsername())? '' : $user->getEmail();
@@ -403,7 +408,7 @@ class FrontendController extends ZtAbstractActionController {
     public function logoutAction()
     {
         $user = $this->getSession()->user;
-        $username = ($user)?$user->getUsername():'[?]';
+        $username = ($user)?$user['username']:'[?]';
         
         $this->getStorageService()->forgetMe();
         $this->getAuthService()->clearIdentity();
@@ -418,7 +423,7 @@ class FrontendController extends ZtAbstractActionController {
     public function logoffAction()
     {
     	$user = $this->getSession()->user;
-    	$username = ($user)?$user->getUsername():'[?]';
+        $username = ($user)?$user['username']:'[?]';
     
     	$this->getStorageService()->forgetMe();
     	$this->getAuthService()->clearIdentity();
@@ -473,12 +478,7 @@ class FrontendController extends ZtAbstractActionController {
     	$user = [];
     	$queues = [];
     	if ($user = $this->getSession()->user) {
-    		$user = [
-    		'id'	=> $user->getId(),
-    		'username'	=> $user->getUsername(),
-    		'name'	=> $user->getName(),
-    		'email'	=> ($user->getEmail() == $user->getUsername())? '' : $user->getEmail(),
-    		];
+    		$user['email'] = ($user['email'] == $user['username'])? '' : $user['email'];
     		$queues = $this->getUserQueues();
     	}
     	$modals = array (

@@ -3,7 +3,10 @@ namespace Test\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/** @ORM\Entity */
+/** 
+ * @ORM\Entity
+ * @ORM\Table(name="GroupGrant")
+ */
 class Grant {
     /**
 	 * @ORM\Id
@@ -12,7 +15,7 @@ class Grant {
 	 */
 	protected $id;
 
-	/** @ORM\Column(type="string", length=255) */
+	/** @ORM\Column(type="string", length=255, unique=true) */
 	protected $name;
 	
 	/** @ORM\ManyToMany(targetEntity="Queue") */
