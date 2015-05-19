@@ -11,7 +11,9 @@ var authenticated;
  * 
  */
 function escapeHtml(text) {
-	
+	  if (typeof text === 'undefined')
+		  return '';
+	  
 	  var map = {
 	    '&': '&amp;',
 	    '<': '&lt;',
