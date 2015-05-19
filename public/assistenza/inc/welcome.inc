@@ -25,7 +25,7 @@ $( function($) {
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
                 <h4>
-                    Benvenuto, questa è la tua interfaccia al servizio Help Desk dedicato agli utenti di Iper Montebello,
+                    Benvenuto, questa è la tua interfaccia al servizio Help Desk dedicato agli utenti di Iper Busnago,
                    <br />
                    Grazie a questa applicazione puoi accedere con una unica interfaccia a
                    <span class="strong">tutti servizi di assistenza</span>
