@@ -44,7 +44,7 @@ class ZtAbstractActionController extends AbstractActionController {
     	return $this->OTRS_CHIUSE_STATEIDS;
     }
     
-    public function ticketSearch_Otrs ($otrs, $queueCodes, $email, &$extraTickets = [])
+    public function ticketSearch_Otrs ($otrs, $queueCodes, $email, $focalpoint = false, &$extraTickets = [])
     {
         $location = $otrs->getLocation();
         $username = $otrs->getUsername();
@@ -61,24 +61,33 @@ class ZtAbstractActionController extends AbstractActionController {
         ];
         
         $searchXml      = $xml + [ 'QueueIDs' => $queueCodes ]; 
-        $filter_from    = [ 'From' => $email ];
-        $filter_to      = [ 'To' => $email ];
-        $filter_cc      = [ 'Cc' => $email ];
+        $ticketIdList   = [];
         
-        $respFrom   = $this->callOtrs($location, $username, $password, $namespace,
-                self::TICKET_SEARCH, $searchXml + $filter_from);
-        $respTo     = $this->callOtrs($location, $username, $password, $namespace,
-                self::TICKET_SEARCH, $searchXml + $filter_to);
-        $respCc     = $this->callOtrs($location, $username, $password, $namespace,
-                self::TICKET_SEARCH, $searchXml + $filter_cc);
-        
-        $listFrom    = $this->extractTagFromSoapResp($respFrom, 'TicketID');
-        $listTo      = $this->extractTagFromSoapResp($respTo,   'TicketID');
-        $listCc      = $this->extractTagFromSoapResp($respCc,   'TicketID');
-       
-        $ticketIdList = $listFrom + array_diff($listTo, $listFrom);
-        $ticketIdList += array_diff($listCc, $ticketIdList);
-        $ticketIdList += array_diff($mergeList, $ticketIdList);
+        if (!$focalpoint){
+            $filter_from    = [ 'From' => $email ];
+            $filter_to      = [ 'To' => $email ];
+            $filter_cc      = [ 'Cc' => $email ];
+            
+            $respFrom   = $this->callOtrs($location, $username, $password, $namespace,
+            		self::TICKET_SEARCH, $searchXml + $filter_from);
+            $respTo     = $this->callOtrs($location, $username, $password, $namespace,
+            		self::TICKET_SEARCH, $searchXml + $filter_to);
+            $respCc     = $this->callOtrs($location, $username, $password, $namespace,
+            		self::TICKET_SEARCH, $searchXml + $filter_cc);
+            
+            $listFrom    = $this->extractTagFromSoapResp($respFrom, 'TicketID');
+            $listTo      = $this->extractTagFromSoapResp($respTo,   'TicketID');
+            $listCc      = $this->extractTagFromSoapResp($respCc,   'TicketID');
+             
+            $ticketIdList = $listFrom + array_diff($listTo, $listFrom);
+            $ticketIdList += array_diff($listCc, $ticketIdList);
+            $ticketIdList += array_diff($mergeList, $ticketIdList);
+        }else{
+            $resp     = $this->callOtrs($location, $username, $password, $namespace,
+            		self::TICKET_SEARCH, $searchXml);
+            
+            $ticketIdList    = $this->extractTagFromSoapResp($resp, 'TicketID');
+        }
 
         $ticketList    = $this->getTicket_Otrs ($otrs, $ticketIdList);
 
@@ -93,8 +102,10 @@ class ZtAbstractActionController extends AbstractActionController {
         }
         unset($filter);
         
-        // aggiorno la lista con i ticket da rimuovere perchè già raggiungibili TODO
-        $extraTickets = array_intersect($extraTickets, $listFrom, $listTo, $listCc);
+        if (!focalpoint){
+            // aggiorno la lista dei ticket tracciati da rimuovere perchè già raggiungibili TODO
+            $extraTickets = array_intersect($extraTickets, $listFrom, $listTo, $listCc);
+        }
         
         return $stateList;
     }

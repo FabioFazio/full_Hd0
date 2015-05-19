@@ -215,8 +215,15 @@ class FrontendController extends ZtAbstractActionController {
             	global $otrsId;
             	return $v['service_id'] == $otrsId;
             };
-            $otrsQueues = array_filter($queues, $func); 
+            $otrsQueues = array_filter($queues, $func);
+            
+            $otrsFpQueues = array_filter($queues, function($v){return $v['focalpoint'];});
+            $otrsQueues = array_filter($otrsQueues, function($v){return !$v['focalpoint'];});
+            $globalQueues = array_merge($otrsQueues, $otrsFpQueues);
+            
+            $fpQueueCodes = array_column($otrsFpQueues, 'code');
             $queueCodes = array_column($otrsQueues, 'code');
+            
             unset($otrsId);
             
             /*
@@ -229,18 +236,30 @@ class FrontendController extends ZtAbstractActionController {
             $extraTicketsCode = array_column($extraTickets, 'code');
             */
 
-            $param_arr = [
+            $param_queues = [
                 'otrs' => $otrs,
                 'queueCodes' => $queueCodes,
                 'email' => $email,
-                //'extraTickets' => &$extraTicketsCode,
+                'focalpoint' => false,
+                //'extraTickets' => &$extraTicketsCode, TODO
             ];
             
+            $param_fpQueues = array_merge( $param_queues, [ 'queueCodes' => $fpQueueCodes, 'focalpoint' => true ] );
+            
             $callName = "ticketSearch_" . ucfirst(strtolower($serviceType));
-            $ticketList = call_user_func_array([$this, $callName], $param_arr);
+            
+            $ticketList = call_user_func_array([$this, $callName], $param_queues);
+            
+            if(!empty($fpQueueCodes))
+            {
+                $fpTicketList = call_user_func_array([$this, $callName], $param_fpQueues);
+                $ticketList = array_merge_recursive($ticketList, $fpTicketList);
+            }
+            
             $tickets = [];
             
-            foreach($ticketList as $state => $list){
+            foreach($ticketList as $state => $list)
+            {
                 array_walk($list, function(&$v,$k,$qs){
                    global $f; $f=$v['QueueID'];
                    $q = current(array_filter($qs, function($q){global $f; return $q['code']==$f;}));
@@ -251,13 +270,13 @@ class FrontendController extends ZtAbstractActionController {
             	   $v = array_merge ( $v, [
             	           'ArticleNum' => count($articles)-1,
             	           'Article' => [current($v['Article'])],
-            	           'Author' => current($v['Article'])['FromRealname'],
+            	           'Author' => current($v['Article'])['From'],
             	           'QueueName' => $q['name'],
             	           'QueueColor' => 'color-' . $q['order'],
             	           'QueueOrder' => $q['order'],
             	           'ServiceId' => $q['service_id'],
                         ]);
-                }, $otrsQueues);
+                }, $globalQueues);
                 $tickets[$state] = array_values($list);
             }
             
