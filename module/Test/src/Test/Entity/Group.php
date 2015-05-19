@@ -22,12 +22,6 @@ class Group {
 	/** @ORM\Column(type="string", length=255) */
 	protected $name;
 
-	/** @ORM\Column(type="boolean", nullable=true) */
-	protected $focalpoint;
-	
-	/** @ORM\Column(type="boolean", nullable=true) */
-	protected $administrator;
-	
 	/** @ORM\ManyToMany(targetEntity="Grant") */
 	protected $grants;
 	
@@ -76,21 +70,5 @@ class Group {
     
     public function setSector($sector){
     	$this->sector = $sector;
-    }
-    
-    public function isAdministrator(){
-    	return $this->administrator?:false;
-    }
-    
-    public function setAdministrator($administrator){
-    	$this->administrator = $administrator;
-    }
-    
-    public function isFocalpoint(){
-    	return $this->focalpoint?:false;
-    }
-    
-    public function setFocalpoint($focalpoint){
-    	$this->focalpoint = $focalpoint;
     }
 }

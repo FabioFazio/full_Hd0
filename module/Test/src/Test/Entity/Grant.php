@@ -18,6 +18,9 @@ class Grant {
 	/** @ORM\Column(type="string", length=255, unique=true) */
 	protected $name;
 	
+	/** @ORM\Column(type="boolean", nullable=true) */
+	protected $focalpoint;
+	
 	/** @ORM\ManyToMany(targetEntity="Queue") */
 	protected $queues;
 	
@@ -39,6 +42,14 @@ class Grant {
     
     public function setName($name){
     	$this->name = $name;
+    }
+    
+    public function isFocalpoint(){
+    	return $this->focalpoint?:false;
+    }
+    
+    public function setFocalpoint($focalpoint){
+    	$this->focalpoint = $focalpoint;
     }
     
     public function getQueues(){

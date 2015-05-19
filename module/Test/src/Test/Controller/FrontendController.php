@@ -150,25 +150,40 @@ class FrontendController extends ZtAbstractActionController {
         
         if (!isset($this->getSession()->queues))
         {
-        	$queues = [];
+        	$queues = []; $fpQueues = [];
         	$objectManager = $this->getObjectManager();
         
         	if (count($objectManager->getRepository('Test\Entity\Group')->findAll())){
         		foreach($objectManager->getRepository('Test\Entity\Group')->findBy(array('id' => $user['groups_id'])) as $group){
         		  foreach($group->getGrants()->toArray() as $grant){
+        		      $fp = $grant->isFocalPoint();
         		      foreach($grant->getQueues()->toArray() as $queue){
-        		          if(!in_array($queue, $queues)){
-        			         $queues[] = $queue;
+        		          if ($fp && !in_array($queue, $fpQueues)){
+                            $fpQueues[] = $queue->toArray();
         		          }
+        		          else if(!$fp && !in_array($queue, $queues)){
+                            $queues[] = $queue->toArray();
+        		          }
+        		      }
+        		      // merge two queues list
+        		      foreach($queues as $index => $queue){
+        		          $fpKey = array_search($queue, $fpQueues);
+        		          if ($fpKey===false){
+        		              $queues[$index] = $queue + ['focalpoint'=>0];
+        		          }else{
+        		              $queues[$index] = $queue + ['focalpoint'=>1];
+        		              unset($fpQueues[$fpKey]);
+        		          }
+        		      }
+        		      foreach($fpQueues as $fpQueue){
+        		          $queues[] = $fpQueue + ['focalpoint'=>1];
         		      }
         		  }
         		}
         	}else{
         		$queues = $objectManager->getRepository('Test\Entity\Queue')->findBy([],['order'=>'ASC']);
         	}
-        	
-        	array_walk ( $queues , function(&$v){ $v = $v->toArray(); } );
-        	
+
         	$this->getSession()->queues = $queues;
         }
         

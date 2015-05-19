@@ -29,6 +29,9 @@ class User {
 	
 	/** @ORM\ManyToMany(targetEntity="Group") */
 	protected $groups;
+
+	/** @ORM\Column(type="boolean", nullable=true) */
+	protected $administrator;
 	
 	/** @ORM\ManyToMany(targetEntity="Ticket") */
 	protected $tracks;
@@ -91,6 +94,14 @@ class User {
     
     public function setTracks($tracks){
     	$this->tracks = $tracks;
+    }
+    
+    public function isAdministrator(){
+    	return $this->administrator?:false;
+    }
+    
+    public function setAdministrator($administrator){
+    	$this->administrator = $administrator;
     }
     
     public function toArray()
