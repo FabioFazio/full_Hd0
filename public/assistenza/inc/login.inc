@@ -32,7 +32,7 @@ $( function($) {
     <div class="modal-content">
       <div class="modal-header">
          <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-        <h3 class="modal-title form-signin-heading text-center" id="loginLabel">translate('Autenticazione')</h3>
+        <h3 class="modal-title form-signin-heading text-center" id="loginLabel">Autenticazione</h3>
       </div>
       <form id="auth" class="form-signin" data-refresh="0" data-async data-validate data-target="#login [name='feedback']" 
         action="/hd0/login"
@@ -47,24 +47,24 @@ $( function($) {
         <span name="feedback"></span>
         
          <div class="form-group">
-            <label for="inputUsername" class="sr-only">translate('Nome Utente')</label>
+            <label for="inputUsername" class="sr-only">Nome Utente</label>
                 <input name="username" data-validation="required" 
                     data-validation-error-msg="Questo campo è obbligatorio!" 
-                    id="inputUsername" class="form-control" placeholder="translate('Nome Utente')">
+                    id="inputUsername" class="form-control" placeholder="Nome Utente">
          </div>
          
          <div class="form-group">
-            <label for="inputPassword" class="sr-only">translate('Password')</label>
+            <label for="inputPassword" class="sr-only">Password</label>
                 <input name="password" data-validation="required" type="password" 
                     data-validation-error-msg="Questo campo è obbligatorio!" 
-                    id="inputPassword" class="form-control" placeholder="translate('Password')">
+                    id="inputPassword" class="form-control" placeholder="Password">
         </div>
         
         <div class="checkbox">
-          <label for="checkboxRemember">translate('Ricordami')</label>
+          <label for="checkboxRemember">Ricordami</label>
                 <input  name="rememberme" id="checkboxRemember" type="checkbox" value="1" checked="checked">
         </div>
-        <button class="btn btn-primary btn-block" type="submit">translate('Entra')</button>
+        <button class="btn btn-primary btn-block" type="submit">Entra</button>
       </div>
     </form>
     </div><!-- /.modal-content -->

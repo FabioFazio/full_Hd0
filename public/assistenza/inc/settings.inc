@@ -28,45 +28,45 @@ $( function($) {
     <div class="modal-content">
       <div class="modal-header">
          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title form-signin-heading text-center" id="settingsLabel">translate('Impostazioni Utente')</h4>
+        <h4 class="modal-title form-signin-heading text-center" id="settingsLabel">Impostazioni Utente</h4>
       </div>
       <form id="profile" class="form-settings" data-refresh="0" data-async data-validate data-target="#settings [name='feedback']" 
         action="" method="POST">
       <div class="modal-body">
          <span name="feedback">
              <p class="alert alert-warning">
-                <b>translate('Hd0')</b> translate('richiede l\'email di lavoro!')<br/>
-                <u><b>translate('Può esser richiesto l\'invio di mail')</b></u> >translate('per comunicare con gli operatori')
+                <b>Hd0</b> richiede l'email di lavoro!<br/>
+                <u><b>Può esser richiesto l'invio di mail</b></u> >per comunicare con gli operatori
              </p>
          </span>
          <input name="id" type="hidden">
           <div class="form-group">
-            <label for="inputUsername">translate('Nome Utente'):</label>
+            <label for="inputUsername">Nome Utente:</label>
             <input name="username" type="username" id="inputUsername" class="form-control"
-                placeholder="translate('Nome Utente')" disabled="disabled">
+                placeholder="Nome Utente" disabled="disabled">
           </div>
           <div class="form-group">
-            <label for="inputName">translate('Nome'):</label>
+            <label for="inputName">Nome:</label>
             <input name="name" type="name" id="inputName" class="form-control"
                 data-validation-error-msg="Attesi massimo di 30 caratteri"
-                placeholder="translate('Nome')" data-validation="length" 
+                placeholder="Nome" data-validation="length" 
                 data-validation-length="max30">
           </div>
           <div class="form-group">
-            <label for="inputEmail">translate('Email'):</label>
+            <label for="inputEmail">Email:</label>
             <input name="email_confirmation" data-validation="email domain required" id="inputEmail"
                 data-validation-error-msg="Inserire una email di lavoro valida (@iper.it, @ortofin.it o @unes.it)" class="form-control"
-                placeholder="translate('Il tuo indirizzo email')">
+                placeholder="Il tuo indirizzo email">
           </div>
           <div class="form-group">
-            <label for="inputEmail">translate('Conferma Email'):</label>
+            <label for="inputEmail">Conferma Email:</label>
                 <input name="email" data-validation="confirmation required" 
                     data-validation-error-msg="Riscrivere l'email per conferma!" id="inputEmail" 
-                    class="form-control" placeholder="translate('Conferma la tua email')">
+                    class="form-control" placeholder="Conferma la tua email">
           </div>
           <center>
-          <button type="submit" class="btn btn-primary">translate('Salva')</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">translate('Annulla')</button>
+          <button type="submit" class="btn btn-primary">Salva</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
           </center>
       </div>
     </form>

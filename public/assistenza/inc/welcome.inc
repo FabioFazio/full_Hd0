@@ -14,7 +14,7 @@ $( function($) {
     <div class="modal-content">
       <div class="modal-header" style="background-color: #f5f5f5;">
          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3 class="modal-title form-signin-heading text-center" id="loginLabel">translate('Benvenuto/a nel servizio di Help Desk')</h3>
+        <h3 class="modal-title form-signin-heading text-center" id="loginLabel">Benvenuto/a nel servizio di Help Desk</h3>
       </div>
         <div class="modal-body">
             <div class="row" style="margin: 50px 0px;">
@@ -25,43 +25,31 @@ $( function($) {
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
                 <h4>
-                    translate('
-                            Benvenuto, questa è la tua interfaccia al servizio %s dedicato agli utenti di %s!'),
-                       'Help Desk', 'Iper Montebello')
+                    Benvenuto, questa è la tua interfaccia al servizio Help Desk dedicato agli utenti di Iper Montebello,
                    <br />
-                    translate('
-                            Grazie a questa applicazione puoi accedere con una unica interfaccia a ');
-                    <span class="strong">translate('tutti servizi di assistenza')</span>
-                    translate('
-                            erogati dal %s tramite un qualsiasi browser http,
-                            inviando una opportuna segnalazione (trouble ticket).'),
-                        'S.I. Gruppo Iper');
+                   Grazie a questa applicazione puoi accedere con una unica interfaccia a
+                   <span class="strong">tutti servizi di assistenza</span>
+                   erogati dal S.I. Gruppo Iper tramite un qualsiasi browser http,
+                   inviando una opportuna segnalazione (trouble ticket).
                 </h4>
                 <h4>
-                translate("
-                            La tua segnalazione determinerà l'analisi e l’identificazione
-                            delle cause delle anomalie e l'attivazione di tutte le azioni
-                            necessarie alla rimozione delle stesse, per il ripristino 
-                            delle corrette funzionalità operative.");
+                    La tua segnalazione determinerà l'analisi e l’identificazione
+                    delle cause delle anomalie e l'attivazione di tutte le azioni
+                    necessarie alla rimozione delle stesse, per il ripristino 
+                    delle corrette funzionalità operative.
                 </h4>
                 <h4><ul><li>
-                    translate('
-                            identificazione utente');
+                        identificazione utente
                     </li><li>
-                        translate('
-                            <b>registrazione</b> del trouble ticket relativo alla <b>segnalazione</b>');
+                        <b>registrazione</b> del trouble ticket relativo alla <b>segnalazione</b>
                     </li><li>
-                        translate('
-                            <b>presa in carico</b> ed <b>analisi</b> del ticket');
+                        <b>presa in carico</b> ed <b>analisi</b> del ticket
                     </li><li>
-                        translate('
-                            assegnazione del ticket a personale con competenze specifiche');
+                        assegnazione del ticket a personale con competenze specifiche
                     </li><li>
-                        translate('
-                            lavorazione e <b>risoluzione</b> (mediante eventuale escalation)');
+                        lavorazione e <b>risoluzione</b> (mediante eventuale escalation)
                     </li><li>
-                       translate('
-                            <b>chiusura</b> del ticket');
+                        <b>chiusura</b> del ticket
                     </li></ul>
                 </h4>
                 </div>
@@ -71,9 +59,9 @@ $( function($) {
 <!--
 var button;
 if (!authenticated) {
-    button = '<button class="btn btn-primary btn-lg btn-block" type="button" data-dismiss="modal">translate("Entra")</button>';
+    button = '<button class="btn btn-primary btn-lg btn-block" type="button" data-dismiss="modal">Entra</button>';
 } else {
-    button = '<button class="btn btn-success btn-lg btn-block" type="button" data-dismiss="modal">translate("Continua")</button>';
+    button = '<button class="btn btn-success btn-lg btn-block" type="button" data-dismiss="modal">Continua</button>';
 }
 $(function(){
 	$('#welcome-bottom').html(button);
