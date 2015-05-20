@@ -2,7 +2,7 @@
 
 //$actions[] = 'cd ../vendor/bin/; ls -tharl';
 
-//$actions[] = '../doctrine-module orm:validate-schema';
+$actions[] = '../doctrine-module orm:validate-schema';
 
 $actions[] = '/usr/bin/mysql -uhd0 -phd0 -e "drop database hd0; create database hd0;"; ../doctrine-module orm:schema-tool:create';
 $actions[] = '/usr/bin/mysql -uhd0 -phd0 hd0 < ../data/sql/install.sql';
