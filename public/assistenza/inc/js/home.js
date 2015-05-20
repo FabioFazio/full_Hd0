@@ -42,7 +42,16 @@ function updateTicket(v, $li){
 		$(this).prop($(this).data('prop'), $(this).prop($(this).data('prop')).split(':')[0] +': '+ v['QueueName']);});
 
 	$li.find('*[data-name="Author"][data-prop]').each(function(){
-		$(this).prop($(this).data('prop'), $(this).prop($(this).data('prop')).split(':')[0] +': '+ v['Author']);});
+		var author = v['Author']; 
+		if(author === getUser().email)
+		{
+			author = getUser().name;
+			$(this).parent('div').addClass('alert-warning');
+		} else {
+			$(this).parent('div').removeClass('alert-warning');
+		}
+		$(this).prop($(this).data('prop'), $(this).prop($(this).data('prop')).split(':')[0] +': '+ author);
+	});
 	
 	var $button = $li.find('button[data-toggle]');
 	$button.attr('data-service-id', v['ServiceId']);
