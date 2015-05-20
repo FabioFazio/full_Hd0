@@ -102,7 +102,7 @@ class ZtAbstractActionController extends AbstractActionController {
         }
         unset($filter);
         
-        if (!focalpoint){
+        if (!$focalpoint){
             // aggiorno la lista dei ticket tracciati da rimuovere perchè già raggiungibili TODO
             $extraTickets = array_intersect($extraTickets, $listFrom, $listTo, $listCc);
         }
