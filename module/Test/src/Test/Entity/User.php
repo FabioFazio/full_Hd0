@@ -104,6 +104,10 @@ class User {
     	$this->administrator = $administrator;
     }
     
+    public function getFullname(){
+        return $this->getUsername() . " <" . $this->getEmail() . ">";
+    }
+    
     public function toArray()
     {
     	$array = get_object_vars($this);

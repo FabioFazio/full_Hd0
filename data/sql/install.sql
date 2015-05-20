@@ -199,3 +199,10 @@ INSERT INTO `grant_queue`(`grant_id`, `queue_id`)
 		FROM `hd0`.`GroupGrant` gt, Queue q
 		WHERE gt.name ='Busnago-Scatolame-Profumeria' and q.name = 'ContPV';
 
+
+INSERT INTO `hd0`.`Announcement` (`id`, `author_id`, `message`, `lastchange`, `warning`, `broadcast`)
+	VALUES	(NULL, '1', 'Busnago Scatolame Liquidi message', NOW(), 0, NULL),
+		(NULL, '1', 'Broadcast message', NOW(), '1', '1');
+		
+INSERT INTO  `hd0`.`announcement_group` ( `announcement_id` , `group_id`)
+	VALUES	( '1',  '1' );

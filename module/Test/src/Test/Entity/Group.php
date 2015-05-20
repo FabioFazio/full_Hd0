@@ -28,8 +28,12 @@ class Group {
 	/** @ORM\ManyToOne(targetEntity="Sector") */
 	protected $sector;
 	
+	/** @ORM\ManyToMany(targetEntity="Announcement", mappedBy="groups") */
+	protected $announcements;
+	
 	public function __construct(){
 		$this->grants = new ArrayCollection();
+		$this->$announcements = new ArrayCollection();
 	}
 	
 	public function getId(){
@@ -70,5 +74,13 @@ class Group {
     
     public function setSector($sector){
     	$this->sector = $sector;
+    }
+    
+    public function getAnnouncements(){
+    	return $this->announcements;
+    }
+    
+    public function setAnnouncements($announcements){
+    	$this->announcements = $announcements;
     }
 }

@@ -1,3 +1,5 @@
+var shownMessages = {};
+
 function removeColors (index, css) {
     return (css.match (/(^|\s)bg-\S+/g) || []).join(' ');
 }
@@ -30,6 +32,29 @@ function initHelp() // called from script.js
 	});
 	$.each( legendaHelps, function(index, value){
 		   $('#legenda span[data-toggle="tooltip"]').attr(index, value);
+	});
+}
+
+function showMessages(messages)
+{
+	$.each(messages, function(index, value){
+		if (!(value.id in shownMessages))
+		{
+			window.console&&console.log('Messaggio pubblico: '+value.message);
+			
+			var options = toastr.options;
+			toastr.options.hideDuration = "5000";
+			toastr.options.progressBar = true;
+			toastr.options.preventDuplicates = true;
+			 
+			if(value.warning)
+				toastr["warning"](value.message);
+			else
+				toastr["info"](value.message);
+			
+			toastr.options = options;
+			shownMessages[value.id] = value.message;
+		}
 	});
 }
 
@@ -100,6 +125,9 @@ function populate(data){
     
     var counters = {};
 
+    if('messages' in data && data.messages.length)
+    	showMessages(data['messages']);
+    
     // generazione liste di visualizzazione
     $.each(bozzeStateIds, function(k,id){
         if(id in data) $.merge(bozze, data[id]);});

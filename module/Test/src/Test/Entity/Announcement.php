@@ -18,20 +18,24 @@ class Announcement {
 	/** @ORM\Column(type="string", length=500) */
 	protected $message;
 	
-	/** @ORM\OneToOne(targetEntity="User") */
+	/** @ORM\ManyToOne(targetEntity="User") */
 	protected $author;
 	
-	/** @ORM\Column(type="datetime") */
+	/** @ORM\Column(type="datetime", nullable=false) */
 	protected $lastchange;
 	
-	/** @ORM\ManyToMany(targetEntity="Group") */
+	/** @ORM\ManyToMany(targetEntity="Group", inversedBy="announcements") */
 	protected $groups;
 	
 	/** @ORM\Column(type="boolean", nullable=true) */
 	protected $broadcast;
 	
+	/** @ORM\Column(type="boolean", nullable=true) */
+	protected $warning;
+	
 	public function __construct(){
 		$this->groups = new ArrayCollection();
+		$this->lastchange = new \DateTime("now");
 	}
 	
 	public function getId(){
@@ -62,8 +66,11 @@ class Announcement {
     	return $this->lastchange;
     }
     
-    public function setLastchange($lastchange){
-    	$this->grants = $lastchange;
+    public function setLastchange($lastchange = null){
+    	if ( $lastchange ){
+    	    $this->lastchange = $lastchange;
+    	} else
+    	    $this->lastchange = new \DateTime("now");
     }
     
     public function getGroups(){
@@ -73,12 +80,30 @@ class Announcement {
     public function setGroups($groups){
     	$this->groups = $groups;
     }
-    
+
     public function isBroadcast(){
     	return $this->broadcast?:false;
     }
     
     public function setBroadcast($broadcast){
-    	$this->grants = $broadcast;
+    	$this->broadcast = $broadcast;
+    }    
+    
+    public function isWarning(){
+    	return $this->warning?:false;
+    }
+    
+    public function setWarning($warning){
+    	$this->warning = $warning;
+    }
+    
+    public function toArray()
+    {
+        $array = get_object_vars($this);
+        $array['author'] = $array['author']->getFullname(); 
+        $array['lastchange'] = $array['lastchange']->format('d-m-Y H:i:s');
+        unset($array['groups']);
+        
+        return $array;
     }
 }

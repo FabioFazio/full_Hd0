@@ -283,6 +283,19 @@ class FrontendController extends ZtAbstractActionController {
            	$result += $tickets;
         }
         
+        // Popola i messaggi
+        $userObject = $objectManager->find('Test\Entity\User', $user['id']);
+        $result['messages'] = [];
+        
+        foreach($userObject->getGroups()->toArray() as $group)
+        {
+            $result['messages'] = array_merge($result['messages'], $group->getAnnouncements()->toArray());
+        }
+        $broadcasts = $objectManager->getRepository('Test\Entity\Announcement')->findBy(array('broadcast' => 1));
+        $result['messages'] = array_merge($result['messages'], $broadcasts);
+        
+        array_walk($result['messages'], function(&$v){$v = $v->toArray();});
+        
         if ($this->request->getQuery('dump', false))
             die(var_dump( $result ));
         else
