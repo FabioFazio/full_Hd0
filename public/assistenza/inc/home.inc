@@ -143,7 +143,7 @@
 						</span>
 						
 						<span class="tag-urgent badge btn-default tagSize hidden">
-							<span title="Urgente!" data-prop="title"
+							<span title="Bloccante!" data-prop="title"
 								class="glyphicon glyphicon-fire alert-danger"></span>
 						</span>
 						<div class="pull-right">
@@ -213,7 +213,7 @@
 						<!-- span class="badge alert-info"><span  data-name="AttachmentNum">?</span> <span title="allegati" class="glyphicon glyphicon-paperclip"></span></span -->
 						
 						<span class="tag-urgent badge btn-default tagSize hidden">
-							<span title="Urgente!" data-prop="title"
+							<span title="Bloccante!" data-prop="title"
 								class="glyphicon glyphicon-fire alert-danger"></span>
 						</span>
 												
@@ -347,9 +347,9 @@
 						</p>
 						<p>
 							<span class="badge btn-default tagSize">
-								<span title="urgente" class="glyphicon glyphicon-fire alert-danger"></span>
+								<span title="Bloccante!" class="glyphicon glyphicon-fire alert-danger"></span>
 							</span>
-							Urgente!
+							Bloccante!
 						</p>
 						<p>
 							<button class="btn btn-xs btn-default">
@@ -406,9 +406,9 @@
 						</p>
 						<p>
 							<span class="badge btn-default tagSize">
-								<span title="urgente" class="glyphicon glyphicon-fire alert-danger"></span>
+								<span title="Bloccante!" class="glyphicon glyphicon-fire alert-danger"></span>
 							</span>
-							Urgente!
+							Bloccante!
 						</p>
 						<p>
 							<button class="btn btn-xs btn-default">
