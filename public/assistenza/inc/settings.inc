@@ -36,7 +36,7 @@ $( function($) {
          <span name="feedback">
              <p class="alert alert-warning">
                 <b>Hd0</b> richiede l'email di lavoro!<br/>
-                <u><b>Può esser richiesto l'invio di mail</b></u> >per comunicare con gli operatori
+                <u><b>Può esser richiesto l'invio di mail</b></u> per comunicare con gli operatori
              </p>
          </span>
          <input name="id" type="hidden">
