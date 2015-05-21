@@ -3,7 +3,7 @@ fallbackForm['auth'] = function fallback (data, status, $msgBox, $form) {
 	// Update interface
     var name = $('#auth_name').val()? $('#auth_name').val() : $('#auth_username').val();
     $('#name').html(name);
-	
+    
 	// Save data to cookie too
 	var cookies	=	[];
 	var user	=	{
@@ -11,6 +11,7 @@ fallbackForm['auth'] = function fallback (data, status, $msgBox, $form) {
 			'name':				data['name'],
 			'email':			data['email'],
 			'username':			data['username'],
+			'password':			data['password'],
 			'administrator':	data['administrator'],
 			'fullname':			data['fullname'],
 		};
@@ -36,7 +37,7 @@ function logoff()
 			data:{
 				username:		$('#auth_username').val(),
 			},
-			async: false, // default true
+			async: true, // default true
 			success: function(data, status) {
 				window.console&&console.log(data); // for debugging
 				var names	= [	'user',
@@ -47,25 +48,7 @@ function logoff()
 				});
 				
 				toastr["success"] (data["alert-success"]);
-				
-				toastr.options = {
-				  "closeButton": false,
-				  "debug": false,
-				  "newestOnTop": false,
-				  "progressBar": false,
-				  "positionClass": "toast-top-right",
-				  "preventDuplicates": false,
-				  "onclick": null,
-				  "showDuration": "300",
-				  "hideDuration": "1000",
-				  "timeOut": "5000",
-				  "extendedTimeOut": "1000",
-				  "showEasing": "swing",
-				  "hideEasing": "linear",
-				  "showMethod": "fadeIn",
-				  "hideMethod": "fadeOut"
-				}
-				
+
 				setTimeout(location.reload(), 5000);
 			},
 			error: function(data, status) {

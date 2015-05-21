@@ -442,7 +442,8 @@ class FrontendController extends ZtAbstractActionController {
     	    
     	    $arrayUser = $user->toArray(); 
     	    $arrayUser['email'] = $email;
-    	    unset($arrayUser['password']);
+    	    
+    	    $arrayUser['password'] = sha1($arrayUser['password']);
     	    unset($arrayUser['tracks_id']);
     	    
     		$result = $arrayUser + [
