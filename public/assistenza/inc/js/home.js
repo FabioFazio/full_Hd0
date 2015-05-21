@@ -120,6 +120,13 @@ function updateTicket(v, $li){
 }
 
 function populate(data){
+    // Show admin status
+    if (getUser().administrator)
+    	$('#name').parent('a').addClass('alert-warning');
+    else{
+    	$('.admin').remove();
+	}
+	
     var bozze = [], chiuse = [];
     var $bozzeTicket = $('.bozze-ticket');    
     var $chiuseTicket = $('.chiuse-ticket');
