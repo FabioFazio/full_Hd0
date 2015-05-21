@@ -72,7 +72,7 @@ function updateTicket(v, $li){
 		var author = v['Author']; 
 		if(author === getUser().email)
 		{
-			author = getUser().name;
+			author = getUser().fullname;
 			$(this).parent('div').addClass('alert-warning');
 		} else {
 			$(this).parent('div').removeClass('alert-warning');

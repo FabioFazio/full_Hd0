@@ -173,7 +173,7 @@ function updateArticle (a, $articolo)
 	   
     var author = escapeHtml(a['FromRealname']);
 	if (a['From'].indexOf( getUser().email ) > -1) {
-		author = getUser().name + " <"+ getUser().email +">" ;
+		author = getUser().fullname ;
 	}
    $articolo.find('span[data-name="authorName"]').text(author);
 

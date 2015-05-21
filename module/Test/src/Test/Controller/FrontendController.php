@@ -440,11 +440,12 @@ class FrontendController extends ZtAbstractActionController {
     	    $email = ($user->getEmail() == $user->getUsername())? '' : $user->getEmail();
     	    $alertSuccess = $this->formatSuccessMessage('Benvenuto/a '. $user->getName()?:$user->getUsername() .'!', 0);
     	    
-    		$result = [
-    		    'id'	=> $user->getId(),
-    		    'username'	=> $user->getUsername(),
-    		    'name'	=> $user->getName(),
-    		    'email'	=> $email,
+    	    $arrayUser = $user->toArray(); 
+    	    $arrayUser['email'] = $email;
+    	    unset($arrayUser['password']);
+    	    unset($arrayUser['tracks_id']);
+    	    
+    		$result = $arrayUser + [
     		    'queues' => $queues,
                 'alert-success' => $alertSuccess,
 		    ];

@@ -105,7 +105,7 @@ class User {
     }
     
     public function getFullname(){
-        return $this->getUsername() . " <" . $this->getEmail() . ">";
+        return $this->getName() . " <" . $this->getEmail() . ">";
     }
     
     public function toArray()
@@ -125,6 +125,8 @@ class User {
     	}
     	unset($array['tracks']);
     	$array['tracks_id'] = $tracks_id;
+    	
+    	$array['fullname'] = $this->getFullname();
     
     	return $array;
     }

@@ -7,11 +7,12 @@ fallbackForm['auth'] = function fallback (data, status, $msgBox, $form) {
 	// Save data to cookie too
 	var cookies	=	[];
 	var user	=	{
-			'id':		data['id'],
-			'username':	data['username'],
-			'name':		data['name'],
-			'email':	data['email'],
-			//'queues':	data['queues'],
+			'id':				data['id'],
+			'name':				data['name'],
+			'email':			data['email'],
+			'username':			data['username'],
+			'administrator':	data['administrator'],
+			'fullname':			data['fullname'],
 		};
 	setUser( user );
 	
