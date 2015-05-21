@@ -16,9 +16,9 @@ return array(
     'db' => array(
     		'driver'         => 'Pdo',
     		'dsn'            => 'mysql:dbname=hd0;host=localhost',
-    		'username'       => '---',
-    		'password'       => '---',
-            'charset' 		 => 'utf8',
+    		'username'       => 'hd0',
+    		'password'       => 'hd0',
+            'charset' => 'utf8',
     		'driver_options' => array(
     				PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
     		),
@@ -26,7 +26,12 @@ return array(
         
     'configLdap'    => SERVER_ROOT . '/config/ldap-config.ini',
     'logPath'       => SERVER_ROOT . '/data/log/main.log',
+     
+    'defaultHistoryOpened'  =>  0,//(7*12),
+    'defaultHistoryClosed'  =>  0,//(7*2),
+    'fpHistoryOpened'       =>  0,//(7*4),
+    'fpHistoryClosed'       =>  0,//(7*2),
 
-    'defaultLanguage'  => 'it_IT', //'en_US', 
+    'defaultLanguage'   =>  'it_IT', //'en_US', 
 
 );

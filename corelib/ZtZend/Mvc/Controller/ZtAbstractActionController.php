@@ -11,6 +11,7 @@ use Zend\I18n\Translator\Translator;
 class ZtAbstractActionController extends AbstractActionController {
     
     private $session;
+    static $config;
     
     const TICKET_SEARCH  = 'TicketSearch';
     const TICKET_CREATE  = 'TicketCreate';
@@ -29,6 +30,14 @@ class ZtAbstractActionController extends AbstractActionController {
     
     private $OTRS_INVIS_STATEIDS  = [5,9];        // removed, merged
     
+    public function getConfig()
+    {
+    	if (empty(ZtAbstractActionController::$config))
+    	    ZtAbstractActionController::$config = $this->getServiceLocator()->get('Config');
+    	
+    	return ZtAbstractActionController::$config;
+    }
+    
     public function getOtrsArticleTypes()
     {
     	return $this->OTRS_ARTICLE_TYPES;
@@ -44,7 +53,7 @@ class ZtAbstractActionController extends AbstractActionController {
     	return $this->OTRS_CHIUSE_STATEIDS;
     }
     
-    public function ticketSearch_Otrs ($otrs, $queueCodes, $email, $focalpoint = false, &$extraTickets = [])
+    public function ticketSearch_Otrs ($otrs, $queueCodes, $email, $focalpoint = false, &$extraTickets = [], $history = [])
     {
         $location = $otrs->getLocation();
         $username = $otrs->getUsername();
@@ -63,17 +72,28 @@ class ZtAbstractActionController extends AbstractActionController {
         $searchXml      = $xml + [ 'QueueIDs' => $queueCodes ]; 
         $ticketIdList   = [];
         
-        if (!$focalpoint){
+        if(empty($history))
+             $history = [
+                'do' => $this->getConfig()['defaultHistoryOpened'],
+                'dc' => $this->getConfig()['defaultHistoryClosed'],
+                'fo' => $this->getConfig()['fpHistoryOpened'],
+                'fc' => $this->getConfig()['fpHistoryClosed']
+            ]; 
+        
+        if (!$focalpoint)
+        {
+            $filter_date = !$history['do']?[]:[ 'ArticleCreateTimeNewerDate' => date('Y-m-d H:i:s',strtotime("-". $history['do'] ." days"))];
+            
             $filter_from    = [ 'From' => $email ];
             $filter_to      = [ 'To' => $email ];
             $filter_cc      = [ 'Cc' => $email ];
             
             $respFrom   = $this->callOtrs($location, $username, $password, $namespace,
-            		self::TICKET_SEARCH, $searchXml + $filter_from);
+            		self::TICKET_SEARCH, $searchXml + $filter_from + $filter_date);
             $respTo     = $this->callOtrs($location, $username, $password, $namespace,
-            		self::TICKET_SEARCH, $searchXml + $filter_to);
+            		self::TICKET_SEARCH, $searchXml + $filter_to + $filter_date);
             $respCc     = $this->callOtrs($location, $username, $password, $namespace,
-            		self::TICKET_SEARCH, $searchXml + $filter_cc);
+            		self::TICKET_SEARCH, $searchXml + $filter_cc + $filter_date);
             
             $listFrom    = $this->extractTagFromSoapResp($respFrom, 'TicketID');
             $listTo      = $this->extractTagFromSoapResp($respTo,   'TicketID');
@@ -82,9 +102,12 @@ class ZtAbstractActionController extends AbstractActionController {
             $ticketIdList = $listFrom + array_diff($listTo, $listFrom);
             $ticketIdList += array_diff($listCc, $ticketIdList);
             $ticketIdList += array_diff($mergeList, $ticketIdList);
-        }else{
+        }else
+        {
+            $filter_date = !$history['fo']?[]:[ 'ArticleCreateTimeNewerDate' => date('Y-m-d H:i:s',strtotime("-". $history['fo'] ." days"))];
+            
             $resp     = $this->callOtrs($location, $username, $password, $namespace,
-            		self::TICKET_SEARCH, $searchXml);
+            		self::TICKET_SEARCH, $searchXml + $filter_date);
             
             $ticketIdList    = $this->extractTagFromSoapResp($resp, 'TicketID');
         }
@@ -94,13 +117,27 @@ class ZtAbstractActionController extends AbstractActionController {
         // new list of states with all tickets
         $stateList = [];
         $states = array_column($ticketList , 'State', 'StateID');
-        global $filter;
+        global $filterState; global $filterDate;
         foreach ($states as $id => $state){
-            $filter = $id;
+            $filterState = $id;
+            if(in_array($id, $this->getOtrsChiuseStateIds()))
+                if($focalpoint)
+                    $filterDate =  $history['fc']? strtotime("-". $history['fc'] ." days") : 0;
+                else
+                    $filterDate =  $history['dc']? strtotime("-". $history['dc'] ." days") : 0;
+            else
+                $filterDate = 0;
+            
             $stateList[$id] = array_filter($ticketList , 
-                    function($v){ global $filter; return $v['StateID']==$filter; });
+                    function($v){
+                        global $filterState; global $filterDate;
+                        $valid = $v['StateID']==$filterState;
+                        $valid &= strtotime($v['Changed']) >= $filterDate;
+                        return $valid;
+                    });
         }
-        unset($filter);
+        unset($filterState);
+        unset($filterDate);
         
         if (!$focalpoint){
             // aggiorno la lista dei ticket tracciati da rimuovere perchè già raggiungibili TODO
@@ -227,7 +264,7 @@ class ZtAbstractActionController extends AbstractActionController {
             return false;
         }
         $array = false; 
-        if( empty( trim( $node->localName ))) {// Discard empty nodes
+        if( empty( trim( $node->localName ))) { // Discard empty nodes
             return false;
         }
         if( XML_TEXT_NODE == $node->nodeType ) {
@@ -400,19 +437,12 @@ class ZtAbstractActionController extends AbstractActionController {
    				if($subpage = $page->findOneBy('active', 1))
    					$page = $subpage;
      	}
-     	
-     	// Table sizes
-   		$sm = $this->getServiceLocator ();
-   		$config = $sm->get ( 'Config' );
-   		//$displayLength = $config ['tableItems'] [ZtAbstractActionController::getClientDeviceType ()];
 
         // Default parameters
         $default = array(
         		'alert' =>  $alert,
         		'here' => $page,
-        		//'displayLength' => $displayLength,
         		'name' => $name,
-        		//'log' => isset($this->getSession()->log)?$this->getSession()->log:array(),
         	);
         
         // Merge view vars with default 
