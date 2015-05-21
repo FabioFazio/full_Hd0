@@ -101,7 +101,6 @@ function updateTicket(v, $li){
 	var stateId = parseInt(v['StateID']);
 	switch (stateId) {
 	case 1: //new
-		$li.find('.tag-new').removeClass('hidden');
 		break;
 	case 2: //success
 		$li.find('.badge.alert-danger').addClass('hidden');
@@ -111,6 +110,8 @@ function updateTicket(v, $li){
 		$li.find('.badge.alert-success').addClass('hidden');
 		$li.find('.badge.alert-danger').removeClass('hidden');
 		break;
+	case 6: //waiting
+		$li.find('.tag-waiting').removeClass('hidden');
 	default:
 		$li.find('.tag-working').removeClass('hidden');
 		$li.find('.badge.alert-success').addClass('hidden');

@@ -132,8 +132,8 @@
 						
 						<!-- span class="badge alert-info"><span  data-name="AttachmentNum">?</span> <span title="allegati" class="glyphicon glyphicon-paperclip"></span></span -->
 						
-						<span class="tag-new badge btn-default tagSize hidden">
-							<span title="Nuovo" data-prop="title"
+						<span class="tag-waiting badge btn-default tagSize hidden">
+							<span title="In attesa di risposta" data-prop="title"
 								class="glyphicon glyphicon-asterisk alert-info"></span>
 						</span>
 						
@@ -335,9 +335,9 @@
 						</p>
 						<p>
 							<span class="badge btn-default tagSize">
-								<span title="nuovo" class="glyphicon glyphicon-asterisk alert-info"></span>
+								<span title="in attesa" class="glyphicon glyphicon-asterisk alert-info"></span>
 							</span>
-							Nuova (non ancora in carico)
+							In Aattesa di Risposta
 						</p>
 						<p>
 							<span class="badge btn-default tagSize">
