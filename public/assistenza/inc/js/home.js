@@ -202,7 +202,8 @@ function updateCounters(b, c)
 		loadCompleted = true;
 		return;
 	}
-			
+	loadCompleted = false;
+	
 	var counters = {};
     // aggiornamento contatori
     $.each(bozze, function(k,v){
