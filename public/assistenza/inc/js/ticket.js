@@ -172,8 +172,8 @@ function updateArticle (a, $articolo)
 	   .attr('href', "#"+ 'a'+ a['ArticleID']);
 	   
     var author = escapeHtml(a['FromRealname']);
-	if (a['From'].indexOf( $('#auth_email').val() ) > -1) {
-		author = $('#auth_name').val();
+	if (a['From'].indexOf( getUser().email ) > -1) {
+		author = getUser().name + " <"+ getUser().email +">" ;
 	}
    $articolo.find('span[data-name="authorName"]').text(author);
 
