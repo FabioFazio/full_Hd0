@@ -8,7 +8,7 @@ var fallbackForm = {};
 var authenticated;
 
 /**
- * 
+ * Escane string before inject with $.html
  */
 function escapeHtml(text) {
 	  if (typeof text === 'undefined')
