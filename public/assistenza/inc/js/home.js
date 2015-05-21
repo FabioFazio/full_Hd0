@@ -47,7 +47,7 @@ function showMessages(messages)
 			toastr.options.hideDuration = "5000";
 			toastr.options.progressBar = true;
 			toastr.options.preventDuplicates = true;
-			toastr.options.positionClass = "toast-top-center";	
+			toastr.options.positionClass = "toast-bottom-full-width";	
 			 
 			if(value.warning)
 				toastr["warning"](value.message);
