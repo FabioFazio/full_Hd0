@@ -1,4 +1,5 @@
 var shownMessages = {};
+var loadCompleted = false;
 
 function removeColors (index, css) {
     return (css.match (/(^|\s)bg-\S+/g) || []).join(' ');
@@ -124,8 +125,6 @@ function populate(data){
     var $bozzeEmpty = $('#bozze_empty');
     var $chiuseEmpty = $('#chiuse_empty');
     
-    var counters = {};
-
     if('messages' in data && data.messages.length)
     	showMessages(data['messages']);
     
@@ -139,28 +138,10 @@ function populate(data){
     	  var aTime = a['Changed'];
     	  var bTime = b['Changed']; 
     	  return ((aTime < bTime) ? -1 : ((aTime > bTime) ? 1 : 0));
-    	}
+    	};
     bozze.sort(func);
     chiuse.sort(func);
-    
-    // aggiornamento contatori
-    $.each(bozze, function(k,v){
-    		var id = 'q'+v['QueueOrder']+'_bozze';
-    		var tot = 'tot_bozze';
-    		counters[id] = (id in counters)?counters[id]+1:1;
-    		counters[tot] = (tot in counters)?counters[tot]+1:1;
-		});
-    $.each(chiuse, function(k,v){
-			var id = 'q'+v['QueueOrder']+'_chiuse';
-			var tot = 'tot_chiuse';
-			counters[id] = (id in counters)?counters[id]+1:1;
-			counters[tot] = (tot in counters)?counters[tot]+1:1;
-		});
-    // reset
-	$('[data-name="counter"]').text(0);
-    $.each(counters, function(k,v){
-    	$('#'+k).text(v+"");});
-    
+
     if (bozze.length)
         $bozzeEmpty.addClass('hidden');
     else
@@ -207,6 +188,39 @@ function populate(data){
     		$.merge($currentList,$li);
 		});
 	$chiuseTicket.siblings("li").not($currentList).not('#chiuse_empty').remove();
+	
+	updateCounters(bozze, chiuse);
+}
+
+function updateCounters(b, c)
+{
+	var bozze = (typeof b !== 'undefined')? b :[];
+	var chiuse = (typeof c !== 'undefined')? c :[];
+	
+	if (!loadCompleted){
+		loadCompleted = true;
+		return;
+	}
+			
+	var counters = {};
+    // aggiornamento contatori
+    $.each(bozze, function(k,v){
+    		var id = 'q'+v['QueueOrder']+'_bozze';
+    		var tot = 'tot_bozze';
+    		counters[id] = (id in counters)?counters[id]+1:1;
+    		counters[tot] = (tot in counters)?counters[tot]+1:1;
+		});
+    $.each(chiuse, function(k,v){
+			var id = 'q'+v['QueueOrder']+'_chiuse';
+			var tot = 'tot_chiuse';
+			counters[id] = (id in counters)?counters[id]+1:1;
+			counters[tot] = (tot in counters)?counters[tot]+1:1;
+		});
+
+	$('[data-name="counter"]').text(0);
+    $.each(counters, function(k,v){
+    	$('#'+k).text(v+"");
+    });
 }
 
 function updateCategory (q, $categoria){
@@ -252,6 +266,8 @@ function prepare(categories, $target){
         var $clone = $cat.clone().removeClass('mock').removeClass('hidden');
         $target.append(updateCategory(c, $clone));
 	});
+	
+	updateCounters();
 }
 
 function content(){
