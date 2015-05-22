@@ -507,3 +507,10 @@ span.glyphicon {
 	max-height: 200px;
 	overflow-y: scroll;
 }
+
+#usersModal .strength-meter
+{
+	font-size: inherit !important;
+	border-style: none !important;
+	float: right !important;
+}

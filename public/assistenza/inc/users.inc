@@ -67,25 +67,25 @@ $( function($) {
             <div class="modal-body">
             
                  <div id="usersEditor" class="well well-sm" style="display: none;">
-                    <h3 class="text-center">Nuovo Utente</h3>
+                    <h3 class="text-center">Utente</h3>
                     <form data-validate>
            				<div class="row">
             				<div class="col-md-4">
             					
             					<div class="form-group input-group col-md-12">
-                                    <label for="name" class="control-label input-group-addon">
+                                    <label for="username" class="control-label">
                                         <i class="glyphicon glyphicon-edit"></i> Nome Utente
                                     </label>
-                				    <input type="text" class="form-control text-right" name="name" 
-                				        placeholder="Nome completo"
-                				        data-validation-error-msg="Campo non superiore a 50 caratteri"
-                                        data-validation="length" 
-                                        data-validation-length="max50"
+                				    <input type="text" class="form-control text-right" name="username" 
+                				        placeholder="Nome Utente"
+                				        data-validation-error-msg="Lunghezza attesa tra 3 e 12 caratteri alfanumerici"
+                                        data-validation="alphanumeric length" 
+                                        data-validation-length="3-12"
                 				        />
                                 </div>
                                 
             					<div class="form-group input-group col-md-12">
-                                    <label for="name" class="control-label input-group-addon">
+                                    <label for="name" class="control-label">
                                         <i class="glyphicon glyphicon-edit"></i> Nome Completo
                                     </label>
                 				    <input type="text" class="form-control text-right" name="name" 
@@ -97,59 +97,56 @@ $( function($) {
                                 </div>
                                  
             					<div class="form-group input-group col-md-12">
-                                    <label for="name" class="control-label input-group-addon">
-                                        <i class="glyphicon glyphicon-edit"></i> E-mail
+                                    <label for="email" class="control-label">
+                                        <i class="glyphicon glyphicon-edit"></i> Email
                                     </label>
-                				    <input type="text" class="form-control text-right" name="name" 
-                				        placeholder="Nome completo"
-                				        data-validation-error-msg="Campo non superiore a 50 caratteri"
-                                        data-validation="length" 
-                                        data-validation-length="max50"
+                				    <input type="text" class="form-control text-right" name="email" 
+                				        placeholder="Email aziendale"
+                				        data-validation-error-msg="Inserire una email di lavoro valida (@iper.it, @ortofin.it o @unes.it)"
+                                        data-validation="email domain required" 
                 				        />
                                 </div>
                                                                 
             					<div class="form-group input-group col-md-12">
-                                    <label for="name" class="control-label input-group-addon">
-                                        <i class="glyphicon glyphicon-edit"></i> Nuova Password
+                                    <label for="password_confirmation" class="control-label">
+                                        <i class="glyphicon glyphicon-edit"></i> Cambia Password
                                     </label>
-                				    <input type="password" class="form-control text-right" name="name" 
-                				        placeholder="Nome completo"
-                				        data-validation-error-msg="Campo non superiore a 50 caratteri"
-                                        data-validation="length" 
-                                        data-validation-length="max50"
-                				        />
-                                </div>
-                                
+                				    <input type="password" class="form-control text-right" name="password_confirmation"
+                				        placeholder="Password" 
+                                        data-validation-error-msg="Password non abbastanza sicura"
+                                        data-validation="strength"
+                                        data-validation-strength="1"
+                                        />
+                                </div>                                
                                                                 
             					<div class="form-group input-group col-md-12">
-                                    <label for="name" class="control-label input-group-addon">
-                                        <i class="glyphicon glyphicon-edit"></i> Conferma Nuova Password
+                                    <label for="password" class="control-label">
+                                        <i class="glyphicon glyphicon-edit"></i> Conferma Password
                                     </label>
-                				    <input type="password" class="form-control text-right" name="name" 
-                				        placeholder="Nome completo"
-                				        data-validation-error-msg="Campo non superiore a 50 caratteri"
-                                        data-validation="length" 
-                                        data-validation-length="max50"
-                				        />
+                                    <input type="password" class="form-control text-right" name="password" 
+                                        placeholder="Conferma Password"
+                                        data-validation="confirmation"
+                                        data-validation-error-msg="Riscrivere la password per conferma!"
+                                        />
                                 </div>
                                 
-                                <div class="form-group input-group">
-                                    <label for="newsId" class="control-label input-group-addon">
+                                <div class="form-group input-group col-md-12">
+                                    <label for="newsId" class="control-label">
                                        <i class="glyphicon glyphicon-list"></i> Settore Aziendale
                                     </label>
                                     <select class="form-control valid" id="newsId" name="newsId" aria-invalid="false">
-                                        <option value="0" selected="">--- Non Definito ---</option>
+                                        <option value="0" selected="selected">--- Non Definito ---</option>
                                     </select>
                                 </div>
                                 
-                               <div class="form-group input-group">
-                                    <label for="newsId" class="control-label input-group-addon">
+                               <div class="form-group input-group bg-danger col-md-12">
+                                    <label for="newsId" class="control-label alert-danger input-group-addon">
                                        <i class="glyphicon glyphicon-check"></i> Privilegi di Amministratore
                                     </label>
                                     
                                     <div class="form-control checkbox">
                                       <label class="pull-right">
-                                        <input type="checkbox" name="optionsRadios" id="optionsRadios1" value="option1">
+                                        <input type="checkbox" name="administrator" value="1">
                                       </label>
                                     </div>
                                     
@@ -203,7 +200,7 @@ $( function($) {
                           <th></th>
                           <th>Nome Utente</th>
                           <th>Nome Completo</th>
-                          <th>E-mail</th>
+                          <th>Email</th>
                           <th>Password</th>
                           <th>Settore di Appartenenza</th>
                           <th>Servizi ICT</th>                          
@@ -216,11 +213,11 @@ $( function($) {
                       <tbody>
                         <tr>
                             <td>
-                                <a class="btn btn-sm btn-info" data-show="#usersEditor">
+                                <a title="Modifica" class="btn btn-sm btn-info" data-show="#usersEditor">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
                                 <a class="btn btn-sm btn-danger" data-toggle="confirmation"
-                                    title="" data-original-title="Vuoi davvero rimuovere PER SEMPRE questo utente?">
+                                    title="" data-original-title="Vuoi davvero cancellare questo utente in modo permanente?">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </a>
                             </td>
@@ -236,10 +233,11 @@ $( function($) {
 
                         <tr>
                             <td>
-                                <a class="btn btn-sm btn-info" data-show="#usersEditor">
+                                <a title="Modifica" class="btn btn-sm btn-info" data-show="#usersEditor">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
-                                <a class="btn btn-sm btn-danger">
+                                <a class="btn btn-sm btn-danger" data-toggle="confirmation"
+                                    title="" data-original-title="Vuoi davvero cancellare questo utente in modo permanente?">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </a>
                             </td>
