@@ -37,11 +37,11 @@ $( function($) {
 
     var user_queues_options = JSON.parse(JSON.stringify(duallist_default_options));
     user_queues_options.nonSelectedListLabel = '<span class="h4">Servizi disponibili</span>';
-    user_queues_options.selectedListLabel = '<span class="h4 btn-primary">Utente dei servizi in elenco</span>';
+    user_queues_options.selectedListLabel = '<p class="h4 text-info">Utente dei servizi in elenco</p>';
 
     var user_fps_options = JSON.parse(JSON.stringify(duallist_default_options));
     user_fps_options.nonSelectedListLabel = '<span class="h4">Servizi disponibili</span>';
-    user_fps_options.selectedListLabel = '<span class="h4 btn-danger">Focal Point dei servizi in elenco</span>';
+    user_fps_options.selectedListLabel = '<p class="h4 text-danger">Focal Point dei servizi in elenco</p>';
 	
 	$('#user-queues').bootstrapDualListbox(user_queues_options);
 	$('#user-fps').bootstrapDualListbox(user_fps_options);
@@ -65,7 +65,7 @@ $( function($) {
             <div class="modal-body">
             
                  <div class="well well-sm">
-                    <h3 class="text-center"><a id="new-user">Nuovo Utente</a></h3>
+                    <h3 class="text-center"><a id="new-user"></a>Nuovo Utente</h3>
                     <form data-validate>
            				<div class="row">
             				<div class="col-md-4">
