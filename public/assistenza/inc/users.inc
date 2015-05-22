@@ -2,6 +2,8 @@
 <!--
 $( function($) {
 
+	$( '#usersModal div.modal-xl' ).css( "width", $(window).innerWidth()-50 );
+	
 	$('#users').DataTable({
 		"order": [[ 1, "asc" ]],	    
 		"aoColumnDefs" : [{
@@ -22,7 +24,7 @@ $( function($) {
 
     var duallist_default_options = {
 		  preserveSelectionOnMove: 'moved',
-		  moveOnSelect: true,
+		  moveOnSelect: false,
 		  filterTextClear: 'Mostrali tutti',
 		  filterPlaceHolder: 'Filtro di ricerca',
 		  moveSelectedLabel: 'Sposta gli elementi selezionati',
@@ -46,8 +48,8 @@ $( function($) {
 	$('#user-queues').bootstrapDualListbox(user_queues_options);
 	$('#user-fps').bootstrapDualListbox(user_fps_options);
 	
-    $('#users').on('show.bs.modal', function (e) {
-        usersLoad();
+    $('#usersModal').on('show.bs.modal', function (e) {
+        usersLoad(e);
     });
 });
 -->
@@ -64,8 +66,8 @@ $( function($) {
 
             <div class="modal-body">
             
-                 <div class="well well-sm">
-                    <h3 class="text-center"><a id="new-user"></a>Nuovo Utente</h3>
+                 <div id="usersEditor" class="well well-sm" style="display: none;">
+                    <h3 class="text-center">Nuovo Utente</h3>
                     <form data-validate>
            				<div class="row">
             				<div class="col-md-4">
@@ -152,47 +154,46 @@ $( function($) {
                                     </div>
                                     
                                 </div>
-                                
-                        </div>
+                           </div>     
                                                         
-                        <div class="col-md-8 row">
-                            <div class="form-group col-md-12">
-                                <select multiple="multiple" size="10" id="user-queues" name="userQueues[]">
-                                    <option value="option1">Option 1</option>
-                                    <option value="option2">Option 2</option>
-                                    <option value="option3" selected="selected">Option 3</option>
-                                    <option value="option4">Option 4</option>
-                                    <option value="option5">Option 5</option>
-                                    <option value="option6" selected="selected">Option 6</option>
-                                    <option value="option7">Option 7</option>
-                                    <option value="option8">Option 8</option>
-                                    <option value="option9">Option 9</option>
-                                    <option value="option10">Option 10</option>
-                                </select>
-                            </div><div class="form-group col-md-12">
-                                <select multiple="multiple" size="10" id="user-fps" name="userFps[]">
-                                    <option value="option1">Option 1</option>
-                                    <option value="option2">Option 2</option>
-                                    <option value="option3" selected="selected">Option 3</option>
-                                    <option value="option4">Option 4</option>
-                                    <option value="option5">Option 5</option>
-                                    <option value="option6" selected="selected">Option 6</option>
-                                    <option value="option7">Option 7</option>
-                                    <option value="option8">Option 8</option>
-                                    <option value="option9">Option 9</option>
-                                    <option value="option10">Option 10</option>
-                                </select>
-                            </div>        
+                            <div class="col-md-8 row">
+                                <div class="form-group col-md-12">
+                                    <select multiple="multiple" size="10" id="user-queues" name="userQueues[]">
+                                        <option value="option1">Option 1</option>
+                                        <option value="option2">Option 2</option>
+                                        <option value="option3" selected="selected">Option 3</option>
+                                        <option value="option4">Option 4</option>
+                                        <option value="option5">Option 5</option>
+                                        <option value="option6" selected="selected">Option 6</option>
+                                        <option value="option7">Option 7</option>
+                                        <option value="option8">Option 8</option>
+                                        <option value="option9">Option 9</option>
+                                        <option value="option10">Option 10</option>
+                                    </select>
+                                </div><div class="form-group col-md-12">
+                                    <select multiple="multiple" size="10" id="user-fps" name="userFps[]">
+                                        <option value="option1">Option 1</option>
+                                        <option value="option2">Option 2</option>
+                                        <option value="option3" selected="selected">Option 3</option>
+                                        <option value="option4">Option 4</option>
+                                        <option value="option5">Option 5</option>
+                                        <option value="option6" selected="selected">Option 6</option>
+                                        <option value="option7">Option 7</option>
+                                        <option value="option8">Option 8</option>
+                                        <option value="option9">Option 9</option>
+                                        <option value="option10">Option 10</option>
+                                    </select>
+                                </div>        
+                            </div>
                         </div>
 
-                       <div class="col-md-offset-10 col-md-2 text-center">
+                       <div class="text-center">
                             <button type="submit" class="btn btn-success">Salva</button>
-                            <button type="button" class="btn btn-default">Annulla</button>
+                            <button data-hide="#usersEditor" type="button" class="btn btn-default">Annulla</button>
                         </div>
                     </form>
                  </div>
-                 
-                 <hr/>
+
 
                  <div class="table-responsive">
                  
@@ -215,7 +216,7 @@ $( function($) {
                       <tbody>
                         <tr>
                             <td>
-                                <a class="btn btn-sm btn-info">
+                                <a class="btn btn-sm btn-info" data-show="#usersEditor">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
                                 <a class="btn btn-sm btn-danger" data-toggle="confirmation"
@@ -235,7 +236,7 @@ $( function($) {
 
                         <tr>
                             <td>
-                                <a class="btn btn-sm btn-info">
+                                <a class="btn btn-sm btn-info" data-show="#usersEditor">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
                                 <a class="btn btn-sm btn-danger">
@@ -256,7 +257,7 @@ $( function($) {
                     </table>
                 </div>
                 <div class="text-right" style="margin-top: 10px;">
-                        <button type="button" class="btn btn-primary">
+                        <button data-show="#usersEditor" type="button" class="btn btn-primary">
                             <span class="glyphicon glyphicon-plus"></span> Aggiungi
                         </button>                        
                         <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -264,8 +265,7 @@ $( function($) {
                         </button>
                 </div>
                 
-            </div><!-- /.modal-content -->
-            
-        </div><!-- /.modal-content -->
-        
-    </div><!-- /.modal -->
+            </div><!-- /.modal-body -->    
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal-content -->
+</div><!-- /.modal -->
