@@ -38,12 +38,12 @@ $( function($) {
 	    };
 
     var user_queues_options = JSON.parse(JSON.stringify(duallist_default_options));
-    user_queues_options.nonSelectedListLabel = '<span class="h4">Servizi disponibili</span>';
-    user_queues_options.selectedListLabel = '<p class="h4 text-info">Utente dei servizi in elenco</p>';
+    user_queues_options.nonSelectedListLabel = '<span class="h4">Categorie di Segnalazione disponibili</span>';
+    user_queues_options.selectedListLabel = '<p class="h4 text-info">Categorie seguite come Utente</p>';
 
     var user_fps_options = JSON.parse(JSON.stringify(duallist_default_options));
-    user_fps_options.nonSelectedListLabel = '<span class="h4">Servizi disponibili</span>';
-    user_fps_options.selectedListLabel = '<p class="h4 text-danger">Focal Point dei servizi in elenco</p>';
+    user_fps_options.nonSelectedListLabel = '<span class="h4">Categorie di Segnalazione disponibili</span>';
+    user_fps_options.selectedListLabel = '<p class="h4 text-danger">Categorie seguite come Focal Point</p>';
 	
 	$('#user-queues').bootstrapDualListbox(user_queues_options);
 	$('#user-fps').bootstrapDualListbox(user_fps_options);
