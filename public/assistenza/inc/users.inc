@@ -66,9 +66,8 @@ $( function($) {
 
             <div class="modal-body">
             
-                 <div id="usersEditor" class="well well-sm" style="display: none;">
-                    <h3 class="text-center">Utente</h3>
-                    <form data-validate>
+                <div id="usersEditor" data-flip="#usersList" class="hidden">
+                <form data-validate>
            				<div class="row">
             				<div class="col-md-4">
             					
@@ -184,7 +183,7 @@ $( function($) {
                             </div>
                         </div>
 
-                       <div class="text-center">
+                       <div class="text-right" style="margin-top: 10px;">
                             <button type="submit" class="btn btn-success">Salva</button>
                             <button data-hide="#usersEditor" type="button" class="btn btn-default">Annulla</button>
                         </div>
@@ -192,7 +191,7 @@ $( function($) {
                  </div>
 
 
-                 <div class="table-responsive">
+                 <div id="usersList" data-flip="#usersEditor" class="table-responsive">
                  
                      <table id="users" class="display" cellspacing="0" width="100%">
                       <thead>
@@ -253,14 +252,16 @@ $( function($) {
                       </tbody>
 
                     </table>
-                </div>
-                <div class="text-right" style="margin-top: 10px;">
+                    
+                    <div class="text-right" style="margin-top: 10px;">
                         <button data-show="#usersEditor" type="button" class="btn btn-primary">
                             <span class="glyphicon glyphicon-plus"></span> Aggiungi
                         </button>                        
                         <button type="button" class="btn btn-default" data-dismiss="modal">
                             Chiudi
                         </button>
+                    </div>
+                    
                 </div>
                 
             </div><!-- /.modal-body -->    

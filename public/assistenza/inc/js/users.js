@@ -14,19 +14,23 @@ function usersLoad(e)
 	
 	// ^ editor animation
 	$current.on('click', '[data-show]', function(){
-		target = $(this).attr('data-show');
-		$(target).fadeIn();
-		window.location = target;
+		var target = $(this).attr('data-show');
+		var twin = $(target).attr('data-flip');
+		$(target).add(twin).toggleClass('hidden');
 	});
 	
 	$current.on('click', '[data-hide]', function(){
-		target = $(this).attr('data-hide');
-		$(target).fadeOut();
+		var target = $(this).attr('data-hide');
+		var twin = $(target).attr('data-flip');
+		$(target).add(twin).toggleClass('hidden');
 	});
 	// $ editor animation
 	
-	// ^ editor validator
-	// $ editor validator
+	// ^ clean old data
+	// $ clean old data
+
+	// ^ load new data
+	// $ load new data
 	
 	//var user = getUser();
 }
