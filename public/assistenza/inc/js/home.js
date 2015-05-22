@@ -121,9 +121,10 @@ function updateTicket(v, $li){
 
 function populate(data){
     // Show admin status
-    if (getUser().administrator)
+    if (getUser().administrator){
     	$('#name').parent('a').addClass('alert-warning');
-    else{
+    	$('#name').add($('#name').siblings()).addClass('text-danger');
+	}else{
     	$('.admin').remove();
 	}
 	
