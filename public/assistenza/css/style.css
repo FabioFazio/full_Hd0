@@ -499,3 +499,11 @@ span.glyphicon {
 {
 	float: right;
 }
+
+/*  USERS PANEL */
+
+#usersModal table div.tbody
+{
+	max-height: 200px;
+	overflow-y: scroll;
+}
