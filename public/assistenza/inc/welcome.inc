@@ -9,7 +9,6 @@ $( function($) {
 <!-- Modal -->
 <div class="modal fade in" id="welcome" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
   
-  <!--  <div class="modal-dialog visible-lg-modal-xl visible-md-modal-xl visible-sm-modal-l visible-xs-modal-m"> -->
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #f5f5f5;">
