@@ -6,23 +6,6 @@
 
 var fallbackForm = {};
 var authenticated;
-var vallidate_default_options = {
-		form: 'form[data-validate]',
-		modules : 'date, security',
-		dateFormat: 'dd/mm/yyyy',
-		decimalSeparator: ',',
-		onSuccess: function(form){formSubmit(form); return false;},
-		onError: function(){return false;}, // Stop the submission
-		onModulesLoaded: function() {
-		    $('input[name="password_confirmation"]').displayPasswordStrength({
-			      padding: '4px',
-			      bad : 'Troppo Semplice',
-			      weak : 'Debole',
-			      good : 'Buona',
-			      strong : 'Sicura'
-		    });
-	    }
-};
 
 /**
  * Escane string before inject with $.html
@@ -143,6 +126,24 @@ function initScope ( scope ) {
 		errorMessage : 'La mail deve essere di lavoro: @iper.it @ortofin.it @unes.it etc..', /* non usato */
 		errorMessageKey: 'badDomain'
 	});
+	
+	var vallidate_default_options = {
+			form: 'form[data-validate]',
+			modules : 'date, security',
+			dateFormat: 'dd/mm/yyyy',
+			decimalSeparator: ',',
+			onSuccess: function(form){formSubmit(form); return false;},
+			onError: function(){return false;}, // Stop the submission
+			onModulesLoaded: function() {
+			    $('input[name="password_confirmation"]').displayPasswordStrength({
+				      padding: '4px',
+				      bad : 'Troppo Semplice',
+				      weak : 'Debole',
+				      good : 'Buona',
+				      strong : 'Sicura'
+			    });
+		    }
+	};
 	
 	$.validate(vallidate_default_options);
     

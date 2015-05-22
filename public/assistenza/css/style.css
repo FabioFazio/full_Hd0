@@ -508,7 +508,7 @@ span.glyphicon {
 	overflow-y: scroll;
 }
 
-#usersModal .strength-meter
+.strength-meter
 {
 	font-size: inherit !important;
 	border-style: none !important;

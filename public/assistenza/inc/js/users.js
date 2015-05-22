@@ -26,16 +26,6 @@ function usersLoad(e)
 	// $ editor animation
 	
 	// ^ editor validator
-	var valudate_custom_options = JSON.parse(JSON.stringify(vallidate_default_options));
-	/*valudate_custom_options.onModulesLoaded =
-		function() {
-		    $('input[name="password_confirmation"]').displayPasswordStrength({
-
-		    });
-	    };
-	*/
-	$.validate(valudate_custom_options);
-	
 	// $ editor validator
 	
 	//var user = getUser();
