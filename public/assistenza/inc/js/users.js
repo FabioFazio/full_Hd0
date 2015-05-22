@@ -9,7 +9,9 @@ function usersLoad(e)
 			btnCancelLabel: 'Annulla',
 			singleton: true,
 			popout: true,
-			onConfirm: function(){},
+			onConfirm: function(){
+				// take user id from row and shoot an ajax call
+			},
 		});
 	
 	// ^ editor animation

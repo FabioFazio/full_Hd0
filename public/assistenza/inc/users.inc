@@ -153,7 +153,7 @@ $( function($) {
                            </div>     
                                                         
                             <div class="col-md-8 row">
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-12 well well-xs">
                                     <select multiple="multiple" size="10" id="user-queues" name="userQueues[]">
                                         <option value="option1">Option 1</option>
                                         <option value="option2">Option 2</option>
@@ -166,7 +166,7 @@ $( function($) {
                                         <option value="option9">Option 9</option>
                                         <option value="option10">Option 10</option>
                                     </select>
-                                </div><div class="form-group col-md-12">
+                                </div><div class="form-group col-md-12 well well-xs">
                                     <select multiple="multiple" size="10" id="user-fps" name="userFps[]">
                                         <option value="option1">Option 1</option>
                                         <option value="option2">Option 2</option>
