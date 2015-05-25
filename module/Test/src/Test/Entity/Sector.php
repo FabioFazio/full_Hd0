@@ -68,9 +68,8 @@ class Sector {
     }
     
     public function getFullname(){
-       $dep        = $this->getDepartment()?$this->getDepartment()->getName():'';
-	   $stoDep   = $dep?$this->getDepartment()->getStore()->getName().' - '.$dep:'';
-	   $fullname = $stoDep?$stoDep.' - '.$this->getName():$this->getName();
+       $dep        = $this->getDepartment()?$this->getDepartment()->getFullname():'';
+	   $fullname   = $dep?$dep.' - '.$this->getName():$this->getName();
 	   return $fullname;
     }
     

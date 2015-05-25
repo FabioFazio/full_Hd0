@@ -66,4 +66,10 @@ class Department {
     public function setManager($manager){
     	$this->grants = $manager;
     }
+    
+    public function getFullname(){
+    	$sto        = $this->getStore()?$this->getStore()->getName():'';
+    	$fullname   = $sto?$sto.' - '.$this->getName():$this->getName();
+    	return $fullname;
+    }
 }
