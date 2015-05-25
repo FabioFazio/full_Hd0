@@ -1,17 +1,16 @@
 <script type="text/javascript">
 <!--
-$( function($) {
-
-	$( '#usersModal div.modal-xl' ).css( "width", $(window).innerWidth()-50 );
-	
-	$('#users').DataTable({
+var table_users_options = {
 		"order": [[ 1, "asc" ]],	    
 		"aoColumnDefs" : [{
 				"bSortable" : false,
 				"aTargets" : [ 0 ],
 		},{
 				"sClass": "center",
-				"aTargets": [ 6, 7, 8 ]
+				"aTargets": [ 4, 6, 7, 8 ]
+		},{
+    			"sClass": "text-nowrap",
+    			"aTargets": [ 0 ]
 		}],
 		"iDisplayLength" : 5,
 		"lengthMenu": [ 5, 25, 50, 75, 100 ],
@@ -20,9 +19,9 @@ $( function($) {
         },
         "dom": '<"row"<"col-md-5"l><"col-md-5"i><"col-md-2"f>><"well"t>p',
         "fnInitComplete": function(){},
-	});
+};
 
-    var duallist_default_options = {
+var duallist_default_options = {
 		  preserveSelectionOnMove: 'moved',
 		  moveOnSelect: false,
 		  filterTextClear: 'Mostrali tutti',
@@ -37,16 +36,28 @@ $( function($) {
 		  infoTextEmpty: 'Lista vuota',
 	    };
 
-    var user_queues_options = JSON.parse(JSON.stringify(duallist_default_options));
-    user_queues_options.nonSelectedListLabel = '<span class="h4">Categorie di Segnalazione disponibili</span>';
-    user_queues_options.selectedListLabel = '<p class="h4 text-info">Categorie seguite come Utente</p>';
+var duallist_queues_options = JSON.parse(JSON.stringify(duallist_default_options));
+duallist_queues_options.nonSelectedListLabel = '<span class="h4">Categorie di Segnalazione disponibili</span>';
+duallist_queues_options.selectedListLabel = '<p class="h4 text-info">Categorie seguite come Utente</p>';
 
-    var user_fps_options = JSON.parse(JSON.stringify(duallist_default_options));
-    user_fps_options.nonSelectedListLabel = '<span class="h4">Categorie di Segnalazione disponibili</span>';
-    user_fps_options.selectedListLabel = '<p class="h4 text-danger">Categorie seguite come Focal Point</p>';
-	
-	$('#user-queues').bootstrapDualListbox(user_queues_options);
-	$('#user-fps').bootstrapDualListbox(user_fps_options);
+var duallist_fps_options = JSON.parse(JSON.stringify(duallist_default_options));
+duallist_fps_options.nonSelectedListLabel = '<span class="h4">Categorie di Segnalazione disponibili</span>';
+duallist_fps_options.selectedListLabel = '<p class="h4 text-danger">Categorie seguite come Focal Point</p>';
+
+var confirmation_delete_options = {
+		btnOkLabel: 'Cancella',
+		btnCancelLabel: 'Annulla',
+		singleton: true,
+		popout: true,
+		onConfirm: function(){},	
+};
+
+$( function($) {
+
+	$( '#usersModal div.modal-xl' ).css( "width", $(window).innerWidth()-50 );
+
+	$('#user-queues').bootstrapDualListbox(duallist_queues_options);
+	$('#user-fps').bootstrapDualListbox(duallist_fps_options);
 	
     $('#usersModal').on('show.bs.modal', function (e) {
         usersLoad(e);
@@ -202,8 +213,8 @@ $( function($) {
                           <th>Email</th>
                           <th>Password</th>
                           <th>Settore di Appartenenza</th>
-                          <th>Servizi ICT</th>                          
-                          <th>Focal Point</th>
+                          <th>Categorie Utente</th>                          
+                          <th>Categorie Focal&nbsp;Point</th>
                           <th>Amministratore</th>
                         </tr>
                       </thead>

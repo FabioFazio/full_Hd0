@@ -12,6 +12,7 @@ use Zend\Config\Config;
 //use Zend\Log\Writer\Stream as LogWriter;
 //use Zend\Log\Filter\Priority as LogFilter;
 use Test\Entity\Service;
+use Zend\Validator\File\Sha1;
 
 class FrontendController extends ZtAbstractActionController {
 
@@ -150,36 +151,12 @@ class FrontendController extends ZtAbstractActionController {
         
         if (!isset($this->getSession()->queues))
         {
-        	$queues = []; $fpQueues = [];
+        	$queues = [];
         	$objectManager = $this->getObjectManager();
+        	$userObj = $objectManager->getRepository('Test\Entity\User')->find($user['id']);
         
         	if (count($objectManager->getRepository('Test\Entity\Group')->findAll())){
-        		foreach($objectManager->getRepository('Test\Entity\Group')->findBy(array('id' => $user['groups_id'])) as $group){
-        		  foreach($group->getGrants()->toArray() as $grant){
-        		      $fp = $grant->isFocalPoint();
-        		      foreach($grant->getQueues()->toArray() as $queue){
-        		          if ($fp && !in_array($queue, $fpQueues)){
-                            $fpQueues[] = $queue->toArray();
-        		          }
-        		          else if(!$fp && !in_array($queue, $queues)){
-                            $queues[] = $queue->toArray();
-        		          }
-        		      }
-        		      // merge two queues list
-        		      foreach($queues as $index => $queue){
-        		          $fpKey = array_search($queue, $fpQueues);
-        		          if ($fpKey===false){
-        		              $queues[$index] = $queue + ['focalpoint'=>0];
-        		          }else{
-        		              $queues[$index] = $queue + ['focalpoint'=>1];
-        		              unset($fpQueues[$fpKey]);
-        		          }
-        		      }
-        		      foreach($fpQueues as $fpQueue){
-        		          $queues[] = $fpQueue + ['focalpoint'=>1];
-        		      }
-        		  }
-        		}
+        	    $queues = $userObj->getQueues();
         	}else{
         		$queues = $objectManager->getRepository('Test\Entity\Queue')->findBy([],['order'=>'ASC']);
         	}
@@ -591,6 +568,48 @@ class FrontendController extends ZtAbstractActionController {
 	         'queues' => $queues,
 	        )
     	);
+    }
+    
+    public function getUsersAction()
+    {
+        $input = $this->request->getPost ()->toArray();
+        $user = $this->getSession()->user;
+    	$result = [];
+
+    	// Popola i messaggi
+    	$userObject = $this->getObjectManager()->find('Test\Entity\User', $user['id']);
+    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	       !$userObject->isAdministrator())
+    	{
+    		$result['alert-danger'] = "La sessione è terminata. Effetturare Logout e Login per continuare";
+    		//return $this->jsonModel ( $result );
+    	}
+    	$result['users'] = [];
+    
+    	$result['users'] = $this->getObjectManager()->getRepository("Test\Entity\User")->findAll();
+    		
+    	array_walk($result['users'], function(&$v){
+            $qs = $v->getQueues();
+            $ss = $v->getSectors();
+            
+    	    $v = $v->toArray();
+    	    unset($v['groups_id']);
+    	    unset($v['tracks_id']);
+    	    unset($v['sectors']);
+
+    	    array_walk($qs, function(&$q){
+    	        $q = [ 'id' => $q['id'], 'name' => $q['name'], 'fp' => $q['focalpoint']];
+    	    });
+    	    $v['focalpoint'] = array_filter($qs, function($q){return $q['fp'];});
+    	    $v['queues'] = array_filter($qs, function($q){return !$q['fp'];});
+    	    $v['password'] = sha1($v['password']);
+    	    $v['sector'] = $ss?current($ss):'';
+    	});
+    
+    	if ($this->request->getQuery('dump', false))
+    		die(var_dump( $result ));
+    	else
+    		return $this->jsonModel ( $result );
     }
     
     public function indexAction()

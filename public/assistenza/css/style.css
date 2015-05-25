@@ -514,3 +514,7 @@ span.glyphicon {
 	border-style: none !important;
 	float: right !important;
 }
+
+.text-nowrap {
+  white-space: nowrap;
+}
