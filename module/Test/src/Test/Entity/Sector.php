@@ -66,4 +66,24 @@ class Sector {
     public function setManager($manager){
     	$this->grants = $manager;
     }
+    
+    public function getFullname(){
+       $dep        = $this->getDepartment()?$this->getDepartment()->getName():'';
+	   $stoDep   = $dep?$this->getDepartment()->getStore()->getName().' - '.$dep:'';
+	   $fullname = $stoDep?$stoDep.' - '.$this->getName():$this->getName();
+	   return $fullname;
+    }
+    
+    public function toArray(){
+        $array = get_object_vars($this);
+        $array['department_id'] = $this->getDepartment()?$this->getDepartment()->getId():null;
+        unset($array['department']);
+        
+    	$array['manager_id'] = $this->getManager()?$this->getManager()->getId():null;
+        unset($array['manager']);
+        
+        $array['fullname'] = $this->getFullname();
+
+        return $array;
+    }
 }
