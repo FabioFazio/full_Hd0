@@ -108,6 +108,59 @@ class User {
         return $this->getName() . " <" . $this->getEmail() . ">";
     }
     
+    public function getQueues()
+    {
+        if(!isset($this->queues))
+        {
+            $gs = $this->getGroups()->toArray();
+            $fps = []; $qs = [];
+            foreach($gs as $g){
+            	foreach($g->getGrants()->toArray() as $gr){
+            		$fp = $gr->isFocalPoint();
+            		foreach($gr->getQueues()->toArray() as $q){
+            			if ($fp && !in_array($q, $fps)){
+            				$fps[] = $q->toArray();
+            			}
+            			else if(!$fp && !in_array($q, $qs)){
+            				$qs[] = $q->toArray();
+            			}
+            		}
+            		// merge two queues list
+            		foreach($qs as $i => $q){
+            			$fi = array_search($q, $fps);
+            			if ($fi===false){
+            				$qs[$i] = $q + ['focalpoint'=>0];
+            			}else{
+            				$queues[$i] = $q + ['focalpoint'=>1];
+            				unset($fps[$fi]);
+            			}
+            		}
+            		foreach($fps as $fp){
+            			$qs[] = $fp + ['focalpoint'=>1];
+            		}
+            	}
+            }
+            $this->queues = $qs;
+        }
+        return $this->queues;
+    }
+    
+    public function getSectors()
+    {
+    	if(!isset($this->sectors))
+    	{
+    		$gs = $this->getGroups()->toArray();
+    		$ss = [];
+    		foreach($gs as $g){
+    		    if ($s = $g->getSector()){
+        		    $ss[] = $s->toArray();
+    		    }
+    		}
+    		$this->sectors = $ss;
+    	}
+    	return $this->sectors;
+    }
+    
     public function toArray()
     {
     	$array = get_object_vars($this);
