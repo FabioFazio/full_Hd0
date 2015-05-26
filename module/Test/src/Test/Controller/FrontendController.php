@@ -433,21 +433,6 @@ class FrontendController extends ZtAbstractActionController {
     
     public function logoutAction()
     {
-        $user = $this->getSession()->user;
-        $username = ($user)?$user['username']:'[?]';
-        
-        $this->getStorageService()->forgetMe();
-        $this->getAuthService()->clearIdentity();
-        $this->getStorageService()->clear('');
-        
-        $this->flashmessenger()->addSuccessMessage('Sessione di lavoro terminata!');
-        $this->getLogService()->debug("Auth: $username Session terminated.");
-        
-        return $this->redirect()->toRoute('home');
-    }
-    
-    public function logoffAction()
-    {
     	$user = $this->getSession()->user;
         $username = ($user)?$user['username']:'[?]';
     

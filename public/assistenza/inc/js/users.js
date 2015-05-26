@@ -21,9 +21,12 @@ function usersInit()
 	// $ editor animation
     
     // ^ password collpase animation
-    $('#pass').on('hide.bs.collapse', function () {
+    $('#pass').on('hide.bs.collapse', function (e) {
     	  $this = $(this);
     	  $this.find('input').prop('disabled', true).val();
+    	  if(typeof(e)!='undefined' && $this.parents('form').find('input:hidden[name="id"][value="0"]').length>0){
+    		  e.preventDefault();
+    	  }
     	  //s$this.parent('form').reset();
     	});
     $('#pass').on('show.bs.collapse', function () {
@@ -33,42 +36,7 @@ function usersInit()
   		});
     // $ password collpase animation
     
-	// ^ init multiselect
 
-	var $mulstiselects = $('#user-queues').add('#user-focalpoint');
-	$mulstiselects.find('option').remove();
-	
-	$.ajax({
-		url:			queues_url,
-		type:			"POST",
-		datatype:		"json",
-		data:{
-			secret:			getUser().password
-		},
-		async: true,
-		success: function(data, status) {
-			window.console&&console.log(data); // for debugging
-			$.each(data, function(i, msg){
-				if($.inArray(i,['success','error','warning','info'])>=0){
-					toastr[i](msg);
-				}
-			});
-			if (!('error' in data) && ('queues' in data)){
-				//$( '#usersModal' ).prop('queues', data['queues']);
-				$mulstiselects = $('#user-queues').add('#user-focalpoint');
-				$.each(data['queues'], function(i,v){
-					if ($mulstiselects.find('option[value="'+v.id+'"]').length<1)
-						$mulstiselects.append($('<option>').val(v.id).text(v.name));
-				});
-				selectQueues = $('#user-queues').bootstrapDualListbox(duallist_queues_options);
-				selectFps = $('#user-focalpoint').bootstrapDualListbox(duallist_fps_options);
-			}
-		},
-		error: function(data, status) {
-				window.console&&console.log('<ajaxConsole ERROR> '+data+' </ajaxConsole ERROR>');
-			},
-	});
-	// $ init multiselect
 }
 
 function usersLoad(e)
@@ -98,6 +66,45 @@ function usersLoad(e)
 				window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>');
 			},
 	});
+	
+	// ^ init multiselect
+	if(typeof($mulstiselects)=='undefined')
+	{
+		var $mulstiselects = $('#user-queues').add('#user-focalpoint');
+		$mulstiselects.find('option').remove();
+		
+		$.ajax({
+			url:			queues_url,
+			type:			"POST",
+			datatype:		"json",
+			data:{
+				secret:			getUser().password
+			},
+			async: true,
+			success: function(data, status) {
+				window.console&&console.log(data); // for debugging
+				$.each(data, function(i, msg){
+					if($.inArray(i,['success','error','warning','info'])>=0){
+						toastr[i](msg);
+					}
+				});
+				if (!('error' in data) && ('queues' in data)){
+					//$( '#usersModal' ).prop('queues', data['queues']);
+					$mulstiselects = $('#user-queues').add('#user-focalpoint');
+					$.each(data['queues'], function(i,v){
+						if ($mulstiselects.find('option[value="'+v.id+'"]').length<1)
+							$mulstiselects.append($('<option>').val(v.id).text(v.name));
+					});
+					selectQueues = $('#user-queues').bootstrapDualListbox(duallist_queues_options);
+					selectFps = $('#user-focalpoint').bootstrapDualListbox(duallist_fps_options);
+				}
+			},
+			error: function(data, status) {
+					window.console&&console.log('<ajaxConsole ERROR> '+data+' </ajaxConsole ERROR>');
+				},
+		});
+	}
+	// $ init multiselect
 }
 
 function userEditorInit(target, button){
