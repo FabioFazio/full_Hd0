@@ -1,5 +1,9 @@
 <script type="text/javascript">
 <!--
+var tableUsers = null;
+var selectQueues = null;
+var selectFps = null;
+
 var table_users_options = {
 		"order": [[ 1, "asc" ]],	    
 		"aoColumnDefs" : [{
@@ -49,15 +53,12 @@ var confirmation_delete_options = {
 		btnCancelLabel: 'Annulla',
 		singleton: true,
 		popout: true,
-		onConfirm: function(){},	
+		onConfirm: function(){userDelete(toastr, this);},	
 };
 
 $( function($) {
 
 	$( '#usersModal div.modal-xl' ).css( "width", $(window).innerWidth()-50 );
-
-	$('#user-queues').bootstrapDualListbox(duallist_queues_options);
-	$('#user-fps').bootstrapDualListbox(duallist_fps_options);
 	
     $('#usersModal').on('show.bs.modal', function (e) {
         usersLoad(e);
@@ -110,7 +111,7 @@ $( function($) {
                                     <label for="email" class="control-label">
                                         <i class="glyphicon glyphicon-edit"></i> Email
                                     </label>
-                				    <input type="text" class="form-control text-right" name="email" 
+                				    <input type="email" class="form-control text-right" name="email" 
                 				        placeholder="Email aziendale"
                 				        data-validation-error-msg="Inserire una email di lavoro valida (@iper.it, @ortofin.it o @unes.it)"
                                         data-validation="email domain required" 
@@ -141,10 +142,10 @@ $( function($) {
                                 </div>
                                 
                                 <div class="form-group input-group col-md-12">
-                                    <label for="newsId" class="control-label">
+                                    <label for="sector" class="control-label">
                                        <i class="glyphicon glyphicon-list"></i> Settore Aziendale
                                     </label>
-                                    <select class="form-control valid" id="newsId" name="newsId" aria-invalid="false">
+                                    <select class="form-control valid" name="sector" aria-invalid="false">
                                         <option value="0" selected="selected">--- Non Definito ---</option>
                                     </select>
                                 </div>

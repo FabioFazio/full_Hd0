@@ -36,6 +36,9 @@ class User {
 	/** @ORM\ManyToMany(targetEntity="Ticket") */
 	protected $tracks;
 	
+	/** @ORM\Column(type="boolean") */
+	protected $disabled;
+	
 	public function __construct(){
 		$this->groups = new ArrayCollection();
 		$this->tracks = new ArrayCollection();
@@ -102,6 +105,14 @@ class User {
     
     public function setAdministrator($administrator){
     	$this->administrator = $administrator;
+    }
+    
+    public function isDisabled(){
+    	return $this->disabled?:false;
+    }
+    
+    public function setDisabled($disabled){
+    	$this->disabled = $disabled;
     }
     
     public function getFullname(){

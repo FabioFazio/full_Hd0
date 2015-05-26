@@ -576,17 +576,16 @@ class FrontendController extends ZtAbstractActionController {
         $user = $this->getSession()->user;
     	$result = [];
 
-    	// Popola i messaggi
     	$userObject = $this->getObjectManager()->find('Test\Entity\User', $user['id']);
     	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
     	       !$userObject->isAdministrator())
     	{
-    		$result['alert-danger'] = "La sessione è terminata. Effetturare Logout e Login per continuare";
+    		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
     		//return $this->jsonModel ( $result );
     	}
     	$result['users'] = [];
     
-    	$result['users'] = $this->getObjectManager()->getRepository("Test\Entity\User")->findAll();
+    	$result['users'] = $this->getObjectManager()->getRepository("Test\Entity\User")->findBy(['disabled'=>false]);
     		
     	array_walk($result['users'], function(&$v){
             $qs = $v->getQueues();
@@ -610,6 +609,92 @@ class FrontendController extends ZtAbstractActionController {
     		die(var_dump( $result ));
     	else
     		return $this->jsonModel ( $result );
+    }
+    
+    public function getQueuesAction()
+    {
+    	$input = $this->request->getPost ()->toArray();
+    	$user = $this->getSession()->user;
+    	$result = [];
+    
+    	$userObject = $this->getObjectManager()->find('Test\Entity\User', $user['id']);
+    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	       !$userObject->isAdministrator())
+    	{
+    		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
+    		//return $this->jsonModel ( $result );
+    	}
+    	$result['queues'] = [];
+    
+    	$result['queues'] = $this->getObjectManager()->getRepository("Test\Entity\Queue")->findBy(['disabled'=>false]);
+    
+    	array_walk($result['queues'], function(&$v){
+    		$v = $v->toArray();
+    		unset($v['filters']);
+    	});
+    
+		if ($this->request->getQuery('dump', false))
+			die(var_dump( $result ));
+		else
+			return $this->jsonModel ( $result );
+    }
+    
+    public function getSectorsAction()
+    {
+    	$input = $this->request->getPost ()->toArray();
+    	$user = $this->getSession()->user;
+    	$result = [];
+    
+    	$userObject = $this->getObjectManager()->find('Test\Entity\User', $user['id']);
+    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	!$userObject->isAdministrator())
+    	{
+    		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
+    		//return $this->jsonModel ( $result );
+    	}
+    	$result['sectors'] = [];
+    
+    	$result['sectors'] = $this->getObjectManager()->getRepository("Test\Entity\Sector")->findBy(['disabled'=>false]);
+    
+    	array_walk($result['sectors'], function(&$v){
+    		$v = $v->toArray();
+    	});
+    
+    		if ($this->request->getQuery('dump', false))
+    			die(var_dump( $result ));
+    		else
+    			return $this->jsonModel ( $result );
+    }
+    
+    public function userDeleteAction()
+    {
+    	$input = $this->request->getPost ()->toArray();
+    	$user = $this->getSession()->user;
+    	$om = $this->getObjectManager();
+    	$result = [];
+    
+    	$userObject = $om->find('Test\Entity\User', $user['id']);
+    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	   !$userObject->isAdministrator())
+    	{
+    		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
+    	}
+    	//else
+    	    if (isset($input['id']) && 
+    	       $userToDelete = $om->find('Test\Entity\User', $input['id']))
+    	{
+            $userToDelete->setDisabled(true);
+            $db = $om->persist($userToDelete);
+            $om->flush();
+            $result['success'] = 'Utente cancellato correttamente!';
+    	}else{
+    	    $result['error'] = "Nessun utente è stato cancellato.";
+    	}
+
+		if ($this->request->getQuery('dump', false))
+			die(var_dump( $result ));
+		else
+			return $this->jsonModel ( $result );
     }
     
     public function indexAction()

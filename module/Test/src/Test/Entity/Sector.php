@@ -27,6 +27,9 @@ class Sector {
 	/** @ORM\ManyToOne(targetEntity="Department") */
 	protected $department;
 	
+	/** @ORM\Column(type="boolean") */
+	protected $disabled;
+	
 	public function getId(){
 	    return $this->id;
 	}
@@ -71,6 +74,14 @@ class Sector {
        $dep        = $this->getDepartment()?$this->getDepartment()->getFullname():'';
 	   $fullname   = $dep?$dep.' - '.$this->getName():$this->getName();
 	   return $fullname;
+    }
+    
+    public function isDisabled(){
+    	return $this->disabled?:false;
+    }
+    
+    public function setDisabled($disabled){
+    	$this->disabled = $disabled;
     }
     
     public function toArray(){
