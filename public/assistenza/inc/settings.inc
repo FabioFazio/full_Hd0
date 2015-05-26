@@ -2,21 +2,9 @@
 <!--
 $( function($) {
 	
-	// $( '#settings' ).modal({
-	// 	keyboard : false,
-	// 	backdrop: 'static',
-	// });
-	
-    $('#settings').on('show.bs.modal', function (e) {
-        var user = getUser();
-        $(this).find('form').attr('action',settings_url);
-    	$('button[data-dismiss="modal"]', $('#settings')).fadeIn();
-    	$('input[name="id"]', $('#settings')).val(user.id);
-    	$('input[name="name"]', $('#settings')).val(user.name);
-    	$('input[name="username"]', $('#settings')).val(user.username);
-    	$('input[name="email_confirmation"]', $('#settings'))
-    	   .add('input[name="email"]', $('#settings'))
-    	       .val(user.email);
+	$('#settings').on('show.bs.modal', function (e) {
+		$(this).find('form').attr('action',settings_url);
+		onShowSettingsModal(e);
     });
 });
 -->
@@ -31,7 +19,7 @@ $( function($) {
         <h4 class="modal-title form-signin-heading text-center" id="settingsLabel">Impostazioni Utente</h4>
       </div>
       <form id="profile" class="form-settings" data-refresh="0" data-async data-validate data-target="#settings [name='feedback']" 
-        action="" method="POST">
+        method="POST" action>
       <div class="modal-body">
          <span name="feedback">
              <p class="alert alert-warning">

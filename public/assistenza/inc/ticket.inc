@@ -2,23 +2,10 @@
 <!--
 $( function($) {
 	
-    var $modal = $('#ticketModal');
- 	
-    $modal.on('show.bs.modal', function (e) {
+    $('#ticketModal').on('show.bs.modal', function (e) {
+    	   $(this).find('form').attr('action',ticket_save_url);
     		onShowTicketModal(e);
 		});       
-	
-/* $("#ticketModal").on ("change", "#tagCloud :checkbox", function(e) {
-	var buttons = $(this).siblings("[data-toggle='buttons']").eq(0);
-	$('label < :checked', buttons).eq(0).button('toggle').find(':checkbox').prop('checked');
-});
-
-$("#tagCloud [data-toggle='buttons']").change(function (e) {
-	var tag = $("#tagCloud :checkbox").map(function () {
-     return +$(this).is(':checked');
- }).get(); 
- console.log(tag);
-*/
 });
 -->
 </script>
@@ -28,7 +15,7 @@ $("#tagCloud [data-toggle='buttons']").change(function (e) {
 	<div class="modal-dialog">
 		<div class="modal-content">
 		    <form method="post" data-validate data-refresh="3000" data-async data-target="#ticketModal [name='feedback']" method="POST"
-		      action="/hd0/test/frontend/saveTicket" >  <!-- todo@businessLogic -->
+		      action>
 		    
 		    <div class="zero-clipboard" data-name="queue-name" data-prop="title" title="Queue" >
 		      <span class="queue-color btn-clipboard" >

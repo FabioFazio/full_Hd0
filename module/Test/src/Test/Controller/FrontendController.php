@@ -462,13 +462,12 @@ class FrontendController extends ZtAbstractActionController {
     	return $this->jsonModel( $result );
     }
     
-    public function settingsAction()
+    public function saveSettingsAction()
     {
-        
         //validate input
         $input = [];
         $errors = $this->inputEvaulate ($input, [
-        	   'id'		=> '/'. $this->getSession()->user->getId(). '/',
+        	   'id'		=> '/'. $this->getSession()->user['id'] .'/',
         	   'name'		=> '/[.]*/',
         	   'email'		=> '/[.]*/',
     	   ]);
@@ -481,7 +480,7 @@ class FrontendController extends ZtAbstractActionController {
     	$user->setEmail($input['email']);
     	$user->setName($input['name']);
     	$objectManager->persist($user); // local commit
-    	$this->getSession()->user = $user; // push on session
+    	$this->getSession()->user = $user->toArray(); // push on session
     	$objectManager->flush(); // push on db
     	$error = false;
     	
