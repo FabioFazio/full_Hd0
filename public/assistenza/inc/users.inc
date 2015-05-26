@@ -187,30 +187,10 @@ $( function($) {
                             <div class="col-md-8 row">
                                 <div class="form-group col-md-12 well well-xs">
                                     <select multiple="multiple" size="10" id="user-queues" name="queues[]">
-                                        <option value="option1">Option 1</option>
-                                        <option value="option2">Option 2</option>
-                                        <option value="option3" selected="selected">Option 3</option>
-                                        <option value="option4">Option 4</option>
-                                        <option value="option5">Option 5</option>
-                                        <option value="option6" selected="selected">Option 6</option>
-                                        <option value="option7">Option 7</option>
-                                        <option value="option8">Option 8</option>
-                                        <option value="option9">Option 9</option>
-                                        <option value="option10">Option 10</option>
                                     </select>
                                 </div><div class="form-group col-md-12 well well-xs">
                                     <select multiple="multiple" size="10" id="user-focalpoint" name="focalpoint[]">
-                                        <option value="option1">Option 1</option>
-                                        <option value="option2">Option 2</option>
-                                        <option value="option3" selected="selected">Option 3</option>
-                                        <option value="option4">Option 4</option>
-                                        <option value="option5">Option 5</option>
-                                        <option value="option6" selected="selected">Option 6</option>
-                                        <option value="option7">Option 7</option>
-                                        <option value="option8">Option 8</option>
-                                        <option value="option9">Option 9</option>
-                                        <option value="option10">Option 10</option>
-                                    </select>
+                                      </select>
                                 </div>        
                             </div>
                         </div>
@@ -240,47 +220,7 @@ $( function($) {
                         </tr>
                       </thead>
 
-
                       <tbody>
-                        <tr>
-                            <td>
-                                <a title="Modifica" class="btn btn-sm btn-info" data-show="#usersEditor">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-                                <a class="btn btn-sm btn-danger" data-toggle="confirmation"
-                                    title="" data-original-title="Vuoi davvero cancellare questo utente in modo permanente?">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </a>
-                            </td>
-                          <td>fabio</td>
-                          <td>Fabio</td>
-                          <td>fabio.fazio@zenatek.it</td>
-                          <td>*****</td>
-                          <td>Busnago-Scatolame-Profumeria</td>
-                          <td>1</td>
-                          <td>0</td>
-                          <td>Falso</td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <a title="Modifica" class="btn btn-sm btn-info" data-show="#usersEditor">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-                                <a class="btn btn-sm btn-danger" data-toggle="confirmation"
-                                    title="" data-original-title="Vuoi davvero cancellare questo utente in modo permanente?">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </a>
-                            </td>
-                            <td>fabio</td>
-                            <td>Fabio</td>
-                            <td>fabio.fazio@zenatek.it</td>
-                            <td>*****</td>
-                            <td>Busnago-Scatolame-Profumeria</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>Falso</td>
-                        </tr>                        
                       </tbody>
 
                     </table>
