@@ -585,9 +585,9 @@ class FrontendController extends ZtAbstractActionController {
     	}
     	$result['users'] = [];
     
-    	$result['users'] = $this->getObjectManager()->getRepository("Test\Entity\User")->findBy(['disabled'=>false]);
+    	$users = $this->getObjectManager()->getRepository("Test\Entity\User")->findBy(['disabled'=>false]);
     		
-    	array_walk($result['users'], function(&$v){
+    	array_walk($users, function(&$v){
             $qs = $v->getQueues();
             $ss = $v->getSectors();
             
@@ -602,8 +602,12 @@ class FrontendController extends ZtAbstractActionController {
     	    $v['focalpoint'] = array_filter($qs, function($q){return $q['fp'];});
     	    $v['queues'] = array_filter($qs, function($q){return !$q['fp'];});
     	    $v['password'] = sha1($v['password']);
-    	    $v['sector'] = $ss?current($ss):'';
+    	    $v['sector'] = $ss?current($ss):null;
     	});
+    	
+    	foreach ($users as $user){
+    	    $result['users'][$user['id']] = $user;
+    	}
     
     	if ($this->request->getQuery('dump', false))
     		die(var_dump( $result ));
@@ -626,12 +630,16 @@ class FrontendController extends ZtAbstractActionController {
     	}
     	$result['queues'] = [];
     
-    	$result['queues'] = $this->getObjectManager()->getRepository("Test\Entity\Queue")->findBy(['disabled'=>false]);
+    	$queues = $this->getObjectManager()->getRepository("Test\Entity\Queue")->findBy(['disabled'=>false]);
     
-    	array_walk($result['queues'], function(&$v){
+    	array_walk($queues, function(&$v){
     		$v = $v->toArray();
     		unset($v['filters']);
     	});
+    	
+	    foreach ($queues as $queue){
+	    	$result['queues'][$queue['id']] = $queue;
+	    }
     
 		if ($this->request->getQuery('dump', false))
 			die(var_dump( $result ));
@@ -654,16 +662,21 @@ class FrontendController extends ZtAbstractActionController {
     	}
     	$result['sectors'] = [];
     
-    	$result['sectors'] = $this->getObjectManager()->getRepository("Test\Entity\Sector")->findBy(['disabled'=>false]);
+    	$sectors = $this->getObjectManager()->getRepository("Test\Entity\Sector")->findBy(['disabled'=>false]);
     
-    	array_walk($result['sectors'], function(&$v){
+    	array_walk($sectors, function(&$v){
     		$v = $v->toArray();
+    		unset($v['filters']);
     	});
     
-    		if ($this->request->getQuery('dump', false))
-    			die(var_dump( $result ));
-    		else
-    			return $this->jsonModel ( $result );
+	    foreach ($sectors as $sector){
+	    	$result['sectors'][$sector['id']] = $sector;
+	    }    	
+    	
+		if ($this->request->getQuery('dump', false))
+			die(var_dump( $result ));
+		else
+			return $this->jsonModel ( $result );
     }
     
     public function userDeleteAction()

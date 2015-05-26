@@ -30,10 +30,10 @@ var duallist_default_options = {
 		  moveOnSelect: false,
 		  filterTextClear: 'Mostrali tutti',
 		  filterPlaceHolder: 'Filtro di ricerca',
-		  moveSelectedLabel: 'Sposta gli elementi selezionati',
-		  moveAllLabel: 'Spostali tutti',
-		  removeSelectedLabel: 'Rimuovi gli elementi selezionati',
-		  removeAllLabel: 'Rimuovili tutti',
+		  moveSelectedLabel: 'Attiva gli elementi selezionati',
+		  moveAllLabel: 'Attivali tutti',
+		  removeSelectedLabel: 'Disattiva gli elementi selezionati',
+		  removeAllLabel: 'Disattivali tutti',
 		  selectorMinimalHeight: 100, //100 is default
 		  infoText:	'Mostra tutti i {0} elementi',
 		  infoTextFiltered: '<span class="label label-warning">Filtro Attivo</span> {0} di {1}',
@@ -80,6 +80,9 @@ $( function($) {
             
                 <div id="usersEditor" data-flip="#usersList" class="hidden">
                 <form data-validate>
+                
+                        <input type="hidden" name="id" value="0"/>
+                
            				<div class="row">
             				<div class="col-md-4">
             					
@@ -117,29 +120,46 @@ $( function($) {
                                         data-validation="email domain required" 
                 				        />
                                 </div>
-                                                                
-            					<div class="form-group input-group col-md-12">
-                                    <label for="password_confirmation" class="control-label">
-                                        <i class="glyphicon glyphicon-edit"></i> Cambia Password
-                                    </label>
-                				    <input type="password" class="form-control text-right" name="password_confirmation"
-                				        placeholder="Password" 
-                                        data-validation-error-msg="Password non abbastanza sicura"
-                                        data-validation="strength"
-                                        data-validation-strength="1"
-                                        />
-                                </div>                                
-                                                                
-            					<div class="form-group input-group col-md-12">
-                                    <label for="password" class="control-label">
-                                        <i class="glyphicon glyphicon-edit"></i> Conferma Password
-                                    </label>
-                                    <input type="password" class="form-control text-right" name="password" 
-                                        placeholder="Conferma Password"
-                                        data-validation="confirmation"
-                                        data-validation-error-msg="Riscrivere la password per conferma!"
-                                        />
+                                
+                                
+                                 <div role="tablist" class="panel panel-default">
+                                    <div class="panel-heading" id="labelPass" role="tab">
+                                        <h3 class="panel-title strong text-center">
+                                            <a href="#pass" aria-controls="pass" aria-expanded="true" data-toggle="collapse">
+                                                Password
+                                            </a>
+                                        </h3>
+                                    </div>
+                                    
+                                        <div class="panel-collapse collpse in" role="tabpanel" aria-labeledby="labelPass" id="pass">
+                                            <div class="panle-bpdy">
+                            					<div class="form-group input-group col-md-12" style="margin-top: 15px;">
+                                                    <label for="password_confirmation" class="control-label">
+                                                        <i class="glyphicon glyphicon-edit"></i> Nuova Password
+                                                    </label>
+                                				    <input type="password" class="form-control text-right" name="password_confirmation"
+                                				        placeholder="Nuova Password" 
+                                                        data-validation-error-msg="Password non abbastanza sicura"
+                                                        data-validation="strength"
+                                                        data-validation-strength="1"
+                                                        />
+                                                </div>                                
+                                                                                
+                            					<div class="form-group input-group col-md-12">
+                                                    <label for="password" class="control-label">
+                                                        <i class="glyphicon glyphicon-edit"></i> Conferma Nuova Password
+                                                    </label>
+                                                    <input type="password" class="form-control text-right" name="password" 
+                                                        placeholder="Conferma Password"
+                                                        data-validation="confirmation"
+                                                        data-validation-error-msg="Riscrivere la password per conferma!"
+                                                        />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
                                 </div>
+                                
                                 
                                 <div class="form-group input-group col-md-12">
                                     <label for="sector" class="control-label">
@@ -166,7 +186,7 @@ $( function($) {
                                                         
                             <div class="col-md-8 row">
                                 <div class="form-group col-md-12 well well-xs">
-                                    <select multiple="multiple" size="10" id="user-queues" name="userQueues[]">
+                                    <select multiple="multiple" size="10" id="user-queues" name="queues[]">
                                         <option value="option1">Option 1</option>
                                         <option value="option2">Option 2</option>
                                         <option value="option3" selected="selected">Option 3</option>
@@ -179,7 +199,7 @@ $( function($) {
                                         <option value="option10">Option 10</option>
                                     </select>
                                 </div><div class="form-group col-md-12 well well-xs">
-                                    <select multiple="multiple" size="10" id="user-fps" name="userFps[]">
+                                    <select multiple="multiple" size="10" id="user-focalpoint" name="focalpoint[]">
                                         <option value="option1">Option 1</option>
                                         <option value="option2">Option 2</option>
                                         <option value="option3" selected="selected">Option 3</option>

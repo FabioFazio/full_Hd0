@@ -1,15 +1,15 @@
 /* Library for users.inc */
 function usersInit()
 {
-	var $modal = $( '#usersModal div.modal-xl' ); 
-	$modal.css( "width", $(window).innerWidth()-50 );
+	var $modal = $( '#usersModal' ); 
+	$modal.find('div.modal-xl').css( "width", $(window).innerWidth()-50 );
     tableUsers = tableUsers?tableUsers:$('#users').dataTable(table_users_options).api();
 	
 	// ^ editor animation
     $modal.on('click', '[data-show]', function(){
 		var target = $(this).attr('data-show');
 		var twin = $(target).attr('data-flip');
-		initUserEditor(target, this);
+		userEditorInit(target, this);
 		$(target).add(twin).toggleClass('hidden');
 	});
 	
@@ -19,6 +19,56 @@ function usersInit()
 		$(target).add(twin).toggleClass('hidden');
 	});
 	// $ editor animation
+    
+    // ^ password collpase animation
+    $('#pass').on('hide.bs.collapse', function () {
+    	  $this = $(this);
+    	  $this.find('input').prop('disabled', true).val();
+    	  //s$this.parent('form').reset();
+    	});
+    $('#pass').on('show.bs.collapse', function () {
+	  	  $this = $(this);
+		  $this.find('input').prop('disabled', false);
+
+  		});
+    // $ password collpase animation
+    
+	// ^ init multiselect
+
+	var $mulstiselects = $('#user-queues').add('#user-focalpoint');
+	$mulstiselects.find('option').remove();
+	
+	$.ajax({
+		url:			queues_url,
+		type:			"POST",
+		datatype:		"json",
+		data:{
+			secret:			getUser().password
+		},
+		async: true,
+		success: function(data, status) {
+			window.console&&console.log(data); // for debugging
+			$.each(data, function(i, msg){
+				if($.inArray(i,['success','error','warning','info'])>=0){
+					toastr[i](msg);
+				}
+			});
+			if (!('error' in data) && ('queues' in data)){
+				//$( '#usersModal' ).prop('queues', data['queues']);
+				$mulstiselects = $('#user-queues').add('#user-focalpoint');
+				$.each(data['queues'], function(i,v){
+					if ($mulstiselects.find('option[value="'+v.id+'"]').length<1)
+						$mulstiselects.append($('<option>').val(v.id).text(v.name));
+				});
+				selectQueues = $('#user-queues').bootstrapDualListbox(duallist_queues_options);
+				selectFps = $('#user-focalpoint').bootstrapDualListbox(duallist_fps_options);
+			}
+		},
+		error: function(data, status) {
+				window.console&&console.log('<ajaxConsole ERROR> '+data+' </ajaxConsole ERROR>');
+			},
+	});
+	// $ init multiselect
 }
 
 function usersLoad(e)
@@ -42,6 +92,7 @@ function usersLoad(e)
 		success: function(data, status) {
 			window.console&&console.log(data); // for debugging
 			populateUsers(data['users']);
+			$( '#usersModal' ).prop('users', data['users']);
 		},
 		error: function(data, status) {
 				window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>');
@@ -49,12 +100,15 @@ function usersLoad(e)
 	});
 }
 
-function initUserEditor(target, button){
+function userEditorInit(target, button){
 	// ^ reset old data
+	var id = $(button).attr('data-id');
+
 	$(target).find('input').val('');
+	$(target).find('input[name="id"]').val(id);
 	
 	// ^ reset select
-	$sector = $(target).find('select[name="sector"]');
+	var $sector = $(target).find('select[name="sector"]');
 	$sector.find('option[value="0"]').siblings('option').remove();
 	$sector.val(0);
 	$.ajax({
@@ -74,7 +128,9 @@ function initUserEditor(target, button){
 			});
 			if (!('error' in data) && ('sectors' in data)){
 				$.each(data['sectors'], function(i,v){
-					$sector.append($('<option>').val(v.id).text(v.fullname));
+					$sector = $(target).find('select[name="sector"]');
+					if ($sector.find('option[value="'+v.id+'"]').length<1)
+							$sector.append($('<option>').val(v.id).text(v.fullname));
 				});
 			}
 		},
@@ -83,50 +139,76 @@ function initUserEditor(target, button){
 			},
 	});
 	// $ reset select
-	
 	$(target).find('form').get(0).reset();
 
 	// ^ reset multiselect
-
-//	if (selectQueues)
-//		selectQueues.destroy();
-//	if (selectFps)
-//		selectFps.destroy();
 	
-	var $mulstiselects = $('#user-queues').add('#user-fps');
-	$mulstiselects.find('option').remove();
+	$mulstiselects = $('#user-queues').add('#user-focalpoint');
+	$mulstiselects.find('option[data-history]').remove();
+	$mulstiselects.find('option[selected]').removeAttr('selected');
+	selectQueues.bootstrapDualListbox('refresh', true);
+	selectFps.bootstrapDualListbox('refresh', true);
 	
-	$.ajax({
-		url:			queues_url,
-		type:			"POST",
-		datatype:		"json",
-		data:{
-			secret:			getUser().password
-		},
-		async: true,
-		success: function(data, status) {
-			window.console&&console.log(data); // for debugging
-			$.each(data, function(i, msg){
-				if($.inArray(i,['success','error','warning','info'])>=0){
-					toastr[i](msg);
-				}
-			});
-			if (!('error' in data) && ('queues' in data)){
-				$.each(data['queues'], function(i,v){
-					$mulstiselects.append($('<option>').val(v.id).text(v.name));
-				});
-				selectQueues = $('#user-queues').bootstrapDualListbox(duallist_queues_options);
-				selectFps = $('#user-fps').bootstrapDualListbox(duallist_fps_options);
-			}
-		},
-		error: function(data, status) {
-				window.console&&console.log('<ajaxConsole ERROR> '+data+' </ajaxConsole ERROR>');
-			},
-	});
 	// $ reset multiselect
 	
-	
 	// $ reset old data
+	
+	// ^ populate new data
+
+	if (id>0)
+	{
+		var users = $( '#usersModal' ).prop('users');
+		if (id in users){
+			var user = users[id];
+			$(target).find('input[name="username"]').val(user.username).prop('disabled', true);
+			$(target).find('input[name="name"]').val(user.name);
+			$(target).find('input[name="email"]').val(user.email==user.username?'':user.email);
+			$('#pass').collapse('hide');
+			
+			if (user.sector!=null)
+			{
+				var $sector = $(target).find('select[name="sector"] option[value="'+user.sector.id+'"]');
+				if ($sector.length<1){
+					$('#usersModal').find('select[name="sector"]')
+						.append($('<option>').val(user.sector.id).text(user.sector.fullname));
+				}
+				$(target).find('select[name="sector"]').val(user.sector.id);
+			} else
+				$(target).find('select[name="sector"]').val(0);
+
+			
+			$(target).find(':checkbox[name="administrator"]').prop('checked', user.administrator);
+			
+			
+			if (user.queues.length){
+				$.each(user.queues, function(i,q){
+					if (selectQueues.find('option[value="'+q.id+'"]').length<1){
+						selectQueues.append($('<option data-history>').val(q.id).text(q.name));
+					}
+					selectQueues.find('option[value="'+q.id+'"]').attr('selected','selected');
+				});
+				selectQueues.bootstrapDualListbox('refresh', true);
+			}
+			if (user.focalpoint.length){
+				$.each(user.focalpoint, function(i,q){
+					if (selectFps.find('option[value="'+q.id+'"]').length<1){
+						selectFps.append($('<option data-history>').val(q.id).text(q.name));
+					}
+					selectFps.find('option[value="'+q.id+'"]').attr('selected','selected');
+					
+				});
+				selectFps.bootstrapDualListbox('refresh', true);
+			}
+		}else{
+			toastr['error']
+				('Non &egrave; stato possibile caricare l\'utente. Segnalare questo problema agli amministratori del servizio!');
+		}
+	}else{
+		$(target).find('input[name="username"]').prop('disabled', false);
+		$('#pass').collapse('show');
+	}
+	
+	// $ populate new data
 
 }
 
@@ -139,16 +221,21 @@ function populateUsers(data){
 	$edit.html('<span class="glyphicon glyphicon-pencil"></span>');
 	$remove.html('<span class="glyphicon glyphicon-trash"></span>');
 	$.each(data, function(index, user){
+		var sector = user.sector?user.sector.fullname:'';
+		var $delete = $remove.clone().attr('data-id',user.id);
+		if(user.id==getUser().id)
+			$delete.attr('disabled','disabled');
+		
 		tableUsers.row.add([
-           $('<div>&nbsp;</div>').prepend($edit.clone().attr('data-id',user.id))
-           		.append($remove.clone().attr('data-id',user.id)).html(),
+           $('<div>&nbsp;</div>').append($delete)
+           		.prepend($edit.clone().attr('data-id',user.id)).html(),
            user.username,
            user.name,
            user.email==user.username?'':user.email,
-           $('<div>').append($('<span>').attr('data-value',user.password).text('*****')).html(),
-           $('<div>').append($('<span>').attr('data-value',user.sector.id).text(user.sector.fullname)).html(),
-           $('<div>').append($('<span>').attr('data-value',JSON.stringify(user.queues)).text(user.queues.length)).html(),
-           $('<div>').append($('<span>').attr('data-value',JSON.stringify(user.focalpoint)).text(user.focalpoint.length)).html(),
+           $('<div>').append($('<span>').text('*****')).html(),
+           $('<div>').append($('<span>').text( sector )).html(),
+           $('<div>').append($('<span>').text(user.queues.length)).html(),
+           $('<div>').append($('<span>').text(user.focalpoint.length)).html(),
     	   $('<div>').append($('<i class="glyphicon">')
     			   .addClass(user.administrator?'glyphicon-ok alert-success':'glyphicon-remove alert-danger')
     			   .attr('data-value',user.administrator)).html(),
