@@ -2,6 +2,8 @@
 <!--
 $( function($) {
 
+	$( '#login' ).find('form').attr('action',login_url);
+
 	if ( !(splashscreen || authenticated) )
 	{
         $( '#login' ).modal({
@@ -35,8 +37,7 @@ $( function($) {
         <h3 class="modal-title form-signin-heading text-center" id="loginLabel">Autenticazione</h3>
       </div>
       <form id="auth" class="form-signin" data-refresh="0" data-async data-validate data-target="#login [name='feedback']" 
-        action="/hd0/login"
-        method="POST"> <!-- todo@buisnesslogic -->
+        method="POST" action> <!-- todo@buisnesslogic -->
       <div class="modal-body" style="background-color: #f5f5f5;">
 <!-- ?php if($user): ? -->
         <input type="hidden" id="auth_id" name="id" value="">
