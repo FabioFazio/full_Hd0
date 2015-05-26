@@ -1,24 +1,30 @@
 /* Library for users.inc */
-function usersLoad(e)
+function usersInit()
 {
-    //var $related = $(e.relatedTarget);
-    var $current = $(e.currentTarget);
+	var $modal = $( '#usersModal div.modal-xl' ); 
+	$modal.css( "width", $(window).innerWidth()-50 );
     tableUsers = tableUsers?tableUsers:$('#users').dataTable(table_users_options).api();
 	
 	// ^ editor animation
-	$current.on('click', '[data-show]', function(){
+    $modal.on('click', '[data-show]', function(){
 		var target = $(this).attr('data-show');
 		var twin = $(target).attr('data-flip');
 		initUserEditor(target, this);
 		$(target).add(twin).toggleClass('hidden');
 	});
 	
-	$current.on('click', '[data-hide]', function(){
+    $modal.on('click', '[data-hide]', function(){
 		var target = $(this).attr('data-hide');
 		var twin = $(target).attr('data-flip');
 		$(target).add(twin).toggleClass('hidden');
 	});
 	// $ editor animation
+}
+
+function usersLoad(e)
+{
+    //var $related = $(e.relatedTarget);
+    //var $current = $(e.currentTarget);
 	
 	// ^ clean old data
 	tableUsers.rows().remove();

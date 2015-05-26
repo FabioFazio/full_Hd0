@@ -58,7 +58,7 @@ var confirmation_delete_options = {
 
 $( function($) {
 
-	$( '#usersModal div.modal-xl' ).css( "width", $(window).innerWidth()-50 );
+    usersInit();
 	
     $('#usersModal').on('show.bs.modal', function (e) {
         usersLoad(e);
@@ -266,7 +266,7 @@ $( function($) {
                     </table>
                     
                     <div class="text-right" style="margin-top: 10px;">
-                        <button data-show="#usersEditor" type="button" class="btn btn-primary">
+                        <button data-show="#usersEditor" type="button" data-id="0" class="btn btn-primary">
                             <span class="glyphicon glyphicon-plus"></span> Aggiungi
                         </button>                        
                         <button type="button" class="btn btn-default" data-dismiss="modal">
