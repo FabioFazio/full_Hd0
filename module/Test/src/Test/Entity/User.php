@@ -124,7 +124,7 @@ class User {
         if(!isset($this->queues))
         {
             $gs = $this->getGroups()->toArray();
-            $fps = []; $qs = [];
+            $fps = []; $qs = []; $queues = [];
             foreach($gs as $g){
             	foreach($g->getGrants()->toArray() as $gr){
             		$fp = $gr->isFocalPoint();
@@ -137,21 +137,21 @@ class User {
             			}
             		}
             		// merge two queues list
-            		foreach($qs as $i => $q){
+            		foreach($qs as $q){
             			$fi = array_search($q, $fps);
             			if ($fi===false){
-            				$qs[$i] = $q + ['focalpoint'=>0];
+            				$queues[$q['id']] = $q + ['focalpoint'=>0];
             			}else{
-            				$queues[$i] = $q + ['focalpoint'=>1];
+            				$queues[$q['id']] = $q + ['focalpoint'=>1];
             				unset($fps[$fi]);
             			}
             		}
             		foreach($fps as $fp){
-            			$qs[] = $fp + ['focalpoint'=>1];
+            			$queues[$fp['id']] = $fp + ['focalpoint'=>1];
             		}
             	}
             }
-            $this->queues = $qs;
+            $this->queues = array_values($queues);
         }
         return $this->queues;
     }
