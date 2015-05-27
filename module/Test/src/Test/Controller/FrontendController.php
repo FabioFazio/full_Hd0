@@ -13,6 +13,7 @@ use Zend\Config\Config;
 //use Zend\Log\Filter\Priority as LogFilter;
 use Test\Entity\Service;
 use Zend\Validator\File\Sha1;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class FrontendController extends ZtAbstractActionController {
 
@@ -158,7 +159,7 @@ class FrontendController extends ZtAbstractActionController {
         	if (count($objectManager->getRepository('Test\Entity\Group')->findAll())){
         	    $queues = $userObj->getQueues();
         	}else{
-        		$queues = $objectManager->getRepository('Test\Entity\Queue')->findBy([],['order'=>'ASC']);
+        		$queues = $objectManager->getRepository('Test\Entity\Queue')->findBy(['removed'=>false],['order'=>'ASC']);
         	}
 
         	$this->getSession()->queues = $queues;
@@ -262,12 +263,16 @@ class FrontendController extends ZtAbstractActionController {
         
         // Popola i messaggi
         $userObject = $objectManager->find('Test\Entity\User', $user['id']);
+        $sectors = [];
         $result['messages'] = [];
         
+        // Prenso i messaggi per i settori e non per i gruppi: funzionalità disponibile ma non implementata
         foreach($userObject->getGroups()->toArray() as $group)
-        {
-            $result['messages'] = array_merge($result['messages'], $group->getAnnouncements()->toArray());
-        }
+            $sectors = array_merge($sectors, [$group->getSector()]);
+        
+        foreach($sectors as $sector)
+        	$result['messages'] = array_merge($result['messages'], $sector->getAnnouncements()->toArray());
+
         $broadcasts = $objectManager->getRepository('Test\Entity\Announcement')->findBy(array('broadcast' => 1));
         $result['messages'] = array_merge($result['messages'], $broadcasts);
         
@@ -399,7 +404,7 @@ class FrontendController extends ZtAbstractActionController {
             return $this->jsonModel ( $errors );
         
         
-        if (!($user = $this->authentication($input)))
+        if (!($user = $this->authentication($input)) || $user->isDisabled())
         {
             $result = ['alert-danger' =>
             $this->formatErrorMessage( 'Nome Utente o Password errati!', 0) ];
@@ -415,7 +420,7 @@ class FrontendController extends ZtAbstractActionController {
     	    $queues = $this->getUserQueues();
     	    
     	    $email = ($user->getEmail() == $user->getUsername())? '' : $user->getEmail();
-    	    $alertSuccess = $this->formatSuccessMessage('Benvenuto/a '. $user->getName()?:$user->getUsername() .'!', 0);
+    	    $alertSuccess = $this->formatSuccessMessage('Benvenuto/a '. $user->getName()?:$user->getUsername() . '!', 0);
     	    
     	    $arrayUser = $user->toArray(); 
     	    $arrayUser['email'] = $email;
@@ -583,8 +588,8 @@ class FrontendController extends ZtAbstractActionController {
     	    array_walk($qs, function(&$q){
     	        $q = [ 'id' => $q['id'], 'name' => $q['name'], 'fp' => $q['focalpoint']];
     	    });
-    	    $v['focalpoint'] = array_filter($qs, function($q){return $q['fp'];});
-    	    $v['queues'] = array_filter($qs, function($q){return !$q['fp'];});
+    	    $v['focalpoint'] = array_values(array_filter($qs,   function($q){return $q['fp'];}));
+    	    $v['queues'] = array_values(array_filter($qs,       function($q){return !$q['fp'];}));
     	    $v['password'] = sha1($v['password']);
     	    $v['sector'] = $ss?current($ss):null;
     	});
@@ -593,9 +598,9 @@ class FrontendController extends ZtAbstractActionController {
     	    $result['users'][$user['id']] = $user;
     	}
     
-    	if ($this->request->getQuery('dump', false))
-    		die(var_dump( $result ));
-    	else
+//     	if ($this->request->getQuery('dump', false))
+//     		die(var_dump( $result ));
+//     	else
     		return $this->jsonModel ( $result );
     }
     
@@ -663,7 +668,117 @@ class FrontendController extends ZtAbstractActionController {
 			return $this->jsonModel ( $result );
     }
     
-    public function userDeleteAction()
+    public function saveUserAction()
+    {
+        $defaultError = ['error'=>'Si è verificato un errore. Riprovare più tardi!']; //TODO set it universally!
+        $input = $this->request->getPost ()->toArray();
+        $user = $this->getSession()->user;
+        $om = $this->getObjectManager();
+        $result = [];
+        
+        $userObject = $om->find('Test\Entity\User', $user['id']);
+        if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+        !$userObject->isAdministrator())
+        	return $this->jsonModel ( $defaultError );
+
+    	$userToSave = ($input['id'])?$om->find('Test\Entity\User', $input['id']) : new \Test\Entity\User();
+    	
+        $userToSave->setName($input['name']);
+        $userToSave->setEmail($input['email']);
+        
+        if (isset($input['password']))
+            $userToSave->setPassword($input['password']);
+
+        $userToSave->setAdministrator(isset($input['administrator'])?true:false);
+        
+        if (isset($input['username']))
+            $userToSave->setUsername($input['username']);
+
+        // Manage grants sector with single group
+        $username = $userToSave->getUsername();
+        $groups = new ArrayCollection();
+        $group = null;
+        
+        if ($input['id'])
+            $groups = $userToSave->getGroups()->filter(function($entry)use($username){return ($entry->getCode() == $username);});
+
+        if ($groups->isEmpty())
+        {
+            $group = new \Test\Entity\Group();
+            $group->setCode($username);
+            $group->setName($username);
+        } else {
+            $userToSave->getGroups()->clear();
+            $group = $groups->first();
+        }
+        
+    	$sector = ($input['sector'])?$om->find("Test\Entity\Sector", $input['sector']):null;
+        $group->setSector($sector);
+        
+        // Reset grants
+        $grants = $group->getGrants()->toArray();
+        $group->setGrants(new ArrayCollection());
+        foreach($grants as $grant)
+        	$om->remove($grant);
+        
+        try {
+        	$om->flush();
+        } catch (\Exception $e) {
+        	$this->getLogService()->error(__FUNCTION__ ."@"+$this->getSession()->user['username']+": "+$e->getMessage());
+        	return $this->jsonModel ( $defaultError );
+        }
+        
+        if(isset($input['queues'])){
+            $grant = new \Test\Entity\Grant();
+            $grant->setName($username);
+            $grant->setFocalpoint(false);
+            foreach ($input['queues'] as $queue){
+        	   $queue = $om->find("Test\Entity\Queue", $queue);
+        	   if (empty($queue))
+        	       return $this->jsonModel ( $defaultError );
+        	   if (!in_array($queue, $grant->getQueues()->toArray()))
+        	       $grant->getQueues()->add($queue);
+            }
+            $om->persist($grant);
+            $group->getGrants()->add($grant);
+        }
+        
+        if(isset($input['focalpoint'])){
+            $fpgrant = new \Test\Entity\Grant();
+            $fpgrant->setName($username."-fp");
+            $fpgrant->setFocalpoint(true);
+            foreach ($input['focalpoint'] as $queue){
+                $queue = $om->find("Test\Entity\Queue", $queue);
+                if (empty($queue))
+                	return $this->jsonModel ( $defaultError );
+                if (!in_array($queue, $fpgrant->getQueues()->toArray()))
+                    $fpgrant->getQueues()->add($queue);
+            }
+            $om->persist($fpgrant);
+            $group->getGrants()->add($fpgrant);
+        }
+        
+        $om->persist($group);
+    	$userToSave->getGroups()->add($group);
+        
+        $om->persist($userToSave);
+        try {
+            $om->flush();
+        } catch (\Exception $e) {
+            $this->getLogService()->error(__FUNCTION__ ."@"+$this->getSession()->user['username']+": "+$e->getMessage());
+            return $this->jsonModel ( $defaultError );
+        }
+        $this->getLogService()->debug(__FUNCTION__ ."@"+$this->getSession()->user['username'].": $username modified/created");
+        $result['success'] = 'Utente salvato correttamente!';
+
+        
+        if ($this->request->getQuery('dump', false))
+        	die(var_dump( $result ));
+        else
+        	return $this->jsonModel ( $result );
+    }
+    
+    public function deleteUserAction()
     {
     	$input = $this->request->getPost ()->toArray();
     	$user = $this->getSession()->user;
