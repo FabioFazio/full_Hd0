@@ -61,6 +61,7 @@ $( function($) {
     usersInit();
 	
     $('#usersModal').on('show.bs.modal', function (e) {
+    	$(this).find('form').attr('action',user_save_url);
         usersLoad(e);
     });
 });
@@ -79,9 +80,10 @@ $( function($) {
             <div class="modal-body">
             
                 <div id="usersEditor" data-flip="#usersList" class="hidden">
-                <form data-validate>
-                
+                <form id="userForm" data-async method="post" data-validate action>
+                        
                         <input type="hidden" name="id" value="0"/>
+                        <input type="hidden" name="secret" value="0"/>
                 
            				<div class="row">
             				<div class="col-md-4">

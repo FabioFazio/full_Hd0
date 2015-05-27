@@ -254,7 +254,12 @@ function submitConf(e) {
 function formSubmit ( form )
 {
 	var $form = $(form);
-    var $target = $($form.attr('data-target'));
+	
+	var $target = [];
+    var target = $form.attr('data-target');
+    if (typeof target !== typeof undefined && target !== false){
+    	$target = $(target);
+    }
     
     $.ajax({
         type: $form.attr('method'),
@@ -276,31 +281,31 @@ function formSubmit ( form )
  */
 function formResponce ( data, status, $msgBox, $form )
 {
-	// display feedback cleaning previous
-
-	alertHint( $msgBox, data, $form );
-	
+	if ($msgBox.length){
+		// display feedback cleaning previous
+		alertHint( $msgBox, data, $form );
+		
 	// curstom actions
 	if (typeof $form.attr('id') !== 'undefined')
-	{
-		var id = $form.attr('id');
-		if (typeof fallbackForm[id] !== 'undefined')
-		{
+		if (typeof fallbackForm[$form.attr('id')] !== 'undefined')
 			fallbackForm[$form.attr('id')].call(document, data, status, $msgBox, $form);
-		}
-	}
 
-	if (status=='success' && !('alert-warning' in data) && !('alert-danger' in data)){
-		// update page
-		//loadFullPage (data['email']);
-		setTimeout(function() {
-				$msgBox.closest('.modal').modal('hide');
-				$('.alert', $msgBox ).alert('close');
-				var refresh = parseInt($form.data('refresh'));
-		    	//if(refresh >= 0) startWait();
-		    	setTimeout(content,refresh);
-			}, 1500);
-	}
+		if (status=='success' && !('alert-warning' in data) && !('alert-danger' in data)){
+			// update page
+			//loadFullPage (data['email']);
+			setTimeout(function() {
+					$msgBox.closest('.modal').modal('hide');
+					$('.alert', $msgBox ).alert('close');
+					var refresh = parseInt($form.data('refresh'));
+			    	//if(refresh >= 0) startWait();
+			    	setTimeout(content,refresh);
+				}, 1500);
+		}
+	}else
+	if (typeof $form.attr('id') !== 'undefined')
+		if (typeof fallbackForm[$form.attr('id')] !== 'undefined')
+			fallbackForm[$form.attr('id')].call(document, data, status, $msgBox, $form);
+	
 } 
 
 /**

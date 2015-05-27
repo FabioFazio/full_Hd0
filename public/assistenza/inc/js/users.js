@@ -1,3 +1,16 @@
+// Extra actions on successfull submit
+fallbackForm['userForm'] = function fallback (data, status, $msgBox, $form) {
+	$.each(data, function(i, msg){
+		if($.inArray(i,['success','error','warning','info'])>=0){
+			toastr[i](msg);
+		}
+	});
+	if (!('error' in data)){
+		usersLoad();
+		$form.find('[data-hide]').trigger('click');
+	}
+};
+
 /* Library for users.inc */
 function usersInit()
 {
@@ -22,17 +35,22 @@ function usersInit()
     
     // ^ password collpase animation
     $('#pass').on('hide.bs.collapse', function (e) {
-    	  $this = $(this);
-    	  $this.find('input').prop('disabled', true).val();
-    	  if(typeof(e)!='undefined' && $this.parents('form').find('input:hidden[name="id"][value="0"]').length>0){
-    		  e.preventDefault();
+    	  if(e){
+	    	  $this = $(this);
+	    	  if(typeof(e)!='undefined' && $this.parents('form').find('input:hidden[name="id"][value="0"]').length>0){
+	    		  $this.find('input').prop('disabled', false);
+	    		  //s$this.parent('form').reset();
+	    		  e.preventDefault();
+	    	  }else{
+	    		  $this.find('input').prop('disabled', true).val();	    		  
+	    	  }
     	  }
-    	  //s$this.parent('form').reset();
     	});
-    $('#pass').on('show.bs.collapse', function () {
-	  	  $this = $(this);
-		  $this.find('input').prop('disabled', false);
-
+    $('#pass').on('show.bs.collapse', function (e) {
+	    	if(e){
+		  	  $this = $(this);
+			  $this.find('input').prop('disabled', false);
+	    	}
   		});
     // $ password collpase animation
     
@@ -41,8 +59,7 @@ function usersInit()
 
 function usersLoad(e)
 {
-    //var $related = $(e.relatedTarget);
-    //var $current = $(e.currentTarget);
+	//var refresh = (typeof e !== 'undefined')?true:false;
 	
 	// ^ clean old data
 	tableUsers.rows().remove();
@@ -113,6 +130,7 @@ function userEditorInit(target, button){
 
 	$(target).find('input').val('');
 	$(target).find('input[name="id"]').val(id);
+	$(target).find('input[name="secret"]').val(getUser().password);
 	
 	// ^ reset select
 	var $sector = $(target).find('select[name="sector"]');

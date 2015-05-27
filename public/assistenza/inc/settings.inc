@@ -3,7 +3,7 @@
 $( function($) {
 	
 	$('#settings').on('show.bs.modal', function (e) {
-		$(this).find('form').attr('action',settings_url);
+		$(this).find('form').attr('action',settings_save_url);
 		onShowSettingsModal(e);
     });
 });
