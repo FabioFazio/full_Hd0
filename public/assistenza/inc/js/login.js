@@ -1,6 +1,9 @@
 // Extra actions on successfull submit
 fallbackForm['auth'] = function fallback (data, status, $msgBox, $form) {
 	// Update interface
+	if(typeof data['id'] == 'undefined')
+		return;
+	
     var name = $('#auth_name').val()? $('#auth_name').val() : $('#auth_username').val();
     $('#name').html(name);
     
@@ -16,9 +19,7 @@ fallbackForm['auth'] = function fallback (data, status, $msgBox, $form) {
 			'fullname':			data['fullname'],
 		};
 	setUser( user );
-	
 	cookies.push( { name : 'queues', value : JSON.stringify(data['queues']) } );
-	
 	cookiesGenerator( cookies );
 	authenticated = true;
 };
