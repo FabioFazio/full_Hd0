@@ -33,7 +33,7 @@ class Group {
 	
 	public function __construct(){
 		$this->grants = new ArrayCollection();
-		$this->$announcements = new ArrayCollection();
+		$this->announcements = new ArrayCollection();
 	}
 	
 	public function getId(){

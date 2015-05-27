@@ -27,6 +27,9 @@ class Announcement {
 	/** @ORM\ManyToMany(targetEntity="Group", inversedBy="announcements") */
 	protected $groups;
 	
+	/** @ORM\ManyToMany(targetEntity="Sector", inversedBy="announcements") */
+	protected $sectors;
+	
 	/** @ORM\Column(type="boolean", nullable=true) */
 	protected $broadcast;
 	
@@ -35,6 +38,7 @@ class Announcement {
 	
 	public function __construct(){
 		$this->groups = new ArrayCollection();
+		$this->sectors = new ArrayCollection();
 		$this->lastchange = new \DateTime("now");
 	}
 	
@@ -80,7 +84,15 @@ class Announcement {
     public function setGroups($groups){
     	$this->groups = $groups;
     }
-
+    
+    public function getSectors(){
+    	return $this->sectors;
+    }
+    
+    public function setSectors($sectors){
+    	$this->sectors = $sectors;
+    }
+    
     public function isBroadcast(){
     	return $this->broadcast?:false;
     }

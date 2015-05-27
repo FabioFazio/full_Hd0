@@ -26,9 +26,16 @@ class Sector {
 	
 	/** @ORM\ManyToOne(targetEntity="Department") */
 	protected $department;
+
+	/** @ORM\ManyToMany(targetEntity="Announcement", mappedBy="sectors") */
+	protected $announcements;
 	
 	/** @ORM\Column(type="boolean") */
 	protected $disabled;
+	
+	public function __construct(){
+		$this->sectors = new ArrayCollection();
+	}
 	
 	public function getId(){
 	    return $this->id;
@@ -64,6 +71,14 @@ class Sector {
     
     public function getManager(){
     	return $this->manager;
+    }
+    
+    public function getAnnouncements(){
+    	return $this->announcements;
+    }
+    
+    public function setAnnouncements($announcements){
+    	$this->announcements = $announcements;
     }
     
     public function setManager($manager){
