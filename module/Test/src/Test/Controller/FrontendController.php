@@ -729,7 +729,7 @@ class FrontendController extends ZtAbstractActionController {
             $currentUser = $userObject->getUsername();
             $error = $e->getMessage();
             $extra = "\n".print_r($input, 1);
-            $this->getLogService()->error( "$func@<$currentUser>: Error removing old grants from <$username>: $error $extra");
+            $this->getLogService()->emerg( "$func@<$currentUser>: Error removing old grants from <$username>: $error $extra");
         	return $this->jsonModel ( $defaultError );
         }
         
@@ -756,7 +756,7 @@ class FrontendController extends ZtAbstractActionController {
         	$currentUser = $userObject->getUsername();
         	$error = $e->getMessage();
         	$extra = "\n".print_r($input, 1);
-        	$this->getLogService()->error( "$func@<$currentUser>: Error saving new basic grants from <$username>: $error $extra");
+        	$this->getLogService()->emerg( "$func@<$currentUser>: Error saving new basic grants from <$username>: $error $extra");
         	return $this->jsonModel ( $defaultError );
         }
         
@@ -788,7 +788,7 @@ class FrontendController extends ZtAbstractActionController {
             $action = $input['id']? "editing" : "creating";
             $error = $e->getMessage();
             $extra = "\n".print_r($input, 1);
-            $this->getLogService()->error( "$func@<$currentUser>: Error $action <$username>: $error $extra");
+            $this->getLogService()->emerg( "$func@<$currentUser>: Error $action <$username>: $error $extra");
             
             return $this->jsonModel ( $defaultError );
         }
@@ -797,7 +797,7 @@ class FrontendController extends ZtAbstractActionController {
         $action = $input['id']? "modified" : "created";
         $extra = "\n".print_r($input, 1);
         
-        $this->getLogService()->debug(  "$func@<$currentUser>: <$username> has been $action $extra" );
+        $this->getLogService()->info(  "$func@<$currentUser>: <$username> has been $action $extra" );
         $result['success'] = 'Utente salvato correttamente!';
 
         
