@@ -16,7 +16,10 @@ class Grant {
 	 */
 	protected $id;
 
-	/** @ORM\Column(type="string", length=255, unique=true) */
+	/** @ORM\Column(type="string", length=255, nullable=true) */
+	protected $code;
+	
+	/** @ORM\Column(type="string", length=255) */
 	protected $name;
 	
 	/** @ORM\Column(type="boolean", nullable=true) */
@@ -35,6 +38,14 @@ class Grant {
     
     public function setId($id){
     	$this->id = $id;
+    }
+
+    public function getCode(){
+    	return $this->code;
+    }
+    
+    public function setCode($code){
+    	$this->code = $code;
     }
     
     public function getName(){
