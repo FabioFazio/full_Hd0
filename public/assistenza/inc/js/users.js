@@ -247,13 +247,16 @@ function populateUsers(data){
 	$remove.html('<span class="glyphicon glyphicon-trash"></span>');
 	$.each(data, function(index, user){
 		var sector = user.sector?user.sector.fullname:'';
-		var $delete = $remove.clone().attr('data-id',user.id);
-		if(user.id==getUser().id)
-			$delete.attr('disabled','disabled');
+		var $editButton = $edit.clone().attr('data-id',user.id);
+		var $removeButton = $remove.clone().attr('data-id',user.id);
+		if(user.id==getUser().id){
+			$editButton.attr('disabled','disabled');
+			$removeButton.attr('disabled','disabled');
+		}
 		
 		tableUsers.row.add([
-           $('<div>&nbsp;</div>').append($delete)
-           		.prepend($edit.clone().attr('data-id',user.id)).html(),
+           $('<div>&nbsp;</div>').append($removeButton)
+           		.prepend($editButton).html(),
            user.username,
            user.name,
            user.email==user.username?'':user.email,
