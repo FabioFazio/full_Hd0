@@ -204,5 +204,5 @@ INSERT INTO `hd0`.`Announcement` (`id`, `author_id`, `message`, `lastchange`, `w
 	VALUES	(NULL, '1', 'Busnago Scatolame Liquidi message', NOW(), 0, NULL),
 		(NULL, '1', 'Broadcast message', NOW(), '1', '1');
 		
-INSERT INTO  `hd0`.`announcement_group` ( `announcement_id` , `group_id`)
+INSERT INTO  `hd0`.`announcement_sector` ( `announcement_id` , `sector_id`)
 	VALUES	( '1',  '1' );
