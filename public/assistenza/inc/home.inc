@@ -329,11 +329,13 @@
 								class="glyphicon glyphicon-comment"></span></span> <b>N</b>
 							Aggiornamenti
 						</p>
+						<!-- 
 						<p>
 							<span class="badge alert-info">N <span
 								class="glyphicon glyphicon-paperclip"></span></span> <b>N</b> Allegati
 							<small>(non attivo nella demo)</small>
 						</p>
+						-->
 						<p>
 							<span class="badge btn-default tagSize">
 								<span title="in attesa" class="glyphicon glyphicon-asterisk alert-info"></span>
@@ -400,11 +402,13 @@
 								class="glyphicon glyphicon-comment"></span></span> <b>N</b>
 							Aggiornamenti
 						</p>
+						<!-- 
 						<p>
 							<span class="badge alert-info">N <span
 								class="glyphicon glyphicon-paperclip"></span></span> <b>N</b> Allegati
 							<small>(non attivo nella demo)</small>
 						</p>
+						-->
 						<p>
 							<span class="badge btn-default tagSize">
 								<span title="Bloccante!" class="glyphicon glyphicon-fire alert-danger"></span>
