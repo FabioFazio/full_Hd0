@@ -42,6 +42,7 @@ class User {
 	public function __construct(){
 		$this->groups = new ArrayCollection();
 		$this->tracks = new ArrayCollection();
+		$this->disabled = false;
 	}
 	
 	public function getId(){
@@ -129,11 +130,12 @@ class User {
             	foreach($g->getGrants()->toArray() as $gr){
             		$fp = $gr->isFocalPoint();
             		foreach($gr->getQueues()->toArray() as $q){
+            		    $q = $q->toArray();
             			if ($fp && !in_array($q, $fps)){
-            				$fps[] = $q->toArray();
+            				$fps[] = $q;
             			}
             			else if(!$fp && !in_array($q, $qs)){
-            				$qs[] = $q->toArray();
+            				$qs[] = $q;
             			}
             		}
             	}
