@@ -30,6 +30,10 @@ class Queue {
 	/** @ORM\Column(type="boolean") */
 	protected $disabled;
 
+	public function __construct(){
+		$this->disabled = false;
+	}
+	
 	public function getId(){
 	    return $this->id;
 	}

@@ -34,6 +34,7 @@ class Sector {
 	protected $disabled;
 	
 	public function __construct(){
+	    $this->disabled = false;
 		$this->sectors = new ArrayCollection();
 	}
 	
