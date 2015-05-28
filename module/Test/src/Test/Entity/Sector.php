@@ -101,6 +101,11 @@ class Sector {
     
     public function toArray(){
         $array = get_object_vars($this);
+        
+        unset($array['__initializer__']);
+        unset($array['__cloner__']);
+        unset($array['__isInitialized__']);
+        
         $array['department_id'] = $this->getDepartment()?$this->getDepartment()->getId():null;
         unset($array['department']);
         

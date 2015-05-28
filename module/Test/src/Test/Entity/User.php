@@ -119,7 +119,7 @@ class User {
         return $this->getName() . " <" . $this->getEmail() . ">";
     }
     
-    public function getQueues()
+    public function getQueues($redundancy = false)
     {
         if(!isset($this->queues))
         {
@@ -136,21 +136,27 @@ class User {
             				$qs[] = $q->toArray();
             			}
             		}
-            		// merge two queues list
-            		foreach($qs as $q){
-            			$fi = array_search($q, $fps);
-            			if ($fi===false){
-            				$queues[$q['id']] = $q + ['focalpoint'=>0];
-            			}else{
-            				$queues[$q['id']] = $q + ['focalpoint'=>1];
-            				unset($fps[$fi]);
-            			}
-            		}
-            		foreach($fps as $fp){
-            			$queues[$fp['id']] = $fp + ['focalpoint'=>1];
-            		}
             	}
             }
+    		if ($redundancy)
+    		{
+    		    array_walk($fps, function(&$v){$v = $v + ['focalpoint'=>1];});
+    		    array_walk($qs, function(&$v){$v = $v + ['focalpoint'=>0];});
+    		    $queues = array_merge($qs, $fps);
+    		}else{
+        		foreach($qs as $q){
+        			$fi = array_search($q, $fps);
+        			if ($fi===false){
+        				$queues[$q['id']] = $q + ['focalpoint'=>0];
+        			}else{
+        				$queues[$q['id']] = $q + ['focalpoint'=>1];
+        				unset($fps[$fi]);
+        			}
+        		}
+        		foreach($fps as $fp){
+        			$queues[$fp['id']] = $fp + ['focalpoint'=>1];
+        		}
+    		}
             $this->queues = array_values($queues);
         }
         return $this->queues;
@@ -160,14 +166,14 @@ class User {
     {
     	if(!isset($this->sectors))
     	{
-    		$gs = $this->getGroups()->toArray();
     		$ss = [];
-    		foreach($gs as $g){
+    		foreach($this->getGroups()->toArray() as $g)
+    		{
     		    if ($s = $g->getSector()){
-        		    $ss[] = $s->toArray();
+        		    $ss[$s->getId()] = $s;
     		    }
     		}
-    		$this->sectors = $ss;
+    		$this->sectors = array_values($ss);
     	}
     	return $this->sectors;
     }

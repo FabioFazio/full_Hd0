@@ -577,7 +577,7 @@ class FrontendController extends ZtAbstractActionController {
     	$users = $this->getObjectManager()->getRepository("Test\Entity\User")->findBy(['disabled'=>false]);
     		
     	array_walk($users, function(&$v){
-            $qs = $v->getQueues();
+            $qs = $v->getQueues(true);
             $ss = $v->getSectors();
             
     	    $v = $v->toArray();
@@ -591,7 +591,7 @@ class FrontendController extends ZtAbstractActionController {
     	    $v['focalpoint'] = array_values(array_filter($qs,   function($q){return $q['fp'];}));
     	    $v['queues'] = array_values(array_filter($qs,       function($q){return !$q['fp'];}));
     	    $v['password'] = sha1($v['password']);
-    	    $v['sector'] = $ss?current($ss):null;
+    	    $v['sector'] = !empty($ss)?current($ss)->toArray():null;
     	});
     	
     	foreach ($users as $user){
@@ -724,7 +724,12 @@ class FrontendController extends ZtAbstractActionController {
         try {
         	$om->flush();
         } catch (\Exception $e) {
-        	$this->getLogService()->error(__FUNCTION__ ."@"+$this->getSession()->user['username']+": "+$e->getMessage());
+            
+            $func = __FUNCTION__;
+            $currentUser = $userObject->getUsername();
+            $error = $e->getMessage();
+            $extra = "\n".print_r($input, 1);
+            $this->getLogService()->error( "$func@<$currentUser>: Error removing old grants from <$username>: $error $extra");
         	return $this->jsonModel ( $defaultError );
         }
         
@@ -741,6 +746,18 @@ class FrontendController extends ZtAbstractActionController {
             }
             $om->persist($grant);
             $group->getGrants()->add($grant);
+        }
+        
+        try {
+        	$om->flush();
+        } catch (\Exception $e) {
+        
+        	$func = __FUNCTION__;
+        	$currentUser = $userObject->getUsername();
+        	$error = $e->getMessage();
+        	$extra = "\n".print_r($input, 1);
+        	$this->getLogService()->error( "$func@<$currentUser>: Error saving new basic grants from <$username>: $error $extra");
+        	return $this->jsonModel ( $defaultError );
         }
         
         if(isset($input['focalpoint'])){
@@ -765,10 +782,22 @@ class FrontendController extends ZtAbstractActionController {
         try {
             $om->flush();
         } catch (\Exception $e) {
-            $this->getLogService()->error(__FUNCTION__ ."@"+$this->getSession()->user['username']+": "+$e->getMessage());
+            
+            $func = __FUNCTION__;
+            $currentUser = $userObject->getUsername();
+            $action = $input['id']? "editing" : "creating";
+            $error = $e->getMessage();
+            $extra = "\n".print_r($input, 1);
+            $this->getLogService()->error( "$func@<$currentUser>: Error $action <$username>: $error $extra");
+            
             return $this->jsonModel ( $defaultError );
         }
-        $this->getLogService()->debug(__FUNCTION__ ."@"+$this->getSession()->user['username'].": $username modified/created");
+        $func = __FUNCTION__;
+        $currentUser = $userObject->getUsername();
+        $action = $input['id']? "modified" : "created";
+        $extra = "\n".print_r($input, 1);
+        
+        $this->getLogService()->debug(  "$func@<$currentUser>: <$username> has been $action $extra" );
         $result['success'] = 'Utente salvato correttamente!';
 
         
