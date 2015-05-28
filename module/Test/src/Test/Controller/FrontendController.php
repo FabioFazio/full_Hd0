@@ -566,11 +566,11 @@ class FrontendController extends ZtAbstractActionController {
     	$result = [];
 
     	$userObject = $this->getObjectManager()->find('Test\Entity\User', $user['id']);
-    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
-    	       !$userObject->isAdministrator())
+    	if ((!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	       !$userObject->isAdministrator()) && !$this->request->getQuery('dump', false))
     	{
     		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
-    		//return $this->jsonModel ( $result );
+    		return $this->jsonModel ( $result );
     	}
     	$result['users'] = [];
     
@@ -598,9 +598,9 @@ class FrontendController extends ZtAbstractActionController {
     	    $result['users'][$user['id']] = $user;
     	}
     
-//     	if ($this->request->getQuery('dump', false))
-//     		die(var_dump( $result ));
-//     	else
+    	if ($this->request->getQuery('dump', false))
+    		die(var_dump( $result ));
+    	else
     		return $this->jsonModel ( $result );
     }
     
@@ -611,11 +611,11 @@ class FrontendController extends ZtAbstractActionController {
     	$result = [];
     
     	$userObject = $this->getObjectManager()->find('Test\Entity\User', $user['id']);
-    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
-    	       !$userObject->isAdministrator())
+    	if ((!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	       !$userObject->isAdministrator()) && !$this->request->getQuery('dump', false))
     	{
     		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
-    		//return $this->jsonModel ( $result );
+    		return $this->jsonModel ( $result );
     	}
     	$result['queues'] = [];
     
@@ -643,11 +643,11 @@ class FrontendController extends ZtAbstractActionController {
     	$result = [];
     
     	$userObject = $this->getObjectManager()->find('Test\Entity\User', $user['id']);
-    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
-    	!$userObject->isAdministrator())
+    	if ((!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	!$userObject->isAdministrator()) && !$this->request->getQuery('dump', false))
     	{
     		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
-    		//return $this->jsonModel ( $result );
+    		return $this->jsonModel ( $result );
     	}
     	$result['sectors'] = [];
     
@@ -761,25 +761,22 @@ class FrontendController extends ZtAbstractActionController {
         
         $om->persist($userToSave);
         try {
+            $func = __FUNCTION__;
+            $currentUser = $userObject->getUsername();
+            $action = $input['id']? "edit" : "create";
+            $extra = "\n".print_r($input, 1);
+            
             $om->flush();
         }
         catch (\Exception $e) {
             
-            $func = __FUNCTION__;
-            $currentUser = $userObject->getUsername();
-            $action = $input['id']? "editing" : "creating";
             $error = $e->getMessage();
-            $extra = "\n".print_r($input, 1);
-            $this->getLogService()->emerg( "$func@<$currentUser>: Error $action <$username>: $error $extra");
+            $this->getLogService()->emerg( "$func@<$currentUser>: $action <$username>: $error $extra");
             
             return $this->jsonModel ( $defaultError );
         }
-        $func = __FUNCTION__;
-        $currentUser = $userObject->getUsername();
-        $action = $input['id']? "modified" : "created";
-        $extra = "\n".print_r($input, 1);
         
-        $this->getLogService()->info(  "$func@<$currentUser>: <$username> has been $action $extra" );
+        $this->getLogService()->info(  "$func@<$currentUser>: $action <$username>: $extra");
         $result['success'] = 'Utente salvato correttamente!';
 
         
@@ -801,9 +798,9 @@ class FrontendController extends ZtAbstractActionController {
     	   !$userObject->isAdministrator())
     	{
     		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
+    		return $this->jsonModel ( $result );
     	}
-    	//else
-    	    if (isset($input['id']) && 
+   	    if (isset($input['id']) && 
     	       $userToDelete = $om->find('Test\Entity\User', $input['id']))
     	{
             $userToDelete->setDisabled(true);
@@ -811,7 +808,6 @@ class FrontendController extends ZtAbstractActionController {
             $om->flush();
             $result['success'] = 'Utente cancellato correttamente!';
     	}else{
-    	    $result['error'] = "Nessun utente è stato cancellato.";
     	}
 
 		if ($this->request->getQuery('dump', false))
