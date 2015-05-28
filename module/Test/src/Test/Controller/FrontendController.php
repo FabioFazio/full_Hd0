@@ -804,6 +804,23 @@ class FrontendController extends ZtAbstractActionController {
     	       $userToDelete = $om->find('Test\Entity\User', $input['id']))
     	{
             $userToDelete->setDisabled(true);
+            // ^ rename unique fields to regenerate same user without problems
+            $post = "_".time();
+            $username = $userToDelete->getUsername();
+            $userToDelete->setUsername($userToDelete->getUsername().$post);
+            $userToDelete->setEmail($userToDelete->getEmail().$post);
+            $groups = $userToDelete->getGroups()->filter(function($entry)use($username){return ($entry->getCode() == $username);});
+            if(!$groups->isEmpty()){
+                $group = $groups->first();
+                $group->setCode($group->getCode().$post);
+                foreach ($group->getGrants()->toArray() as $grant){
+                	$grant->setCode($grant->getCode().$post);
+                	$om->persist($grant);
+                }
+                $om->persist($group);
+            }
+            // $ rename unique fields to regenerate same user without problems
+            
             $db = $om->persist($userToDelete);
             $om->flush();
             $result['success'] = 'Utente cancellato correttamente!';
