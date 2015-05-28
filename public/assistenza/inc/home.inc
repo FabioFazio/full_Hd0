@@ -81,6 +81,7 @@
 							class="badge alert-danger">0</span></a> <a href="#chiuse"><span
 							id="qN_chiuse" data-name="counter" title="segnalazioni chiuse"
 							class="badge alert-success">0</span></a>
+						<span data-prop="title" title="Visibilità: Focal Point" class="hidden focalpoint badge btn-default"><i class="glyphicon glyphicon-eye-open btn-default"></i></span>
 						<div class="pull-right">
 							<button data-toggle="modal" data-target="#ticketModal"
 								class="btn btn-xs btn-primary" data-service-id="N"
@@ -283,16 +284,16 @@
 					role="tabpanel" aria-labelledby="headingOne">
 					<div class="panel-body">
 						<p>
-							&nbsp;<span class="glyphicon glyphicon-warning-sign alert-danger"></span>&nbsp;
-							Nuove segnalazioni bloccate
-						</p>
-						<p>
 							<span class="badge alert-warning">N</span> <b>N</b> Segnalazioni
 							Aperte
 						</p>
 						<p>
 							<span class="badge alert-success">N</span> <b>N</b> Segnalazioni
 							Chiuse
+						</p>
+						<p>
+							<span class="badge btn-default"><i class="glyphicon glyphicon-eye-open btn-default"></i></span>
+							Visibilità come <strong>Focal Point</strong>
 						</p>
 						<p>
 							<button class="btn btn-xs btn-primary">
