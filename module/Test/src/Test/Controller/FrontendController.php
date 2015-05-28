@@ -699,17 +699,16 @@ class FrontendController extends ZtAbstractActionController {
         $groups = new ArrayCollection();
         $group = null;
         
-        if ($input['id'])
+        if ($input['id']){
             $groups = $userToSave->getGroups()->filter(function($entry)use($username){return ($entry->getCode() == $username);});
+        }
 
-        if ($groups->isEmpty())
-        {
+        if ($groups->isEmpty()){
             $group = new \Test\Entity\Group();
             $group->setCode($username);
             $group->setName($username);
         } else {
-            $userToSave->getGroups()->clear();
-            $group = $groups->first();
+        	$group = $groups->first();
         }
         
     	$sector = ($input['sector'])?$om->find("Test\Entity\Sector", $input['sector']):null;
@@ -718,23 +717,13 @@ class FrontendController extends ZtAbstractActionController {
         // Reset grants
         $grants = $group->getGrants()->toArray();
         $group->setGrants(new ArrayCollection());
-        foreach($grants as $grant)
+        foreach($grants as $grant){
         	$om->remove($grant);
-        
-        try {
-        	$om->flush();
-        } catch (\Exception $e) {
-            
-            $func = __FUNCTION__;
-            $currentUser = $userObject->getUsername();
-            $error = $e->getMessage();
-            $extra = "\n".print_r($input, 1);
-            $this->getLogService()->emerg( "$func@<$currentUser>: Error removing old grants from <$username>: $error $extra");
-        	return $this->jsonModel ( $defaultError );
         }
         
         if(isset($input['queues'])){
             $grant = new \Test\Entity\Grant();
+            $grant->setCode($username);
             $grant->setName($username);
             $grant->setFocalpoint(false);
             foreach ($input['queues'] as $queue){
@@ -748,20 +737,9 @@ class FrontendController extends ZtAbstractActionController {
             $group->getGrants()->add($grant);
         }
         
-        try {
-        	$om->flush();
-        } catch (\Exception $e) {
-        
-        	$func = __FUNCTION__;
-        	$currentUser = $userObject->getUsername();
-        	$error = $e->getMessage();
-        	$extra = "\n".print_r($input, 1);
-        	$this->getLogService()->emerg( "$func@<$currentUser>: Error saving new basic grants from <$username>: $error $extra");
-        	return $this->jsonModel ( $defaultError );
-        }
-        
         if(isset($input['focalpoint'])){
             $fpgrant = new \Test\Entity\Grant();
+            $fpgrant->setCode($username."-fp");
             $fpgrant->setName($username."-fp");
             $fpgrant->setFocalpoint(true);
             foreach ($input['focalpoint'] as $queue){
@@ -776,12 +754,16 @@ class FrontendController extends ZtAbstractActionController {
         }
         
         $om->persist($group);
-    	$userToSave->getGroups()->add($group);
+        
+        $groups = New ArrayCollection(); 
+        $groups->add($group);
+        $userToSave->setGroups($groups);
         
         $om->persist($userToSave);
         try {
             $om->flush();
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             
             $func = __FUNCTION__;
             $currentUser = $userObject->getUsername();
