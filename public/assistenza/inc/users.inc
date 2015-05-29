@@ -168,7 +168,7 @@ $( function($) {
                                 </div>
                                 
                                <div class="form-group input-group bg-danger col-md-12">
-                                    <label for="newsId" class="control-label alert-danger input-group-addon">
+                                    <label for="administrator" class="control-label alert-danger input-group-addon">
                                        <i class="glyphicon glyphicon-check"></i> Privilegi di Amministratore
                                     </label>
                                     
