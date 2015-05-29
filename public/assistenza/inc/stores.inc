@@ -59,103 +59,73 @@ $( function($) {
             				<div class="col-md-6">
             					
             					<div class="form-group input-group col-md-12">
-                                    <label for="username" class="control-label">
-                                        <i class="glyphicon glyphicon-edit"></i> Nome Utente
-                                    </label>
-                				    <input type="text" class="form-control text-right" name="username" 
-                				        placeholder="Nome Utente"
-                				        data-validation-error-msg="Lunghezza attesa tra 3 e 12 caratteri alfanumerici"
-                                        data-validation="alphanumeric length" 
-                                        data-validation-length="3-12"
-                				        />
-                                </div>
-                                
-            					<div class="form-group input-group col-md-12">
                                     <label for="name" class="control-label">
-                                        <i class="glyphicon glyphicon-edit"></i> Nome Completo
+                                        <i class="glyphicon glyphicon-edit"></i> Nome Punto Vendita
                                     </label>
                 				    <input type="text" class="form-control text-right" name="name" 
                 				        placeholder="Nome completo"
-                				        data-validation-error-msg="Campo non superiore a 50 caratteri"
-                                        data-validation="length" 
-                                        data-validation-length="max50"
+                				        data-validation-error-msg="Lunghezza attesa tra 3 e 25 caratteri alfanumerici"
+                                        data-validation="required alphanumeric length" 
+                                        data-validation-length="3-25"
                 				        />
                                 </div>
                                  
             					<div class="form-group input-group col-md-12">
-                                    <label for="email" class="control-label">
-                                        <i class="glyphicon glyphicon-edit"></i> Email
+                                    <label for="address" class="control-label">
+                                        <i class="glyphicon glyphicon-edit"></i> Indirizzo
                                     </label>
-                				    <input type="email" class="form-control text-right" name="email" 
-                				        placeholder="Email aziendale"
-                				        data-validation-error-msg="Inserire una email di lavoro valida (@iper.it, @ortofin.it o @unes.it)"
-                                        data-validation="email domain required" 
+                				    <input type="text" class="form-control text-right" name="address" 
+                				        placeholder="Indirizzo"
+                				        data-validation-error-msg="Lunghezza attesa non superiore a 50 caratteri"
+                                        data-validation="length"
+                                        data-validation-length="max50" 
                 				        />
                                 </div>
-                                
-                                
-                                 <div role="tablist" class="panel panel-default">
-                                    <div class="panel-heading" id="labelSPass" role="tab">
-                                        <h3 class="panel-title strong text-center">
-                                            <a href="#spass" aria-controls="spass" aria-expanded="true" data-toggle="collapse">
-                                                Password
-                                            </a>
-                                        </h3>
-                                    </div>
-                                    
-                                        <div class="panel-collapse collpse in" role="tabpanel" aria-labeledby="labelSPass" id="spass">
-                                            <div class="panle-bpdy">
-                            					<div class="form-group input-group col-md-12" style="margin-top: 15px;">
-                                                    <label for="password_confirmation" class="control-label">
-                                                        <i class="glyphicon glyphicon-edit"></i> Nuova Password
-                                                    </label>
-                                				    <input type="password" class="form-control text-right" name="password_confirmation"
-                                				        placeholder="Nuova Password" 
-                                                        data-validation-error-msg="Password non abbastanza sicura"
-                                                        data-validation="strength"
-                                                        data-validation-strength="1"
-                                                        />
-                                                </div>                                
-                                                                                
-                            					<div class="form-group input-group col-md-12">
-                                                    <label for="password" class="control-label">
-                                                        <i class="glyphicon glyphicon-edit"></i> Conferma Nuova Password
-                                                    </label>
-                                                    <input type="password" class="form-control text-right" name="password" 
-                                                        placeholder="Conferma Password"
-                                                        data-validation="confirmation"
-                                                        data-validation-error-msg="Riscrivere la password per conferma!"
-                                                        />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    
-                                </div>
-                                
-                           </div>     
-                                                        
-                            <div class="col-md-6">
-
+    
                                 <div class="form-group input-group col-md-12">
-                                    <label for="sector" class="control-label">
-                                       <i class="glyphicon glyphicon-list"></i> Settore Aziendale
+                                    <label for="manager" class="control-label">
+                                       <i class="glyphicon glyphicon-user"></i> Responsabile
                                     </label>
-                                    <select class="form-control valid" name="sector" aria-invalid="false">
+                                    <select class="form-control valid" name="manager" aria-invalid="false">
                                         <option value="0" selected="selected">--- Non Definito ---</option>
                                     </select>
                                 </div>
+                           </div>     
+                                                        
+                            <div class="col-md-6">
                                 
                                <div class="form-group input-group bg-danger col-md-12">
-                                    <label for="newsId" class="control-label alert-danger input-group-addon">
-                                       <i class="glyphicon glyphicon-check"></i> Privilegi di Amministratore
+                                    <label for="sectorList" class="control-label alert-info input-group-addon">
+                                       Dipartimenti
                                     </label>
-                                    
-                                    <div class="form-control checkbox">
-                                      <label class="pull-right">
-                                        <input type="checkbox" name="administrator" value="1">
-                                      </label>
+                                    <div class="form-control well well-sm">
+                                        <table class="table table-striped table-condensed text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nome Dipartimento</th>
+                                                    <th>Responsabile di Dipartimento</th>
+                                                    <th>Settori Relativi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="mock">Nome</td>
+                                                    <td class="mock">Responsabile</td>
+                                                    <td class="mock">1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="mock">Nome</td>
+                                                    <td class="mock">Responsabile</td>
+                                                    <td class="mock">1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="mock">Nome</td>
+                                                    <td class="mock">Responsabile</td>
+                                                    <td class="mock">1</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    
                                 </div>                            
                             </div>
                         </div>

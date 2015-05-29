@@ -149,11 +149,10 @@ function populateStores(data)
 		.addClass('btn btn-sm btn-info').attr('data-show','#storesEditor');
 	$remove = $('<a></a>').attr('title','')
 		.addClass('btn btn-sm btn-danger').attr('data-toggle','confirmation').
-		attr('data-original-title', 'Vuoi davvero cancellare questo elemento in modo permanente?');
+		attr('data-original-title', 'Vuoi davvero cancellare questo punto vendita con tutti i suoi dipartimenti e settori in modo permanente?');
 	$edit.html('<span class="glyphicon glyphicon-pencil"></span>');
 	$remove.html('<span class="glyphicon glyphicon-trash"></span>');
 	$.each(data, function(index, store){
-		var sector = store.sector?store.sector.fullname:'';
 		var $editButton = $edit.clone().attr('data-id',store.id);
 		var $removeButton = $remove.clone().attr('data-id',store.id);
 		

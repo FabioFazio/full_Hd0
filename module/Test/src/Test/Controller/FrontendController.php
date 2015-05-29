@@ -622,9 +622,7 @@ class FrontendController extends ZtAbstractActionController {
     	$stores = $this->getObjectManager()->getRepository("Test\Entity\Store")->findBy(['disabled'=>false]);
     
     	array_walk($stores, function(&$v){
-    		$m = $v->getManager()?$v->getManager()->getFullname():'';
     		$v = $v->toArray();
-    		$v['manager'] = $m;
     	});
     		 
     		foreach ($stores as $store){
@@ -632,7 +630,7 @@ class FrontendController extends ZtAbstractActionController {
     		}
     
     		if ($this->request->getQuery('dump', false))
-    			die(var_dump( $result ));
+    			return $this->jsonModel ( $result );//die(var_dump( $result ));
     		else
     			return $this->jsonModel ( $result );
     }

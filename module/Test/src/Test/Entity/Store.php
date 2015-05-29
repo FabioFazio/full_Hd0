@@ -98,16 +98,15 @@ class Store {
     {
     	$array = get_object_vars($this);
     
-    	$dep_id = [];
-    	foreach($this->getDepartments()->toArray() as $dep){
-    		$dep_id[] = $dep->getId();
+    	$dps = [];
+    	foreach($this->getDepartments()->toArray() as $dp){
+    		$dps[$dp->getId()] = $dp->toArray();
     	}
-    	$array['departments_id'] = $dep_id;
-    	unset($array['departments']);
-    	 
+    	$array['departments'] = $dps;
+
     	$array['manager_id'] = $this->getManager()?$this->getManager()->getId():null;
-        unset($array['manager']);
-        
+        $array['manager'] = $this->getManager()?$this->getManager()->getFullname():"";
+
     	return $array;
     }
 }

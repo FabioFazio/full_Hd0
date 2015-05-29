@@ -29,6 +29,17 @@ class Department {
 	 */
 	protected $store;
 	
+	/** @ORM\OneToMany(targetEntity="Sector", mappedBy="department") */
+	protected $sectors;
+	
+	/** @ORM\Column(type="boolean") */
+	protected $disabled;
+	
+	public function __construct(){
+		$this->sectors = new ArrayCollection();
+		$this->disabled = false;
+	}
+	
 	public function getId(){
 	    return $this->id;
 	}
@@ -68,10 +79,45 @@ class Department {
     public function setManager($manager){
     	$this->grants = $manager;
     }
+
+    public function hasSectors() {
+    	return $this->sectors->count();
+    }
+    
+    public function getSectors() {
+    	return $this->sectors;
+    }
+    
+    public function isDisabled(){
+    	return $this->disabled?:false;
+    }
+    
+    public function setDisabled($disabled){
+    	$this->disabled = $disabled;
+    }
     
     public function getFullname(){
     	$sto        = $this->getStore()?$this->getStore()->getName():'';
     	$fullname   = $sto?$sto.' - '.$this->getName():$this->getName();
     	return $fullname;
+    }
+    
+    public function toArray()
+    {
+    	$array = get_object_vars($this);
+    
+    	$scs = [];
+    	foreach($this->getSectors()->toArray() as $sc){
+    		$scs[$sc->getId()] = $sc->toArray();
+    	}
+    	$array['sectors'] = $scs;
+    
+    	$array['store_id'] = $this->getStore()?$this->getStore()->getId():null;
+    	unset($array['store']);
+    	
+    	$array['manager_id'] = $this->getManager()?$this->getManager()->getId():null;
+    	$array['manager'] = $this->getManager()?$this->getManager()->getFullname():"";
+    
+    	return $array;
     }
 }

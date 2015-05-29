@@ -24,7 +24,9 @@ class Sector {
 	/** @ORM\ManyToOne(targetEntity="User") */
 	protected $manager;
 	
-	/** @ORM\ManyToOne(targetEntity="Department") */
+	/** @ORM\ManyToOne(targetEntity="Department", inversedBy="sectors")
+	 *  @ORM\JoinColumn(name="department_id", referencedColumnName="id")
+	 */
 	protected $department;
 
 	/** @ORM\ManyToMany(targetEntity="Announcement", mappedBy="sectors") */
@@ -111,7 +113,7 @@ class Sector {
         unset($array['department']);
         
     	$array['manager_id'] = $this->getManager()?$this->getManager()->getId():null;
-        unset($array['manager']);
+        $array['manager'] = $this->getManager()?$this->getManager()->getFullname():"";
         
         $array['fullname'] = $this->getFullname();
 
