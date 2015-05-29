@@ -206,3 +206,5 @@ INSERT INTO `hd0`.`Announcement` (`id`, `author_id`, `message`, `lastchange`, `w
 		
 INSERT INTO  `hd0`.`announcement_sector` ( `announcement_id` , `sector_id`)
 	VALUES	( '1',  '1' );
+	
+SELECT 'Database properly populted!';
