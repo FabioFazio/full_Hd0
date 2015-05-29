@@ -69,38 +69,59 @@ function storeEditorInit(target, button){
 	$(target).find('input[name="id"]').val(id);
 	$(target).find('input[name="secret"]').val(getUser().password);
 	
-	// ^ reset select
-	var $sector = $(target).find('select[name="sector"]');
-	$sector.find('option[value="0"]').siblings('option').remove();
-	$sector.val(0);
-	$.ajax({
-		url:			sectors_url,
-		type:			"POST",
-		datatype:		"json",
-		data:{
-			secret:			getUser().password
-		},
-		async: true,
-		success: function(data, status) {
-			window.console&&console.log(data); // for debugging
-			$.each(data, function(i, msg){
-				if($.inArray(i,['success','error','warning','info'])>=0){
-					toastr[i](msg);
-				}
-			});
-			if (!('error' in data) && ('sectors' in data)){
-				$.each(data['sectors'], function(i,v){
-					$sector = $(target).find('select[name="sector"]');
-					if ($sector.find('option[value="'+v.id+'"]').length<1)
-							$sector.append($('<option>').val(v.id).text(v.fullname));
-				});
-			}
-		},
-		error: function(data, status) {
-				window.console&&console.log('<ajaxConsole ERROR> '+data+' </ajaxConsole ERROR>');
+	// ^ reset sons
+	
+	$(target).find('table#departments tbody tr').remove();
+	
+	//$(target).find('table#sectors tbody tr').remove();
+	
+	
+	// $ reset sons
+	
+	// ^ reset manager
+	var $manager = $(target).find('select[name="manager"]');
+	$manager.find('option[value="0"]').siblings('option').remove();
+	$manager.val(0);
+	
+	if ($( '#storesModal' ).prop('managers') == undefined){
+		$.ajax({
+			url:			users_url+'?short=1',
+			type:			"POST",
+			datatype:		"json",
+			data:{
+				secret:			getUser().password,
 			},
-	});
+			async: true,
+			success: function(data, status) {
+				window.console&&console.log(data); // for debugging
+				$.each(data, function(i, msg){
+					if($.inArray(i,['success','error','warning','info'])>=0){
+						toastr[i](msg);
+					}
+				});
+				if (!('error' in data) && ('users' in data)){
+					$.each(data['users'], function(i,v){
+						$manager = $(target).find('select[name="manager"]');
+						if ($manager.find('option[value="'+v.id+'"]').length<1)
+							$manager.append($('<option>').val(v.id).text(v.fullname));
+					});
+					$( '#storesModal' ).prop('managers', data['users']);
+				}
+			},
+			error: function(data, status) {
+					window.console&&console.log('<ajaxConsole ERROR> '+data+' </ajaxConsole ERROR>');
+				},
+		});
+	} else {
+		$.each($( '#storesModal' ).prop('managers'), function(i,v){
+			$manager = $(target).find('select[name="manager"]');
+			if ($manager.find('option[value="'+v.id+'"]').length<1)
+					$manager.append($('<option>').val(v.id).text(v.fullname));
+		});
+	}
+	
 	// $ reset select
+	
 	$(target).find('form').get(0).reset();
 
 	// $ reset old data
@@ -112,24 +133,45 @@ function storeEditorInit(target, button){
 		var stores = $( '#storesModal' ).prop('stores');
 		if (id in stores){
 			var store = stores[id];
-			$(target).find('input[name="username"]').val(store.username).prop('disabled', true);
 			$(target).find('input[name="name"]').val(store.name);
-			$(target).find('input[name="email"]').val(store.email==store.username?'':store.email);
-			$('#pass').collapse('hide');
+			$(target).find('input[name="address"]').val(store.address);
 			
-			if (store.sector!=null)
+			var $select = $(target).find('select[name="manager"]');
+			if (store.manager_id)
 			{
-				var $sector = $(target).find('select[name="sector"] option[value="'+store.sector.id+'"]');
-				if ($sector.length<1){
-					$('#storesModal').find('select[name="sector"]')
-						.append($('<option>').val(store.sector.id).text(store.sector.fullname));
+				var $manager = $select.find('option[value="'+store.manager_id+'"]');
+				if ($manager.length<1){
+					$select
+						.append($('<option>').val(store.manager_id).text(store.manager));
 				}
-				$(target).find('select[name="sector"]').val(store.sector.id);
+				$select.val(store.manager_id);
 			} else
-				$(target).find('select[name="sector"]').val(0);
-
+				$select.val(0);
 			
-			$(target).find(':checkbox[name="administrator"]').prop('checked', store.administrator);
+			var $sons = $(target).find('table#departments tbody');
+			
+			var $edit = $('<a></a>').attr('title','Modifica')
+				.addClass('btn btn-sm btn-info').attr('data-show','#storesEditor');
+			var $remove = $('<a></a>').attr('title','')
+					.addClass('btn btn-sm btn-danger')
+					.attr('data-toggle','confirmation')
+					.attr('data-original-title', 'Vuoi davvero cancellare questo punto vendita con tutti i suoi dipartimenti e settori in modo permanente?');
+			$edit.html('<span class="glyphicon glyphicon-pencil"></span>');
+			$remove.html('<span class="glyphicon glyphicon-trash"></span>');
+			
+			$.each(store.departments, function(i,v){
+				
+				var $editButton = $edit.clone().attr('data-id',v.id);
+				var $removeButton = $remove.clone().attr('data-id',v.id);
+				
+				var $tools = $('<div>&nbsp;</div>').append($removeButton).prepend($editButton);
+				var $tr = $('<tr>')
+						.append($('<td>').html($tools.html()))
+						.append($('<td>').text(v.name))
+						.append($('<td>').text(v.manager))
+						.append($('<td>').text($.map(v.sectors, function(n, i) { return i; }).length));
+				$sons.append($tr.clone());
+			});
 
 		}else{
 			toastr['error']
@@ -138,6 +180,10 @@ function storeEditorInit(target, button){
 	}else{
 
 	}
+	
+	if ($(target).find('table#departments tbody tr').length<1)
+		$(target).find('table#departments tbody')
+			.append('<tr><td colspan="4"><em>Vuoto</em></td></tr>');
 	
 	// $ populate new data
 
@@ -162,7 +208,7 @@ function populateStores(data)
            store.name,
            escapeHtml(store.address),
            escapeHtml(store.manager),
-           $('<div>').append($('<span>').text(store.departments_id.length)).html(),
+           $('<div>').append($('<span>').text(store.departments.length)).html(),
        ]);
 	});
 	

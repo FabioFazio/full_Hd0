@@ -562,6 +562,7 @@ class FrontendController extends ZtAbstractActionController {
     public function getUsersAction()
     {
         $input = $this->request->getPost ()->toArray();
+        $short = $this->request->getQuery('short', false);
         $user = $this->getSession()->user;
     	$result = [];
 
@@ -575,25 +576,32 @@ class FrontendController extends ZtAbstractActionController {
     	$result['users'] = [];
     
     	$users = $this->getObjectManager()->getRepository("Test\Entity\User")->findBy(['disabled'=>false]);
-    		
-    	array_walk($users, function(&$v){
-            $qs = $v->getQueues(true);
-            $ss = $v->getSectors();
-            
-    	    $v = $v->toArray();
-    	    unset($v['groups_id']);
-    	    unset($v['tracks_id']);
-    	    unset($v['sectors']);
-
-    	    array_walk($qs, function(&$q){
-    	        $q = [ 'id' => $q['id'], 'name' => $q['name'], 'fp' => $q['focalpoint']];
-    	    });
-    	    $v['focalpoint'] = array_values(array_filter($qs,   function($q){return $q['fp'];}));
-    	    $v['queues'] = array_values(array_filter($qs,       function($q){return !$q['fp'];}));
-    	    $v['password'] = sha1($v['password']);
-    	    $v['sector'] = !empty($ss)?current($ss)->toArray():null;
-    	});
     	
+    	if ($short)
+    	{
+    	    array_walk($users, function(&$v){
+    	    	$v = ['id' => $v->getId(), 'fullname' => $v->getFullname()];
+    	    });
+    	} else {
+        	array_walk($users, function(&$v){
+                $qs = $v->getQueues(true);
+                $ss = $v->getSectors();
+                
+        	    $v = $v->toArray();
+        	    unset($v['groups_id']);
+        	    unset($v['tracks_id']);
+        	    unset($v['sectors']);
+    
+        	    array_walk($qs, function(&$q){
+        	        $q = [ 'id' => $q['id'], 'name' => $q['name'], 'fp' => $q['focalpoint']];
+        	    });
+        	    $v['focalpoint'] = array_values(array_filter($qs,   function($q){return $q['fp'];}));
+        	    $v['queues'] = array_values(array_filter($qs,       function($q){return !$q['fp'];}));
+        	    $v['password'] = sha1($v['password']);
+        	    $v['sector'] = !empty($ss)?current($ss)->toArray():null;
+        	});
+        }
+        
     	foreach ($users as $user){
     	    $result['users'][$user['id']] = $user;
     	}
@@ -630,7 +638,7 @@ class FrontendController extends ZtAbstractActionController {
     		}
     
     		if ($this->request->getQuery('dump', false))
-    			return $this->jsonModel ( $result );//die(var_dump( $result ));
+    			die(var_dump( $result ));
     		else
     			return $this->jsonModel ( $result );
     }

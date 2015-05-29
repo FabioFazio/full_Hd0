@@ -94,39 +94,21 @@ $( function($) {
                                                         
                             <div class="col-md-6">
                                 
-                               <div class="form-group input-group bg-danger col-md-12">
-                                    <label for="sectorList" class="control-label alert-info input-group-addon">
-                                       Dipartimenti
-                                    </label>
-                                    <div class="form-control well well-sm">
-                                        <table class="table table-striped table-condensed text-center">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nome Dipartimento</th>
-                                                    <th>Responsabile di Dipartimento</th>
-                                                    <th>Settori Relativi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="mock">Nome</td>
-                                                    <td class="mock">Responsabile</td>
-                                                    <td class="mock">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="mock">Nome</td>
-                                                    <td class="mock">Responsabile</td>
-                                                    <td class="mock">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="mock">Nome</td>
-                                                    <td class="mock">Responsabile</td>
-                                                    <td class="mock">1</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>                            
+                                <table id="departments" class="table table-striped table-condensed table-bordered text-center">
+                                    <thead>
+                                        <tr class="alert-info">
+                                            <th colspan="4" class="text-center">Dipartimenti</th>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th>Nome</th>
+                                            <th>Responsabile</th>
+                                            <th>Settori Relativi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 

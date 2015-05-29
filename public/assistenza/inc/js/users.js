@@ -136,33 +136,43 @@ function userEditorInit(target, button){
 	var $sector = $(target).find('select[name="sector"]');
 	$sector.find('option[value="0"]').siblings('option').remove();
 	$sector.val(0);
-	$.ajax({
-		url:			sectors_url,
-		type:			"POST",
-		datatype:		"json",
-		data:{
-			secret:			getUser().password
-		},
-		async: true,
-		success: function(data, status) {
-			window.console&&console.log(data); // for debugging
-			$.each(data, function(i, msg){
-				if($.inArray(i,['success','error','warning','info'])>=0){
-					toastr[i](msg);
-				}
-			});
-			if (!('error' in data) && ('sectors' in data)){
-				$.each(data['sectors'], function(i,v){
-					$sector = $(target).find('select[name="sector"]');
-					if ($sector.find('option[value="'+v.id+'"]').length<1)
-							$sector.append($('<option>').val(v.id).text(v.fullname));
-				});
-			}
-		},
-		error: function(data, status) {
-				window.console&&console.log('<ajaxConsole ERROR> '+data+' </ajaxConsole ERROR>');
+	
+	if ($( '#usersModal' ).prop('sectors') == undefined){
+		$.ajax({
+			url:			sectors_url,
+			type:			"POST",
+			datatype:		"json",
+			data:{
+				secret:			getUser().password
 			},
-	});
+			async: true,
+			success: function(data, status) {
+				window.console&&console.log(data); // for debugging
+				$.each(data, function(i, msg){
+					if($.inArray(i,['success','error','warning','info'])>=0){
+						toastr[i](msg);
+					}
+				});
+				if (!('error' in data) && ('sectors' in data)){
+					$.each(data['sectors'], function(i,v){
+						$sector = $(target).find('select[name="sector"]');
+						if ($sector.find('option[value="'+v.id+'"]').length<1)
+								$sector.append($('<option>').val(v.id).text(v.fullname));
+					});
+					$( '#usersModal' ).prop('sectors', data['sectors']);
+				}
+			},
+			error: function(data, status) {
+					window.console&&console.log('<ajaxConsole ERROR> '+data+' </ajaxConsole ERROR>');
+				},
+		});
+	} else {
+		$.each($( '#usersModal' ).prop('sectors'), function(i,v){
+			$sector = $(target).find('select[name="sector"]');
+			if ($sector.find('option[value="'+v.id+'"]').length<1)
+					$sector.append($('<option>').val(v.id).text(v.fullname));
+		});
+	}
 	// $ reset select
 	$(target).find('form').get(0).reset();
 
