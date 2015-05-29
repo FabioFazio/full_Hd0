@@ -92,23 +92,30 @@ $( function($) {
                                 </div>
                            </div>     
                                                         
-                            <div class="col-md-6">
+                            <div class="col-md-6 well well-sm">
                                 
                                 <table id="departments" class="table table-striped table-condensed table-bordered text-center">
                                     <thead>
-                                        <tr class="alert-info">
-                                            <th colspan="4" class="text-center">Dipartimenti</th>
+                                        <tr>
+                                            <th colspan="4" class="alert-info text-center">Dipartimenti</th>
                                         </tr>
                                         <tr>
                                             <th></th>
-                                            <th>Nome</th>
-                                            <th>Responsabile</th>
-                                            <th>Settori Relativi</th>
+                                            <th class="btn-default">Nome</th>
+                                            <th class="btn-default">Responsabile</th>
+                                            <th class="btn-default">Settori Relativi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     </tbody>
                                 </table>
+                                
+                                <div class="text-right" style="margin-top: 10px;">
+                                    <button data-show="#departmentsEditor" type="button" data-id="0" class="btn btn-sm btn-primary">
+                                        <span class="glyphicon glyphicon-plus"></span> Aggiungi
+                                    </button>                        
+                                </div>
+                                
                             </div>
                         </div>
 

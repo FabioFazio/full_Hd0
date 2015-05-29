@@ -151,7 +151,7 @@ function storeEditorInit(target, button){
 			var $sons = $(target).find('table#departments tbody');
 			
 			var $edit = $('<a></a>').attr('title','Modifica')
-				.addClass('btn btn-sm btn-info').attr('data-show','#storesEditor');
+				.addClass('btn btn-sm btn-info').attr('data-show','#departmentsEditor');
 			var $remove = $('<a></a>').attr('title','')
 					.addClass('btn btn-sm btn-danger')
 					.attr('data-toggle','confirmation')
