@@ -69,6 +69,7 @@
 <script type="text/javascript" src="inc/js/login.js"></script>
 <script type="text/javascript" src="inc/js/settings.js"></script>
 <script type="text/javascript" src="inc/js/users.js"></script>
+<script type="text/javascript" src="inc/js/stores.js"></script>
 <!-- end@script -->
 
 <!--[if IE 7]>
@@ -117,6 +118,8 @@
 						
 						<li class="admin"><a href="#" data-toggle="modal" data-target="#usersModal"><span
 								class="glyphicon glyphicon-user"></span> Utenti</a></li>
+						<li class="admin"><a href="#" data-toggle="modal" data-target="#storesModal"><span
+								class="glyphicon glyphicon-shopping-cart"></span> Punti Vendita</a></li>
 						<li class="admin"><a href="#" onclick="return content();"><span
 								class="glyphicon glyphicon-bullhorn"></span> Comunicazioni</a></li>
 						<li class="admin"><a href="#" onclick="return content();"><span
@@ -182,7 +185,9 @@ var articles_url = '/hd0/test/frontend/getArticles';
 var users_url = '/hd0/test/frontend/getUsers';
 var queues_url = '/hd0/test/frontend/getQueues';
 var sectors_url = '/hd0/test/frontend/getSectors';
-var userDelete_url = '/hd0/test/frontend/deleteUser';
+var user_delete_url = '/hd0/test/frontend/deleteUser';
+var store_save_url = "/hd0/test/frontend/saveUser";
+var store_delete_url = '/hd0/test/frontend/deleteUser';
 
 /* Env vars */
 var cookieExpires	= (10 * 365);
@@ -211,6 +216,7 @@ var cookiePath		= '/';
 	<div data-include="inc/login.inc"><!-- 'user' => $user --></div>
 	<div data-include="inc/settings.inc"></div>
 	<div data-include="inc/users.inc"></div>
+	<div data-include="inc/stores.inc"></div>
 
 </body>
 

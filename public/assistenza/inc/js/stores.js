@@ -1,28 +1,27 @@
 // Extra actions on successfull submit
-fallbackForm['userForm'] = function fallback (data, status, $msgBox, $form) {
+fallbackForm['storeForm'] = function fallback (data, status, $msgBox, $form) {
 	$.each(data, function(i, msg){
 		if($.inArray(i,['success','error','warning','info'])>=0){
 			toastr[i](msg);
 		}
 	});
 	if (!('error' in data)){
-		usersLoad();
-		$form.find('[data-hide]').trigger('click');
+		storesLoad();
 	}
 };
 
 /* Library for users.inc */
-function usersInit()
+function storesInit()
 {
-	var $modal = $( '#usersModal' ); 
+	var $modal = $( '#storesModal' ); 
 	$modal.find('div.modal-xl').css( "width", $(window).innerWidth()-50 );
-    tableUsers = tableUsers?tableUsers:$('#users').dataTable(table_users_options).api();
+    tableStores = tableStores?tableStores:$('#stores').dataTable(table_stores_options).api();
 	
 	// ^ editor animation
     $modal.on('click', '[data-show]', function(){
 		var target = $(this).attr('data-show');
 		var twin = $(target).attr('data-flip');
-		userEditorInit(target, this);
+		storeEditorInit(target, this);
 		$(target).add(twin).toggleClass('hidden');
 	});
 	
@@ -32,38 +31,15 @@ function usersInit()
 		$(target).add(twin).toggleClass('hidden');
 	});
 	// $ editor animation
-    
-    // ^ password collpase animation
-    $('#pass').on('hide.bs.collapse', function (e) {
-    	  if(e){
-	    	  $this = $(this);
-	    	  if(typeof(e)!='undefined' && $this.parents('form').find('input:hidden[name="id"][value="0"]').length>0){
-	    		  $this.find('input').prop('disabled', false);
-	    		  //s$this.parent('form').reset();
-	    		  e.preventDefault();
-	    	  }else{
-	    		  $this.find('input').prop('disabled', true).val();	    		  
-	    	  }
-    	  }
-    	});
-    $('#pass').on('show.bs.collapse', function (e) {
-	    	if(e){
-		  	  $this = $(this);
-			  $this.find('input').prop('disabled', false);
-	    	}
-  		});
-    // $ password collpase animation
-    
-
 }
 
-function usersLoad(e)
+function storesLoad(e)
 {
 	//var refresh = (typeof e !== 'undefined')?true:false;
 	
 	// ^ clean old data
-	tableUsers.rows().remove();
-	tableUsers.draw();
+	tableStores.rows().remove();
+	tableStores.draw();
 	// $ clean old data
 
 	$.ajax({
@@ -76,55 +52,16 @@ function usersLoad(e)
 		async: true,
 		success: function(data, status) {
 			window.console&&console.log(data); // for debugging
-			populateUsers(data['users']);
-			$( '#usersModal' ).prop('users', data['users']);
+			populateStores(data['users']);
+			$( '#storesModal' ).prop('stores', data['users']);
 		},
 		error: function(data, status) {
 				window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>');
 			},
 	});
-	
-	// ^ init multiselect
-	if(typeof($mulstiselects)=='undefined')
-	{
-		var $mulstiselects = $('#user-queues').add('#user-focalpoint');
-		$mulstiselects.find('option').remove();
-		
-		$.ajax({
-			url:			queues_url,
-			type:			"POST",
-			datatype:		"json",
-			data:{
-				secret:			getUser().password
-			},
-			async: true,
-			success: function(data, status) {
-				window.console&&console.log(data); // for debugging
-				$.each(data, function(i, msg){
-					if($.inArray(i,['success','error','warning','info'])>=0){
-						toastr[i](msg);
-					}
-				});
-				if (!('error' in data) && ('queues' in data)){
-					//$( '#usersModal' ).prop('queues', data['queues']);
-					$mulstiselects = $('#user-queues').add('#user-focalpoint');
-					$.each(data['queues'], function(i,v){
-						if ($mulstiselects.find('option[value="'+v.id+'"]').length<1)
-							$mulstiselects.append($('<option>').val(v.id).text(v.name));
-					});
-					selectQueues = $('#user-queues').bootstrapDualListbox(duallist_queues_options);
-					selectFps = $('#user-focalpoint').bootstrapDualListbox(duallist_fps_options);
-				}
-			},
-			error: function(data, status) {
-					window.console&&console.log('<ajaxConsole ERROR> '+data+' </ajaxConsole ERROR>');
-				},
-		});
-	}
-	// $ init multiselect
 }
 
-function userEditorInit(target, button){
+function storeEditorInit(target, button){
 	// ^ reset old data
 	var id = $(button).attr('data-id');
 
@@ -166,16 +103,6 @@ function userEditorInit(target, button){
 	// $ reset select
 	$(target).find('form').get(0).reset();
 
-	// ^ reset multiselect
-	
-	$mulstiselects = $('#user-queues').add('#user-focalpoint');
-	$mulstiselects.find('option[data-history]').remove();
-	$mulstiselects.find('option[selected]').removeAttr('selected');
-	selectQueues.bootstrapDualListbox('refresh', true);
-	selectFps.bootstrapDualListbox('refresh', true);
-	
-	// $ reset multiselect
-	
 	// $ reset old data
 	
 	// ^ populate new data
@@ -237,7 +164,7 @@ function userEditorInit(target, button){
 
 }
 
-function populateUsers(data){
+function populateStores(data){
 	$edit = $('<a></a>').attr('title','Modifica')
 		.addClass('btn btn-sm btn-info').attr('data-show','#usersEditor');
 	$remove = $('<a></a>').attr('title','')
@@ -254,7 +181,7 @@ function populateUsers(data){
 			$removeButton.attr('disabled','disabled');
 		}
 		
-		tableUsers.row.add([
+		tableStores.row.add([
            $('<div>&nbsp;</div>').append($removeButton)
            		.prepend($editButton).html(),
            user.username,
@@ -270,12 +197,11 @@ function populateUsers(data){
        ]);
 	});
 	
-	//.prop('queues',item.queues).prop('focalpoint', item.focalpoint)
-	tableUsers.draw();
+	tableStores.draw();
 	$('a[data-toggle="confirmation"]').confirmation(confirmation_delete_options);
 }
 
-function userDelete(toastr, item)
+function storeDelete(toastr, item)
 {
 	$.ajax({
 		url:			user_delete_url,
@@ -296,7 +222,7 @@ function userDelete(toastr, item)
 			if ('success' in data){
 				$tr = $('#users').find('a.btn-danger[data-id='+item.id+']').closest('tr');
 				$tr.addClass('remove');
-				tableUsers.row('.remove').remove().draw( false );
+				tableStores.row('.remove').remove().draw( false );
 			}
 		},
 		error: function(data, status) {
