@@ -40,21 +40,16 @@ var duallist_default_options = {
 		  infoTextEmpty: 'Lista vuota',
 	    };
 
-var duallist_queues_options = JSON.parse(JSON.stringify(duallist_default_options));
+var duallist_queues_options = $.extend(true, {}, duallist_default_options);
 duallist_queues_options.nonSelectedListLabel = '<span class="h4">Categorie di Segnalazione disponibili</span>';
 duallist_queues_options.selectedListLabel = '<p class="h4 text-info">Categorie seguite come Utente</p>';
 
-var duallist_fps_options = JSON.parse(JSON.stringify(duallist_default_options));
+var duallist_fps_options = $.extend(true, {}, duallist_default_options);
 duallist_fps_options.nonSelectedListLabel = '<span class="h4">Categorie di Segnalazione disponibili</span>';
 duallist_fps_options.selectedListLabel = '<p class="h4 text-danger">Categorie seguite come Focal Point</p>';
 
-var confirmation_delete_options = {
-		btnOkLabel: 'Cancella',
-		btnCancelLabel: 'Annulla',
-		singleton: true,
-		popout: true,
-		onConfirm: function(){userDelete(toastr, this);},	
-};
+var confirmation_delete_user_options = $.extend(true, {}, confirmation_delete_options);
+confirmation_delete_user_options.onConfirm = function(){userDelete(toastr, this);};
 
 $( function($) {
 

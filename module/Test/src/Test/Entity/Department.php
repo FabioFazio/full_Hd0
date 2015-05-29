@@ -24,7 +24,9 @@ class Department {
 	/** @ORM\ManyToOne(targetEntity="User") */
 	protected $manager;
 	
-	/** @ORM\ManyToOne(targetEntity="Store") */
+	/** @ORM\ManyToOne(targetEntity="Store", inversedBy="departments")
+	 *  @ORM\JoinColumn(name="store_id", referencedColumnName="id")
+	 */
 	protected $store;
 	
 	public function getId(){

@@ -27,6 +27,17 @@ class Store {
 	/** @ORM\ManyToOne(targetEntity="User") */
 	protected $manager;
 	
+	/** @ORM\OneToMany(targetEntity="Department", mappedBy="store") */
+	protected $departments;
+
+	/** @ORM\Column(type="boolean") */
+	protected $disabled;
+	
+	public function __construct(){
+	    $this->departments = new ArrayCollection();
+		$this->disabled = false;
+	}
+	
 	public function getId(){
 	    return $this->id;
 	}
@@ -65,5 +76,38 @@ class Store {
 
     public function setManager($manager){
     	$this->grants = $manager;
+    }
+    
+    public function hasDepartments() {
+    	return $this->departments->count();
+    }
+    
+    public function getDepartments() {
+    	return $this->departments;
+    }
+    
+    public function isDisabled(){
+    	return $this->disabled?:false;
+    }
+    
+    public function setDisabled($disabled){
+    	$this->disabled = $disabled;
+    }
+    
+    public function toArray()
+    {
+    	$array = get_object_vars($this);
+    
+    	$dep_id = [];
+    	foreach($this->getDepartments()->toArray() as $dep){
+    		$dep_id[] = $dep->getId();
+    	}
+    	$array['departments_id'] = $dep_id;
+    	unset($array['departments']);
+    	 
+    	$array['manager_id'] = $this->getManager()?$this->getManager()->getId():null;
+        unset($array['manager']);
+        
+    	return $array;
     }
 }

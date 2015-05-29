@@ -604,6 +604,39 @@ class FrontendController extends ZtAbstractActionController {
     		return $this->jsonModel ( $result );
     }
     
+    public function getStoresAction()
+    {
+    	$input = $this->request->getPost ()->toArray();
+    	$user = $this->getSession()->user;
+    	$result = [];
+    
+    	$userObject = $this->getObjectManager()->find('Test\Entity\User', $user['id']);
+    	if ((!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    			!$userObject->isAdministrator()) && !$this->request->getQuery('dump', false))
+    	{
+    		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
+    		return $this->jsonModel ( $result );
+    	}
+    	$result['stores'] = [];
+    
+    	$stores = $this->getObjectManager()->getRepository("Test\Entity\Store")->findBy(['disabled'=>false]);
+    
+    	array_walk($stores, function(&$v){
+    		$m = $v->getManager()?$v->getManager()->getFullname():'';
+    		$v = $v->toArray();
+    		$v['manager'] = $m;
+    	});
+    		 
+    		foreach ($stores as $store){
+    			$result['stores'][$store['id']] = $store;
+    		}
+    
+    		if ($this->request->getQuery('dump', false))
+    			die(var_dump( $result ));
+    		else
+    			return $this->jsonModel ( $result );
+    }
+    
     public function getQueuesAction()
     {
     	$input = $this->request->getPost ()->toArray();

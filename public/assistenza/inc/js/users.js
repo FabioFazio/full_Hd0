@@ -272,7 +272,7 @@ function populateUsers(data){
 	
 	//.prop('queues',item.queues).prop('focalpoint', item.focalpoint)
 	tableUsers.draw();
-	$('a[data-toggle="confirmation"]').confirmation(confirmation_delete_options);
+	$('a[data-toggle="confirmation"]').confirmation(confirmation_delete_user_options);
 }
 
 function userDelete(toastr, item)

@@ -9,7 +9,7 @@ var table_stores_options = {
 				"aTargets" : [ 0 ],
 		},{
 				"sClass": "center",
-				"aTargets": [ 4, 6, 7, 8 ]
+				"aTargets": [ 4 ]
 		},{
     			"sClass": "text-nowrap",
     			"aTargets": [ 0 ]
@@ -23,13 +23,8 @@ var table_stores_options = {
         "fnInitComplete": function(){},
 };
 
-var confirmation_delete_options = {
-		btnOkLabel: 'Cancella',
-		btnCancelLabel: 'Annulla',
-		singleton: true,
-		popout: true,
-		onConfirm: function(){storeDelete(toastr, this);},	
-};
+var confirmation_delete_store_options = $.extend(true, {}, confirmation_delete_options);
+confirmation_delete_store_options.onConfirm = function(){storeDelete(toastr, this);};
 
 $( function($) {
 
@@ -179,20 +174,10 @@ $( function($) {
                       <thead>
                         <tr>
                           <th></th>
-                          <th>Nome Utente</th>
-                          <th>Nome Completo</th>
-                          <th>Email</th>
-                          <th>Password</th>
-                          <th>Settore di Appartenenza</th>
-                          <th>Categorie Utente</th>                          
-                          <th>Categorie Focal&nbsp;Point</th>
-                          <th>Amministratore</th>
-                          <!-- 
                           <th>Nome Punto Vendita</th>
                           <th>Indirizzo</th>
                           <th>Responsabile</th>
                           <th>Dipartimenti</th>
-                           -->
                         </tr>
                       </thead>
 

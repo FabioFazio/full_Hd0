@@ -7,6 +7,16 @@
 var fallbackForm = {};
 var authenticated;
 
+/* Obj Default Configuration */
+
+var confirmation_delete_options = {
+		btnOkLabel: 'Cancella',
+		btnCancelLabel: 'Annulla',
+		singleton: true,
+		popout: true,
+		onConfirm: function(){},	
+};
+
 /**
  * Escane string before inject with $.html
  */
