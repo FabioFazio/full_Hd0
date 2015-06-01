@@ -49,6 +49,70 @@ $( function($) {
 
             <div class="modal-body">
             
+               <div id="departmentsEditor" data-flip="#storesEditor" class="hidden">
+               <form id="departmentForm" data-async method="post" data-validate action="">
+                        
+                        <input type="hidden" name="id" value="0"/>
+                        <input type="hidden" name="secret" value="0"/>
+                
+           				<div class="row">
+            				<div class="col-md-6">
+            					
+            					<div class="form-group input-group col-md-12">
+                                    <label for="name" class="control-label">
+                                        <i class="glyphicon glyphicon-edit"></i> Nome Dipartimento
+                                    </label>
+                				    <input type="text" class="form-control text-right" name="name" 
+                				        placeholder="Nome completo"
+                				        data-validation-error-msg="Lunghezza attesa tra 3 e 25 caratteri alfanumerici"
+                                        data-validation="required alphanumeric length" 
+                                        data-validation-length="3-25"
+                				        />
+                                </div>
+                                 
+                                <div class="form-group input-group col-md-12">
+                                    <label for="manager" class="control-label">
+                                       <i class="glyphicon glyphicon-user"></i> Responsabile
+                                    </label>
+                                    <select class="form-control valid" name="manager" aria-invalid="false">
+                                        <option value="0" selected="selected">--- Non Definito ---</option>
+                                    </select>
+                                </div>
+                           </div>     
+                                                        
+                            <div class="col-md-6 well well-sm">
+                                
+                                <table id="sectors" class="table table-striped table-condensed table-bordered text-center">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="4" class="alert-info text-center">Settori</th>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th class="btn-default">Nome</th>
+                                            <th class="btn-default">Responsabile</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                
+                                <div class="text-right" style="margin-top: 10px;">
+                                    <button data-show="#sectorsEditor" type="button" data-id="0" class="btn btn-sm btn-primary" disabled="disabled">
+                                        <span class="glyphicon glyphicon-plus"></span> Aggiungi
+                                    </button>                        
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                       <div class="text-right" style="margin-top: 10px;">
+                            <button type="submit" class="btn btn-success">Salva</button>
+                            <button data-hide="#departmentsEditor" type="button" class="btn btn-default">Indietro</button>
+                        </div>
+                    </form>
+                 </div>
+                 
                 <div id="storesEditor" data-flip="#storesList" class="hidden">
                 <form id="storeForm" data-async method="post" data-validate action="">
                         
@@ -111,7 +175,7 @@ $( function($) {
                                 </table>
                                 
                                 <div class="text-right" style="margin-top: 10px;">
-                                    <button data-show="#departmentsEditor" type="button" data-id="0" class="btn btn-sm btn-primary">
+                                    <button data-show="#departmentsEditor" type="button" data-id="0" class="btn btn-sm btn-primary" disabled="disabled">
                                         <span class="glyphicon glyphicon-plus"></span> Aggiungi
                                     </button>                        
                                 </div>
@@ -121,7 +185,7 @@ $( function($) {
 
                        <div class="text-right" style="margin-top: 10px;">
                             <button type="submit" class="btn btn-success">Salva</button>
-                            <button data-hide="#storesEditor" type="button" class="btn btn-default">Annulla</button>
+                            <button data-hide="#storesEditor" type="button" class="btn btn-default">Indietro</button>
                         </div>
                     </form>
                  </div>
