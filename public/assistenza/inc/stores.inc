@@ -23,15 +23,26 @@ var table_stores_options = {
         "fnInitComplete": function(){},
 };
 
-var confirmation_delete_store_options = $.extend(true, {}, confirmation_delete_options);
-confirmation_delete_store_options.onConfirm = function(){storeDelete(toastr, this);};
+var confirmation_delete_store_options       = $.extend(true, {}, confirmation_delete_options);
+var confirmation_delete_department_options  = $.extend(true, {}, confirmation_delete_options);
+var confirmation_delete_sector_options      = $.extend(true, {}, confirmation_delete_options);
+
+confirmation_delete_store_options.onConfirm         = function(){storeDelete(toastr, this);};
+confirmation_delete_department_options.onConfirm    = function(){departmentDelete(toastr, this);};
+confirmation_delete_sector_options.onConfirm        = function(){sectorDelete(toastr, this);};
+
 
 $( function($) {
 
     storesInit();
 	
     $('#storesModal').on('show.bs.modal', function (e) {
-    	$(this).find('form').attr('action',store_save_url);
+    	$(this).find('sectorForm')
+    	   .attr('action', sector_save_url);
+    	$(this).find('departmentForm')
+    	   .attr('action', department_save_url);
+    	$(this).find('storeForm')
+    	   .attr('action', store_save_url);
         storesLoad(e);
     });
 });

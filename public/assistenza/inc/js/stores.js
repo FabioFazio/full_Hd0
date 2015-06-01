@@ -1,14 +1,15 @@
 // Extra actions on successfull submit
-fallbackForm['storeForm'] = function fallback (data, status, $msgBox, $form) {
-	$.each(data, function(i, msg){
-		if($.inArray(i,['success','error','warning','info'])>=0){
-			toastr[i](msg);
+fallbackForm['storeForm'] = fallbackForm['departmentForm'] = fallbackForm['sectorForm'] =
+	function fallback (data, status, $msgBox, $form) {
+		$.each(data, function(i, msg){
+			if($.inArray(i,['success','error','warning','info'])>=0){
+				toastr[i](msg);
+			}
+		});
+		if (!('error' in data)){
+			storesLoad();
 		}
-	});
-	if (!('error' in data)){
-		storesLoad();
-	}
-};
+	};
 
 /* Library for stores.inc */
 function storesInit()
@@ -171,7 +172,7 @@ function departmentEditorInit(target, button){
 			var $remove = $('<a></a>').attr('title','')
 					.addClass('btn btn-sm btn-danger')
 					.attr('data-toggle','confirmation')
-					.attr('data-original-title', 'Vuoi davvero cancellare questo dipartimento con tutti i suoi settori?');
+					.attr('data-original-title', 'Vuoi davvero cancellare questo settore?');
 			$edit.html('<span class="glyphicon glyphicon-pencil"></span>');
 			$remove.html('<span class="glyphicon glyphicon-trash"></span>');
 			
@@ -203,6 +204,8 @@ function departmentEditorInit(target, button){
 	if ($(target).find('table#sectors tbody tr').length<1)
 		$(target).find('table#sectors tbody')
 			.append('<tr><td colspan="4"><em>Vuoto</em></td></tr>');
+	else
+		$(target).find('a[data-toggle="confirmation"]').confirmation(confirmation_delete_sector_options);
 	
 	// $ populate new data
 
@@ -302,7 +305,7 @@ function storeEditorInit(target, button){
 			var $remove = $('<a></a>').attr('title','')
 					.addClass('btn btn-sm btn-danger')
 					.attr('data-toggle','confirmation')
-					.attr('data-original-title', 'Vuoi davvero cancellare questo punto vendita con tutti i suoi dipartimenti e settori?');
+					.attr('data-original-title', 'Vuoi davvero cancellare questo dipartimento con tutti i suoi settori?');
 			$edit.html('<span class="glyphicon glyphicon-pencil"></span>');
 			$remove.html('<span class="glyphicon glyphicon-trash"></span>');
 			
@@ -334,7 +337,8 @@ function storeEditorInit(target, button){
 	if ($(target).find('table#departments tbody tr').length<1)
 		$(target).find('table#departments tbody')
 			.append('<tr><td colspan="4"><em>Vuoto</em></td></tr>');
-	
+	else
+		$(target).find('a[data-toggle="confirmation"]').confirmation(confirmation_delete_department_options);	
 	// $ populate new data
 
 }
@@ -388,6 +392,66 @@ function storeDelete(toastr, item)
 				$tr = $('#stores').find('a.btn-danger[data-id='+item.id+']').closest('tr');
 				$tr.addClass('remove');
 				tableStores.row('.remove').remove().draw( false );
+			}
+		},
+		error: function(data, status) {
+				window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>');
+				toastr['error'] = 'Non è stato possibile rimuovere l\' elemento. Riprovare più tardi.';
+			},
+	});
+}
+
+function departmentDelete(toastr, item)
+{
+	$.ajax({
+		url:			department_delete_url,
+		type:			"POST",
+		datatype:		"json",
+		data:{
+			secret:		getUser().password,
+			id:			item.id,
+		},
+		async: true,
+		success: function(data, status) {
+			window.console&&console.log(data); // for debugging
+			$.each(data, function(i, msg){
+				if($.inArray(i,['success','error','warning','info'])>=0){
+					toastr[i](msg);
+				}
+			});
+			if ('success' in data){
+				$tr = $('#departments').find('a.btn-danger[data-id='+item.id+']').closest('tr');
+				$tr.remove();
+			}
+		},
+		error: function(data, status) {
+				window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>');
+				toastr['error'] = 'Non è stato possibile rimuovere l\' elemento. Riprovare più tardi.';
+			},
+	});
+}
+
+function sectorDelete(toastr, item)
+{
+	$.ajax({
+		url:			sector_delete_url,
+		type:			"POST",
+		datatype:		"json",
+		data:{
+			secret:		getUser().password,
+			id:			item.id,
+		},
+		async: true,
+		success: function(data, status) {
+			window.console&&console.log(data); // for debugging
+			$.each(data, function(i, msg){
+				if($.inArray(i,['success','error','warning','info'])>=0){
+					toastr[i](msg);
+				}
+			});
+			if ('success' in data){
+				$tr = $('#sectors').find('a.btn-danger[data-id='+item.id+']').closest('tr');
+				$tr.remove();
 			}
 		},
 		error: function(data, status) {
