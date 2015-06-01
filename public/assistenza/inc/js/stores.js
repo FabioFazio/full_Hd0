@@ -208,7 +208,7 @@ function populateStores(data)
            store.name,
            escapeHtml(store.address),
            escapeHtml(store.manager),
-           $('<div>').append($('<span>').text(store.departments.length)).html(),
+           $('<div>').append($('<span>').text($.map(store.departments, function(n, i) { return i; }).length)).html(),
        ]);
 	});
 	
