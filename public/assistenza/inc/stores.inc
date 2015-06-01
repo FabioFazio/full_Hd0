@@ -98,7 +98,7 @@ $( function($) {
                                 </table>
                                 
                                 <div class="text-right" style="margin-top: 10px;">
-                                    <button data-show="#sectorsEditor" type="button" data-id="0" class="btn btn-sm btn-primary" disabled="disabled">
+                                    <button data-show="#sectorsEditor" type="button" data-id="0" class="btn btn-sm btn-primary">
                                         <span class="glyphicon glyphicon-plus"></span> Aggiungi
                                     </button>                        
                                 </div>
@@ -175,7 +175,7 @@ $( function($) {
                                 </table>
                                 
                                 <div class="text-right" style="margin-top: 10px;">
-                                    <button data-show="#departmentsEditor" type="button" data-id="0" class="btn btn-sm btn-primary" disabled="disabled">
+                                    <button data-show="#departmentsEditor" type="button" data-id="0" class="btn btn-sm btn-primary">
                                         <span class="glyphicon glyphicon-plus"></span> Aggiungi
                                     </button>                        
                                 </div>

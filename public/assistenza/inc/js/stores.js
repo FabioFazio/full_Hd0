@@ -189,14 +189,15 @@ function departmentEditorInit(target, button){
 				
 			});
 			
-			$(target).find('button[data-show="#sectorsEditor"]').attr('data-id',ids+'.0').removeAttr('disabled');
+			$(target).find('button[data-show="#sectorsEditor"]').attr('data-id',ids+'.0');
+			$(target).find('#sectors').parent('div').removeClass('hidden');
 
 		}else{
 			toastr['error']
 				('Non &egrave; stato possibile caricare l\' elemento. Segnalare questo problema agli amministratori del servizio!');
 		}
 	}else{
-		$(target).find('button[data-show="#sectorsEditor"]').attr('disabled','disabled');
+		$(target).find('#sectors').parent('div').addClass('hidden');
 	}
 	
 	if ($(target).find('table#sectors tbody tr').length<1)
@@ -319,14 +320,15 @@ function storeEditorInit(target, button){
 				$sons.append($tr.clone());
 			});
 			
-			$(target).find('button[data-show="#departmentsEditor"]').attr('data-id',id+'.0').removeAttr('disabled');
+			$(target).find('button[data-show="#departmentsEditor"]').attr('data-id',id+'.0');
+			$(target).find('#departments').parent('div').removeClass('hidden');
 
 		}else{
 			toastr['error']
 				('Non &egrave; stato possibile caricare l\' elemento. Segnalare questo problema agli amministratori del servizio!');
 		}
 	}else{
-		$(target).find('button[data-show="#departmentsEditor"]').attr('disabled','disabled');
+		$(target).find('#departments').parent('div').addClass('hidden');
 	}
 	
 	if ($(target).find('table#departments tbody tr').length<1)
