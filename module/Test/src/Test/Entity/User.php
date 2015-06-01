@@ -117,7 +117,8 @@ class User {
     }
     
     public function getFullname(){
-        return $this->getName() . " <" . $this->getEmail() . ">";
+        $email = ($this->getEmail()==$this->getUsername())?"---":$this->getEmail();
+        return $this->getName() . " <$email>";
     }
     
     public function getQueues($redundancy = false)
