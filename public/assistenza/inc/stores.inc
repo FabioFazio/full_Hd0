@@ -60,8 +60,47 @@ $( function($) {
 
             <div class="modal-body">
             
+               <div id="sectorsEditor" data-flip="#departmentsEditor" class="hidden">
+                    <form id="sectorForm" data-async method="post" data-validate action="">
+                        
+                        <input type="hidden" name="id" value="0"/>
+                        <input type="hidden" name="secret" value="0"/>
+                
+           				<div class="row">
+            				<div class="col-md-6">
+            					
+            					<div class="form-group input-group col-md-12">
+                                    <label for="name" class="control-label">
+                                        <i class="glyphicon glyphicon-edit"></i> Nome Settore
+                                    </label>
+                				    <input type="text" class="form-control text-right" name="name" 
+                				        placeholder="Nome completo"
+                				        data-validation-error-msg="Lunghezza attesa tra 3 e 25 caratteri alfanumerici"
+                                        data-validation="required alphanumeric length" 
+                                        data-validation-length="3-25"
+                				        />
+                                </div>
+                                 
+                                <div class="form-group input-group col-md-12">
+                                    <label for="manager" class="control-label">
+                                       <i class="glyphicon glyphicon-user"></i> Responsabile
+                                    </label>
+                                    <select class="form-control valid" name="manager" aria-invalid="false">
+                                        <option value="0" selected="selected">--- Non Definito ---</option>
+                                    </select>
+                                </div>
+                           </div>     
+                        </div>
+
+                       <div class="text-right" style="margin-top: 10px;">
+                            <button type="submit" class="btn btn-success">Salva</button>
+                            <button data-hide="#sectorsEditor" type="button" class="btn btn-default">Indietro</button>
+                        </div>
+                    </form>
+                </div>
+                
                <div id="departmentsEditor" data-flip="#storesEditor" class="hidden">
-               <form id="departmentForm" data-async method="post" data-validate action="">
+                <form id="departmentForm" data-async method="post" data-validate action="">
                         
                         <input type="hidden" name="id" value="0"/>
                         <input type="hidden" name="secret" value="0"/>

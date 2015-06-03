@@ -22,7 +22,7 @@ function storesInit()
     $modal.on('click', '[data-show="#sectorsEditor"]', function(){
 		var target = $(this).attr('data-show');
 		var twin = $(target).attr('data-flip');
-		sectorEditorInit(target, this);
+		secotorEditorInit(target, this);
 		$(target).add(twin).toggleClass('hidden');
 	});
     
@@ -78,6 +78,100 @@ function storesLoad(e)
 
 function secotorEditorInit(target, button){
 
+	// ^ reset old data
+	var ids = $(button).attr('data-id');
+	var gparent = ids.split(".")[0];
+	var parent = ids.split(".")[1];
+	var id = ids.split(".")[2];
+
+	$(target).find('input').val('');
+	$(target).find('input[name="id"]').val(id);
+	$(target).find('input[name="secret"]').val(getUser().password);
+	
+	// ^ reset manager
+	var $manager = $(target).find('select[name="manager"]');
+	$manager.find('option[value="0"]').siblings('option').remove();
+	$manager.val(0);
+	
+	if ($( '#storesModal' ).prop('managers') == undefined){
+		$.ajax({
+			url:			users_url+'?short=1',
+			type:			"POST",
+			datatype:		"json",
+			data:{
+				secret:			getUser().password,
+			},
+			async: true,
+			success: function(data, status) {
+				window.console&&console.log(data); // for debugging
+				$.each(data, function(i, msg){
+					if($.inArray(i,['success','error','warning','info'])>=0){
+						toastr[i](msg);
+					}
+				});
+				if (!('error' in data) && ('users' in data)){
+					$( '#storesModal' ).prop('managers', data['users']);
+				}
+			},
+			error: function(data, status) {
+					window.console&&console.log('<ajaxConsole ERROR> '+data+' </ajaxConsole ERROR>');
+				},
+		});
+	}
+
+	$.each($( '#storesModal' ).prop('managers'), function(i,v){
+		$manager = $(target).find('select[name="manager"]');
+		if ($manager.find('option[value="'+v.id+'"]').length<1)
+				$manager.append($('<option>').val(v.id).text(v.fullname));
+	});
+
+	
+	// $ reset select
+	
+	$(target).find('form').get(0).reset();
+
+	// $ reset old data
+	
+	// ^ populate new data
+
+	if (id>0)
+	{
+		var stores = $( '#storesModal' ).prop('stores');
+		
+		if (gparent in stores &&
+				stores[gparent].departments != [] &&
+				parent in stores[gparent].departments &&
+				stores[gparent].departments[parent].sectors != [] &&
+				id in stores[gparent].departments[parent].sectors)
+		{
+			var store = stores[gparent];
+			var department = store.departments[parent];
+			var sector = department.sectors[id];
+			
+			$(target).find('input[name="name"]').val(sector.name);
+			
+			var $select = $(target).find('select[name="manager"]');
+			if (sector.manager_id)
+			{
+				var $manager = $select.find('option[value="'+sector.manager_id+'"]');
+				if ($manager.length<1){
+					$select
+						.append($('<option>').val(sector.manager_id).text(sector.manager));
+				}
+				$select.val(sector.manager_id);
+			} else
+				$select.val(0);
+
+		}else{
+			toastr['error']
+				('Non &egrave; stato possibile caricare l\' elemento. Segnalare questo problema agli amministratori del servizio!');
+		}
+	}else{
+		
+	}
+	
+	// $ populate new data
+	
 }
 
 function departmentEditorInit(target, button){
