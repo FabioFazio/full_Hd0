@@ -37,7 +37,7 @@ class Sector {
 	
 	public function __construct(){
 	    $this->disabled = false;
-		$this->sectors = new ArrayCollection();
+		$this->announcements = new ArrayCollection();
 	}
 	
 	public function getId(){
@@ -75,6 +75,10 @@ class Sector {
     public function getManager(){
     	return $this->manager;
     }
+
+    public function setManager($manager){
+    	$this->manager = $manager;
+    }
     
     public function getAnnouncements(){
     	return $this->announcements;
@@ -82,10 +86,6 @@ class Sector {
     
     public function setAnnouncements($announcements){
     	$this->announcements = $announcements;
-    }
-    
-    public function setManager($manager){
-    	$this->grants = $manager;
     }
     
     public function getFullname(){

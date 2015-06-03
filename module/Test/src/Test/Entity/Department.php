@@ -77,7 +77,7 @@ class Department {
     }
     
     public function setManager($manager){
-    	$this->grants = $manager;
+    	$this->manager = $manager;
     }
 
     public function hasSectors() {

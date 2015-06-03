@@ -67,7 +67,7 @@ class Store {
     }
     
     public function setAddress($address){
-    	$this->name = $address;
+    	$this->address = $address;
     }
     
     public function getManager(){
@@ -75,7 +75,7 @@ class Store {
     }
 
     public function setManager($manager){
-    	$this->grants = $manager;
+    	$this->manager = $manager;
     }
     
     public function hasDepartments() {
