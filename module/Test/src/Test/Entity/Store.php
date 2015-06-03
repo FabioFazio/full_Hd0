@@ -105,8 +105,10 @@ class Store {
     	}
     	$array['departments'] = $dps;
 
-    	$array['manager_id'] = $this->getManager()?$this->getManager()->getId():null;
-        $array['manager'] = $this->getManager()?$this->getManager()->getFullname():"";
+    	$array['manager_id'] = $this->getManager() && !$this->getManager()->isRemoved()?
+    	       $this->getManager()->getId():null;
+        $array['manager'] = $this->getManager() && !$this->getManager()->isRemoved()?
+               $this->getManager()->getFullname():"";
 
     	return $array;
     }

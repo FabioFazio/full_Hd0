@@ -598,14 +598,21 @@ class FrontendController extends ZtAbstractActionController {
         	    $v['focalpoint'] = array_values(array_filter($qs,   function($q){return $q['fp'];}));
         	    $v['queues'] = array_values(array_filter($qs,       function($q){return !$q['fp'];}));
         	    $v['password'] = sha1($v['password']);
-        	    $v['sector'] = !empty($ss)?current($ss)->toArray():null;
+        	    // filter first sector not removed TODO
+        	    $v['sector'] = null;
+        	    foreach($ss as $s){
+        	        if (!$s->isRemoved()){
+        	            $v['sector'] = $s->toArray();
+        	            break;
+        	        }
+        	    }
         	});
         }
         
     	foreach ($users as $user){
     	    $result['users'][$user['id']] = $user;
     	}
-    
+
     	if ($this->request->getQuery('dump', false))
     		die(var_dump( $result ));
     	else
