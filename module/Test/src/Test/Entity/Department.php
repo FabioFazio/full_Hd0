@@ -108,7 +108,8 @@ class Department {
     
     	$scs = [];
     	foreach($this->getSectors()->toArray() as $sc){
-    		$scs[$sc->getId()] = $sc->toArray();
+    	    if(!$sc->isDisabled())
+        		$scs[$sc->getId()] = $sc->toArray();
     	}
     	$array['sectors'] = $scs;
     

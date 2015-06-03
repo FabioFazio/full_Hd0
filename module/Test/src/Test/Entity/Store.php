@@ -100,7 +100,8 @@ class Store {
     
     	$dps = [];
     	foreach($this->getDepartments()->toArray() as $dp){
-    		$dps[$dp->getId()] = $dp->toArray();
+    	    if(!$dp->isDisabled())
+    		  $dps[$dp->getId()] = $dp->toArray();
     	}
     	$array['departments'] = $dps;
 
