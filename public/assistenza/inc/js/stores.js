@@ -8,6 +8,14 @@ fallbackForm['storeForm'] = fallbackForm['departmentForm'] = fallbackForm['secto
 		});
 		if (!('error' in data)){
 			storesLoad();
+			setTimeout(function(){$form.find('button[data-hide]').first().trigger('click');}, 3000);
+//			var $nestedTwin = $($($form.find('button[data-hide]').attr('data-hide')).attr('data-flip'));
+//			
+//			while ($nestedTwin.find('button[data-hide]').length)
+//			{
+//				$nestedTwin.find('button[data-hide]').first().trigger('click');
+//				$nestedTwin = $($($nestedTwin.find('button[data-hide]').attr('data-hide')).attr('data-flip'));
+//			}
 		}
 	};
 
@@ -22,21 +30,21 @@ function storesInit()
     $modal.on('click', '[data-show="#sectorsEditor"]', function(){
 		var target = $(this).attr('data-show');
 		var twin = $(target).attr('data-flip');
-		secotorEditorInit(target, this);
+		secotorEditorInit(target, $(this).attr('data-id'));
 		$(target).add(twin).toggleClass('hidden');
 	});
     
     $modal.on('click', '[data-show="#departmentsEditor"]', function(){
 		var target = $(this).attr('data-show');
 		var twin = $(target).attr('data-flip');
-		departmentEditorInit(target, this);
+		departmentEditorInit(target, $(this).attr('data-id'));
 		$(target).add(twin).toggleClass('hidden');
 	});
     
     $modal.on('click', '[data-show="#storesEditor"]', function(){
 		var target = $(this).attr('data-show');
 		var twin = $(target).attr('data-flip');
-		storeEditorInit(target, this);
+		storeEditorInit(target, $(this).attr('data-id'));
 		$(target).add(twin).toggleClass('hidden');
 	});
 	
@@ -44,6 +52,16 @@ function storesInit()
 		var target = $(this).attr('data-hide');
 		var twin = $(target).attr('data-flip');
 		$(target).add(twin).toggleClass('hidden');
+	});
+    $modal.on('click', '[data-hide="#departmentsEditor"]', function(){
+    	var target = $($(this).attr('data-hide')).attr('data-flip');
+		storeEditorInit(target, $(this).closest('form').find('input[name="store"]').val());
+    });
+    $modal.on('click', '[data-hide="#sectorsEditor"]', function(){
+    	var target = $($(this).attr('data-hide')).attr('data-flip');
+		departmentEditorInit(target,
+				$(this).closest('form').find('input[name="store"]').val() +'.'+
+					$(this).closest('form').find('input[name="department"]').val());
 	});
 	// $ editor animation
 }
@@ -76,16 +94,18 @@ function storesLoad(e)
 	});
 }
 
-function secotorEditorInit(target, button){
+function secotorEditorInit(target, dataId){
 
 	// ^ reset old data
-	var ids = $(button).attr('data-id');
+	var ids = dataId;
 	var gparent = ids.split(".")[0];
 	var parent = ids.split(".")[1];
 	var id = ids.split(".")[2];
 
 	$(target).find('input').val('');
 	$(target).find('input[name="id"]').val(id);
+	$(target).find('input[name="store"]').val(gparent);
+	$(target).find('input[name="department"]').val(parent);
 	$(target).find('input[name="secret"]').val(getUser().password);
 	
 	// ^ reset manager
@@ -174,14 +194,15 @@ function secotorEditorInit(target, button){
 	
 }
 
-function departmentEditorInit(target, button){
+function departmentEditorInit(target, dataId){
 	// ^ reset old data
-	var ids = $(button).attr('data-id');
+	var ids = dataId;
 	var parent = ids.split(".")[0];
 	var id = ids.split(".")[1];
 
 	$(target).find('input').val('');
 	$(target).find('input[name="id"]').val(id);
+	$(target).find('input[name="store"]').val(parent);
 	$(target).find('input[name="secret"]').val(getUser().password);
 	
 	// ^ reset sons
@@ -305,9 +326,9 @@ function departmentEditorInit(target, button){
 
 }
 
-function storeEditorInit(target, button){
+function storeEditorInit(target, dataId){
 	// ^ reset old data
-	var id = $(button).attr('data-id');
+	var id = dataId;
 
 	$(target).find('input').val('');
 	$(target).find('input[name="id"]').val(id);
@@ -514,8 +535,12 @@ function departmentDelete(toastr, item)
 				}
 			});
 			if ('success' in data){
-				$tr = $('#departments').find('a.btn-danger[data-id='+item.id+']').closest('tr');
+				storesLoad();
+				$tr = $('#departments').find('a.btn-danger[data-id="'+item.id+'"]').closest('tr');
+				$table = $tr.closest('table');
 				$tr.remove();
+				if ($table.find('tbody tr').length<1)
+					$table.find('tbody').append('<tr><td colspan="4"><em>Vuoto</em></td></tr>');
 			}
 		},
 		error: function(data, status) {
@@ -544,8 +569,13 @@ function sectorDelete(toastr, item)
 				}
 			});
 			if ('success' in data){
-				$tr = $('#sectors').find('a.btn-danger[data-id='+item.id+']').closest('tr');
+				storesLoad();
+				$tr = $('#sectors').find('a.btn-danger[data-id="'+item.id+'"]').closest('tr');
+				$table = $tr.closest('table');
 				$tr.remove();
+				if ($table.find('tbody tr').length<1)
+					$table.find('tbody').append('<tr><td colspan="3"><em>Vuoto</em></td></tr>');
+				
 			}
 		},
 		error: function(data, status) {

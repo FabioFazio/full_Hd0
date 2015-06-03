@@ -825,6 +825,155 @@ class FrontendController extends ZtAbstractActionController {
         	return $this->jsonModel ( $result );
     }
     
+    public function saveStoreAction()
+    {
+    	$defaultError = ['error'=>'Si è verificato un errore. Riprovare più tardi!']; //TODO set it universally!
+    	$input = $this->request->getPost ()->toArray();
+    	$user = $this->getSession()->user;
+    	$om = $this->getObjectManager();
+    	$result = [];
+    
+    	$userObject = $om->find('Test\Entity\User', $user['id']);
+    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	!$userObject->isAdministrator())
+    		return $this->jsonModel ( $defaultError );
+    
+    	$storeToSave = ($input['id'])?$om->find('Test\Entity\Store', $input['id']) : new \Test\Entity\Store();
+    	 
+    	$storeToSave->setCode($input['name']);
+    	$storeToSave->setName($input['name']);
+    	
+    	$storeToSave->setAddress($input['address']);
+    
+    	if ($input['manager'])
+    		$storeToSave->setManager($om->find('Test\Entity\User', $input['manager']));
+    
+    	$om->persist($storeToSave);
+    	try {
+    		$func = __FUNCTION__;
+    		$currentUser = $userObject->getUsername();
+    		$action = $input['id']? "edit" : "create";
+    		$extra = "\n".print_r($input, 1);
+    
+    		$om->flush();
+    	}
+    	catch (\Exception $e) {
+    
+    		$error = $e->getMessage();
+    		$this->getLogService()->emerg( "$func@<$currentUser>: $action <".$input['name'].">: $error $extra");
+    
+    		return $this->jsonModel ( $defaultError );
+    	}
+    
+    	$this->getLogService()->info(  "$func@<$currentUser>: $action <".$input['name'].">: $extra");
+    	$result['success'] = 'Punto vendita salvato correttamente!';
+    
+    	if ($this->request->getQuery('dump', false))
+    		die(var_dump( $result ));
+    	else
+    		return $this->jsonModel ( $result );
+    }
+    
+    public function saveDepartmentAction()
+    {
+        $defaultError = ['error'=>'Si è verificato un errore. Riprovare più tardi!']; //TODO set it universally!
+        $input = $this->request->getPost ()->toArray();
+        $user = $this->getSession()->user;
+        $om = $this->getObjectManager();
+        $result = [];
+        
+        $userObject = $om->find('Test\Entity\User', $user['id']);
+        if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+        !$userObject->isAdministrator())
+        	return $this->jsonModel ( $defaultError );
+        
+        $departmentToSave = ($input['id'])?$om->find('Test\Entity\Department', $input['id']) : new \Test\Entity\Department();
+        
+        $departmentToSave->setCode($input['name']);
+        $departmentToSave->setName($input['name']);
+         
+        if ($input['manager'])
+        	$departmentToSave->setManager($om->find('Test\Entity\User', $input['manager']));
+        
+        if ($input['store'])
+        	$departmentToSave->setStore($om->find('Test\Entity\Store', $input['store']));
+        
+        $om->persist($departmentToSave);
+        try {
+        	$func = __FUNCTION__;
+        	$currentUser = $userObject->getUsername();
+        	$action = $input['id']? "edit" : "create";
+        	$extra = "\n".print_r($input, 1);
+        
+        	$om->flush();
+        }
+        catch (\Exception $e) {
+        
+        	$error = $e->getMessage();
+        	$this->getLogService()->emerg( "$func@<$currentUser>: $action <".$input['name'].">: $error $extra");
+        
+        	return $this->jsonModel ( $defaultError );
+        }
+        
+        $this->getLogService()->info(  "$func@<$currentUser>: $action <".$input['name'].">: $extra");
+        $result['success'] = 'Dipartimento salvato correttamente!';
+        
+        if ($this->request->getQuery('dump', false))
+        	die(var_dump( $result ));
+        else
+        	return $this->jsonModel ( $result );
+    }
+    
+    public function saveSectorAction()
+    {
+        $defaultError = ['error'=>'Si è verificato un errore. Riprovare più tardi!']; //TODO set it universally!
+        $input = $this->request->getPost ()->toArray();
+        $user = $this->getSession()->user;
+        $om = $this->getObjectManager();
+        $result = [];
+        
+        $userObject = $om->find('Test\Entity\User', $user['id']);
+        if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+        !$userObject->isAdministrator())
+        	return $this->jsonModel ( $defaultError );
+        
+        $sectorToSave = ($input['id'])?$om->find('Test\Entity\Sector', $input['id']) : new \Test\Entity\Sector();
+        
+        $sectorToSave->setCode($input['name']);
+        $sectorToSave->setName($input['name']);
+         
+        if ($input['manager'])
+        	$sectorToSave->setManager($om->find('Test\Entity\User', $input['manager']));
+        
+        if ($input['department'])
+        	$sectorToSave->setDepartment($om->find('Test\Entity\Department', $input['department']));
+        
+        $om->persist($sectorToSave);
+        try {
+        	$func = __FUNCTION__;
+        	$currentUser = $userObject->getUsername();
+        	$action = $input['id']? "edit" : "create";
+        	$extra = "\n".print_r($input, 1);
+        
+        	$om->flush();
+        }
+        catch (\Exception $e) {
+        
+        	$error = $e->getMessage();
+        	$this->getLogService()->emerg( "$func@<$currentUser>: $action <".$input['name'].">: $error $extra");
+        
+        	return $this->jsonModel ( $defaultError );
+        }
+        
+        $this->getLogService()->info(  "$func@<$currentUser>: $action <".$input['name'].">: $extra");
+        $result['success'] = 'Settore salvato correttamente!';
+        
+        if ($this->request->getQuery('dump', false))
+        	die(var_dump( $result ));
+        else
+        	return $this->jsonModel ( $result );
+    }
+    
     public function deleteUserAction()
     {
     	$input = $this->request->getPost ()->toArray();
@@ -861,7 +1010,24 @@ class FrontendController extends ZtAbstractActionController {
             // $ rename unique fields to regenerate same user without problems
             
             $db = $om->persist($userToDelete);
-            $om->flush();
+            
+            try {
+            	$func = __FUNCTION__;
+            	$currentUser = $userObject->getUsername();
+            	$action = "delete";
+            	$extra = "\n".print_r($input, 1);
+            
+            	$om->flush();
+            }
+            catch (\Exception $e) {
+            
+            	$error = $e->getMessage();
+            	$this->getLogService()->emerg( "$func@<$currentUser>: $action <".$username.">: $error $extra");
+            
+            	return $this->jsonModel ( $defaultError );
+            }
+            
+            $this->getLogService()->info(  "$func@<$currentUser>: $action <".$username.">: $extra");
             $result['success'] = 'Utente cancellato correttamente!';
     	}else{
     	}
@@ -870,6 +1036,205 @@ class FrontendController extends ZtAbstractActionController {
 			die(var_dump( $result ));
 		else
 			return $this->jsonModel ( $result );
+    }
+    
+    public function deleteStoreAction()
+    {
+    	$input = $this->request->getPost ()->toArray();
+    	$user = $this->getSession()->user;
+    	$om = $this->getObjectManager();
+    	$result = [];
+    
+    	$userObject = $om->find('Test\Entity\User', $user['id']);
+    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	!$userObject->isAdministrator())
+    	{
+    		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
+    		return $this->jsonModel ( $result );
+    	}
+    	if (isset($input['id']) &&
+    	$storeToDelete = $om->find('Test\Entity\Store', $input['id']))
+    	{
+    		$storeToDelete->setDisabled(true);
+    		// ^ rename unique fields to regenerate same user without problems
+    		$post = "_".time();
+    		$code = $storeToDelete->getCode();
+    		$storeToDelete->setCode($storeToDelete->getCode().$post);
+    		$storeToDelete->setName($storeToDelete->getName().$post);
+    		
+    		$departmentsToDelete = $storeToDelete->getDepartments()->filter(function($entry){return !$entry->isDisabled();});
+    		if(!$departmentsToDelete->isEmpty()){
+    			foreach ($departmentsToDelete->toArray() as $departmentToDelete){
+    				$departmentToDelete->setCode($departmentToDelete->getCode().$post);
+    				$departmentToDelete->setName($departmentToDelete->getName().$post);
+    				$departmentToDelete->setCode($departmentToDelete->setDisabled(true));
+    				
+    				$sectorsToDelete = $departmentToDelete->getSectors()->filter(function($entry){return !$entry->isDisabled();});
+    				
+    				if(!$sectorsToDelete->isEmpty()){
+    					foreach ($sectorsToDelete->toArray() as $sectorToDelete){
+    					    $sectorToDelete->setCode($departmentToDelete->getCode().$post);
+    					    $sectorToDelete->setName($departmentToDelete->getName().$post);
+    					    $sectorToDelete->setCode($departmentToDelete->setDisabled(true));
+    					    
+    					    $om->persist($sectorToDelete);
+    					}
+    				}
+    				$om->persist($departmentToDelete);
+    			}
+    		}
+    		// $ rename unique fields to regenerate same user without problems
+    
+    		$db = $om->persist($storeToDelete);
+    		
+            try {
+            	$func = __FUNCTION__;
+            	$currentUser = $userObject->getUsername();
+            	$action = "delete";
+            	$extra = "\n".print_r($input, 1);
+            
+            	$om->flush();
+            }
+            catch (\Exception $e) {
+            
+            	$error = $e->getMessage();
+            	$this->getLogService()->emerg( "$func@<$currentUser>: $action <".$code.">: $error $extra");
+            
+            	return $this->jsonModel ( $defaultError );
+            }
+            
+            $this->getLogService()->info(  "$func@<$currentUser>: $action <".$code.">: $extra");
+            $result['success'] = 'Punto vendita cancellato correttamente!';
+    	}else{
+    	}
+    
+    	if ($this->request->getQuery('dump', false))
+    		die(var_dump( $result ));
+    	else
+    		return $this->jsonModel ( $result );
+    }
+    
+    public function deleteDepartmentAction()
+    {
+    	$input = $this->request->getPost ()->toArray();
+    	$user = $this->getSession()->user;
+    	$om = $this->getObjectManager();
+    	$result = [];
+    
+    	$userObject = $om->find('Test\Entity\User', $user['id']);
+    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	   !$userObject->isAdministrator())
+    	{
+    		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
+    		return $this->jsonModel ( $result );
+    	}
+    	if (isset($input['id']) &&
+    	   $departmentToDelete = $om->find('Test\Entity\Department', preg_split('/\./',  $input['id'])[1]))
+    	{
+    		$departmentToDelete->setDisabled(true);
+    		// ^ rename unique fields to regenerate same user without problems
+    		$post = "_".time();
+    		$code = $departmentToDelete->getCode();
+    		$departmentToDelete->setCode($departmentToDelete->getCode().$post);
+    		$departmentToDelete->setName($departmentToDelete->getName().$post);
+    		
+			$sectorsToDelete = $departmentToDelete->getSectors()->filter(function($entry){return !$entry->isDisabled();});
+			
+			if(!$sectorsToDelete->isEmpty()){
+				foreach ($sectorsToDelete->toArray() as $sectorToDelete){
+				    $sectorToDelete->setCode($departmentToDelete->getCode().$post);
+				    $sectorToDelete->setName($departmentToDelete->getName().$post);
+				    $sectorToDelete->setCode($departmentToDelete->setDisabled(true));
+				    
+				    $om->persist($sectorToDelete);
+				}
+			}
+    		// $ rename unique fields to regenerate same user without problems
+    
+    		$db = $om->persist($departmentToDelete);
+    		
+            try {
+            	$func = __FUNCTION__;
+            	$currentUser = $userObject->getUsername();
+            	$action = "delete";
+            	$extra = "\n".print_r($input, 1);
+            
+            	$om->flush();
+            }
+            catch (\Exception $e) {
+            
+            	$error = $e->getMessage();
+            	$this->getLogService()->emerg( "$func@<$currentUser>: $action <".$code.">: $error $extra");
+            
+            	return $this->jsonModel ( $defaultError );
+            }
+            
+            $this->getLogService()->info(  "$func@<$currentUser>: $action <".$code.">: $extra");
+            $result['success'] = 'Dipartimento cancellato correttamente!';
+    	}else{
+    	}
+    
+    	if ($this->request->getQuery('dump', false))
+    		die(var_dump( $result ));
+    	else
+    		return $this->jsonModel ( $result );
+    }
+    
+    public function deleteSectorAction()
+    {
+    	$input = $this->request->getPost ()->toArray();
+    	$user = $this->getSession()->user;
+    	$om = $this->getObjectManager();
+    	$result = [];
+    
+    	$userObject = $om->find('Test\Entity\User', $user['id']);
+    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	!$userObject->isAdministrator())
+    	{
+    		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
+    		return $this->jsonModel ( $result );
+    	}
+    	
+    	
+    	if (isset($input['id']) &&
+    	   $sectorToDelete = $om->find('Test\Entity\Sector', preg_split('/\./', $input['id'])[2]))
+    	{
+    		$sectorToDelete->setDisabled(true);
+    		// ^ rename unique fields to regenerate same user without problems
+    		$post = "_".time();
+    		$code = $sectorToDelete->getCode();
+    		$sectorToDelete->setCode($sectorToDelete->getCode().$post);
+    		$sectorToDelete->setName($sectorToDelete->getName().$post);
+    		
+    		// $ rename unique fields to regenerate same user without problems
+    
+    		$db = $om->persist($sectorToDelete);
+    		
+            try {
+            	$func = __FUNCTION__;
+            	$currentUser = $userObject->getUsername();
+            	$action = "delete";
+            	$extra = "\n".print_r($input, 1);
+            
+            	$om->flush();
+            }
+            catch (\Exception $e) {
+            
+            	$error = $e->getMessage();
+            	$this->getLogService()->emerg( "$func@<$currentUser>: $action <".$code.">: $error $extra");
+            
+            	return $this->jsonModel ( $defaultError );
+            }
+            
+            $this->getLogService()->info(  "$func@<$currentUser>: $action <".$code.">: $extra");
+            $result['success'] = 'Settore cancellato correttamente!';
+    	}else{
+    	}
+    
+    	if ($this->request->getQuery('dump', false))
+    		die(var_dump( $result ));
+    	else
+    		return $this->jsonModel ( $result );
     }
     
     public function indexAction()

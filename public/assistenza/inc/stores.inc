@@ -37,11 +37,11 @@ $( function($) {
     storesInit();
 	
     $('#storesModal').on('show.bs.modal', function (e) {
-    	$(this).find('sectorForm')
+    	$(this).find('#sectorForm')
     	   .attr('action', sector_save_url);
-    	$(this).find('departmentForm')
+    	$(this).find('#departmentForm')
     	   .attr('action', department_save_url);
-    	$(this).find('storeForm')
+    	$(this).find('#storeForm')
     	   .attr('action', store_save_url);
         storesLoad(e);
     });
@@ -64,6 +64,8 @@ $( function($) {
                     <form id="sectorForm" data-async method="post" data-validate action="">
                         
                         <input type="hidden" name="id" value="0"/>
+                        <input type="hidden" name="store" value="0"/>
+                        <input type="hidden" name="department" value="0"/>
                         <input type="hidden" name="secret" value="0"/>
                 
            				<div class="row">
@@ -103,6 +105,7 @@ $( function($) {
                 <form id="departmentForm" data-async method="post" data-validate action="">
                         
                         <input type="hidden" name="id" value="0"/>
+                        <input type="hidden" name="store" value="0"/>
                         <input type="hidden" name="secret" value="0"/>
                 
            				<div class="row">
