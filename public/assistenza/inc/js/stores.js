@@ -10,17 +10,17 @@ fallbackForm['storeForm'] = fallbackForm['departmentForm'] = fallbackForm['secto
 			storesLoad();
 			setTimeout(function(){$form.find('button[data-hide]').first().trigger('click');}, 3000);
 			
-			// ^ close recursively all sub tab
+			/* ^ close recursively all sub tab
 			
-//			var $nestedTwin = $($($form.find('button[data-hide]').attr('data-hide')).attr('data-flip'));
-//			
-//			while ($nestedTwin.find('button[data-hide]').length)
-//			{
-//				$nestedTwin.find('button[data-hide]').first().trigger('click');
-//				$nestedTwin = $($($nestedTwin.find('button[data-hide]').attr('data-hide')).attr('data-flip'));
-//			}
+			var $nestedTwin = $($($form.find('button[data-hide]').attr('data-hide')).attr('data-flip'));
 			
-			// $ close recursively all sub tab
+			while ($nestedTwin.find('button[data-hide]').length)
+			{
+				$nestedTwin.find('button[data-hide]').first().trigger('click');
+				$nestedTwin = $($($nestedTwin.find('button[data-hide]').attr('data-hide')).attr('data-flip'));
+			}
+			
+			// $ close recursively all sub tab */
 		}
 	};
 

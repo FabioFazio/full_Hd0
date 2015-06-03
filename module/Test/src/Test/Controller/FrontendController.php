@@ -845,8 +845,8 @@ class FrontendController extends ZtAbstractActionController {
     	
     	$storeToSave->setAddress($input['address']);
     
-    	if ($input['manager'])
-    		$storeToSave->setManager($om->find('Test\Entity\User', $input['manager']));
+    	$manager = ($input['manager'])?$om->find("Test\Entity\User", $input['manager']):null;
+		$storeToSave->setManager($manager);
     
     	$om->persist($storeToSave);
     	try {
@@ -892,11 +892,11 @@ class FrontendController extends ZtAbstractActionController {
         $departmentToSave->setCode($input['name']);
         $departmentToSave->setName($input['name']);
          
-        if ($input['manager'])
-        	$departmentToSave->setManager($om->find('Test\Entity\User', $input['manager']));
-        
-        if ($input['store'])
-        	$departmentToSave->setStore($om->find('Test\Entity\Store', $input['store']));
+    	$manager = ($input['manager'])?$om->find("Test\Entity\User", $input['manager']):null;
+		$departmentToSave->setManager($manager);
+		
+		$store = ($input['store'])?$om->find("Test\Entity\Store", $input['store']):null;
+		$departmentToSave->setStore($store);
         
         $om->persist($departmentToSave);
         try {
@@ -942,11 +942,11 @@ class FrontendController extends ZtAbstractActionController {
         $sectorToSave->setCode($input['name']);
         $sectorToSave->setName($input['name']);
          
-        if ($input['manager'])
-        	$sectorToSave->setManager($om->find('Test\Entity\User', $input['manager']));
+    	$manager = ($input['manager'])?$om->find("Test\Entity\User", $input['manager']):null;
+		$sectorToSave->setManager($manager);
         
-        if ($input['department'])
-        	$sectorToSave->setDepartment($om->find('Test\Entity\Department', $input['department']));
+		$department = ($input['department'])?$om->find("Test\Entity\Department", $input['department']):null;
+		$sectorToSave->setDepartment($department);
         
         $om->persist($sectorToSave);
         try {
@@ -1065,22 +1065,28 @@ class FrontendController extends ZtAbstractActionController {
     		$departmentsToDelete = $storeToDelete->getDepartments()->filter(function($entry){return !$entry->isDisabled();});
     		if(!$departmentsToDelete->isEmpty()){
     			foreach ($departmentsToDelete->toArray() as $departmentToDelete){
-    				$departmentToDelete->setCode($departmentToDelete->getCode().$post);
-    				$departmentToDelete->setName($departmentToDelete->getName().$post);
-    				$departmentToDelete->setCode($departmentToDelete->setDisabled(true));
-    				
-    				$sectorsToDelete = $departmentToDelete->getSectors()->filter(function($entry){return !$entry->isDisabled();});
-    				
-    				if(!$sectorsToDelete->isEmpty()){
-    					foreach ($sectorsToDelete->toArray() as $sectorToDelete){
-    					    $sectorToDelete->setCode($departmentToDelete->getCode().$post);
-    					    $sectorToDelete->setName($departmentToDelete->getName().$post);
-    					    $sectorToDelete->setCode($departmentToDelete->setDisabled(true));
-    					    
-    					    $om->persist($sectorToDelete);
-    					}
-    				}
-    				$om->persist($departmentToDelete);
+    			    if (!$departmentToDelete->isDisabled())
+    			    {
+    			        $departmentToDelete->setCode($departmentToDelete->getCode().$post);
+    			        $departmentToDelete->setName($departmentToDelete->getName().$post);
+    			        $departmentToDelete->setCode($departmentToDelete->setDisabled(true));
+    			        
+    			        $sectorsToDelete = $departmentToDelete->getSectors()->filter(function($entry){return !$entry->isDisabled();});
+    			        
+    			        if(!$sectorsToDelete->isEmpty()){
+    			        	foreach ($sectorsToDelete->toArray() as $sectorToDelete){
+    			        	    if (!$sectorToDelete->isDisabled())
+    			        	    {
+    			        	        $sectorToDelete->setCode($departmentToDelete->getCode().$post);
+    			        	        $sectorToDelete->setName($departmentToDelete->getName().$post);
+    			        	        $sectorToDelete->setCode($departmentToDelete->setDisabled(true));
+    			        	        
+    			        	        $om->persist($sectorToDelete);
+    			        	    }
+    			        	}
+    			        }
+    			        $om->persist($departmentToDelete);
+    			    }
     			}
     		}
     		// $ rename unique fields to regenerate same user without problems
@@ -1142,11 +1148,14 @@ class FrontendController extends ZtAbstractActionController {
 			
 			if(!$sectorsToDelete->isEmpty()){
 				foreach ($sectorsToDelete->toArray() as $sectorToDelete){
-				    $sectorToDelete->setCode($departmentToDelete->getCode().$post);
-				    $sectorToDelete->setName($departmentToDelete->getName().$post);
-				    $sectorToDelete->setCode($departmentToDelete->setDisabled(true));
-				    
-				    $om->persist($sectorToDelete);
+				    if (!$sectorToDelete->isDisabled())
+				    {
+				        $sectorToDelete->setCode($departmentToDelete->getCode().$post);
+				        $sectorToDelete->setName($departmentToDelete->getName().$post);
+				        $sectorToDelete->setCode($departmentToDelete->setDisabled(true));
+				        
+				        $om->persist($sectorToDelete);
+				    }
 				}
 			}
     		// $ rename unique fields to regenerate same user without problems
