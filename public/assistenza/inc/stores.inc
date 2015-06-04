@@ -17,7 +17,7 @@ var table_stores_options = {
 		"iDisplayLength" : 5,
 		"lengthMenu": [ 5, 25, 50, 75, 100 ],
 		"language": {
-			   "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Italian.json",
+			   "url": "js/Italian.json",
         },
         "dom": '<"row"<"col-md-5"l><"col-md-5"i><"col-md-2"f>><"well"t>p',
         "fnInitComplete": function(){},
