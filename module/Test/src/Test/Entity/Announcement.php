@@ -112,9 +112,16 @@ class Announcement {
     public function toArray()
     {
         $array = get_object_vars($this);
-        $array['author'] = $array['author']->getFullname(); 
-        $array['lastchange'] = $array['lastchange']->format('d-m-Y H:i:s');
+        $array['author'] = [
+            'id'=>$this->getAuthor()->getId(),
+            'fullname'=>$this->getAuthor()->getFullname()
+        ]; 
+        $array['lastchange'] = $array['lastchange']->format('d/m/Y H:i');
+        
+        $array['sector'] = !$this->getSectors()->isEmpty()? $this->getSectors()->first()->toArray() : null;
+        
         unset($array['groups']);
+        unset($array['sectors']);
         
         return $array;
     }
