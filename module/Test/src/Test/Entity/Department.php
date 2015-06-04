@@ -116,9 +116,9 @@ class Department {
     	$array['store_id'] = $this->getStore()?$this->getStore()->getId():null;
     	unset($array['store']);
     	
-    	$array['manager_id'] = $this->getManager() && !$this->getManager()->isRemoved()?
+    	$array['manager_id'] = $this->getManager() && !$this->getManager()->isDisabled()?
     	       $this->getManager()->getId():null;
-    	$array['manager'] = $this->getManager()  && !$this->getManager()->isRemoved()?
+    	$array['manager'] = $this->getManager()  && !$this->getManager()->isDisabled()?
     	       $this->getManager()->getFullname():"";
     	
     	$array['fullname'] = $this->getFullname();

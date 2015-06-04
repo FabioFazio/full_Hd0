@@ -601,7 +601,7 @@ class FrontendController extends ZtAbstractActionController {
         	    // filter first sector not removed TODO
         	    $v['sector'] = null;
         	    foreach($ss as $s){
-        	        if (!$s->isRemoved()){
+        	        if (!$s->isDisabled()){
         	            $v['sector'] = $s->toArray();
         	            break;
         	        }

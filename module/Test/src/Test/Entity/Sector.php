@@ -112,12 +112,11 @@ class Sector {
         $array['department_id'] = $this->getDepartment()?$this->getDepartment()->getId():null;
         unset($array['department']);
         
-    	$array['manager_id'] = $this->getManager() && !$this->getManager()->isRemoved()?
+    	$array['manager_id'] = $this->getManager() && !$this->getManager()->isDisabled()?
     	        $this->getManager()->getId():null;
-        $array['manager'] = $this->getManager() && !$this->getManager()->isRemoved()?
+        $array['manager'] = $this->getManager() && !$this->getManager()->isDisabled()?
                 $this->getManager()->getFullname():"";
         
-        $array['fullname'] = $this->getFullname();
 
         return $array;
     }
