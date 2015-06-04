@@ -1284,6 +1284,109 @@ class FrontendController extends ZtAbstractActionController {
     			return $this->jsonModel ( $result );
     }
     
+    public function saveMsgAction()
+    {
+    	$defaultError = ['error'=>'Si è verificato un errore. Riprovare più tardi!']; //TODO set it universally!
+    	$input = $this->request->getPost ()->toArray();
+    	$user = $this->getSession()->user;
+    	$om = $this->getObjectManager();
+    	$result = [];
+    
+    	$userObject = $om->find('Test\Entity\User', $user['id']);
+    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	!$userObject->isAdministrator())
+    		return $this->jsonModel ( $defaultError );
+    
+    	$msgToSave = ($input['id'])?$om->find('Test\Entity\Announcement', $input['id']) : new \Test\Entity\Announcement();
+    
+    	$msgToSave->setAuthor($userObject);
+    	$msgToSave->setLastchange();
+    	$msgToSave->setMessage($input['message']);
+    
+    	$sector = ($input['sector'])?$om->find("Test\Entity\Sector", $input['sector']):null;
+    	$msgToSave->getSectors()->clear();
+    	
+    	if ($sector)
+    	   $msgToSave->getSectors()->add($sector);
+    	
+	    $msgToSave->setBroadcast(isset($input['broadcast']));
+        $msgToSave->setWarning(isset($input['warning']));
+	    
+    	$om->persist($msgToSave);
+    	try {
+    		$func = __FUNCTION__;
+    		$currentUser = $userObject->getUsername();
+    		$action = $input['id']? "edit" : "create";
+    		$extra = "\n".print_r($input, 1);
+    
+    		$om->flush();
+    	}
+    	catch (\Exception $e) {
+    
+    		$error = $e->getMessage();
+    		$this->getLogService()->emerg( "$func@<$currentUser>: $action a message: $error $extra");
+    
+    		return $this->jsonModel ( $defaultError );
+    	}
+    
+    	$this->getLogService()->info( "$func@<$currentUser>: $action a message: $extra");
+    	$result['success'] = 'Messaggio salvato correttamente!';
+    
+    	if ($this->request->getQuery('dump', false))
+    		die(var_dump( $result ));
+    	else
+    		return $this->jsonModel ( $result );
+    }
+    
+    public function deleteMsgAction()
+    {
+    	$input = $this->request->getPost ()->toArray();
+    	$user = $this->getSession()->user;
+    	$om = $this->getObjectManager();
+    	$result = [];
+    
+    	$userObject = $om->find('Test\Entity\User', $user['id']);
+    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	!$userObject->isAdministrator())
+    	{
+    		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
+    		return $this->jsonModel ( $result );
+    	}
+    	
+    	$msg = "";
+    	
+    	if (isset($input['id']) &&
+    	   $msgToDelete = $om->find('Test\Entity\Announcement', $input['id']))
+    	{
+    	    $msg = $msgToDelete->getMessage();
+    	    $om->remove($msgToDelete);
+    	}
+
+		try {
+			$func = __FUNCTION__;
+			$currentUser = $userObject->getUsername();
+			$action = "delete";
+			$extra = "\n".print_r($input, 1);
+
+			$om->flush();
+		}
+		catch (\Exception $e) {
+
+			$error = $e->getMessage();
+			$this->getLogService()->emerg( "$func@<$currentUser>: $action <".$msg.">: $error $extra");
+
+			return $this->jsonModel ( $defaultError );
+		}
+
+		$this->getLogService()->info(  "$func@<$currentUser>: $action <".$msg.">: $extra");
+		$result['success'] = 'Messaggio cancellato correttamente!';
+    
+    	if ($this->request->getQuery('dump', false))
+    		die(var_dump( $result ));
+    	else
+    		return $this->jsonModel ( $result );
+    }
+    
     public function indexAction()
     {
     	$modals = array (

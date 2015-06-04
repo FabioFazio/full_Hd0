@@ -1,4 +1,15 @@
-
+// Extra actions on successfull submit
+fallbackForm['msgForm'] = function fallback (data, status, $msgBox, $form) {
+	$.each(data, function(i, msg){
+		if($.inArray(i,['success','error','warning','info'])>=0){
+			toastr[i](msg);
+		}
+	});
+	if (!('error' in data)){
+		msgsLoad();
+		$form.find('[data-hide]').trigger('click');
+	}
+};
 
 /* Library for announcements.inc */
 function msgsInit()
@@ -119,7 +130,7 @@ function msgEditorInit(target, button){
 				var $sector = $(target).find('select[name="sector"] option[value="'+msg.sector.id+'"]');
 				if ($sector.length<1){
 					$('#usersModal').find('select[name="sector"]')
-						.append($('<option>').val(user.sector.id).text(user.sector.fullname));
+						.append($('<option>').val(msg.sector.id).text(msg.sector.fullname));
 				}
 				$(target).find('select[name="sector"]').val(msg.sector.id);
 			} else
@@ -168,5 +179,31 @@ function populateMsgs(data){
 
 function msgDelete(toastr, item)
 {
-	// TODO
+	$.ajax({
+		url:			msg_delete_url,
+		type:			"POST",
+		datatype:		"json",
+		data:{
+			secret:		getUser().password,
+			id:			item.id,
+		},
+		async: true,
+		success: function(data, status) {
+			window.console&&console.log(data); // for debugging
+			$.each(data, function(i, msg){
+				if($.inArray(i,['success','error','warning','info'])>=0){
+					toastr[i](msg);
+				}
+			});
+			if ('success' in data){
+				$tr = $modal.find('a.btn-danger[data-id='+item.id+']').closest('tr');
+				$tr.addClass('remove');
+				tableMsgs.row('.remove').remove().draw( false );
+			}
+		},
+		error: function(data, status) {
+				window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>');
+				toastr['error'] = 'Non è stato possibile rimuovere il messaggio. Riprovare più tardi.';
+			},
+	});
 }
