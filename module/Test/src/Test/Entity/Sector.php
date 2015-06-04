@@ -117,6 +117,7 @@ class Sector {
         $array['manager'] = $this->getManager() && !$this->getManager()->isDisabled()?
                 $this->getManager()->getFullname():"";
         
+        $array['fullname'] = $this->getFullname();
 
         return $array;
     }
