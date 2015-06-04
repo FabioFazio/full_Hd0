@@ -14,7 +14,6 @@ fallbackForm['userForm'] = function fallback (data, status, $msgBox, $form) {
 /* Library for users.inc */
 function usersInit()
 {
-	var $modal = $( '#usersModal' ); 
 	$modal.find('div.modal-xl').css( "width", $(window).innerWidth()-50 );
     tableUsers = tableUsers?tableUsers:$('#users').dataTable(table_users_options).api();
 	
@@ -77,7 +76,7 @@ function usersLoad(e)
 		success: function(data, status) {
 			window.console&&console.log(data); // for debugging
 			populateUsers(data['users']);
-			$( '#usersModal' ).prop('users', data['users']);
+			$modal.prop('users', data['users']);
 		},
 		error: function(data, status) {
 				window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>');
@@ -106,7 +105,6 @@ function usersLoad(e)
 					}
 				});
 				if (!('error' in data) && ('queues' in data)){
-					//$( '#usersModal' ).prop('queues', data['queues']);
 					$mulstiselects = $('#user-queues').add('#user-focalpoint');
 					$.each(data['queues'], function(i,v){
 						if ($mulstiselects.find('option[value="'+v.id+'"]').length<1)
@@ -137,7 +135,7 @@ function userEditorInit(target, button){
 	$sector.find('option[value="0"]').siblings('option').remove();
 	$sector.val(0);
 	
-	if ($( '#usersModal' ).prop('sectors') == undefined){
+	if ($modal.prop('sectors') == undefined){
 		$.ajax({
 			url:			sectors_url,
 			type:			"POST",
@@ -159,7 +157,7 @@ function userEditorInit(target, button){
 						if ($sector.find('option[value="'+v.id+'"]').length<1)
 								$sector.append($('<option>').val(v.id).text(v.fullname));
 					});
-					$( '#usersModal' ).prop('sectors', data['sectors']);
+					$modal.prop('sectors', data['sectors']);
 				}
 			},
 			error: function(data, status) {
@@ -167,7 +165,7 @@ function userEditorInit(target, button){
 				},
 		});
 	} else {
-		$.each($( '#usersModal' ).prop('sectors'), function(i,v){
+		$.each($modal.prop('sectors'), function(i,v){
 			$sector = $(target).find('select[name="sector"]');
 			if ($sector.find('option[value="'+v.id+'"]').length<1)
 					$sector.append($('<option>').val(v.id).text(v.fullname));
@@ -192,7 +190,7 @@ function userEditorInit(target, button){
 
 	if (id>0)
 	{
-		var users = $( '#usersModal' ).prop('users');
+		var users = $modal.prop('users');
 		if (id in users){
 			var user = users[id];
 			$(target).find('input[name="username"]').val(user.username).prop('disabled', true);
@@ -204,7 +202,7 @@ function userEditorInit(target, button){
 			{
 				var $sector = $(target).find('select[name="sector"] option[value="'+user.sector.id+'"]');
 				if ($sector.length<1){
-					$('#usersModal').find('select[name="sector"]')
+					$modal.find('select[name="sector"]')
 						.append($('<option>').val(user.sector.id).text(user.sector.fullname));
 				}
 				$(target).find('select[name="sector"]').val(user.sector.id);
@@ -282,7 +280,7 @@ function populateUsers(data){
 	
 	//.prop('queues',item.queues).prop('focalpoint', item.focalpoint)
 	tableUsers.draw();
-	$('a[data-toggle="confirmation"]').confirmation(confirmation_delete_user_options);
+	$modal.find('a[data-toggle="confirmation"]').confirmation(confirmation_delete_user_options);
 }
 
 function userDelete(toastr, item)
