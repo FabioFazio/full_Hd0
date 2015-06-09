@@ -1387,6 +1387,186 @@ class FrontendController extends ZtAbstractActionController {
     		return $this->jsonModel ( $result );
     }
     
+    public function getFiltersAction ()
+    { 
+        $input = $this->request->getPost ()->toArray();
+        $user = $this->getSession()->user;
+        $result = [];
+        
+        $userObject = $this->getObjectManager()->find('Test\Entity\User', $user['id']);
+        if ((!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+        		!$userObject->isAdministrator()) && !$this->request->getQuery('dump', false))
+        {
+        	$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
+        	return $this->jsonModel ( $result );
+        }
+        $result['queues'] = $result['filters'] = [];
+        
+        $queues = $this->getObjectManager()->getRepository("Test\Entity\Queue")->findBy(['disabled'=>false]);
+        
+        array_walk($queues, function(&$v){
+        	$v = $v->toArray();
+        });
+    
+        $func = function(&$v) use (&$func) {
+            $index = [];
+            foreach ($v['responces'] as $r) {
+                $index[$r['id']] = $func($r);
+            }
+            $v['responces'] = $index;
+            return $v;
+        };
+        
+    	foreach ($queues as $queue){
+    	    if ($queue['filters'])
+    	    {
+    	        $result['filters'][$queue['filters']['id']] = array_merge (
+    	               ['queue_id' => $queue['id'], 'queue_name' => $queue['name']], $func($queue['filters']));
+    	    }
+    	    $result['queues'][$queue['id']] = $queue['name'];
+    	}
+    	 
+//     	if ($this->request->getQuery('dump', false))
+//     		die(var_dump( $result ));
+//     	else
+    		return $this->jsonModel ( $result );
+    }
+    
+    public function saveFilterAction()
+    {
+    	$defaultError = ['error'=>'Si è verificato un errore. Riprovare più tardi!']; //TODO set it universally!
+    	$input = $this->request->getPost ()->toArray();
+    	$user = $this->getSession()->user;
+    	$om = $this->getObjectManager();
+    	$result = [];
+    
+    	$userObject = $om->find('Test\Entity\User', $user['id']);
+    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	!$userObject->isAdministrator())
+    		return $this->jsonModel ( $defaultError );
+    
+    	$ids = explode(".", $input['id']);
+    	$id = array_pop($ids);
+    	
+    	$filterToSave = ($id)?$om->find('Test\Entity\Filter', $id) : new \Test\Entity\Filter();
+
+    	if ($ids)
+    	{
+    	    $parent = array_pop($ids);
+    	    $filterToSave->setAskedBy($om->find('Test\Entity\Filter', $parent));
+    	}
+    	
+    	if(isset($input['queue']) && $input['queue'])
+    	{
+    	    $queue = $om->find('Test\Entity\Queue', $input['queue']);
+    	    $queue->setFilter($filterToSave);
+    	    $om->persist($queue);
+    	}
+    	
+    	if(isset($input['node']))
+    	{
+            $filterToSave->setNode($input['node']);
+    	}
+    	
+    	if(isset($input['responce']))
+    	{
+    		$filterToSave->setResponce($input['responce']);
+    	}
+    	 
+    	if(isset($input['question']))
+    	{
+    		$filterToSave->setQuestion($input['question']);
+    	}
+
+    	$om->persist($filterToSave);
+    	try {
+    		$func = __FUNCTION__;
+    		$currentUser = $userObject->getUsername();
+    		$action = $id? "edit" : "create";
+    		$extra = "\n".print_r($input, 1);
+    
+    		$om->flush();
+    	}
+    	catch (\Exception $e) {
+    
+    		$error = $e->getMessage();
+    		$this->getLogService()->emerg( "$func@<$currentUser>: $action a message: $error $extra");
+    
+    		return $this->jsonModel ( $defaultError );
+    	}
+    
+    	$this->getLogService()->info( "$func@<$currentUser>: $action a message: $extra");
+    	$result['success'] = 'Filtro salvato correttamente!';
+    
+    	if ($this->request->getQuery('dump', false))
+    		die(var_dump( $result ));
+    	else
+    		return $this->jsonModel ( $result );
+    }
+    
+    public function deleteFilterAction()
+    {
+    	$input = $this->request->getPost ()->toArray();
+    	$user = $this->getSession()->user;
+    	$om = $this->getObjectManager();
+    	$result = [];
+    
+    	$userObject = $om->find('Test\Entity\User', $user['id']);
+    	if (!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
+    	!$userObject->isAdministrator())
+    	{
+    		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
+    		
+    		return $this->jsonModel ( $result );
+    	}
+    	 
+    	if (isset($input['id']) &&
+    	$filterToDelete = $om->find('Test\Entity\Filter', $input['id']))
+    	{
+    	    if ($queue = $filterToDelete->getQueue()){
+    	    	$queue->setFilter(null);
+    	    }
+    	    foreach ($filterToDelete->getResponces()->toArray() as $resp){
+    	    	$om->remove($resp);
+    	    }
+    		$om->remove($filterToDelete);
+    		
+    	} else {
+    	    $result['error'] = "Non &grave; stato possibile cancellare l'elemento. Riprovare più tardi";
+    	    $func = __FUNCTION__;
+    	    $currentUser = $userObject->getUsername();
+    	    $action = "delete";
+    	    $id = $input['id'];
+    	    $this->getLogService()->emerg( "$func@<$currentUser>: impossibile $action filter id=$id");
+    	    return $this->jsonModel ( $result );
+    	}
+    
+    	try {
+    		$func = __FUNCTION__;
+    		$currentUser = $userObject->getUsername();
+    		$action = "delete";
+    		$extra = "\n".print_r($input, 1);
+    		$id=$input['id'];
+    
+    		$om->flush();
+    	}
+    	catch (\Exception $e) {
+    
+    		$error = $e->getMessage();
+    		$this->getLogService()->emerg( "$func@<$currentUser>: $action <$id>: $error $extra");
+    
+    		return $this->jsonModel ( $defaultError );
+    	}
+    
+    	$this->getLogService()->info(  "$func@<$currentUser>: $action <$id>: $extra");
+    	$result['success'] = 'Filtro cancellato correttamente!';
+    
+    	if ($this->request->getQuery('dump', false))
+    		die(var_dump( $result ));
+    	else
+    		return $this->jsonModel ( $result );
+    }
+    
     public function indexAction()
     {
     	$modals = array (

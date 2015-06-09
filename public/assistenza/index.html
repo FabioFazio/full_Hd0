@@ -71,6 +71,7 @@
 <script type="text/javascript" src="inc/js/users.js"></script>
 <script type="text/javascript" src="inc/js/stores.js"></script>
 <script type="text/javascript" src="inc/js/announcements.js"></script>
+<script type="text/javascript" src="inc/js/filters.js"></script>
 <!-- end@script -->
 
 <!--[if IE 7]>
@@ -124,7 +125,7 @@
 						<li class="admin"><a href="#" data-toggle="modal" data-target="#msgsModal"><span
 								class="glyphicon glyphicon-bullhorn"></span> Comunicazioni</a></li>
 						<li class="admin"><a href="#" data-toggle="modal" data-target="#filtersModal"><span
-								class="glyphicon glyphicon-wrench"></span> Categorie</a></li>
+								class="glyphicon glyphicon-wrench"></span> Filtri di Categorie</a></li>
 						<li class="admin divider"></li>
 						
 						<li><a data-toggle="modal" data-backdrop="static"
@@ -201,6 +202,10 @@ var msgs_url = '/hd0/test/frontend/getMsgs';
 var msgs_save_url = '/hd0/test/frontend/saveMsg';
 var msg_delete_url = '/hd0/test/frontend/deleteMsg';
 
+var filters_url = '/hd0/test/frontend/getFilters';
+var filter_save_url = "/hd0/test/frontend/saveFilter";
+var filter_delete_url = '/hd0/test/frontend/deleteFilter';
+
 /* Env vars */
 var cookieExpires	= (10 * 365);
 var cookiePath		= '/';
@@ -230,6 +235,7 @@ var cookiePath		= '/';
 	<div data-include="inc/users.inc"></div>
 	<div data-include="inc/stores.inc"></div>
 	<div data-include="inc/announcements.inc"></div>
+	<div data-include="inc/filters.inc"></div>
 
 </body>
 

@@ -24,7 +24,9 @@ class Queue {
 	/** @ORM\ManyToOne(targetEntity="Service") */
 	protected $service;
 	
-	/** @ORM\ManyToOne(targetEntity="Filter") */
+	/** @ORM\ManyToOne(targetEntity="Filter", inversedBy="queues")
+	 *  @ORM\JoinColumn(name="filter_id", referencedColumnName="id")
+	 */
 	protected $filter;
 
 	/** @ORM\Column(type="boolean") */

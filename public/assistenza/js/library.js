@@ -18,6 +18,56 @@ var confirmation_delete_options = {
 };
 
 /**
+ * Return properies from an object with a a function compatible with IE7 and IE8 too
+ * @param obj
+ */
+function getProperties(obj)
+{
+	// From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+	if (!Object.keys) {
+	  Object.keys = (function() {
+	    'use strict';
+	    var hasOwnProperty = Object.prototype.hasOwnProperty,
+	        hasDontEnumBug = !({ toString: null }).propertyIsEnumerable('toString'),
+	        dontEnums = [
+	          'toString',
+	          'toLocaleString',
+	          'valueOf',
+	          'hasOwnProperty',
+	          'isPrototypeOf',
+	          'propertyIsEnumerable',
+	          'constructor'
+	        ],
+	        dontEnumsLength = dontEnums.length;
+
+	    return function(obj) {
+	      if (typeof obj !== 'object' && (typeof obj !== 'function' || obj === null)) {
+	        throw new TypeError('Object.keys called on non-object');
+	      }
+
+	      var result = [], prop, i;
+
+	      for (prop in obj) {
+	        if (hasOwnProperty.call(obj, prop)) {
+	          result.push(prop);
+	        }
+	      }
+
+	      if (hasDontEnumBug) {
+	        for (i = 0; i < dontEnumsLength; i++) {
+	          if (hasOwnProperty.call(obj, dontEnums[i])) {
+	            result.push(dontEnums[i]);
+	          }
+	        }
+	      }
+	      return result;
+	    };
+	  }());
+	}
+	return Object.keys(obj);
+}
+
+/**
  * Escane string before inject with $.html
  */
 function escapeHtml(text) {
@@ -135,6 +185,15 @@ function initScope ( scope ) {
 		},
 		errorMessage : 'La mail deve essere di lavoro: @iper.it @ortofin.it @unes.it etc..', /* non usato */
 		errorMessageKey: 'badDomain'
+	});
+	
+	$.formUtils.addValidator({
+		name : 'select',
+		validatorFunction : function(value, $el, config, language, $form) {
+			return parseInt(value) > 0; 
+		},
+		errorMessage : 'Deve essere selezionata una voce dell\'elenco!', /* non usato */
+		errorMessageKey: 'badSelect'
 	});
 	
 	var vallidate_default_options = {

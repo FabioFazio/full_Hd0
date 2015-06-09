@@ -2,6 +2,7 @@
 namespace Test\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /** @ORM\Entity */
 class Filter {
@@ -12,7 +13,7 @@ class Filter {
 	 */
 	protected $id;
 
-	/** @ORM\Column(type="string", length=255, unique=true) */
+	/** @ORM\Column(type="string", length=255, nullable=true) */
 	protected $code;
 	
 	/** @ORM\Column(type="string", length=255, nullable=true) */
@@ -20,6 +21,9 @@ class Filter {
 
 	/** @ORM\Column(type="string", length=255, nullable=true) */
 	protected $question;
+	
+	/** @ORM\Column(type="boolean", nullable=true) */
+	protected $node;
 	
 	/** @ORM\ManyToOne(targetEntity="Filter", inversedBy="responces")
 	 *  @ORM\JoinColumn(name="askedBy_id", referencedColumnName="id") 
@@ -29,8 +33,12 @@ class Filter {
 	/** @ORM\OneToMany(targetEntity="Filter", mappedBy="askedBy") */
 	protected $responces;
 	
+	/** @ORM\OneToMany(targetEntity="Queue", mappedBy="filter") */
+	protected $queues;
+	
 	public function __construct(){
 		$this->responces = new ArrayCollection();
+		$this->node = false;
 	}
 
 	public function getId(){
@@ -65,6 +73,14 @@ class Filter {
     	$this->question = $question;
     }
     
+    public function isNode(){
+    	return $this->node;
+    }
+    
+    public function setNode($node){
+    	$this->node = $node;
+    }
+    
     public function getAskedBy(){
     	return $this->askedBy;
     }
@@ -96,6 +112,18 @@ class Filter {
     public function getResponces() {
     	return $this->responces;
     }
+
+    public function hasQueues() {
+    	return $this->queues->count();
+    }
+    
+    public function getQueue() {
+    	return $this->hasQueues()?$this->getQueues()->first():null;
+    }
+    
+    public function getQueues() {
+    	return $this->queues;
+    }
     
     public function toArray()
     {
@@ -117,6 +145,9 @@ class Filter {
     		    $array['responces'][] = $resp->toArray();
     		}
     	}
+    	
+    	$array['queue_id'] = $this->getQueue()?$this->getQueue()->getId():null;
+    	unset($array['queues']);
     
     	return $array;
     }
