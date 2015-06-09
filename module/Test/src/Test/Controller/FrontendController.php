@@ -1445,14 +1445,14 @@ class FrontendController extends ZtAbstractActionController {
     	!$userObject->isAdministrator())
     		return $this->jsonModel ( $defaultError );
     
-    	$ids = explode(".", $input['id']);
-    	$id = array_pop($ids);
+    	$ids = explode(".", $input['ids']);
+    	$id = $input['id'];
     	
     	$filterToSave = ($id)?$om->find('Test\Entity\Filter', $id) : new \Test\Entity\Filter();
 
     	if ($ids)
     	{
-    	    $parent = array_pop($ids);
+    	    $parent = intval(array_pop($ids));
     	    $filterToSave->setAskedBy($om->find('Test\Entity\Filter', $parent));
     	}
     	

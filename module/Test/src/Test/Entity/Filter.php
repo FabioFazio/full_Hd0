@@ -61,7 +61,7 @@ class Filter {
     	return $this->responce;
     }
     
-    public function setRresponce($responce){
+    public function setResponce($responce){
     	$this->responce = $responce;
     }
 
@@ -93,7 +93,7 @@ class Filter {
         	}
         	$this->askedBy = null;
         } else {
-        	if(!$askedBy instanceof Test\Entity\Filter) {
+        	if(!($askedBy instanceof \Test\Entity\Filter)) {
         		throw new InvalidArgumentException(
         		        '$askedBy must be null or instance of Test\Entity\Filter');
         	}
