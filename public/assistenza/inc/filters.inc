@@ -79,9 +79,9 @@ $( function($) {
                                     </label>
                                     <select class="form-control valid" name="type" aria-invalid="false">
                                         <option value="0" selected="selected">--- Non Definito ---</option>
-                                        <option value="1">Definisci una Domanda di Selezione</option>
+                                        <option value="1">Rivolgi una Domanda</option>
                                         <option value="2">Apri la Segnalazione</option>
-                                        <option value="3">Blocca la Segnalazione</option>
+                                        <option value="3">Inibisci la Segnalazione</option>
                                     </select>
                                 </div>
                                 
