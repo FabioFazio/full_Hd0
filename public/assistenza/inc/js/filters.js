@@ -102,7 +102,7 @@ function filtersInit()
 			$filtersMod.find('#responces').parent('div').addClass('hidden');
 			
 			$filtersMod.find('[name="question"]')
-				.removeAttr('disabled').attr('placeholder', 'Inibita la nuova segnalazione perchè...')
+				.removeAttr('disabled').attr('placeholder', 'Non è possibile aprire il ticket perchè...')
 				.parent('div').removeClass('hidden');
 			$filtersMod.find('#questionLabel').text('Motivazione');
 			
