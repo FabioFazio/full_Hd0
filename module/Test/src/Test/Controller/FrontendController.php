@@ -1506,6 +1506,7 @@ class FrontendController extends ZtAbstractActionController {
     
     public function deleteFilterAction()
     {
+        $defaultError = ['error'=>"Non &grave; stato possibile cancellare l'elemento. Riprovare più tardi"];
     	$input = $this->request->getPost ()->toArray();
     	$user = $this->getSession()->user;
     	$om = $this->getObjectManager();
@@ -1516,31 +1517,47 @@ class FrontendController extends ZtAbstractActionController {
     	!$userObject->isAdministrator())
     	{
     		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
-    		
     		return $this->jsonModel ( $result );
     	}
     	
-    	$input['id'] = explode('.', $input['id'])[0];
+    	$ids = explode('.', $input['id']);
+    	$id = array_pop($ids);
     	
     	if (isset($input['id']) &&
-    	$filterToDelete = $om->find('Test\Entity\Filter', $input['id']))
+    	$filterToDelete = $om->find('Test\Entity\Filter', $id))
     	{
     	    if ($queue = $filterToDelete->getQueue()){
     	    	$queue->setFilter(null);
     	    }
-    	    foreach ($filterToDelete->getResponces()->toArray() as $resp){
-    	    	$om->remove($resp);
+    	    if ($filterToDelete->hasResponces()){
+    	        $responces = $filterToDelete->getResponces()->toArray();
+    	        $filterToDelete->setResponces(new ArrayCollection());
+	        	try {
+            		$func = __FUNCTION__;
+            		$currentUser = $userObject->getUsername();
+            		$action = "delete";
+            		$extra = "\n".print_r($input, 1);
+            
+            		$om->flush();
+            	}
+            	catch (\Exception $e) {
+            
+            		$error = $e->getMessage();
+            		$this->getLogService()->emerg( "$func@<$currentUser>: $action <$id>: $error $extra");
+            		return $this->jsonModel ( $defaultError );
+            	}
+    	        foreach ($responces as $resp){
+    	        	$om->remove($resp);
+    	        }
+    	        $om->remove($filterToDelete);
     	    }
-    		$om->remove($filterToDelete);
     		
     	} else {
-    	    $result['error'] = "Non &grave; stato possibile cancellare l'elemento. Riprovare più tardi";
     	    $func = __FUNCTION__;
     	    $currentUser = $userObject->getUsername();
     	    $action = "delete";
-    	    $id = $input['id'];
     	    $this->getLogService()->emerg( "$func@<$currentUser>: impossibile $action filter id=$id");
-    	    return $this->jsonModel ( $result );
+    	    return $this->jsonModel ( $defaultError );
     	}
     
     	try {
@@ -1548,7 +1565,6 @@ class FrontendController extends ZtAbstractActionController {
     		$currentUser = $userObject->getUsername();
     		$action = "delete";
     		$extra = "\n".print_r($input, 1);
-    		$id=$input['id'];
     
     		$om->flush();
     	}
@@ -1556,7 +1572,6 @@ class FrontendController extends ZtAbstractActionController {
     
     		$error = $e->getMessage();
     		$this->getLogService()->emerg( "$func@<$currentUser>: $action <$id>: $error $extra");
-    
     		return $this->jsonModel ( $defaultError );
     	}
     
