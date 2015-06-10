@@ -1,6 +1,6 @@
 <script type="text/javascript">
 <!--
-var $modal = $('#filtersModal');
+var $filtersMod = $('#filtersModal');
 var tableFilters = null;
 
 var table_filters_options = {
@@ -31,7 +31,7 @@ $( function($) {
 
     filtersInit();
 	
-    $modal.on('show.bs.modal', function (e) {
+    $filtersMod.on('show.bs.modal', function (e) {
     	$(this).find('#filterForm')
  	      .attr('action', filter_save_url);
         filtersLoad(e);

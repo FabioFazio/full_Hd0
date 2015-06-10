@@ -14,18 +14,18 @@ fallbackForm['msgForm'] = function fallback (data, status, $msgBox, $form) {
 /* Library for announcements.inc */
 function msgsInit()
 {
-	$modal.find('div.modal-xl').css( "width", $(window).innerWidth()-50 );
+	$msgsMod.find('div.modal-xl').css( "width", $(window).innerWidth()-50 );
     tableMsgs = tableMsgs?tableMsgs:$('#msgs').dataTable(table_msgs_options).api();
 	
 	// ^ editor animation
-    $modal.on('click', '[data-show]', function(){
+    $msgsMod.on('click', '[data-show]', function(){
 		var target = $(this).attr('data-show');
 		var twin = $(target).attr('data-flip');
 		msgEditorInit(target, this);
 		$(target).add(twin).toggleClass('hidden');
 	});
 	
-    $modal.on('click', '[data-hide]', function(){
+    $msgsMod.on('click', '[data-hide]', function(){
 		var target = $(this).attr('data-hide');
 		var twin = $(target).attr('data-flip');
 		$(target).add(twin).toggleClass('hidden');
@@ -51,7 +51,7 @@ function msgsLoad(e)
 		success: function(data, status) {
 			window.console&&console.log(data); // for debugging
 			populateMsgs(data['msgs']);
-			$modal.prop('msgs', data['msgs']);
+			$msgsMod.prop('msgs', data['msgs']);
 		},
 		error: function(data, status) {
 				window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>');
@@ -72,7 +72,7 @@ function msgEditorInit(target, button){
 	$sector.find('option[value="0"]').siblings('option').remove();
 	$sector.val(0);
 	
-	if ($modal.prop('sectors') == undefined){
+	if ($msgsMod.prop('sectors') == undefined){
 		$.ajax({
 			url:			sectors_url,
 			type:			"POST",
@@ -89,8 +89,8 @@ function msgEditorInit(target, button){
 					}
 				});
 				if (!('error' in data) && ('sectors' in data)){
-					$modal.prop('sectors', data['sectors']);
-					$.each($modal.prop('sectors'), function(i,v){
+					$msgsMod.prop('sectors', data['sectors']);
+					$.each($msgsMod.prop('sectors'), function(i,v){
 						$sector = $(target).find('select[name="sector"]');
 						if ($sector.find('option[value="'+v.id+'"]').length<1)
 								$sector.append($('<option>').val(v.id).text(v.fullname));
@@ -103,7 +103,7 @@ function msgEditorInit(target, button){
 		});
 	} else {
 	
-		$.each($modal.prop('sectors'), function(i,v){
+		$.each($msgsMod.prop('sectors'), function(i,v){
 			$sector = $(target).find('select[name="sector"]');
 			if ($sector.find('option[value="'+v.id+'"]').length<1)
 					$sector.append($('<option>').val(v.id).text(v.fullname));
@@ -119,7 +119,7 @@ function msgEditorInit(target, button){
 
 	if (id>0)
 	{
-		var msgs = $modal.prop('msgs');
+		var msgs = $msgsMod.prop('msgs');
 		if (id in msgs){
 			var msg = msgs[id];
 			$(target).find('textarea[name="message"]').val(msg.message);
@@ -174,7 +174,7 @@ function populateMsgs(data){
 	});
 	
 	tableMsgs.draw();
-	$modal.find('a[data-toggle="confirmation"]').confirmation(confirmation_delete_msg_options);
+	$msgsMod.find('a[data-toggle="confirmation"]').confirmation(confirmation_delete_msg_options);
 }
 
 function msgDelete(toastr, item)
@@ -196,7 +196,7 @@ function msgDelete(toastr, item)
 				}
 			});
 			if ('success' in data){
-				$tr = $modal.find('a.btn-danger[data-id='+item.id+']').closest('tr');
+				$tr = $msgsMod.find('a.btn-danger[data-id='+item.id+']').closest('tr');
 				$tr.addClass('remove');
 				tableMsgs.row('.remove').remove().draw( false );
 			}

@@ -1,6 +1,6 @@
 <script type="text/javascript">
 <!--
-var $modal = $( '#msgsModal' ); 
+var $msgsMod = $( '#msgsModal' ); 
 
 var tableMsgs = null;
 
@@ -32,7 +32,7 @@ $( function($) {
 
     msgsInit();
 	
-    $modal.on('show.bs.modal', function (e) {
+    $msgsMod.on('show.bs.modal', function (e) {
     	$(this).find('form').attr('action',msgs_save_url);
         msgsLoad(e);
     });

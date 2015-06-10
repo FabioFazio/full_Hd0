@@ -15,11 +15,11 @@ fallbackForm['filterForm'] =
 /* Library for filters.inc */
 function filtersInit()
 {
-	$modal.find('div.modal-xl').css( "width", $(window).innerWidth()-50 );
+	$filtersMod.find('div.modal-xl').css( "width", $(window).innerWidth()-50 );
 	tableFilters = tableFilters?tableFilters:$('#filters').dataTable(table_filters_options).api();
 	
 	// ^ editor animation
-    $modal.on('click', '[data-show="#filtersEditor"]', function(){
+    $filtersMod.on('click', '[data-show="#filtersEditor"]', function(){
 		var target = $(this).attr('data-show');
 		var twin = $(target).attr('data-flip');
 		filterEditorInit(target, $(this).attr('data-id'));
@@ -28,12 +28,99 @@ function filtersInit()
 		}
 	});
 	
-    $modal.on('click', '[data-hide]', function(){
+    $filtersMod.on('click', '[data-hide]', function(){
 		var target = $(this).attr('data-hide');
 		var twin = $(target).attr('data-flip');
 		$(target).add(twin).toggleClass('hidden');
 	});
 	// $ editor animation
+    
+	// ^ form interface depending by type selected
+
+	$filtersMod.on ('change', 'select[name="type"]', function(){
+		
+		var val = $(this).val();
+		var id = parseInt($filtersMod.find('input[name="id"]').val());
+		var arrayParents = $filtersMod.find('input[name="ids"]').val().split(".");
+		
+		switch (parseInt(val)) {
+		case 0:
+			// DEFAULT>> hide: question, #responces, responce, disable save
+			
+			$filtersMod.find('[name="question"]').parent('div').addClass('hidden');
+			$filtersMod.find('[name="responce"]').parent('div').addClass('hidden');
+			$filtersMod.find('#responces').parent('div').addClass('hidden');
+			
+			$filtersMod.find('button[type="submit"]').attr('disabled','disabled');
+			break;
+		case 1:
+			// FILTER>> show: responce se has father, question, set #questionLabel = 'Domanda', if parent>0? show responce, node=true
+			
+			$filtersMod.find('[name="question"]')
+				.removeAttr('disabled').attr('placeholder', 'Domanda per identificare la tipologia della segnalazione')
+				.parent('div').removeClass('hidden');
+			$filtersMod.find('#questionLabel').text('Domanda');
+			
+			if (arrayParents[0]!="0"){ // has a father
+				$filtersMod.find('[name="responce"]')
+					.removeAttr('disabled').parent('div').removeClass('hidden');
+ 			} else {
+				$filtersMod.find('[name="responce"]')
+					.attr('disabled','disabled').parent('div').addClass('hidden');
+ 			}
+			
+			if (id>0) { // is not new
+				$filtersMod.find('#responces').parent('div').removeClass('hidden');
+			}else{
+				$filtersMod.find('#responces').parent('div').addClass('hidden');
+			}
+		
+			$filtersMod.find('input[name="node"]').val(1);
+			$filtersMod.find('button[type="submit"]').removeAttr('disabled');
+			break;
+		case 2:
+			// OPEN>> hide: responces, question, if parent>0? show responce, node=false
+			
+			$filtersMod.find('#responces').parent('div').addClass('hidden');
+			
+			$filtersMod.find('[name="question"]').attr('disabled','disabled').parent('div').addClass('hidden');
+			
+			if (arrayParents[0]!="0"){ // has a father
+				$filtersMod.find('[name="responce"]')
+					.removeAttr('disabled').parent('div').removeClass('hidden');
+ 			} else {
+				$filtersMod.find('[name="responce"]')
+					.attr('disabled','disabled').parent('div').addClass('hidden');
+ 			}
+			
+			$filtersMod.find('input[name="node"]').val(0);
+			$filtersMod.find('button[type="submit"]').removeAttr('disabled');
+			break;
+		case 3:
+			// LOCK>> hide: responces, show: question, set #questionLabel = 'Motivazione', if parent>0? show responce, node=false
+
+			$filtersMod.find('#responces').parent('div').addClass('hidden');
+			
+			$filtersMod.find('[name="question"]')
+				.removeAttr('disabled').attr('placeholder', 'Inibita la nuova segnalazione perchè...')
+				.parent('div').removeClass('hidden');
+			$filtersMod.find('#questionLabel').text('Motivazione');
+			
+			if (arrayParents[0]!="0"){ // has a father
+				$filtersMod.find('[name="responce"]')
+					.removeAttr('disabled').parent('div').removeClass('hidden');
+ 			} else {
+				$filtersMod.find('[name="responce"]')
+					.attr('disabled','disabled').parent('div').addClass('hidden');
+ 			}
+			
+			$filtersMod.find('input[name="node"]').val(0);
+			$filtersMod.find('button[type="submit"]').removeAttr('disabled');
+			break;
+		}
+	});
+	
+	// $ form interface depending by type selected
 }
 
 function filtersLoad(e)
@@ -56,101 +143,13 @@ function filtersLoad(e)
 		success: function(data, status) {
 			window.console&&console.log(data); // for debugging
 			populateFilters(data['filters']);
-			$modal.prop('filters', data['filters']);
-			$modal.prop('queues', data['queues']);
+			$filtersMod.prop('filters', data['filters']);
+			$filtersMod.prop('queues', data['queues']);
 		},
 		error: function(data, status) {
 				window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>');
 			},
 	});
-	
-		// ^ form interface depending by type selected
-
-	$modal.on ('change', 'select[name="type"]', function(){
-		
-		var val = $(this).val();
-		var id = parseInt($modal.find('input[name="id"]').val());
-		var arrayParents = $modal.find('input[name="ids"]').val().split(".");
-		
-		switch (parseInt(val)) {
-		case 0:
-			// DEFAULT>> hide: question, #responces, responce, disable save
-			
-			$modal.find('[name="question"]').parent('div').addClass('hidden');
-			$modal.find('[name="responce"]').parent('div').addClass('hidden');
-			$modal.find('#responces').parent('div').addClass('hidden');
-			
-			$modal.find('button[type="submit"]').attr('disabled','disabled');
-			break;
-		case 1:
-			// FILTER>> show: responce se has father, question, set #questionLabel = 'Domanda', if parent>0? show responce, node=true
-			
-			$modal.find('[name="question"]')
-				.removeAttr('disabled').attr('placeholder', 'Domanda per identificare la tipologia della segnalazione')
-				.parent('div').removeClass('hidden');
-			$modal.find('#questionLabel').text('Domanda');
-			
-			if (arrayParents[0]!="0"){ // has a father
-				$modal.find('[name="responce"]')
-					.removeAttr('disabled').parent('div').removeClass('hidden');
- 			} else {
-				$modal.find('[name="responce"]')
-					.attr('disabled','disabled').parent('div').addClass('hidden');
- 			}
-			
-			if (id>0) { // is not new
-				$modal.find('#responces').parent('div').removeClass('hidden');
-			}else{
-				$modal.find('#responces').parent('div').addClass('hidden');
-			}
-		
-			$modal.find('input[name="node"]').val(1);
-			$modal.find('button[type="submit"]').removeAttr('disabled');
-			break;
-		case 2:
-			// OPEN>> hide: responces, question, if parent>0? show responce, node=false
-			
-			$modal.find('#responces').parent('div').addClass('hidden');
-			
-			$modal.find('[name="question"]').attr('disabled','disabled').parent('div').addClass('hidden');
-			
-			if (arrayParents[0]!="0"){ // has a father
-				$modal.find('[name="responce"]')
-					.removeAttr('disabled').parent('div').removeClass('hidden');
- 			} else {
-				$modal.find('[name="responce"]')
-					.attr('disabled','disabled').parent('div').addClass('hidden');
- 			}
-			
-			$modal.find('input[name="node"]').val(0);
-			$modal.find('button[type="submit"]').removeAttr('disabled');
-			break;
-		case 3:
-			// LOCK>> hide: responces, show: question, set #questionLabel = 'Motivazione', if parent>0? show responce, node=false
-
-			$modal.find('#responces').parent('div').addClass('hidden');
-			
-			$modal.find('[name="question"]')
-				.removeAttr('disabled').attr('placeholder', 'Inibita la nuova segnalazione perchè...')
-				.parent('div').removeClass('hidden');
-			$modal.find('#questionLabel').text('Motivazione');
-			
-			if (arrayParents[0]!="0"){ // has a father
-				$modal.find('[name="responce"]')
-					.removeAttr('disabled').parent('div').removeClass('hidden');
- 			} else {
-				$modal.find('[name="responce"]')
-					.attr('disabled','disabled').parent('div').addClass('hidden');
- 			}
-			
-			$modal.find('input[name="node"]').val(0);
-			$modal.find('button[type="submit"]').removeAttr('disabled');
-			break;
-		}
-	});
-	
-	// $ form interface depending by type selected
-	
 	
 	// type depending visibility: , hide: responce, question, #responces
 }
@@ -173,7 +172,7 @@ function filterEditorInit(target, dataId)
 		ids = 0;
 	
 	
-	var filters = $modal.prop('filters');
+	var filters = $filtersMod.prop('filters');
 	var family = [];
 	var item = null;
 	
@@ -206,11 +205,11 @@ function filterEditorInit(target, dataId)
 	var queues = {};
 
 	var used = [];
-	$.each($modal.prop('filters'), function(i, f){
+	$.each($filtersMod.prop('filters'), function(i, f){
 		used.push(f['queue_id']);
 	});
 	
-	$.each($modal.prop('queues'), function(i, q) {
+	$.each($filtersMod.prop('queues'), function(i, q) {
 			if ($.inArray(parseInt(i), used) < 0){
 				queues[i] = q;
 			}
@@ -436,9 +435,9 @@ function filterDelete(toastr, item)
 					// is a root filter so update table and tree
 					$tr = $('#filters').find('a.btn-danger[data-id='+item.id+']').closest('tr');
 					$tr.addClass('remove');
-					var fs = $modal.prop('filters');
+					var fs = $filtersMod.prop('filters');
 					delete fs[item.id];
-					$modal.prop('filters', fs);
+					$filtersMod.prop('filters', fs);
 				}else{
 					// is not a root filter so update table and tree
 					filtersLoad();

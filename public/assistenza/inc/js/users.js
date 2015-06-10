@@ -14,18 +14,18 @@ fallbackForm['userForm'] = function fallback (data, status, $msgBox, $form) {
 /* Library for users.inc */
 function usersInit()
 {
-	$modal.find('div.modal-xl').css( "width", $(window).innerWidth()-50 );
+	$usersMod.find('div.modal-xl').css( "width", $(window).innerWidth()-50 );
     tableUsers = tableUsers?tableUsers:$('#users').dataTable(table_users_options).api();
 	
 	// ^ editor animation
-    $modal.on('click', '[data-show]', function(){
+    $usersMod.on('click', '[data-show]', function(){
 		var target = $(this).attr('data-show');
 		var twin = $(target).attr('data-flip');
 		userEditorInit(target, this);
 		$(target).add(twin).toggleClass('hidden');
 	});
 	
-    $modal.on('click', '[data-hide]', function(){
+    $usersMod.on('click', '[data-hide]', function(){
 		var target = $(this).attr('data-hide');
 		var twin = $(target).attr('data-flip');
 		$(target).add(twin).toggleClass('hidden');
@@ -76,7 +76,7 @@ function usersLoad(e)
 		success: function(data, status) {
 			window.console&&console.log(data); // for debugging
 			populateUsers(data['users']);
-			$modal.prop('users', data['users']);
+			$usersMod.prop('users', data['users']);
 		},
 		error: function(data, status) {
 				window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>');
@@ -135,7 +135,7 @@ function userEditorInit(target, button){
 	$sector.find('option[value="0"]').siblings('option').remove();
 	$sector.val(0);
 	
-	if ($modal.prop('sectors') == undefined){
+	if ($usersMod.prop('sectors') == undefined){
 		$.ajax({
 			url:			sectors_url,
 			type:			"POST",
@@ -157,7 +157,7 @@ function userEditorInit(target, button){
 						if ($sector.find('option[value="'+v.id+'"]').length<1)
 								$sector.append($('<option>').val(v.id).text(v.fullname));
 					});
-					$modal.prop('sectors', data['sectors']);
+					$usersMod.prop('sectors', data['sectors']);
 				}
 			},
 			error: function(data, status) {
@@ -165,7 +165,7 @@ function userEditorInit(target, button){
 				},
 		});
 	} else {
-		$.each($modal.prop('sectors'), function(i,v){
+		$.each($usersMod.prop('sectors'), function(i,v){
 			$sector = $(target).find('select[name="sector"]');
 			if ($sector.find('option[value="'+v.id+'"]').length<1)
 					$sector.append($('<option>').val(v.id).text(v.fullname));
@@ -190,7 +190,7 @@ function userEditorInit(target, button){
 
 	if (id>0)
 	{
-		var users = $modal.prop('users');
+		var users = $usersMod.prop('users');
 		if (id in users){
 			var user = users[id];
 			$(target).find('input[name="username"]').val(user.username).prop('disabled', true);
@@ -202,7 +202,7 @@ function userEditorInit(target, button){
 			{
 				var $sector = $(target).find('select[name="sector"] option[value="'+user.sector.id+'"]');
 				if ($sector.length<1){
-					$modal.find('select[name="sector"]')
+					$usersMod.find('select[name="sector"]')
 						.append($('<option>').val(user.sector.id).text(user.sector.fullname));
 				}
 				$(target).find('select[name="sector"]').val(user.sector.id);
@@ -280,7 +280,7 @@ function populateUsers(data){
 	
 	//.prop('queues',item.queues).prop('focalpoint', item.focalpoint)
 	tableUsers.draw();
-	$modal.find('a[data-toggle="confirmation"]').confirmation(confirmation_delete_user_options);
+	$usersMod.find('a[data-toggle="confirmation"]').confirmation(confirmation_delete_user_options);
 }
 
 function userDelete(toastr, item)

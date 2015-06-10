@@ -1,6 +1,6 @@
 <script type="text/javascript">
 <!--
-var $modal = $( '#usersModal' ); 
+var $usersMod = $( '#usersModal' ); 
 var tableUsers = null;
 var selectQueues = null;
 var selectFps = null;
