@@ -1519,7 +1519,9 @@ class FrontendController extends ZtAbstractActionController {
     		
     		return $this->jsonModel ( $result );
     	}
-    	 
+    	
+    	$input['id'] = explode('.', $input['id'])[0];
+    	
     	if (isset($input['id']) &&
     	$filterToDelete = $om->find('Test\Entity\Filter', $input['id']))
     	{
