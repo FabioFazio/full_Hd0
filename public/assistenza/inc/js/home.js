@@ -44,10 +44,10 @@ function showMessages(messages)
 			window.console&&console.log('Messaggio di bacheca: '+value.message);
 			
 			var options = $.extend(true, {}, toastr.options);
-			toastr.options.hideDuration = "5000";
-			toastr.options.progressBar = true;
+			toastr.options.closeButton = true;
+			toastr.options.timeOut = "0";
 			toastr.options.preventDuplicates = true;
-			toastr.options.positionClass = "toast-bottom-full-width";	
+			toastr.options.positionClass = "toast-top-center";	
 			 
 			if(value.warning)
 				toastr["warning"](value.message);
