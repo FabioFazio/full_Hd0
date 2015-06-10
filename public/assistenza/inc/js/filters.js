@@ -64,7 +64,7 @@ function filtersLoad(e)
 			},
 	});
 	
-	// ^ form interface depending by type selected
+		// ^ form interface depending by type selected
 
 	$modal.on ('change', 'select[name="type"]', function(){
 		
@@ -189,7 +189,7 @@ function filterEditorInit(target, dataId)
 		if (id in filters){
 			item = filters[id];
 			family.push(item);
-			if (typeof(item['responces']) !== 'undefined' && item['responces'].length)
+			if (typeof(item['responces']) !== 'undefined' && $.map(item['responces'], function(n, i) { return i; }).length)
 				filters = item['responces'];
 			else
 				return;
@@ -246,12 +246,54 @@ function filterEditorInit(target, dataId)
 		
 		if (item) // edit!
 		{
+			// ^ populate #responces
+			var $sons = $(target).find('table#responces tbody');
+			var $edit = $('<a></a>').attr('title','Modifica')
+				.addClass('btn btn-sm btn-info').attr('data-show','#filtersEditor');
+			var $remove = $('<a></a>').attr('title','')
+					.addClass('btn btn-sm btn-danger')
+					.attr('data-toggle','confirmation')
+					.attr('data-original-title', 'Vuoi davvero cancellare questo elemento?');
+			$edit.html('<span class="glyphicon glyphicon-pencil"></span>');
+			$remove.html('<span class="glyphicon glyphicon-trash"></span>');
+			$sons.empty();
+			$.each(item.responces, function(i,v){
+				
+				var $editButton = $edit.clone().attr('data-id',dataId+'.'+v.id);
+				var $removeButton = $remove.clone().attr('data-id',dataId+'.'+v.id);
+				var risposta = v.responce;
+				var azione =	'';
+				if(typeof(v.question)!=='undefined' && v.question!==null && !v.node){
+					azione = 'Inibisci la Segnalazione';
+				}else if(v.node){
+					azione = 'Domanda all\'Utente';
+				}else{
+					azione = 'Apri la Segnalazione';
+				}
+				
+				var $tools = $('<div>&nbsp;</div>').append($removeButton).prepend($editButton);
+				var $tr = $('<tr>')
+						.append($('<td>').html($tools.html()))
+						.append($('<td>').html(risposta))
+						.append($('<td>').html(azione));
+				$sons.append($tr.clone());
+				
+			});
+			if ($sons.find('tr').length<1)
+				$sons.append('<tr><td colspan="3"><em>Vuoto</em></td></tr>');
+			else
+				$sons.find('a[data-toggle="confirmation"]').confirmation(confirmation_delete_filter_options);
+
+			// $ populate #responces
+			
 			if (!fatherId)
 			{
 				// hide: prevQuestion & responce
 				$(target).find('input[name="prevQuestion"]').parent('div').addClass('hidden');
 				$(target).find('input[name="responce"]').parent('div').addClass('hidden');
-			} else {
+			}
+			else
+			{
 				// populate & show prevQuestion & responce
 				$(target).find('input[name="prevQuestion"]').parent('div').removeClass('hidden');
 				var father = family[family.length-2];
@@ -397,11 +439,24 @@ function filterDelete(toastr, item)
 				}
 			});
 			if ('success' in data){
-				$tr = $('#filters').find('a.btn-danger[data-id='+item.id+']').closest('tr');
-				$tr.addClass('remove');
-				var fs = $modal.prop('filters');
-				delete fs[item.id];
-				$modal.prop('filters', fs);
+				
+				if (item.queue_id){
+					// is a root filter so update table and tree
+					$tr = $('#filters').find('a.btn-danger[data-id='+item.id+']').closest('tr');
+					$tr.addClass('remove');
+					var fs = $modal.prop('filters');
+					delete fs[item.id];
+					$modal.prop('filters', fs);
+				}else{
+					// is not a root filter so update table and tree
+					filtersLoad();
+					$tr = $('#responces').find('a.btn-danger[data-id="'+item.id+'"]').closest('tr');
+					$tbody = $tr.closest('table tbody');
+					$tr.remove();
+					if ($tbody.find('tr').length<1)
+						$tbody.append('<tr><td colspan="3"><em>Vuoto</em></td></tr>');
+				}
+				
 				tableFilters.row('.remove').remove().draw( false );
 				
 			}
