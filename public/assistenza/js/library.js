@@ -71,18 +71,14 @@ function getProperties(obj)
  * Escane string before inject with $.html
  */
 function escapeHtml(text) {
-	  if (typeof text === 'undefined')
-		  return '';
-	  
-	  var map = {
-	    '&': '&amp;',
-	    '<': '&lt;',
-	    '>': '&gt;',
-	    '"': '&quot;',
-	    "'": '&#039;'
-	  };
+	return $('<div/>').text(text).html();
+}
 
-	  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+/**
+ * Escane string before inject with $.val
+ */
+function unescapeHtml(text) {
+	return $('<div/>').html(text).text();
 }
 
 /**

@@ -108,7 +108,9 @@ function filtersLoad(e)
 			$modal.find('button[type="submit"]').removeAttr('disabled');
 			break;
 		case 2:
-			// OPEN>> hide: question, if parent>0? show responce, node=false
+			// OPEN>> hide: responces, question, if parent>0? show responce, node=false
+			
+			$modal.find('#responces').parent('div').addClass('hidden');
 			
 			$modal.find('[name="question"]').attr('disabled','disabled').parent('div').addClass('hidden');
 			
@@ -120,18 +122,14 @@ function filtersLoad(e)
 					.attr('disabled','disabled').parent('div').addClass('hidden');
  			}
 			
-			if (id>0){ // is not new
-				$modal.find('#responces').parent('div').removeClass('hidden');
-			}else{
-				$modal.find('#responces').parent('div').addClass('hidden');
-			}
-		
 			$modal.find('input[name="node"]').val(0);
 			$modal.find('button[type="submit"]').removeAttr('disabled');
 			break;
 		case 3:
-			// LOCK>> show: question, set #questionLabel = 'Motivazione', if parent>0? show responce, node=false
+			// LOCK>> hide: responces, show: question, set #questionLabel = 'Motivazione', if parent>0? show responce, node=false
 
+			$modal.find('#responces').parent('div').addClass('hidden');
+			
 			$modal.find('[name="question"]')
 				.removeAttr('disabled').attr('placeholder', 'Inibita la nuova segnalazione perchè...')
 				.parent('div').removeClass('hidden');
@@ -145,12 +143,6 @@ function filtersLoad(e)
 					.attr('disabled','disabled').parent('div').addClass('hidden');
  			}
 			
-			if (id>0){ // is not new
-				$modal.find('#responces').parent('div').removeClass('hidden');
-			}else{
-				$modal.find('#responces').parent('div').addClass('hidden');
-			}
-		
 			$modal.find('input[name="node"]').val(0);
 			$modal.find('button[type="submit"]').removeAttr('disabled');
 			break;
@@ -298,10 +290,10 @@ function filterEditorInit(target, dataId)
 				$(target).find('input[name="prevQuestion"]').parent('div').removeClass('hidden');
 				var father = family[family.length-2];
 				$(target).find('input[name="prevQuestion"]')
-					.val(father.question).parent('div').removeClass('hidden');
+					.val(unescapeHtml(father.question)).parent('div').removeClass('hidden');
 				
 				$(target).find('input[name="responce"]')
-					.val(item.responce).parent('div').removeClass('hidden');
+					.val(unescapeHtml(item.responce)).parent('div').removeClass('hidden');
 			}
 
 			// populate queue
@@ -318,13 +310,13 @@ function filterEditorInit(target, dataId)
 			// populate node
 			$(target).find('input[name="node"]').val(item.node);
 			// populate and show question
-			$(target).find('input[name="question"]').val(item.question)
+			$(target).find('input[name="question"]').val(unescapeHtml(item.question))
 				.parent('div').removeClass('hidden');
 			
 			var $type = $(target).find('select[name="type"]');
 			if (item.node){
 				$type.val(1).trigger('change').attr('disabled','disabled').parent('div').removeClass('hidden');
-			}else if (typeof(item.question) !== 'undefined' && item.question.length>0){
+			}else if (typeof(item.question) !== 'undefined' && item.question != null && item.question.length>0){
 				$type.val(3).trigger('change').attr('disabled','disabled').parent('div').removeClass('hidden');
 			}else{
 				$type.val(2).trigger('change').attr('disabled','disabled').parent('div').removeClass('hidden');
@@ -375,7 +367,7 @@ function filterEditorInit(target, dataId)
 			$(target).find('input[name="prevQuestion"]').parent('div').removeClass('hidden');
 			var father = family[family.length-2];
 			$(target).find('input[name="prevQuestion"]')
-				.val(father.question).parent('div').removeClass('hidden');
+				.val(unescapeHtml(father.question)).parent('div').removeClass('hidden');
 			
 			// ^ reset type
 			var $type = $(target).find('select[name="type"]');
