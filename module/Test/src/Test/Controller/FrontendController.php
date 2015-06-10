@@ -1529,28 +1529,7 @@ class FrontendController extends ZtAbstractActionController {
     	    if ($queue = $filterToDelete->getQueue()){
     	    	$queue->setFilter(null);
     	    }
-    	    if ($filterToDelete->hasResponces()){
-    	        $responces = $filterToDelete->getResponces()->toArray();
-    	        $filterToDelete->setResponces(new ArrayCollection());
-	        	try {
-            		$func = __FUNCTION__;
-            		$currentUser = $userObject->getUsername();
-            		$action = "delete";
-            		$extra = "\n".print_r($input, 1);
-            
-            		$om->flush();
-            	}
-            	catch (\Exception $e) {
-            
-            		$error = $e->getMessage();
-            		$this->getLogService()->emerg( "$func@<$currentUser>: $action <$id>: $error $extra");
-            		return $this->jsonModel ( $defaultError );
-            	}
-    	        foreach ($responces as $resp){
-    	        	$om->remove($resp);
-    	        }
-    	        $om->remove($filterToDelete);
-    	    }
+    	    $om->remove($filterToDelete);
     		
     	} else {
     	    $func = __FUNCTION__;

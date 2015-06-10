@@ -5,84 +5,84 @@ INSERT INTO `hd0`.`Service` (`company`, `type`, `location`, `username`, `passwor
 	VALUES ('Zenatek S.P.A.', 'OTRS', 'http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector', 'hd0', 'hd0', 'http://www.otrs.org/TicketConnector/');
 	
 
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	VALUES	(NULL, 'q05ar', NULL, 'Da quale dispositivo hai acceduto al servizio?',
-			NULL);
+			NULL, 1);
 
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05ar1',
 		'PC', 'Che browser hai utilizzato per accedere al servizio?',
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+		id, 1 FROM `hd0`.`Filter` WHERE code = 'q05ar';
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05ar2',
 		'Terminale', 'In che momento si è riscontrato il problema?',
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+		id, 1 FROM `hd0`.`Filter` WHERE code = 'q05ar';
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05ar3',
 		'Smartphone',
 		'Che modello di smarphone hai utilizzato per accedere al servizio?',
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+		id, 1 FROM `hd0`.`Filter` WHERE code = 'q05ar';
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05ar4',
 		'Altro',
 		'Nono sono supportati altri dispositivi per questo applicativo!',
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar';
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05ar5',
 		'Non ricordo / Non saprei',
 		NULL,
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar';		
+		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar';		
 		
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05a1r1',
 		'Internet Explorer', NULL,
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar1';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar1';
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05a1r2',
 		'Firefox', NULL,
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar1';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar1';
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05a1r3',
 		'Chrome', NULL,
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar1';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar1';
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05a1r4',
 		'Altro', NULL,
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar1';
+		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar1';
 
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05a4r1',
 		'Accesso al servizio', NULL,
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar2';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar2';
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05a4r2',
 		'Gestione delle utenze', NULL,
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar2';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar2';
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05a4r3',
 		'Finalizzazione di una stampa', NULL,
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar2';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar2';
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05a4r4',
 		'Altro', NULL,
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar2';		
+		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar2';		
 		
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05a3r1',
 		'Android', NULL,
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar3';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar3';
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05a3r2',
 		'IPhone', NULL,
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar3';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar3';
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05a3r3',
 		'Windows Mobile', NULL,
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar3';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`)
+		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar3';
+INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
 	SELECT NULL, 'q05a3r4',
 		'Altro', NULL,
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar3';
+		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar3';
 
 		
 INSERT INTO `hd0`.`Queue` (`id`, `service_id`, `order`, `name`, `code`, `filter_id`)

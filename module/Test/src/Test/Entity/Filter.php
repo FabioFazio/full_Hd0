@@ -26,7 +26,7 @@ class Filter {
 	protected $node;
 	
 	/** @ORM\ManyToOne(targetEntity="Filter", inversedBy="responces")
-	 *  @ORM\JoinColumn(name="askedBy_id", referencedColumnName="id") 
+	 *  @ORM\JoinColumn(name="askedBy_id", referencedColumnName="id", onDelete="CASCADE") 
 	 */
 	protected $askedBy;
 	
