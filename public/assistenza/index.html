@@ -16,6 +16,8 @@
 	rel="stylesheet" type="text/css">
 <link href="css/jquery.dataTables_themeroller.css" media="screen"
 	rel="stylesheet" type="text/css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.css"
+	media="screen" rel="stylesheet" type="text/css">
 	
 <link href="img/favicon.ico" rel="shortcut icon"
 	type="image/vnd.microsoft.icon">
@@ -47,7 +49,9 @@
 <script type="text/javascript" src="js/bootstrap-confirmation.js"></script>
 <script type="text/javascript" src="js/toastr.min.js"></script>
 <script type="text/javascript" src="js/jquery.bootstrap-duallistbox.min.js"></script>
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/locales/bootstrap-datepicker.it.min.js"></script>
+<script type="text/javascript" src="js/jquery.dateFormat.min.js"></script>
 
 <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
 
@@ -72,6 +76,7 @@
 <script type="text/javascript" src="inc/js/stores.js"></script>
 <script type="text/javascript" src="inc/js/announcements.js"></script>
 <script type="text/javascript" src="inc/js/filters.js"></script>
+<script type="text/javascript" src="inc/js/reports.js"></script>
 <!-- end@script -->
 
 <!--[if IE 7]>
@@ -126,7 +131,9 @@
 								class="glyphicon glyphicon-bullhorn"></span> Comunicazioni</a></li>
 						<li class="admin"><a href="#" data-toggle="modal" data-target="#filtersModal"><span
 								class="glyphicon glyphicon-wrench"></span> Filtri di Categorie</a></li>
-						<li class="admin divider"></li>
+						<li class="focalpoint"><a href="#" data-toggle="modal" data-target="#reportsModal"><span
+								class="glyphicon glyphicon-calendar"></span> Reports</a></li>
+						<li class="focalpoint divider"></li>
 						
 						<li><a data-toggle="modal" data-backdrop="static"
 							data-keyboard="false" href="#settings"><span
@@ -206,6 +213,10 @@ var filters_url = '/hd0/test/frontend/getFilters';
 var filter_save_url = "/hd0/test/frontend/saveFilter";
 var filter_delete_url = '/hd0/test/frontend/deleteFilter';
 
+var reports_url = '/hd0/test/frontend/getReports';
+var report_create_url = '/hd0/test/frontend/createReport';
+var report_delete_url = '/hd0/test/frontend/deleteReport'; // not used by now
+
 /* Env vars */
 var cookieExpires	= (10 * 365);
 var cookiePath		= '/';
@@ -236,6 +247,7 @@ var cookiePath		= '/';
 	<div data-include="inc/stores.inc"></div>
 	<div data-include="inc/announcements.inc"></div>
 	<div data-include="inc/filters.inc"></div>
+	<div data-include="inc/reports.inc"></div>
 
 </body>
 

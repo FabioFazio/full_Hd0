@@ -126,6 +126,10 @@ function populate(data){
     	$('#name').add($('#name').siblings()).addClass('text-danger');
 	}else{
     	$('.admin').remove();
+    	if (!isFocalpoint())
+    	{
+        	$('.focalpoint').remove();
+    	}
 	}
 	
     var bozze = [], chiuse = [];
