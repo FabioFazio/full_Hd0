@@ -59,13 +59,22 @@ function logoff()
 	}
 }
 
-function getQueues ()
+function isFocalpoint()
+{
+	return getQueues(true).length;
+}
+
+function getQueues (focalpoint)
 {
 	var queues = false;
 	
 	if (authenticated)
 	{
 		queues = JSON.parse($.cookie("queues"));
+	}
+	if(focalpoint)
+	{
+		queues = $.grep(queues, function( v, index ) { return ( v.focalpoint );});
 	}
 	return queues;
 }
