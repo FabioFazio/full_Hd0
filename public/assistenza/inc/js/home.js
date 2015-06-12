@@ -254,7 +254,7 @@ function updateCategory (q, $categoria){
 	$categoria.find('#qN_chiuse')
 	   .attr('id', 'q'+q['order']+'_chiuse');
 	if (q['focalpoint']>0)
-		$categoria.find('.focalpoint').removeClass('hidden');
+		$categoria.find('.fp').removeClass('hidden');
 	
 	var $button = $categoria.find('button[data-toggle]');
 	$button
