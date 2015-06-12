@@ -658,6 +658,11 @@ class FrontendController extends ZtAbstractActionController {
     	$result = [];
     
     	$userObject = $this->getObjectManager()->find('Test\Entity\User', $user['id']);
+    	if (!$userObject)
+    	{
+    		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
+    		return $this->jsonModel ( $result );
+    	}
     	$result['queues'] = [];
 
 	    $queues = ($input['all'])?
@@ -1423,9 +1428,9 @@ class FrontendController extends ZtAbstractActionController {
     	    $result['queues'][$queue['id']] = $queue['name'];
     	}
     	 
-//     	if ($this->request->getQuery('dump', false))
-//     		die(var_dump( $result ));
-//     	else
+    	if ($this->request->getQuery('dump', false))
+    		die(var_dump( $result ));
+    	else
     		return $this->jsonModel ( $result );
     }
     
@@ -1554,6 +1559,48 @@ class FrontendController extends ZtAbstractActionController {
     	$this->getLogService()->info(  "$func@<$currentUser>: $action <$id>: $extra");
     	$result['success'] = 'Filtro cancellato correttamente!';
     
+    	if ($this->request->getQuery('dump', false))
+    		die(var_dump( $result ));
+    	else
+    		return $this->jsonModel ( $result );
+    }
+    
+    public function getReportsAction()
+    {
+        $input = $this->request->getPost ()->toArray();
+        $user = $this->getSession()->user;
+        $result = [];
+        
+        $userObject = $this->getObjectManager()->find('Test\Entity\User', $user['id']);
+        if (!$userObject)
+        {
+        	$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
+        	return $this->jsonModel ( $result );
+        }
+        $result['reports'] = [];
+        
+        $pathFolder = "/var/www/hd0/reports/";
+        
+        $fsList = glob($pathFolder . "*.xls");
+        foreach($fsList as $filename)
+        {
+            $file = explode('.',$filename)[0];
+            $data = explode('_',$file)[1];
+            $queue = explode('_',$file)[2];
+            $user = explode('_',$file)[3];
+             
+            $result['reports'][] = [
+                'filename'      =>  basename($filename),
+                'queue'         =>  $queue,
+                'format'        =>  'XLS - Microsoft Excel',
+                'date'          =>  $data,
+                'creationDate'  =>  date ("Y-m-d H:i", filemtime($filename))
+    	   ];
+        }
+        
+//      array_walk($result['reports'], function(&$v){
+//      });
+        
     	if ($this->request->getQuery('dump', false))
     		die(var_dump( $result ));
     	else

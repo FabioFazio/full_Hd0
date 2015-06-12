@@ -68,42 +68,22 @@ function reportsLoad(e)
 	tableReports.draw();
 	// $ clean old data
 
-	var data = {
-		reports: {
-			1:{
-				'filename': 'Hd0_2015-01_1_1.xls', // Hd0_YYYY-MM_<queueId>_<userId>.xls
-				'queue': 1, // taken from filesystem
-				'format': 'XLS - Microsoft Excel', // taken from filesystem
-				'date': '2015-01', // taken from filesystem
-				'creationDate': '2015-02-16', // taken from filesystem
-			},
-			2:{
-				'filename': 'Hd0_2015-01_2_1.xls', // Hd0_YYYY-MM_<queueId>_<userId>.xls
-				'queue': 2, // taken from filesystem
-				'format': 'XLS - Microsoft Excel', // taken from filesystem
-				'date': '2015-02', // taken from filesystem
-				'creationDate': '2015-03-11', // taken from filesystem
-			},
+	$.ajax({
+		url:			reports_url,
+		type:			"POST",
+		datatype:		"json",
+		data:{
 		},
-	}; // MOCK
-	
-//	$.ajax({
-//		url:			reports_url,
-//		type:			"POST",
-//		datatype:		"json",
-//		data:{
-//			secret:			getUser().password
-//		},
-//		async: true,
-//		success: function(data, status) {
-//			window.console&&console.log(data); // for debugging
+		async: true,
+		success: function(data, status) {
+			window.console&&console.log(data); // for debugging
 			populateReports(data['reports']);
 			$reportsMod.prop('reports', data['reports']);
-//		},
-//		error: function(data, status) {
-//				window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>');
-//			},
-//	});
+		},
+		error: function(data, status) {
+				window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>');
+			},
+	});
 }
 
 function populateReportsQueues()
@@ -143,7 +123,7 @@ function populateReportsQueues()
 }
 
 function populateReports(reports){
-	$download = $('<a></a>').attr('title','Scarica')
+	$download = $('<a></a>').attr('title','Scarica').attr('target','_blank')
 		.addClass('btn btn-sm btn-success');
 	$remove = $('<a></a>').attr('title','')//.attr('disabled','disabled')
 		.addClass('btn btn-sm btn-danger').attr('data-toggle','confirmation')
@@ -167,7 +147,7 @@ function populateReports(reports){
 	queues = $reportsMod.prop('queues');
 	
 	$.each(reports, function(index, report){
-		var $downloadButton = $download.clone().attr('data-file','/report/'+report.filename);
+		var $downloadButton = $download.clone().attr('href','../reports/'+report.filename);
 		var $removeButton = $remove.clone().attr('data-file',report.filename);
 		
 		tableReports.row.add([
