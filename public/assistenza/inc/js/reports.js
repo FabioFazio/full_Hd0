@@ -37,15 +37,23 @@ function reportsInit()
     
     // $ populate date
     
-    $reportsMod.on('change','form input[name="report"]', function(e){
-    		// prevent submit if date is not set
-    		if($(this).val().length>0)
-    		{
-    			$(this).closest('form').find('button[type="submit"]').removeAttr('disabled');
-    		} else {
-    			$(this).closest('form').find('button[type="submit"]').attr('disabled', 'disabled');
-    		}
-    	});
+    // ^ custom falidate submit
+    var handler = function (e) {
+		// prevent submit if date or queue not set
+    	$form = $(this).closest('form');
+    	$input = $form.find('input[name="report"]');
+    	$select = $form.find('select[name="queue"]');
+    	
+		if($input.val().length>0 && $select.val()>0)
+		{
+			$form.find('button[type="submit"]').removeAttr('disabled');
+		} else {
+			$form.find('button[type="submit"]').attr('disabled', 'disabled');
+		}
+    };
+    $reportsMod.on('change','form select[name="queue"]', handler);
+    $reportsMod.on('change','form input[name="report"]', handler);
+    // $ custom falidate submit
 }
 
 function reportsLoad(e)

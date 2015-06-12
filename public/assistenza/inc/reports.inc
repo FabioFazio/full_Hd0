@@ -74,7 +74,17 @@ $( function($) {
                         <label>Se non hai trovato il report che stai cercando:</label>
                     </div>
                     <form id="reportForm" data-async method="post" action>
-                        <div class="col-md-5">
+                        <div class="col-md-3">
+                            <div class="form-group input-group">
+                                <label for="queue" class="control-label input-group-addon">
+                                   <i class="glyphicon glyphicon-list"></i> Categoria
+                                </label>
+                                <select type="select" name="queue" class="form-control">
+                                    <option value="0">--- Non Definito ---</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="form-group input-group">
                                 <label for="report" class="control-label input-group-addon">
                                    <i class="glyphicon glyphicon-calendar"></i> Mese di Riferimento
@@ -82,14 +92,16 @@ $( function($) {
                                 <input type="text" name="report" class="form-control">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <button type="submit" disabled="disabled" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-open"></span> Genera il Report
                             </button>
                         </div>
                     </form>
                 </div>
-                    
+                
+                <hr/>
+                
                 <div class="text-right">
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         Chiudi
