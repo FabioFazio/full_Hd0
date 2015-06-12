@@ -653,20 +653,17 @@ class FrontendController extends ZtAbstractActionController {
     public function getQueuesAction()
     {
     	$input = $this->request->getPost ()->toArray();
+    	$input['all'] = $this->request->getQuery('all', isset($input['all'])?$input['all']:false);
     	$user = $this->getSession()->user;
     	$result = [];
     
     	$userObject = $this->getObjectManager()->find('Test\Entity\User', $user['id']);
-    	if ((!isset($input['secret']) || sha1($userObject->getPassword())!==$input['secret'] ||
-    	       !$userObject->isAdministrator()) && !$this->request->getQuery('dump', false))
-    	{
-    		$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
-    		return $this->jsonModel ( $result );
-    	}
     	$result['queues'] = [];
-    
-    	$queues = $this->getObjectManager()->getRepository("Test\Entity\Queue")->findBy(['disabled'=>false]);
-    
+
+	    $queues = ($input['all'])?
+	       $this->getObjectManager()->getRepository("Test\Entity\Queue")->findAll():
+	       $this->getObjectManager()->getRepository("Test\Entity\Queue")->findBy(['disabled'=>false]);
+    	
     	array_walk($queues, function(&$v){
     		$v = $v->toArray();
     		unset($v['filters']);
