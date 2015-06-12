@@ -145,7 +145,7 @@ function populateReportsQueues()
 function populateReports(reports){
 	$download = $('<a></a>').attr('title','Scarica')
 		.addClass('btn btn-sm btn-success');
-	$remove = $('<a></a>').attr('title','')
+	$remove = $('<a></a>').attr('title','')//.attr('disabled','disabled')
 		.addClass('btn btn-sm btn-danger').attr('data-toggle','confirmation')
 			.attr('data-original-title', 'Vuoi davvero cancellare questo report?');
 	$download.html(
@@ -171,7 +171,7 @@ function populateReports(reports){
 		var $removeButton = $remove.clone().attr('data-file',report.filename);
 		
 		tableReports.row.add([
-           $('<div>&nbsp;</div>').append($removeButton)
+           $('<div>&nbsp;</div>')//.append($removeButton)
            		.prepend($downloadButton).html(),
        		queues[report['queue']].name,
        		report.date,
