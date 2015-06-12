@@ -130,7 +130,7 @@ function populateReportsQueues()
 				});
 				data['queues'] = filtered;
 			}
-			
+			 
 			$.each(data['queues'], function(index, queue){
 				$select.append($('<option>').val(queue.id).text(queue.name));
 			});
