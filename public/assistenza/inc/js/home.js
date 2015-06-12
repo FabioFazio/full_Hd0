@@ -124,11 +124,15 @@ function populate(data){
     if (getUser().administrator){
     	$('#name').parent('a').addClass('alert-warning');
     	$('#name').add($('#name').siblings()).addClass('text-danger');
+    	$('.admin').removeClass('hidden');
+    	$('.focalpoint').removeClass('hidden');
 	}else{
     	$('.admin').remove();
     	if (!isFocalpoint())
     	{
         	$('.focalpoint').remove();
+    	} else {
+    		$('.focalpoint').removeClass('hidden');
     	}
 	}
 	
