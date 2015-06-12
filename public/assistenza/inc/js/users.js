@@ -94,7 +94,6 @@ function usersLoad(e)
 			type:			"POST",
 			datatype:		"json",
 			data:{
-				secret:			getUser().password
 			},
 			async: true,
 			success: function(data, status) {

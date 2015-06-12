@@ -58,6 +58,11 @@ function reportsInit()
 
 function reportsLoad(e)
 {
+    // ^ populate queues
+	if ($reportsMod.prop('queues') == undefined)
+		populateReportsQueues();
+    // $ populate queues
+	
 	// ^ clean old data
 	tableReports.rows().remove();
 	tableReports.draw();
@@ -65,14 +70,21 @@ function reportsLoad(e)
 
 	var data = {
 		reports: {
-			0:{
-				'filename': 'hd0_2015-01.xls',
-				'format': 'XLS - Microsoft Excel',
-				'date': '2015-01',
-				'creationDate': '2015-01-16',
+			1:{
+				'filename': 'Hd0_2015-01_1_1.xls', // Hd0_YYYY-MM_<queueId>_<userId>.xls
+				'queue': 1, // taken from filesystem
+				'format': 'XLS - Microsoft Excel', // taken from filesystem
+				'date': '2015-01', // taken from filesystem
+				'creationDate': '2015-02-16', // taken from filesystem
 			},
-		}
-		
+			2:{
+				'filename': 'Hd0_2015-01_2_1.xls', // Hd0_YYYY-MM_<queueId>_<userId>.xls
+				'queue': 2, // taken from filesystem
+				'format': 'XLS - Microsoft Excel', // taken from filesystem
+				'date': '2015-02', // taken from filesystem
+				'creationDate': '2015-03-11', // taken from filesystem
+			},
+		},
 	}; // MOCK
 	
 //	$.ajax({
@@ -94,7 +106,43 @@ function reportsLoad(e)
 //	});
 }
 
-function populateReports(data){
+function populateReportsQueues()
+{
+	$.ajax({
+		url:			queues_url,
+		type:			"POST",
+		datatype:		"json",
+		data:{
+			all:	1
+		},
+		async: false,
+		success: function(data, status) {
+			window.console&&console.log(data); // for debugging
+			$select = $reportsMod.find('form select[name="queue"]');
+			
+			// if not admin filter from queues what is not seen as focal point
+			if (!(getUser().administrator))
+			{
+				var focal = getQueues(true, true); var filtered = {};
+				$.each(data['queues'], function(i, v){
+					if (i in focal)
+						filtered[i] = v; 
+				});
+				data['queues'] = filtered;
+			}
+			
+			$.each(data['queues'], function(index, queue){
+				$select.append($('<option>').val(queue.id).text(queue.name));
+			});
+			$reportsMod.prop('queues', data['queues']);
+		},
+		error: function(data, status) {
+				window.console&&console.log('<ajaxConsole ERROR> '+data+' <ajaxConsole ERROR>');
+			},
+	});
+}
+
+function populateReports(reports){
 	$download = $('<a></a>').attr('title','Scarica')
 		.addClass('btn btn-sm btn-success');
 	$remove = $('<a></a>').attr('title','')
@@ -105,13 +153,27 @@ function populateReports(data){
 	$remove.html(
 			'<span class="glyphicon glyphicon-trash"></span>');
 	
-	$.each(data, function(index, report){
+	// if not admin filter from reports queues what is not seen as focal point
+	if (!(getUser().administrator))
+	{
+		var focal = getQueues(true, true); var filtered = {};
+		$.each(reports, function(i, v){
+			if (v['queue'] in focal)
+				filtered[i] = v; 
+		});
+		reports = filtered;
+	}
+	
+	queues = $reportsMod.prop('queues');
+	
+	$.each(reports, function(index, report){
 		var $downloadButton = $download.clone().attr('data-file','/report/'+report.filename);
 		var $removeButton = $remove.clone().attr('data-file',report.filename);
 		
 		tableReports.row.add([
            $('<div>&nbsp;</div>').append($removeButton)
            		.prepend($downloadButton).html(),
+       		queues[report['queue']].name,
        		report.date,
        		report.format,
        		report.creationDate,

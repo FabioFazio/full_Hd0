@@ -57,6 +57,7 @@ $( function($) {
                       <thead>
                         <tr>
                           <th></th>
+                          <th>Categoria di Segnalazione</th>
                           <th>Mese di Riferimento</th>
                           <th>Formato del Report</th>
                           <th>Data di Creazione</th>

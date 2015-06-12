@@ -19,6 +19,7 @@ fallbackForm['auth'] = function fallback (data, status, $msgBox, $form) {
 			'fullname':			data['fullname'],
 		};
 	setUser( user );
+	
 	cookies.push( { name : 'queues', value : JSON.stringify(data['queues']) } );
 	cookiesGenerator( cookies );
 	authenticated = true;
@@ -64,7 +65,7 @@ function isFocalpoint()
 	return getQueues(true).length;
 }
 
-function getQueues (focalpoint)
+function getQueues (focalpoint, indexed)
 {
 	var queues = false;
 	
@@ -75,6 +76,14 @@ function getQueues (focalpoint)
 	if(focalpoint)
 	{
 		queues = $.grep(queues, function( v, index ) { return ( v.focalpoint );});
+	}
+	if (indexed)
+	{
+		obj = {};
+		$.each(queues, function(i,v){
+			obj[v.id] = v;
+		});
+		queues = obj;
 	}
 	return queues;
 }
