@@ -175,7 +175,6 @@ class ZtAbstractActionController extends AbstractActionController {
     	];
     	
 //	    $dynamicField = [ [ 'Name' => 'Sorgente', 'Value' => [ 'Servizio Hd0' ] ] ];
-	    
 // 	    if(!empty($input['taxonomie']))
 // 	    {
 // 	        $dynamicField[] = [
@@ -183,8 +182,7 @@ class ZtAbstractActionController extends AbstractActionController {
 //                 'Value' => $input['taxonomie']
 // 	        ];
 // 	    }
-	    
-//	    $xml['DynamicField'] = $dynamicField;
+//      $xml['DynamicField'] = $dynamicField;
     	
     	$createXml = $xml + [ 'Ticket' => $type + $priority + $state + $queue + $title + $user ] + [ 'Article' => $article ];
     
@@ -313,20 +311,38 @@ class ZtAbstractActionController extends AbstractActionController {
         
         // Preparing Params for call
         $param_arr = [];
-        foreach ($xml as $k => $v)
-        	if(is_array($v))
-        		if (!empty($v) && array_keys($v) !== range(0, count($v) - 1))
+//        $dump = false;
+        foreach ($xml as $k => $v){
+            
+            if($k=='DynamicField'){
+                if (!empty($v) && array_keys($v) !== range(0, count($v) - 1)){
+                	{$param_arr[] = new \SoapParam ( $v, $k );} // usata?!?
+                }else{
+                	foreach($v as $vv){
+                	    $items[] = $item = new \stdClass();
+                	    $item->Name = $vv['Name'];
+                	    $item->Value = $vv['Value'];
+                	}
+                	$param_arr[] = new \SoapVar($items, SOAP_ENC_ARRAY);
+                	$dump = true;
+            	}
+            	
+            }elseif(is_array($v)){
+        		if (!empty($v) && array_keys($v) !== range(0, count($v) - 1)){
         		  {$param_arr[] = new \SoapParam ( $v, $k );}
-        		else
-        			foreach($v as $vv)
+        		}else{
+        			foreach($v as $vv){
         		      {$param_arr[] = new \SoapParam ( $vv, 'ns1:'.$k );}
-            else
+			}}}else{
                 {$param_arr[] = new \SoapParam ( $v, 'ns1:'.$k );}
-        
+            }
+        }
     	// Call
         $result = call_user_func_array([$soapclient, $operation], $param_arr);
         $req = $soapclient->__getLastRequest();
         $xml = $soapclient->__getLastResponse();
+        
+//        if ($dump) die( $req ."\r\r\r". $xml );
         
         return $xml;
     }
