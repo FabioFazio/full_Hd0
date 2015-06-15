@@ -38,26 +38,38 @@ function initHelp() // called from script.js
 
 function showMessages(messages)
 {
+	var options = $.extend(true, {}, toastr.options);
+	toastr.options.preventDuplicates = true;
+	toastr.options.positionClass = "toast-top-full-width";	
+	//toastr.options.positionClass = "toast-top-center";
+	
 	$.each(messages, function(index, value){
 		if (!(value.id in shownMessages))
 		{
 			window.console&&console.log('Messaggio di bacheca: '+value.message);
-			
-			var options = $.extend(true, {}, toastr.options);
-			toastr.options.closeButton = true;
-			toastr.options.timeOut = "0";
-			toastr.options.preventDuplicates = true;
-			toastr.options.positionClass = "toast-top-center";	
 			 
-			if(value.warning)
-				toastr["warning"](value.message);
-			else
-				toastr["info"](value.message);
-			
-			toastr.options = options;
+			if(value.warning){
+				toastr.options.timeOut = 0;
+				toastr.options.extendedTimeOut = 0;
+				toastr.options.onclick = null;
+				toastr.options.tapToDismiss= false;
+				toastr.options.closeButton = true;
+				toastr.options.closeHtml = '<a class="clear" style="position:static;"><button class="btn btn-sm">Ho letto!</button></a>';
+				
+				toastr["warning"](
+						'<center>'+value.message+'</center>'
+					);
+				
+			}else{
+				toastr["info"](
+						'<center>'+value.message+'</center>'
+					);	
+			}
 			shownMessages[value.id] = value.message;
 		}
 	});
+	
+	toastr.options = options;
 }
 
 function updateTicket(v, $li){
