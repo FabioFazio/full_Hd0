@@ -15,6 +15,8 @@ use Test\Entity\Service;
 use Zend\Validator\File\Sha1;
 use Doctrine\Common\Collections\ArrayCollection;
 
+define('REPORTS_FOLDERPATH', '/var/www/hd0/reports/');
+
 class FrontendController extends ZtAbstractActionController {
 
     protected $baseauthservice;
@@ -1579,9 +1581,7 @@ class FrontendController extends ZtAbstractActionController {
         }
         $result['reports'] = [];
         
-        $pathFolder = "/var/www/hd0/reports/";
-        
-        $fsList = glob($pathFolder . "*.xls");
+        $fsList = glob(REPORTS_FOLDERPATH . "*.xls");
         foreach($fsList as $filename)
         {
             $file = explode('.',$filename)[0];
@@ -1598,13 +1598,69 @@ class FrontendController extends ZtAbstractActionController {
     	   ];
         }
         
-//      array_walk($result['reports'], function(&$v){
-//      });
-        
     	if ($this->request->getQuery('dump', false))
     		die(var_dump( $result ));
     	else
     		return $this->jsonModel ( $result );
+    }
+    
+    public function deleteReportAction(){
+        $defaultError = ['error' => 'Non è stato possibile callellare il report!'];
+        
+        $input = $this->request->getPost ()->toArray();
+        $user = $this->getSession()->user;
+        $om = $this->getObjectManager();
+        $result = [];
+        
+        $userObject = $om->find('Test\Entity\User', $user['id']);
+        if (!$userObject)
+        {
+        	$result['error'] = "La sessione è terminata. Effetturare Logout, Login e riprovare";
+        	return $this->jsonModel ( $result );
+        }
+        if (!$userObject->isAdministrator())
+        {
+        	$result['error'] = "Non hai i permessi per eseguire questa azione";
+        	return $this->jsonModel ( $result );
+        }
+         
+    	try {
+    		$func = __FUNCTION__;
+    		$currentUser = $userObject->getUsername();
+    		$action = "delete";
+    		$filename = $input['filename'];
+
+    		$fsBase = glob(REPORTS_FOLDERPATH . "*.xls");
+    		array_walk($fsBase, function(&$v){
+    			$v = basename($v);
+    		});
+			if (in_array($filename, $fsBase)){
+			    
+			    $old = getcwd(); // Save the current directory
+			    $path = readlink(substr(REPORTS_FOLDERPATH, 0, -1));
+			    chdir($path);
+			    
+                if (!unlink($path.'/'.$filename)){
+				    $result = $defaultError;
+                }else{
+                    $result['success'] = 'Report cancellato correttamente!';
+                }
+                chdir($old); // Restore the old working directory
+    		}
+    	} catch (\Exception $e) {
+    
+    		$error = $e->getMessage();
+    		$this->getLogService()->emerg( "$func@<$currentUser>: $action <".$filename.">: $error");
+    		
+    		return $this->jsonModel ( $defaultError );
+    	}
+    
+    	$this->getLogService()->info(  "$func@<$currentUser>: $action <".$filename.">");
+        
+        if ($this->request->getQuery('dump', false))
+        	die(var_dump( $result ));
+        else
+        	return $this->jsonModel ( $result );
     }
     
     public function indexAction()

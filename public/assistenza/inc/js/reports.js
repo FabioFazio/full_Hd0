@@ -125,7 +125,7 @@ function populateReportsQueues()
 function populateReports(reports){
 	$download = $('<a></a>').attr('title','Scarica').attr('target','_blank')
 		.addClass('btn btn-sm btn-success');
-	$remove = $('<a></a>').attr('title','')//.attr('disabled','disabled')
+	$remove = $('<a></a>').attr('title','')
 		.addClass('btn btn-sm btn-danger').attr('data-toggle','confirmation')
 			.attr('data-original-title', 'Vuoi davvero cancellare questo report?');
 	$download.html(
@@ -142,16 +142,17 @@ function populateReports(reports){
 				filtered[i] = v; 
 		});
 		reports = filtered;
+		$remove.attr('disabled','disabled');
 	}
 	
 	queues = $reportsMod.prop('queues');
 	
 	$.each(reports, function(index, report){
 		var $downloadButton = $download.clone().attr('href','../reports/'+report.filename);
-		var $removeButton = $remove.clone().attr('data-file',report.filename);
+		var $removeButton = $remove.clone().attr('data-filename',report.filename);
 		
 		tableReports.row.add([
-           $('<div>&nbsp;</div>')//.append($removeButton)
+           $('<div>&nbsp;</div>')//.append($removeButton) .addClass('hidden') // hidden because no php grants to delete bug FIXME
            		.prepend($downloadButton).html(),
        		queues[report['queue']].name,
        		report.date,
@@ -171,8 +172,7 @@ function reportDelete(toastr, item)
 		type:			"POST",
 		datatype:		"json",
 		data:{
-			secret:		getUser().password,
-			id:			item.id,
+			filename:			item.filename,
 		},
 		async: true,
 		success: function(data, status) {
