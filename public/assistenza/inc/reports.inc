@@ -58,7 +58,7 @@ $( function($) {
                         <tr>
                           <th></th>
                           <th>Categoria di Segnalazione</th>
-                          <th>Mese di Riferimento</th>
+                          <th>Periodo di Riferimento</th>
                           <th>Formato del Report</th>
                           <th>Data di Creazione</th>
                         </tr>
@@ -74,7 +74,7 @@ $( function($) {
                     <div class="col-md-4 text-right">
                         <label>Se non hai trovato il report che stai cercando:</label>
                     </div>
-                    <form id="reportForm" data-async method="post" action>
+                    <form id="reportForm" data-async method="post" data-validate action>
                         <div class="col-md-3">
                             <div class="form-group input-group">
                                 <label for="queue" class="control-label input-group-addon">

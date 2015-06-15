@@ -1604,6 +1604,10 @@ class FrontendController extends ZtAbstractActionController {
     		return $this->jsonModel ( $result );
     }
     
+    public function createReportAction(){
+    	return $this->jsonModel ( ['success'=>'La richiesta è stata presa in consegna'] );
+    }
+    
     public function deleteReportAction(){
         $defaultError = ['error' => 'Non è stato possibile callellare il report!'];
         

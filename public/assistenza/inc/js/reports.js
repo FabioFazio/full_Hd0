@@ -63,11 +63,6 @@ function reportsLoad(e)
 		populateReportsQueues();
     // $ populate queues
 	
-	// ^ clean old data
-	tableReports.rows().remove();
-	tableReports.draw();
-	// $ clean old data
-
 	$.ajax({
 		url:			reports_url,
 		type:			"POST",
@@ -123,6 +118,8 @@ function populateReportsQueues()
 }
 
 function populateReports(reports){
+	tableReports.rows().remove();
+	
 	$download = $('<a></a>').attr('title','Scarica').attr('target','_blank')
 		.addClass('btn btn-sm btn-success');
 	$remove = $('<a></a>').attr('title','')
