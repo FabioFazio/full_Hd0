@@ -21,7 +21,9 @@ class Sector {
 	/** @ORM\Column(type="string", length=255) */
 	protected $name;
 	
-	/** @ORM\ManyToOne(targetEntity="User") */
+	/** @ORM\ManyToOne(targetEntity="User", inversedBy="chefSecs")
+	 *  @ORM\JoinColumn(name="manager_id", referencedColumnName="id")
+	 */
 	protected $manager;
 	
 	/** @ORM\ManyToOne(targetEntity="Department", inversedBy="sectors")
@@ -102,12 +104,14 @@ class Sector {
     	$this->disabled = $disabled;
     }
     
-    public function toArray(){
+    public function toArray($short = false){
         $array = get_object_vars($this);
         
         unset($array['__initializer__']);
         unset($array['__cloner__']);
         unset($array['__isInitialized__']);
+
+        unset($array['announcements']);
         
         $array['department_id'] = $this->getDepartment()?$this->getDepartment()->getId():null;
         unset($array['department']);

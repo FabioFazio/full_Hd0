@@ -39,6 +39,15 @@ class User {
 	/** @ORM\Column(type="boolean") */
 	protected $disabled;
 	
+	/** @ORM\OneToMany(targetEntity="Store", mappedBy="manager") */
+	protected $chefStos;
+	
+	/** @ORM\OneToMany(targetEntity="Department", mappedBy="manager") */
+	protected $chefDeps;
+	
+	/** @ORM\OneToMany(targetEntity="Sector", mappedBy="manager") */
+	protected $chefSecs;
+	
 	public function __construct(){
 		$this->groups = new ArrayCollection();
 		$this->tracks = new ArrayCollection();
@@ -116,6 +125,30 @@ class User {
     	$this->disabled = $disabled;
     }
     
+    public function getChefStos(){
+    	return $this->chefStos;
+    }
+    
+    public function setChefStos($chefStos){
+    	$this->chefStos = $chefStos;
+    }
+    
+    public function getChefDeps(){
+    	return $this->chefDeps;
+    }
+    
+    public function setChefDeps($chefDeps){
+    	$this->chefDeps = $chefDeps;
+    }
+    
+    public function getChefSecs(){
+    	return $this->chefSecs;
+    }
+    
+    public function setChefSecs($chefSecs){
+    	$this->chefSecs = $chefSecs;
+    }
+    
     public function getFullname(){
         $email = ($this->getEmail()==$this->getUsername())?"---":$this->getEmail();
         return $this->getName() . " <$email>";
@@ -185,19 +218,16 @@ class User {
     {
     	$array = get_object_vars($this);
     
-    	$groups_id = [];
-    	foreach($this->getGroups()->toArray() as $group){
-    	    $groups_id[] = $group->getId();
+    	foreach (['groups', 'chefStos','chefDeps','chefSecs', 'tracks']
+    	        as $property)
+    	{
+    	    $list = []; $method = 'get'.ucfirst($property);
+    	    foreach($this->$method()->toArray() as $item){
+    	    	$list[] = $item->getId();
+    	    }
+    	    unset($array[$property]);
+    	    $array[$property.'_id'] = $list;
     	}
-    	unset($array['groups']);
-    	$array['groups_id'] = $groups_id;
-    
-    	$tracks_id = [];
-    	foreach($this->getTracks()->toArray() as $track){
-    		$tracks_id[] = $track->getId();
-    	}
-    	unset($array['tracks']);
-    	$array['tracks_id'] = $tracks_id;
     	
     	$array['fullname'] = $this->getFullname();
     

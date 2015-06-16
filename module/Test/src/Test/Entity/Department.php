@@ -21,7 +21,9 @@ class Department {
 	/** @ORM\Column(type="string", length=255) */
 	protected $name;
 	
-	/** @ORM\ManyToOne(targetEntity="User") */
+	/** @ORM\ManyToOne(targetEntity="User", inversedBy="chefDeps")
+	 *  @ORM\JoinColumn(name="manager_id", referencedColumnName="id")
+	 */
 	protected $manager;
 	
 	/** @ORM\ManyToOne(targetEntity="Store", inversedBy="departments")

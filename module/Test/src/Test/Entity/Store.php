@@ -24,7 +24,9 @@ class Store {
 	/** @ORM\Column(type="string", length=255) */
 	protected $address;
 	
-	/** @ORM\ManyToOne(targetEntity="User") */
+	/** @ORM\ManyToOne(targetEntity="User", inversedBy="chefStos")
+	 *  @ORM\JoinColumn(name="manager_id", referencedColumnName="id")
+	 */
 	protected $manager;
 	
 	/** @ORM\OneToMany(targetEntity="Department", mappedBy="store") */
