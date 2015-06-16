@@ -57,7 +57,7 @@ function showMessages(messages)
 				toastr.options.closeHtml = '<a class="clear" style="position:static;"><button class="btn btn-sm">Ho letto!</button></a>';
 				
 				toastr["warning"](
-						'<center>'+value.message+'</center>'
+						'<center class="strong" style="font-size:large;">'+value.message+'</center>'
 					);
 				
 			}else{
