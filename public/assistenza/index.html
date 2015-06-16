@@ -220,6 +220,8 @@ var report_delete_url = '/hd0/test/frontend/deleteReport';
 /* Env vars */
 var cookieExpires	= (10 * 365);
 var cookiePath		= '/';
+$.cookie.raw = true; // encodeURIComponent/decodeURIComponent by default
+$.cookie.json = false; // JSON.stringify/JSON.parse not set by default
 -->
 </script>
 

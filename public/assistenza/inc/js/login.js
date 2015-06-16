@@ -18,9 +18,8 @@ fallbackForm['auth'] = function fallback (data, status, $msgBox, $form) {
 			'administrator':	data['administrator'],
 			'fullname':			data['fullname'],
 		};
-	setUser( user );
-	
-	cookies.push( { name : 'queues', value : JSON.stringify(data['queues']) } );
+	cookies.push( { name : 'user', value : escapeCookie(JSON.stringify(user)) } );
+	cookies.push( { name : 'queues', value : escapeCookie(JSON.stringify(data['queues'])) } );
 	cookiesGenerator( cookies );
 	authenticated = true;
 };
@@ -71,7 +70,7 @@ function getQueues (focalpoint, indexed)
 	
 	if (authenticated)
 	{
-		queues = JSON.parse($.cookie("queues"));
+		queues = JSON.parse( unescapeCookie ($.cookie("queues")));
 	}
 	if(focalpoint)
 	{
@@ -94,7 +93,7 @@ function getUser ()
 	
 	if (authenticated)
 	{
-		user = JSON.parse($.cookie("user"));
+		user = JSON.parse(unescapeCookie(($.cookie("user"))));
 	}
 	return user;
 }
@@ -103,7 +102,6 @@ function setUser ( user )
 {
 	if (user)
 	{
-		var jsonUser = JSON.stringify ( user ); 
-		cookiesGenerator ( [ {name: 'user', value : jsonUser} ] );
+		cookiesGenerator ( [ {name: 'user', value : escapeCookie(JSON.stringify(user))} ] );
 	}
 }

@@ -82,6 +82,31 @@ function unescapeHtml(text) {
 }
 
 /**
+ * Escane string before inject with $.html
+ */
+function escapeCookie(text) {
+	return replaceAll(";", "€€€", replaceAll("=", "£££", text));
+}
+
+/**
+ * Escane string before inject with $.val
+ */
+function unescapeCookie(text) {
+	return replaceAll("€€€", ";", replaceAll("£££", "=", text));
+}
+
+/**
+ * Function to replace all occurance of a needle in a string
+ * @param find
+ * @param replace
+ * @param str
+ * @returns
+ */
+function replaceAll(find, replace, str) {
+	  return str.replace(new RegExp(find, 'g'), replace);
+}
+
+/**
  * Cookies generator from object array {name: x, value: y}[] 
  * @param cookies
  */
