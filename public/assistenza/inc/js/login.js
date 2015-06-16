@@ -9,6 +9,8 @@ fallbackForm['auth'] = function fallback (data, status, $msgBox, $form) {
     
 	// Save data to cookie too
 	var cookies	=	[];
+	var queues = [];
+	var filters	=	{};
 	var user	=	{
 			'id':				data['id'],
 			'name':				data['name'],
@@ -19,7 +21,16 @@ fallbackForm['auth'] = function fallback (data, status, $msgBox, $form) {
 			'fullname':			data['fullname'],
 		};
 	cookies.push( { name : 'user', value : escapeCookie(JSON.stringify(user)) } );
-	cookies.push( { name : 'queues', value : escapeCookie(JSON.stringify(data['queues'])) } );
+	
+	$.each( data['queues'], function(i,queue){
+		if (typeof (queue.filters)!= 'undefined' && queue.filters){
+			filters[queue.filters.id] = queue.filters;
+			queue.filters = queue.filters.id;
+		}
+		queues.push(queue);
+	});
+	$('form#auth').prop('filters',filters);
+	cookies.push( { name : 'queues', value : escapeCookie(JSON.stringify(queues)) } );
 	cookiesGenerator( cookies );
 	authenticated = true;
 };
@@ -76,6 +87,15 @@ function getQueues (focalpoint, indexed)
 	{
 		queues = $.grep(queues, function( v, index ) { return ( v.focalpoint );});
 	}
+	
+	var withFilters = [];
+	$.each(queues, function(i,v){
+		if(v.filters)
+			v.filters = $('form#auth').prop('filters')[v.filters];
+		withFilters.push(v);
+	});
+	queues = withFilters;
+	
 	if (indexed)
 	{
 		obj = {};

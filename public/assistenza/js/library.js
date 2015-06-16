@@ -85,14 +85,20 @@ function unescapeHtml(text) {
  * Escane string before inject with $.html
  */
 function escapeCookie(text) {
-	return replaceAll(";", "€€€", replaceAll("=", "£££", text));
+	if (typeof text !== 'undefined')
+		return replaceAll(";", "€€€", replaceAll("=", "£££", text));
+	else
+		return '';
 }
 
 /**
  * Escane string before inject with $.val
  */
 function unescapeCookie(text) {
-	return replaceAll("€€€", ";", replaceAll("£££", "=", text));
+	if (typeof text !== 'undefined')
+		return replaceAll("€€€", ";", replaceAll("£££", "=", text));
+	else
+		return '';
 }
 
 /**

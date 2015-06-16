@@ -5,93 +5,108 @@ INSERT INTO `hd0`.`Service` (`company`, `type`, `location`, `username`, `passwor
 	VALUES ('Zenatek S.P.A.', 'OTRS', 'http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnector', 'hd0', 'hd0', 'http://www.otrs.org/TicketConnector/');
 	
 
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	VALUES	(NULL, 'q05ar', NULL, 'Da quale dispositivo hai acceduto al servizio?',
-			NULL, 1);
-
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05ar1',
-		'PC', 'Che browser hai utilizzato per accedere al servizio?',
-		id, 1 FROM `hd0`.`Filter` WHERE code = 'q05ar';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05ar2',
-		'Terminale', 'In che momento si è riscontrato il problema?',
-		id, 1 FROM `hd0`.`Filter` WHERE code = 'q05ar';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05ar3',
-		'Smartphone',
-		'Che modello di smarphone hai utilizzato per accedere al servizio?',
-		id, 1 FROM `hd0`.`Filter` WHERE code = 'q05ar';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05ar4',
-		'Altro',
-		'Nono sono supportati altri dispositivi per questo applicativo!',
-		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05ar5',
-		'Non ricordo / Non saprei',
-		NULL,
-		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar';		
-		
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05a1r1',
-		'Internet Explorer', NULL,
-		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar1';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05a1r2',
-		'Firefox', NULL,
-		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar1';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05a1r3',
-		'Chrome', NULL,
-		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar1';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05a1r4',
-		'Altro', NULL,
-		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar1';
-
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05a4r1',
-		'Accesso al servizio', NULL,
-		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar2';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05a4r2',
-		'Gestione delle utenze', NULL,
-		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar2';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05a4r3',
-		'Finalizzazione di una stampa', NULL,
-		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar2';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05a4r4',
-		'Altro', NULL,
-		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar2';		
-		
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05a3r1',
-		'Android', NULL,
-		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar3';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05a3r2',
-		'IPhone', NULL,
-		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar3';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05a3r3',
-		'Windows Mobile', NULL,
-		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar3';
-INSERT INTO `hd0`.`Filter` (`id`, `code`, `responce`, `question`, `askedBy_id`, `node`)
-	SELECT NULL, 'q05a3r4',
-		'Altro', NULL,
-		id, 0 FROM `hd0`.`Filter` WHERE code = 'q05ar3';
+INSERT INTO `Filter` (`id`, `code`, `responce`, `question`, `node`, `askedBy_id`) VALUES
+(19, NULL, NULL, 'In quale contesto stai operando?', 1, NULL),
+(23, NULL, 'Tesoreria Centralizzata', 'Su quale di queste attività di ContPV stati operando?', 1, 19),
+(24, NULL, 'Tesoreria Soc.Montebello', NULL, 0, 23),
+(25, NULL, 'Tesoreria Soc.Orio', NULL, 0, 23),
+(26, NULL, 'Contabilità di PDV', 'Su quale di queste attività di ContPV stati operando?', 1, 19),
+(27, NULL, '01 Contabilita'' Iper Montebello', NULL, 0, 26),
+(28, NULL, '02 Contabilita'' Iper Cremona', NULL, 0, 26),
+(31, NULL, '03 Contabilita'' Iper Brembate', NULL, 0, 26),
+(32, NULL, '04 Contabilita'' Iper Magenta', NULL, 0, 26),
+(33, NULL, '05 Contabilita'' Iper Solbiate', NULL, 0, 26),
+(34, NULL, '06 Contabilita'' Iper Varese', NULL, 0, 26),
+(35, NULL, '07 Contabilita'' Iper Seriate', NULL, 0, 26),
+(36, NULL, '08 Contabilita'' Iper Rozzano', NULL, 0, 26),
+(37, NULL, '09 Contabilita'' Iper Rubicone', NULL, 0, 26),
+(38, NULL, '10 Contabilita'' Iper Busnago', NULL, 0, 26),
+(39, NULL, '10 Contabilita'' Iper Busnago', NULL, 0, 26),
+(40, NULL, '12 Contabilita'' Iper Castelfranco', NULL, 0, 26),
+(41, NULL, '14 Contabilita'' Iper Udine', NULL, 0, 26),
+(42, NULL, '15 Contabilita'' Iper Tortona (MB)', NULL, 0, 26),
+(43, NULL, '16 Contabilita'' Iper Pescara', NULL, 0, 26),
+(44, NULL, '18 Contabilita'' Iper Orio', NULL, 0, 26),
+(45, NULL, '19 Contabilita'' Iper Pesaro', NULL, 0, 26),
+(46, NULL, '21 Contabilita'' Iper Grandate', NULL, 0, 26),
+(47, NULL, '22 Contabilita'' Iper Colonnella', NULL, 0, 26),
+(48, NULL, '23 Contabilita'' Iper Ortona', NULL, 0, 26),
+(49, NULL, '24 Contabilita'' Iper Civitanova', NULL, 0, 26),
+(50, NULL, '25 Contabilita'' Iper Serravalle (MB)', NULL, 0, 26),
+(51, NULL, '26 Contabilita'' Iper Monza', NULL, 0, 26),
+(52, NULL, '27 Contabilita'' Iper Portello', NULL, 0, 26),
+(53, NULL, '28 Contabilita'' Iper Verona', NULL, 0, 26),
+(54, NULL, '29 Contabilita'' Iper Lonato', NULL, 0, 26),
+(55, NULL, '31 Contabilita'' Iper Vittuone', NULL, 0, 26),
+(56, NULL, '60 Contabilita'' Iperama Cremona', NULL, 0, 26),
+(57, NULL, '61 Contabilita'' Iperama Tortona', NULL, 0, 26),
+(58, NULL, '65 Contabilita'' La grande I', NULL, 0, 26),
+(59, NULL, 'Contabilità di Piattaforma', 'Su quale di queste attività di ContPV stati operando?', 1, 19),
+(62, NULL, '80 Contabilita'' Piattaforma di Soresina', NULL, 0, 59),
+(63, NULL, '93 Contabilita'' Ortofin', NULL, 0, 59),
+(64, NULL, 'Gestione Affitti', 'Su quale di queste attività di ContPV stati operando?', 1, 19),
+(65, NULL, 'Affitti 73-Auredia', NULL, 0, 64),
+(66, NULL, 'Affitti 04-Iper Montebello', NULL, 0, 64),
+(67, NULL, 'Affitti 71-Clivia', NULL, 0, 64),
+(68, NULL, 'Affitti 74-Il Destriero', NULL, 0, 64),
+(69, NULL, 'Cassa Centrale di PDV', 'Su quale di queste attività di ContPV stati operando?', 1, 19),
+(70, NULL, 'Cassa Centrale Busnago', NULL, 0, 69),
+(71, NULL, 'Cassa Centrale Civitanova', NULL, 0, 69),
+(72, NULL, 'Cassa Centrale Colonnella', NULL, 0, 69),
+(73, NULL, 'Cassa Centrale Cremona', NULL, 0, 69),
+(74, NULL, 'Cassa Centrale Grandate', NULL, 0, 69),
+(75, NULL, 'Cassa Centrale Iper Brembate', NULL, 0, 69),
+(76, NULL, 'Cassa Centrale Iper Lonato', NULL, 0, 69),
+(77, NULL, 'Cassa Centrale Magenta', NULL, 0, 69),
+(78, NULL, 'Cassa Centrale Montebello', NULL, 0, 69),
+(79, NULL, 'Cassa Centrale Monza', NULL, 0, 69),
+(80, NULL, 'Cassa Centrale Orio', NULL, 0, 69),
+(81, NULL, 'Cassa Centrale Ortona', NULL, 0, 69),
+(82, NULL, 'Cassa Centrale Pesaro', NULL, 0, 69),
+(83, NULL, 'Cassa Centrale Pescara', NULL, 0, 69),
+(84, NULL, 'Cassa Centrale Portello', NULL, 0, 69),
+(85, NULL, 'Cassa Centrale Pozzolo (MB)', NULL, 0, 69),
+(86, NULL, 'Cassa Centrale Rozzano', NULL, 0, 69),
+(87, NULL, 'Cassa Centrale Rubicone', NULL, 0, 69),
+(88, NULL, 'Cassa Centrale Seriate', NULL, 0, 69),
+(89, NULL, 'Cassa Centrale Serravalle (MB)', NULL, 0, 69),
+(90, NULL, 'Cassa Centrale Solbiate', NULL, 0, 69),
+(91, NULL, 'Cassa Centrale Tortona (MB)', NULL, 0, 69),
+(92, NULL, 'Cassa Centrale Udine', NULL, 0, 69),
+(93, NULL, 'Cassa Centrale Varese', NULL, 0, 69),
+(94, NULL, 'Cassa Centrale Verona', NULL, 0, 69),
+(95, NULL, 'Cassa Centrale Vittuone', NULL, 0, 69),
+(96, NULL, 'Service Amministrazione', 'Su quale di queste attività di ContPV stati operando?', 1, 19),
+(97, NULL, 'DA Finiper - Contabilità', NULL, 0, 96),
+(98, NULL, 'DA IperMontebello - Contabilità', NULL, 0, 96),
+(99, NULL, 'DA Orio - Contabilità', NULL, 0, 96),
+(100, NULL, 'DA Ortofin - Contabilità', NULL, 0, 96),
+(101, NULL, 'DA Unes - Contabilita''', NULL, 0, 96),
+(102, NULL, 'DA Vera - Contabilità', NULL, 0, 96),
+(103, NULL, 'Fatture Piattaforme', NULL, 0, 96),
+(104, NULL, 'Reporting Finiper', NULL, 0, 96),
+(105, NULL, 'Statistiche su cifra', NULL, 0, 96),
+(106, NULL, 'Supervisione Contabilita''', NULL, 0, 96),
+(107, NULL, NULL, 'Dove hai incontrato il tuo problema?', 1, NULL),
+(108, NULL, 'Non riesco ad accedere', NULL, 0, 107),
+(109, NULL, 'Non vedo tutti i miei reparti', NULL, 0, 107),
+(110, NULL, 'Nella modifica formato cartelli automatici', 'Contattare il Marketing per questo tipo di richieste!', 0, 107),
+(111, NULL, 'Nei piani automatici', 'Cosa è successo?', 1, 107),
+(112, NULL, 'Manca una referenza', NULL, 0, 111),
+(113, NULL, 'Referenza sbagliata', NULL, 0, 111),
+(114, NULL, 'Cartello associato sbagliato', NULL, 0, 111),
+(115, NULL, 'Nei piani manuali', 'Cosa è successo?', 1, 107),
+(116, NULL, 'Non trovi la referenza', NULL, 0, 115),
+(117, NULL, 'La referenza è in promo sbagliata', NULL, 0, 115),
+(118, NULL, 'Non trovi il cartello da associare', NULL, 0, 115),
+(119, NULL, 'Altro', NULL, 0, 115);
 
 		
 INSERT INTO `hd0`.`Queue` (`id`, `service_id`, `order`, `name`, `code`, `filter_id`)
-	SELECT NULL, '1', '0', 'EasyPOP', '5',
-		id FROM `hd0`.`Filter` WHERE code = 'q05ar';
+	VALUES (NULL, '1', '0', 'EasyPOP', '5', 107);
 		
 INSERT INTO `hd0`.`Queue` (`id`, `service_id`, `order`, `name`, `code`, `filter_id`)
-	VALUES	(NULL, '1', '1', 'ContPV', '3', null);
-		
+	VALUES	(NULL, '1', '1', 'ContPV', '3', 19);
 
 INSERT INTO `hd0`.`User` (`id`, `name`, `email`, `password`, `username`, `administrator`)
 	VALUES	(NULL, 'Fabio', 'fmfazio@gmail.com', 123, 'fabio', 0),
